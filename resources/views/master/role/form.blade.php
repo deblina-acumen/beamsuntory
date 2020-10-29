@@ -7,15 +7,30 @@
 					  </div>
 					  @endif
               <div class="row">
+			  <!-- role -->
               <div class="col-md-6">
               <div class="form-group">
-                <label>Name *</label>
-                <input type="text" class="form-control" placeholder="Username" name="name" required value="<?=isset($info[0]->name)?$info[0]->name:''?>">
+                <label>Role Name *</label>
+                <input type="text" class="form-control" placeholder="Role Name" name="name" required value="<?=isset($info[0]->name)?$info[0]->name:''?>">
               </div>
               </div>
+			   
+			   <!-- parent role -->
               <div class="col-md-6">
               <div class="form-group">
-                <label>Parent Role </label>
+                <label>Select Type(Role/Division) </label>
+                <select  class="form-control" name="type">
+				<option value="">Select</option>
+				<option value="master">Master</option>
+				<option value="division">Division</option>
+				<option value="user">User</option>
+				</select>
+              </div>
+              </div>
+			   <!-- parent role -->
+              <div class="col-md-6">
+              <div class="form-group">
+                <label>Parent Role/Division </label>
                 <select  class="form-control" name="parent_id">
 				<option value="">Select</option>
 				@if(!empty($roleList) && count($roleList)>0)
@@ -26,12 +41,7 @@
 				</select>
               </div>
               </div>
-			  <div class="col-md-6">
-              <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control" name="description"><?=isset($info[0]->description)?$info[0]->description:''?></textarea>
-              </div>
-              </div>
+			  
             </div>
           <!-- /.box-body -->
           <div class="box-footer">

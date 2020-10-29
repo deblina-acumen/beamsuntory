@@ -34,8 +34,9 @@ class RoleController extends Controller
 			return redirect('add-role')->with('error-msg', 'Role already exist');
 		}
         $insert_data['name']=$data['name'];
+		$insert_data['type']=$data['type'];
 		$insert_data['parent_id']=isset($data['parent_id'])?$data['parent_id']:'0';
-		$insert_data['description']=$data['description'];
+		//$insert_data['description']=$data['description'];
         $insert_data['created_by'] = Auth::user()->id;
         $id=Role::insertGetId($insert_data);
         if($id!='')
@@ -72,9 +73,9 @@ class RoleController extends Controller
 		}
         $update_data['name']=$data['name'];
 		$update_data['parent_id']=isset($data['parent_id'])?$data['parent_id']:'0';
-		$update_data['description']=$data['description'];
+		$update_data['type']=$data['type'];
         $update_data['updated_by'] = Auth::user()->id;
-		$update_data['updated_at'] = date('Y-m-d h:i:s');
+		$update_data['updated_at'] = date('Y-m-d h:i:s'); //t($update_data,1);
         $id=$data["id"];
         $updated=Role::where('id',$id)->update($update_data);
         if($updated)
