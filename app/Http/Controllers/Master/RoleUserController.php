@@ -21,7 +21,7 @@ class RoleUserController extends Controller
         
        // $data['resource'] = Input::get('resource') ;
         $data['info'] = DB::table('users')
-		->select('users.name as first_name','users.lastname as last_name','users.useId','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid','user_role.name as rolename')->join('user_role','user_role.id','=','users.role_id','left')
+		->select('users.name as first_name','users.lastname as last_name','users.useId','profile_pic','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid','user_role.name as rolename')->join('user_role','user_role.id','=','users.role_id','left')
 		->where('users.is_deleted','No')->where('user_role.type','=','user')
 		->orderBy('users.id','desc')
 		->get()->toArray();
@@ -64,18 +64,18 @@ class RoleUserController extends Controller
 			$insert_data['created_by'] = Auth::user()->id;
 			 $password =  isset($posted['password'])?$posted['password']:123456;
 			//$id = User::insertGetId($insert_data);
-		/*	$profile_pic = $request->file('profile_pic');
+			$profile_pic = $request->file('profile_pic');
+			
 			if($profile_pic !='')
 			{
 				
-					$profile_pic_name = upload_file_single_with_name($profile_pic, 'user','profile_pic',$posted['userId']);	
-					if($profile_pic_name!='')
+					$cat_image_pic_name = upload_file_single_with_name($profile_pic, 'RoleUserPic','RoleUserPic',$posted['name']);	
+					if($cat_image_pic_name!='')
 					{
-						$insert_data['profile_pic'] = $profile_pic_name;
+						$insert_data['profile_pic'] = $cat_image_pic_name;
 					}
 				
-			}*/
-			
+			}
 			$id = User::insertGetId($insert_data);
 			if($id!='')
 			{
@@ -137,17 +137,18 @@ class RoleUserController extends Controller
 		 $insert_data['password'] = isset($posted['password'])?bcrypt($posted['password']):'';
 		}
 		
-		/*$profile_pic = $request->file('profile_pic');
+		$profile_pic = $request->file('profile_pic');
+			
 			if($profile_pic !='')
 			{
 				
-					$profile_pic_name = upload_file_single_with_name($profile_pic, 'facilityMaster','profile_pic',$posted['userId']);	
-					if($profile_pic_name!='')
+					$cat_image_pic_name = upload_file_single_with_name($profile_pic, 'RoleUserPic','RoleUserPic',$posted['name']);	
+					if($cat_image_pic_name!='')
 					{
-						$insert_data['profile_pic'] = $profile_pic_name;
+						$insert_data['profile_pic'] = $cat_image_pic_name;
 					}
 				
-			}*/
+			}
 			
 			User::where('id',$posted['id'])->update($insert_data);
 			return redirect('role-user-list')->with('success-msg', 'User updated successfully');

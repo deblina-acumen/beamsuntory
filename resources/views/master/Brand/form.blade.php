@@ -15,11 +15,11 @@
               </div>
 			   <div class="col-md-6">
               <div class="form-group">
-                <label>Category Image</label>
+                <label> Image</label>
                <input id="file-input" type="file" name="image" onchange="readURL(this);"/>
 			    <label for="file-input">
-					<?php if(isset($info[0]->parent_id)){ ?>
-					<img src="{{URL('public/storeCategory/'.$info[0]->image)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php if(isset($info[0]->image) && $info[0]->image!=''){ ?>
+					<img src="{{URL('public/brandMaster/'.$info[0]->image)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
 					<?php } else { ?>
 					<img src="{{asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
 					<?php } ?>

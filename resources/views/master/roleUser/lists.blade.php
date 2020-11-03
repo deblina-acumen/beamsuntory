@@ -59,7 +59,8 @@
                                         <tr>
                                             <th>Sl. No.</th>                                          
                                             <th>User Name</th>
-                                            <th>Name</th>											
+                                            <th>Name</th>
+											<th>Image</th>											
                                             <th>Email</th>
 											<th>Role</th>                                         
 											<th>Status</th>
@@ -72,7 +73,9 @@
                                             <td>{{$k+1}}</td>
 											<td>{{isset($tlist->useId)?$tlist->useId:''}}</td>	
 											<td>{{isset($tlist->first_name)?$tlist->first_name:''}}</td>
-											
+											<td> <label for="file-input">
+												<img src="<?= isset($tlist->profile_pic) && $tlist->profile_pic!=''?URL('public/RoleUserPic/'.$tlist->profile_pic):asset('assets/images/150x100.png') ?>" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+											  </label></td>
 											<td>{{isset($tlist->email)?$tlist->email:''}}</td>
 											<td>{{isset($tlist->rolename)?$tlist->rolename:''}}</td>
 											

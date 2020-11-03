@@ -63,7 +63,19 @@
                                  </select>     
                             </div>
                         </div> 
-		  	
+		  	<div class="col-md-6">
+              <div class="form-group">
+                <label> Image</label>
+               <input id="file-input" type="file" name="profile_pic" onchange="readURL(this);"/>
+			    <label for="file-input">
+					<?php if(isset($info[0]->profile_pic) && $info[0]->profile_pic!=''){ ?>
+					<img src="{{URL('public/RoleUserPic/'.$info[0]->profile_pic)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } else { ?>
+					<img src="{{asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } ?>
+				</label>
+              </div>
+              </div>
 			 
             </div>
           <!-- /.box-body -->
