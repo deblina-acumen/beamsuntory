@@ -1,0 +1,3 @@
+
+Username: {{$data}}
+Password: {{$password}}
