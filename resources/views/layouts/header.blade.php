@@ -9,7 +9,7 @@
       <!-- logo-->
       <span class="logo-lg">
 		  <img src="{{asset('assets/img/logo-big-dark.png')}}" alt="logo" class="light-logo">
-	  	  <img src="{{asset('assets/mg/logo-big-light.png')}}" alt="logo" class="dark-logo">
+	  	  <img src="{{asset('assets/img/logo-big-light.png')}}" alt="logo" class="dark-logo">
 	  </span>
     </a>
     <!-- Header Navbar -->
@@ -54,7 +54,7 @@
                   <li><!-- start message -->
                     <a href="#">
                       <div class="pull-left">
-                        <img src="images/user2-160x160.jpg" class="rounded-circle" alt="User Image">
+                        <img src="{{asset('assets/images/user2-160x160.jpg')}}" class="rounded-circle" alt="User Image">
                       </div>
                       <div class="mail-contnet">
                          <h4>

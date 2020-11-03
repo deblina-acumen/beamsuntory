@@ -15,8 +15,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-thin"></i>All Managers</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin"></i>All Warehouses</a></li>
+            <li><a href="{{URL('manager-list')}}"><i class="fa fa-circle-thin"></i>All Managers</a></li>
+            <li><a href="{{URL('add-warehouse-manager')}}"><i class="fa fa-circle-thin"></i>Add Manager</a></li>
+            <li><a href="{{URL('warehouse-list')}}"><i class="fa fa-circle-thin"></i>All Warehouses</a></li>
+            <li><a href="{{URL('add-warehouse')}}"><i class="fa fa-circle-thin"></i>Add Warehouse</a></li>
           </ul>
         </li>
 		<li class="treeview">
@@ -41,7 +43,7 @@
           <ul class="treeview-menu">
             <li><a href="#"><i class="fa fa-circle-thin"></i>All Products</a></li>
             <li><a href="#"><i class="fa fa-circle-thin"></i>Add New</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin"></i>Product Categories</a></li>
+            <li><a href="{{URL('product-category-list')}}"><i class="fa fa-circle-thin"></i>Product Categories</a></li>
             <li><a href="#"><i class="fa fa-circle-thin"></i>Attributes</a></li>
           </ul>
         </li>
@@ -102,8 +104,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-thin"></i>All Roles/Division</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin"></i>Add Roles/Division</a></li>
+            <li><a href="{{URL('role-list')}}"><i class="fa fa-circle-thin"></i>All Roles/Division</a></li>
+            <li><a href="{{URL('add-role')}}"><i class="fa fa-circle-thin"></i>Add Roles/Division</a></li>
+			<li><a href="{{URL('role-user-list')}}"><i class="fa fa-circle-thin"></i>All User</a></li>
+            <li><a href="{{URL('add-role-user')}}"><i class="fa fa-circle-thin"></i>Add New User</a></li>
           </ul>
         </li>               		
       </ul>

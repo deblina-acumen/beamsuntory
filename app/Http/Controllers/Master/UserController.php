@@ -22,7 +22,8 @@ class UserController extends Controller
        // $data['resource'] = Input::get('resource') ;
         $data['info'] = DB::table('users')
 		->select('users.name as first_name','users.lastname as last_name','users.useId','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid')
-		->where('users.is_deleted','No')
+		->where('users.is_deleted','No')->where('users.role_id','1')
+
 		->orderBy('users.id','desc')
 		->get()->toArray();
 
@@ -54,14 +55,15 @@ class UserController extends Controller
 				 return redirect('add-user')->with('error-msg', 'User Id already added');
 			}
 			$insert_data['name'] = isset($posted['name'])?$posted['name']:'';
-			$insert_data['email'] = isset($posted['email'])?$posted['email']:'';
+			$insert_data['email'] = $to_email = isset($posted['email'])?$posted['email']:'';
 			//$insert_data['description'] = isset($posted['description'])?$posted['description']:'';
 			$insert_data['lastname'] = isset($posted['lastname'])?$posted['lastname']:'';
-			$insert_data['useId'] = isset($posted['userId'])?$posted['userId']:'';
+			$insert_data['useId'] = $userId = isset($posted['userId'])?$posted['userId']:'';
 			$insert_data['password'] = isset($posted['password'])?bcrypt($posted['password']):bcrypt(123456);
 			
 			$insert_data['role_id'] = isset($posted['role_id'])?$posted['role_id']:0;
 			$insert_data['created_by'] = Auth::user()->id;
+			$password =  isset($posted['password'])?$posted['password']:123456;
 			//$id = User::insertGetId($insert_data);
 		/*	$profile_pic = $request->file('profile_pic');
 			if($profile_pic !='')
@@ -78,7 +80,18 @@ class UserController extends Controller
 			$id = User::insertGetId($insert_data);
 			if($id!='')
 			{
-					return redirect('user-list')->with('success-msg', 'User added successfully');
+			    $data2 = [
+			        'userid'=>$userId,
+					'password'=>$password,  
+                ];
+			   
+              $template = 'master.user.registrationMailSend'; // resources/views/mail/xyz.blade.php
+        Mail::send($template, $data2, function ($message) use ($userId, $to_email) {
+            $message->to($to_email, $userId)
+                ->subject('Registration Mail');
+            $message->from('no-repl@gmail.com', 'Registration Mail');
+        });
+					return redirect('user-list')->with('success-msg', 'User added and mail sendsuccessfully');
 			}
 			else
 			{

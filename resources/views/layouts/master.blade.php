@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{{asset('assets/img/favicon.ico')}}">
 
-    <title>JimBeam - All Warehouses</title>
+    <title>beamsuntory - All Warehouses</title>
   
 	<!-- Bootstrap 4.1-->
 	<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">

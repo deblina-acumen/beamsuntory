@@ -3,14 +3,12 @@
 @section('header_styles')
 
 <!-- Bootstrap extend-->
-<link rel="stylesheet" href="{{asset('assets/css/bootstrap-extend.css')}}">
-
-<!-- Bootstrap 4.1-->
-<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/select2/dist/css/select2.min.css')}}">
 <!-- theme style -->
-<link rel="stylesheet" href="{{asset('assets/css/master_style.css')}}">
-<!-- SoftPro admin skins -->
-<link rel="stylesheet" href="{{asset('assets/css/skins/_all-skins.css')}}">
+<!-- owlcarousel-->
+<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/assets/owl.carousel.css')}}">
+<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/assets/owl.theme.default.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendor_components/datatable/datatables.min.css')}}"/>
 
 @stop
 @section('content')
@@ -30,28 +28,6 @@
 
     <!-- Main content -->
     <section class="content">
-
-        <!-- Action Elements -->
-         <!--  <div class="row mb-10">
-            <div class="col-sm-12 col-md-9">
-              <div class="dataTables_length" id="project-table_length">
-                <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="10">Bulk Action</option>
-                  <option value="25">Edit</option>
-                  <option value="50">Delete</option>
-                </select>
-                &nbsp;<button type="button" class="btn btn-default btn-sm">Apply</button>
-              </div>
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-3">
-              <div class="input-group">
-                <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="project-table">
-              &nbsp;<button type="button" class="btn btn-default btn-sm">Search</button>
-            </div>
-            </div>
-          </div> -->
 		
 	  <div class="row">
 		
@@ -62,10 +38,23 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+                @if (session('success-msg'))
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h6><i class="icon fa fa-check"></i> {{session('success-msg')}}</h6>
+
+                            </div>
+                            @endif
+							@if (session('error-msg'))
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h6><i class="icon fa fa-check"></i> {{session('error-msg')}}</h6>
+
+                            </div>
+                            @endif
 				<div class="table-responsive user-mangment-data-table">
-                                <table id="example"
-                                    class="table table-bordered table-hover display nowrap margin-top-10 w-p100">
-                                    <thead>
+                               <table id="example2" class="table table-bordered table-striped">
+                                          <thead>
                                         <tr>
                                             <th>Sl. No.</th>                                          
                                             
@@ -135,29 +124,22 @@
 @stop
 
 @section('footer_scripts')
+<!-- SoftPro admin App -->
 <!-- Sparkline -->
 <script src="{{asset('assets/assets/vendor_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
 <!-- owlcarousel -->
 <script src="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js')}}"></script>
-<script src="{{asset('assets/js/pages/widget-blog.js')}}"></script>
-<script src="{{asset('assets/js/pages/list.js')}}"></script>
 <!-- SlimScroll -->
 <script src="{{asset('assets/assets/vendor_components/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
-<script src="{{asset('assets/js/template.js')}}"></script>
 <!-- This is data table -->
 <script src="{{asset('assets/assets/vendor_components/datatable/datatables.min.js')}}"></script>
-<!-- SoftPro admin for Data Table -->
-<script src="{{asset('assets/assets/vendor_components/datatable/datatables.js')}}"></script>
-<script src="{{asset('assets/js/pages/project-table.js')}}"></script>
-
-
 <!-- Select2 -->
 <script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
-
-
-
+<!-- This is data table -->
+<script src="{{asset('assets/vendor_components/datatable/datatables.min.js')}}"></script>
+<!-- SoftPro admin for Data Table -->
+<script src="{{asset('assets/js/pages/data-table.js')}}"></script>
 <!-- SoftPro admin for advanced form element -->
-<script src="{{asset('assets/js/pages/advanced-form-element.js')}}"></script>
 
 <script>
 var toggler = document.getElementsByClassName("caret");

@@ -4,9 +4,6 @@
 <!-- Bootstrap 4.1-->
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
 
-<!-- Bootstrap extend-->
-<link rel="stylesheet" href="{{asset('assets/main/css/bootstrap-extend.css')}}">
-
 <!-- daterange picker -->
 <link rel="stylesheet"
     href="{{asset('assets/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.css')}}">
@@ -163,20 +160,6 @@
 
 <!-- FastClick -->
 <script src="{{asset('assets/assets/vendor_components/fastclick/lib/fastclick.js')}}"></script>
-
-<!-- SoftPro admin App -->
-<script src="{{asset('assets/main/js/template.js')}}"></script>
-
-
-
-<!-- SoftPro admin for advanced form element -->
-<script src="{{asset('assets/main/js/pages/advanced-form-element.js')}}"></script>
-
-<!-- Form validator JavaScript -->
-<script src="{{asset('assets/main/js/pages/validation.js')}}"></script>
-
-
-
 <!-- steps  -->
 <script src="{{asset('assets/assets/vendor_components/jquery-steps-master/build/jquery.steps.js')}}"></script>
 
@@ -189,9 +172,6 @@
 
 <!-- CK Editor -->
 <script src="{{asset('assets/assets/vendor_components/ckeditor/ckeditor.js')}}"></script>
-
-	<!-- SoftPro admin for editor -->
-	<script src="{{asset('assets/main/js/pages/editor.js')}}"></script>
 
 <script>
 //Date picker
@@ -238,11 +218,12 @@ $('#approved_datepicker1').datepicker({
 $('#add_development_plan').submit(function(e){
 	//validate phone
 var phone = $('input[name="phone"]').val();
-    intRegex = ;
+    intRegex =/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
 if(phone!='')
 {
 if((phone.length < 6) || (!intRegex.test(phone)))
 {
+    
 		$('#phone').removeAttr('style');
    /// $('#phone').parent().css('border-radius','4px');
 	$('#phone').attr("style","border-color:#dc3545  !important");
@@ -250,6 +231,7 @@ if((phone.length < 6) || (!intRegex.test(phone)))
 }
 else
 {
+    
 	$('#phone').removeAttr('style');
 }
 }

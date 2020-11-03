@@ -12,7 +12,7 @@ use  App\Model\Supplier;
 use Auth;
 	use DB;
 use Session ;
-//use Mail;
+use Mail;
 
 class SupplierController extends Controller
 {
@@ -63,20 +63,33 @@ class SupplierController extends Controller
 			{
 				 return redirect('add-supplier')->with('error-msg', 'Supplier name already added');
 			} 
-			$insert_data['supplier_name'] = isset($posted['supplier_name'])?$posted['supplier_name']:'';
-			$insert_data['supplier_email'] = isset($posted['email'])?$posted['email']:'';
-			$insert_data['supplier_phone'] = isset($posted['phone'])?$posted['phone']:'';
+			$insert_data['supplier_name'] = $supplier_name = isset($posted['supplier_name'])?$posted['supplier_name']:'';
+			$insert_data['supplier_email'] = $supplier_email= isset($posted['email'])?$posted['email']:'';
+			$insert_data['supplier_phone'] = $supplier_phone = isset($posted['phone'])?$posted['phone']:'';
 			$insert_data['country_id'] = isset($posted['country_id'])?$posted['country_id']:'';
 			$insert_data['province_id'] = isset($posted['province_id'])?$posted['province_id']:'';
 			$insert_data['city'] = isset($posted['city'])?$posted['city']:'';
 			$insert_data['postal_code'] = isset($posted['zip'])?$posted['zip']:'';
 			$insert_data['address'] = isset($posted['address'])?$posted['address']:'';
 			$insert_data['created_by'] = Auth::user()->id;
+			
 
 			$id = Supplier::insertGetId($insert_data);
 			if($id!='')
 			{
-			return redirect('supplier-master-list')->with('success-msg', 'Supplier master added successfully');
+			 $data2 = [
+			        'supplier_email'=>$supplier_email,
+					'supplier_name'=>$supplier_name, 
+										
+                ];
+			   
+              $template = 'master.user.NewSupplierAddMailSend'; // resources/views/mail/xyz.blade.php
+        Mail::send($template, $data2, function ($message) use ($supplier_name, $supplier_email) {
+            $message->to($supplier_email, $supplier_name)
+                ->subject('Supplier Add');
+            $message->from('no-repl@gmail.com', 'Supplier Add');
+        });
+			return redirect('supplier-master-list')->with('success-msg', 'Supplier  added successfully');
 			}
 			else
 			{

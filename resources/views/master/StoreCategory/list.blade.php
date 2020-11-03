@@ -2,19 +2,12 @@
 @extends('layouts.master')
 
 @section('header_styles')
-<!-- Bootstrap extend-->
-<link rel="stylesheet" href="{{asset('assets/assets/main/css/bootstrap-extend.css')}}">
-<!-- Select2 -->
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/select2/dist/css/select2.min.css')}}">
-
-
-<!-- SoftPro admin skins -->
-<link rel="stylesheet" href="{{asset('assets/assets/main/css/skins/_all-skins.css')}}">
+<!-- theme style -->
 <!-- owlcarousel-->
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/assets/owl.carousel.css')}}">
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/assets/owl.theme.default.css')}}">
-
-
+<link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendor_components/datatable/datatables.min.css')}}"/>
 @stop
 @section('content')
 <!-- Content Header (Page header) -->
@@ -63,13 +56,14 @@
                             </div>
                             @endif
 				<div class="table-responsive">
-				   <table class="table mb-0">
+				  <table id="example2" class="table table-bordered table-striped">
 					  <thead>
 						<tr>
 						    
 							<th scope="col"> Name</th>
 							<th scope="col">Parent Category </th>
 							<th scope="col">Status</th>
+							<th scope="col"></th>
 							</tr>
 					  </thead>
 					  <tbody>
@@ -126,31 +120,20 @@
 
 @section('footer_scripts')
 <!-- SoftPro admin App -->
-
-
 <!-- Sparkline -->
 <script src="{{asset('assets/assets/vendor_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
 <!-- owlcarousel -->
 <script src="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js')}}"></script>
-<script src="{{asset('assets/assets/main/js/pages/widget-blog.js')}}"></script>
-<script src="{{asset('assets/assets/main/js/pages/list.js')}}"></script>
 <!-- SlimScroll -->
 <script src="{{asset('assets/assets/vendor_components/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
-<script src="{{asset('assets/assets/main/js/template.js')}}"></script>
 <!-- This is data table -->
 <script src="{{asset('assets/assets/vendor_components/datatable/datatables.min.js')}}"></script>
-<!-- SoftPro admin for Data Table -->
-<script src="{{asset('assets/assets/main/js/pages/data-table.js')}}"></script>
-<script src="{{asset('assets/assets/main/js/pages/project-table.js')}}"></script>
-
-
 <!-- Select2 -->
 <script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
-
-
-
-<!-- SoftPro admin for advanced form element -->
-<script src="{{asset('assets/assets/main/js/pages/advanced-form-element.js')}}"></script>
+<!-- This is data table -->
+<script src="{{asset('assets/vendor_components/datatable/datatables.min.js')}}"></script>
+<!-- SoftPro admin for Data Table -->
+<script src="{{asset('assets/js/pages/data-table.js')}}"></script>
 
 <script>
 var toggler = document.getElementsByClassName("caret");

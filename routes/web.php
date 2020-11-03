@@ -61,6 +61,15 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-role-data', 'Master\RoleController@update_role_data');
 	Route::get('delete-role/{id}', 'Master\RoleController@delete_role');
 	Route::any('role-active/{id?}/{value?}', 'Master\RoleController@changeStatus');
+	//Role User
+	Route::get('role-user-list', 'Master\RoleUserController@user_list');
+	Route::get('add-role-user', 'Master\RoleUserController@add_user');
+	Route::any('save-role-user-data', 'Master\RoleUserController@save_user_data');
+	Route::get('role-user-edit/{id}', 'Master\RoleUserController@user_edit');
+	Route::post('update-role-user-data', 'Master\RoleUserController@update_user_data');
+	Route::any('role-user-active/{id?}/{value?}', 'Master\RoleUserController@changeStatus');
+	Route::get('delete-role-user/{id}', 'Master\RoleUserController@delete_user');
+	
 	//<!-- master Brand section-->
 	Route::get('add-brand', 'Master\BrandController@add_brand');
 	Route::post('save-brand-data', 'Master\BrandController@save_brand_data');

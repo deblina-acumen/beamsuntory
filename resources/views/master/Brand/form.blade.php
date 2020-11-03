@@ -7,10 +7,23 @@
 					  </div>
 					  @endif
               <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-6">
               <div class="form-group">
                 <label>Brand Name *</label>
                 <input type="text" class="form-control" placeholder="Brand" name="name" required value="<?=isset($info[0]->name)?$info[0]->name:''?>">
+              </div>
+              </div>
+			   <div class="col-md-6">
+              <div class="form-group">
+                <label>Category Image</label>
+               <input id="file-input" type="file" name="image" onchange="readURL(this);"/>
+			    <label for="file-input">
+					<?php if(isset($info[0]->parent_id)){ ?>
+					<img src="{{URL('public/storeCategory/'.$info[0]->image)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } else { ?>
+					<img src="{{asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } ?>
+				</label>
               </div>
               </div>
             </div>

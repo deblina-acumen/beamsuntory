@@ -3,7 +3,7 @@
 
 @section('header_styles')
 
-
+<link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendor_components/datatable/datatables.min.css')}}"/>
 
 @stop
 @section('content')
@@ -53,13 +53,15 @@
                             </div>
                             @endif
 				<div class="table-responsive">
-				  <table class="table mb-0">
+				 <table id="example2" class="table table-bordered table-striped">
 					  <thead>
 						<tr>
 						  
 							<th scope="col">Brand Name</th>
+							<th scope="col">Image</th>
 							
 							<th scope="col">Status</th>
+							<th scope="col"></th>
 							</tr>
 					  </thead>
 					  <tbody>
@@ -68,7 +70,9 @@
 						<tr>
 						 
 						  <td>{{$infos->name}}</td>
-						  
+						  <td> <label for="file-input">
+								<img src="{{isset($infos->image) && $infos->image!=''?URL('public/brandMaster/'.$infos->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+							  </label>&nbsp;&nbsp;&nbsp; {{$infos->name}}</td>
 						  <td>
 						  	<?php 
 							if($infos->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
@@ -114,7 +118,22 @@
 
 @section('footer_scripts')
 <!-- SoftPro admin App -->
-
+<!-- SoftPro admin App -->
+<!-- Sparkline -->
+<script src="{{asset('assets/assets/vendor_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
+<!-- owlcarousel -->
+<script src="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js')}}"></script>
+<!-- SlimScroll -->
+<script src="{{asset('assets/assets/vendor_components/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
+<!-- This is data table -->
+<script src="{{asset('assets/assets/vendor_components/datatable/datatables.min.js')}}"></script>
+<!-- Select2 -->
+<script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
+<!-- This is data table -->
+<script src="{{asset('assets/vendor_components/datatable/datatables.min.js')}}"></script>
+<!-- SoftPro admin for Data Table -->
+<script src="{{asset('assets/js/pages/data-table.js')}}"></script>
+<!-- SoftPro admin for advanced form element -->
 
 <script>
 var toggler = document.getElementsByClassName("caret");

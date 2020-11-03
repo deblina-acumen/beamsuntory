@@ -27,13 +27,25 @@ class BrandController extends Controller
 
     public function save_Brand_data(Request $request)
     {
-        $data=$request->all();
+        $data=$request->all();//t($data,1);
+		
 		$have_Brand = Brand::where('name',$data['name'])->where('is_deleted','No')->get();
 		if(!empty($have_Brand) && count($have_Brand)>0)
 		{
 			return redirect('add-brand')->with('error-msg', 'Brand already exist');
 		}
         $insert_data['name']=$data['name'];
+		$cat_image = $request->file('image');
+			if($cat_image !='')
+			{
+				
+					$cat_image_pic_name = upload_file_single_with_name($cat_image, 'brandMaster','brandMaster',$data['name']);	
+					if($cat_image_pic_name!='')
+					{
+						$insert_data['image'] = $cat_image_pic_name;
+					}
+				
+			}
         $insert_data['created_by'] = Auth::user()->id;
         $id=Brand::insertGetId($insert_data);
         if($id!='')
@@ -69,7 +81,17 @@ class BrandController extends Controller
 			return redirect('edit-brand/'.base64_encode($data['id']))->with('error-msg', 'Brand already exist');
 		}
         $update_data['name']=$data['name'];
-	
+		$cat_image = $request->file('image');
+			if($cat_image !='')
+			{
+				
+					$cat_image_pic_name = upload_file_single_with_name($cat_image, 'brandMaster','brandMaster',$data['name']);	
+					if($cat_image_pic_name!='')
+					{
+						$update_data['image'] = $cat_image_pic_name;
+					}
+				
+			}
         $update_data['updated_by'] = Auth::user()->id;
 		$update_data['updated_at'] = date('Y-m-d h:i:s');
         $id=$data["id"];

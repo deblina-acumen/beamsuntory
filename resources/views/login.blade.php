@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{{asset('assets/img/favicon.ico')}}">
 
-    <title>JimBeam - Log in </title>
+    <title>beamsuntory - Log in </title>
   
 	<!-- Bootstrap 4.1-->
 	<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
@@ -39,12 +39,7 @@
 			<div class="col-lg-5 col-md-8 col-12">
 				<div class="content-top-agile bg-img" style="background-image:url(assets/img/loginbox.jpg)" data-overlay="4">
 					<h2>Login With</h2>
-					  <p class="gap-items-2 mb-20">
-						  <a class="btn btn-social-icon btn-outline btn-white" href="#"><i class="fa fa-facebook"></i></a>
-						  <a class="btn btn-social-icon btn-outline btn-white" href="#"><i class="fa fa-twitter"></i></a>
-						  <a class="btn btn-social-icon btn-outline btn-white" href="#"><i class="fa fa-google-plus"></i></a>
-						  <a class="btn btn-social-icon btn-outline btn-white" href="#"><i class="fa fa-instagram"></i></a>
-						</p>
+					 
 				</div>
 				<div class="p-40 mt-10 bg-white content-bottom box-shadowed">
 					<form action="{{URL('user-login')}}" method="post" class="login100-form validate-form">
@@ -66,18 +61,10 @@
 							</div>
 						</div>
 						  <div class="row">
-							<div class="col-6">
-							  <div class="checkbox">
-								<input type="checkbox" id="basic_checkbox_1" >
-								<label for="basic_checkbox_1">Remember Me</label>
-							  </div>
+							
 							</div>
 							<!-- /.col -->
-							<div class="col-6">
-							 <div class="fog-pwd text-right">
-								<a href="javascript:void(0)"><i class="ion ion-locked"></i> Forgot pwd?</a><br>
-							  </div>
-							</div>
+							
 							<!-- /.col -->
 							<div class="col-12 text-center">
 							  <button type="submit" class="btn btn-danger-outline btn-block mt-10 btn-rounded">SIGN IN</button>
@@ -85,9 +72,7 @@
 							<!-- /.col -->
 						  </div>
 					</form>	
-					<div class="text-center mt-20">
-						<p class="mb-0">Don't have an account? <a href="auth-register.html" class="text-info ml-5">Sign Up</a></p>
-					</div>
+				
 				</div>
 			</div>
 			

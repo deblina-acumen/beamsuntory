@@ -4,6 +4,7 @@ use App\Model\Module;
 use App\Model\User;
 use App\Model\StoreCategory;
 use  App\Model\Notification;
+use App\Model\ProductCategory;
 use App\Model\Role;
 
 function upload_file_single_with_name($file,$type,$file_name,$userId)
@@ -74,3 +75,9 @@ function get_category_by_id($id)
 	$details = StoreCategory::where('id',$id)->get();
 	return isset($details[0]->name)?$details[0]->name:'';
 }	
+function get_product_category_by_id($id)
+{
+	$details = ProductCategory::where('id',$id)->get();
+	return isset($details[0]->name)?$details[0]->name:'';
+}		
+

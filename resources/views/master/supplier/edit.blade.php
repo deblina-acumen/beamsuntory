@@ -239,7 +239,7 @@ $('#approved_datepicker1').datepicker({
 $('#add_development_plan').submit(function(e){
 	//validate phone
 var phone = $('input[name="phone"]').val();
-    intRegex = ;
+    intRegex =/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g; ;
 if(phone!='')
 {
 if((phone.length < 6) || (!intRegex.test(phone)))
