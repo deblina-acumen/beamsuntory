@@ -106,7 +106,7 @@
           <ul class="treeview-menu">
             <li><a href="{{URL('role-list')}}"><i class="fa fa-circle-thin"></i>All Roles/Division</a></li>
             <li><a href="{{URL('add-role')}}"><i class="fa fa-circle-thin"></i>Add Roles/Division</a></li>
-			<li><a href="{{URL('role-user-list')}}"><i class="fa fa-circle-thin"></i>All User</a></li>
+			<li><a href="{{URL('role-user-list')}}"><i class="fa fa-circle-thin"></i>All Users</a></li>
             <li><a href="{{URL('add-role-user')}}"><i class="fa fa-circle-thin"></i>Add New User</a></li>
           </ul>
         </li>               		

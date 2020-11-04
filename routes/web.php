@@ -69,7 +69,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-role-user-data', 'Master\RoleUserController@update_user_data');
 	Route::any('role-user-active/{id?}/{value?}', 'Master\RoleUserController@changeStatus');
 	Route::get('delete-role-user/{id}', 'Master\RoleUserController@delete_user');
-	
 	//<!-- master Brand section-->
 	Route::get('add-brand', 'Master\BrandController@add_brand');
 	Route::post('save-brand-data', 'Master\BrandController@save_brand_data');
@@ -86,7 +85,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-store-category-data', 'Master\StoreCategoryController@update_store_category_data');
 	Route::get('delete-store-category/{id}', 'Master\StoreCategoryController@delete_store_category');
 	Route::any('store-category-active/{id?}/{value?}', 'Master\StoreCategoryController@changeStatus');
-	
+	//product master
+	Route::get('add-product', 'product\ProductController@add');
 	
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
@@ -194,6 +194,68 @@ Route::group(['middleware' => 'auth'], function () {
 		
 		Route::any('user-active/{id?}/{value?}', 'Master\UserController@changeStatus');
 	Route::get('delete-user/{id}', 'Master\UserController@delete_user');
+	
+	//////////////   product related //////////
+	
+	Route::get('product-category-list', 'product\ProductCategoryController@product_category_list');
+	Route::any('add-Produt-Category', 'product\ProductCategoryController@add_product_category');
+	
+	Route::any('save-Produt-Category', 'product\ProductCategoryController@save_product_category');
+	
+	Route::any('edit-Produt-Category/{id}', 'product\ProductCategoryController@edit_product_category');
+	
+	Route::any('update-Produt-Category', 'product\ProductCategoryController@update_product_category');
+	
+	Route::any('Produt-Category-active/{id}/{value?}', 'product\ProductCategoryController@change_status_product_category');
+	
+	Route::any('delete-Produt-Category/{id}', 'product\ProductCategoryController@delete_product_category');
+	
+	
+		//////////// Warehouse manager////////////
+	
+	// listing warehouse manager
+		Route::get('manager-list', 'Master\WarehouseManagerController@manager_list');
+		// adding warehouse manager form
+		Route::get('add-warehouse-manager', [
+		'as' => 'add-warehouse-manager',
+		'uses' => 'Master\WarehouseManagerController@add_warehouse_manager'
+		]);
+		// saving warehouse manager data
+		Route::any('save-warehoue-manager-data', 'Master\WarehouseManagerController@save_warehoue_manager_data');
+		// updating warehouse manager data
+		Route::any('manager-active/{id?}/{value?}', 'Master\WarehouseManagerController@changeStatus');
+		// editing warehouse manager data
+		Route::get('warehouse-manager-edit/{id}', 'Master\WarehouseManagerController@warehouse_manager_edit');
+		// updating warehouse manager data
+		Route::post('update-warehouse-manager-data', 'Master\WarehouseManagerController@update_warehouse_manager_data');
+		Route::get('delete-warehouse-manager/{id}', 'Master\WarehouseManagerController@delete_warehouse_manager');
+		
+		////////// Warehouse////////////
+		// listing warehouse
+		Route::get('warehouse-list', 'Master\WarehouseController@warehouse_list');
+		// adding warehouse form
+		Route::get('add-warehouse', [
+		'as' => 'add-warehouse',
+		'uses' => 'Master\WarehouseController@addWarehouse'
+	]);
+	// saving warehouse data
+		Route::post('save-warehouse', [
+			'as' => 'save-warehouse',
+			'uses' => 'Master\WarehouseController@save_warehouse'
+		]);
+		// editing warehouse data
+		Route::get('edit-warehouse/{id}', [
+		'as' => 'edit-warehouse',
+		'uses' => 'Master\WarehouseController@editWarehouse'
+	]);
+	// updating warehouse data
+	Route::post('update-warehouse', [
+		'as' => 'update-warehouse',
+		'uses' => 'Master\WarehouseController@update_warehouse_data'
+	]);
+	Route::any('warehouse-active/{id?}/{value?}', 'Master\WarehouseController@changeStatus');
+	Route::get('delete-warehouse/{id}', 'Master\WarehouseController@delete_warehouse');
+	
 	
 });
 
