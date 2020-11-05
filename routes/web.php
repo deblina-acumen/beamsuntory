@@ -257,6 +257,26 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('delete-warehouse/{id}', 'Master\WarehouseController@delete_warehouse');
 	
 	
+	//////////// Delivery agent////////////
+	
+	// listing delivery agent
+		Route::get('delivery-agent-list', 'Master\DeliveryAgentController@delivery_agent_list');
+		// adding warehouse manager form
+		Route::get('add-delivery-agent', [
+		'as' => 'add-delivery-agent',
+		'uses' => 'Master\DeliveryAgentController@add_delivery_agent'
+		]);
+		// saving delivery agent data
+		Route::any('save-delivery-agent-data', 'Master\DeliveryAgentController@save_delivery_agent_data');
+		// updating delivery agent data
+		Route::any('delevery-agent-active/{id?}/{value?}', 'Master\DeliveryAgentController@changeStatus');
+		// editing delivery agent data
+		Route::get('delivery-agent-edit/{id}', 'Master\DeliveryAgentController@delivery_agent_edit');
+		// updating delivery agent data
+		Route::post('update-delivery-agent-data', 'Master\DeliveryAgentController@update_delivery_agent_data');
+		Route::get('delete-delivery-agent/{id}', 'Master\DeliveryAgentController@delete_delivery_agent');
+	
+	
 });
 
 
