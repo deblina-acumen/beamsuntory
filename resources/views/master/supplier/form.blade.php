@@ -18,15 +18,15 @@
             <div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label>Phone *</label>
-						<input type="text" class="form-control" id="phone" name="phone" value="{{isset($info[0]->supplier_phone)?$info[0]->supplier_phone:''}}" placeholder="Enter Phone" required>
+						<label>Phone</label>
+						<input type="text" class="form-control" id="phone" name="phone" value="{{isset($info[0]->supplier_phone)?$info[0]->supplier_phone:''}}" placeholder="Enter Phone">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				 <div class="col-md-12">
 					<div class="form-group">
-						<label>Country *</label>
+						<label>Country</label>
 						<select name="country_id" class="form-control" >
 						<?php 
 						if(isset($country)&&!empty($country)&&count($country)>0)
@@ -46,7 +46,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label>Region/Province *</label>
+						<label>Region/Province</label>
 						<select name="province_id" class="form-control">
 						<?php 
 						if(isset($province)&&!empty($province)&&count($province)>0)
@@ -66,28 +66,49 @@
 			<div class="row">
 			    <div class="col-md-12">
 					<div class="form-group">
-						<label>City *</label>
-						<input type="text" class="form-control" name="city" value="{{isset($info[0]->city)?$info[0]->city:''}}" placeholder="Enter City" required>
+						<label>City</label>
+						<input type="text" class="form-control" name="city" value="{{isset($info[0]->city)?$info[0]->city:''}}" placeholder="Enter City">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 			    <div class="col-md-12">
 					<div class="form-group">
-						<label >Zip Code/Postal Code *</label>
-						<input type="text" class="form-control" name="zip" value="{{isset($info[0]->postal_code)?$info[0]->postal_code:''}}" placeholder="Enter Zip" required>
+						<label >Zip Code/Postal Code</label>
+						<input type="text" class="form-control" name="zip" value="{{isset($info[0]->postal_code)?$info[0]->postal_code:''}}" placeholder="Enter Zip">
 					</div>
 				</div>
 			</div>
 			<div class="row">
 			    <div class="col-md-12">
 					<div class="form-group">
-						<label>Address *</label>
-						<input type="text" class="form-control" name="address" value="{{isset($info[0]->address)?$info[0]->address:''}}" placeholder="Enter Address" required>
-						<!--<br/>
-						<input type="text" class="form-control" placeholder="Address line 2">-->
+						<label>Address</label>
+						<textarea class="form-control" name="address"><?=isset($info[0]->address)?$info[0]->address:''?></textarea>
 					</div>
 				</div>
+			</div>
+			<div class="row">
+			    <div class="col-md-12">
+					<div class="form-group">
+						<label>Notes</label>
+						<textarea class="form-control" name="notes"><?=isset($info[0]->notes)?$info[0]->notes:''?></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			<div class="col-md-12">
+              <div class="form-group">
+                <label> Image</label>
+               <input id="file-input" type="file" name="image" onchange="readURL(this);"/>
+			    <label for="file-input">
+					<?php if(isset($info[0]->image) && $info[0]->image!=''){ ?>
+					<img src="{{URL('public/supplierMaster/'.$info[0]->image)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } else { ?>
+					<img src="{{asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } ?>
+				</label>
+              </div>
+              </div>
 			</div>
 
           <!-- /.box-body -->

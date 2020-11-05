@@ -71,8 +71,19 @@ class SupplierController extends Controller
 			$insert_data['city'] = isset($posted['city'])?$posted['city']:'';
 			$insert_data['postal_code'] = isset($posted['zip'])?$posted['zip']:'';
 			$insert_data['address'] = isset($posted['address'])?$posted['address']:'';
+			$insert_data['notes'] = isset($posted['notes'])?$posted['notes']:'';
+			$supplier_image = $Request->file('image');
+			if($supplier_image !='')
+			{
+				
+					$supplier_image_pic_name = upload_file_single_with_name($supplier_image, 'supplierMaster','supplierMaster',$posted['supplier_name']);	
+					if($supplier_image_pic_name!='')
+					{
+						$insert_data['image'] = $supplier_image_pic_name;
+					}
+				
+			}
 			$insert_data['created_by'] = Auth::user()->id;
-			
 
 			$id = Supplier::insertGetId($insert_data);
 			if($id!='')
@@ -136,6 +147,18 @@ class SupplierController extends Controller
 			$update_data['city'] = isset($posted['city'])?$posted['city']:'';
 			$update_data['postal_code'] = isset($posted['zip'])?$posted['zip']:'';
 			$update_data['address'] = isset($posted['address'])?$posted['address']:'';
+			$update_data['notes'] = isset($posted['notes'])?$posted['notes']:'';
+			$supplier_image = $Request->file('image');
+			if($supplier_image !='')
+			{
+				
+					$supplier_image_pic_name = upload_file_single_with_name($supplier_image, 'supplierMaster','supplierMaster',$posted['supplier_name']);	
+					if($supplier_image_pic_name!='')
+					{
+						$update_data['image'] = $supplier_image_pic_name;
+					}
+				
+			}
 			$update_data['updated_by'] = Auth::user()->id;
 	
 
@@ -160,18 +183,6 @@ class SupplierController extends Controller
 		->leftjoin('provinces','supplier.province_id','=','provinces.id')
         ->where('supplier.id','=',$data['facility_id'])->get();
 		
-
-		
-		    /* $userid = isset($info[0]->useId) ? $info[0]->useId : '' ;
-			$name = isset($info[0]->name) ? $info[0]->name : '' ;
-			$email = isset($info[0]->email) ? $info[0]->email : '' ;
-			$phone_number = isset($info[0]->phone_number) ? $info[0]->phone_number : '' ;
-			$address = isset($info[0]->address) ? $info[0]->address : '' ;
-			
-			$profile_pic = (isset($info[0]->profile_pic)&&$info[0]->profile_pic!='') ? asset($profile_pic_rel_path.'/'.$info[0]->profile_pic):$no_image_path;
-			$logo = (isset($info[0]->logo)&&$info[0]->logo!='') ? asset($logo_pic_rel_path.'/'.$info[0]->logo):$no_image_path;
-			//$now_date = date('Y-m-d H:i:s');
-			$current_date = date('d/m/Y',strtotime($info[0]->created_at)) ; */
 			$profile_pic = $current_date = $description = $logo = '';
 			$supplier_name = isset($info[0]->supplier_name) ? $info[0]->supplier_name : '' ;
 			$supplier_email = isset($info[0]->supplier_email) ? $info[0]->supplier_email : '' ;
@@ -188,13 +199,6 @@ class SupplierController extends Controller
 			}else{
 				$active = '<span class="badge badge-danger">Inactive</span>' ;
 			}
-			/* $description = isset($info[0]->description) ? $info[0]->description : '' ;
-			$member = get_number_of_member_by_id($info[0]->id) ; */
-		// $diff = strtotime($current_date) - strtotime($now_date); 
-      
-    // 1 day = 24 hours 
-    // 24 * 60 * 60 = 86400 seconds 
-	//$day_difference = abs(round($diff / 86400)) ;
 	
 		  $html = '
 		   <div class="media-list bb-1 bb-dashed border-light">

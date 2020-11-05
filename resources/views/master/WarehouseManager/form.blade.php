@@ -78,19 +78,6 @@
 				 <div class="col-md-6">
 					<div class="form-group">
 						<label>Gender *</label>
-						<!--<select name="country_id" class="form-control" >
-						<?php 
-						/* if(isset($country)&&!empty($country)&&count($country)>0)
-						{
-						   foreach($country as $k=>$countries)
-						   {
-						?>
-							<option value="{{isset($countries->id)?$countries->id :''}}" <?php if(isset( $info[0]->country_id) && ($countries->id == $info[0]->country_id)){echo "selected";}?>>{{isset($countries->country_name)?$countries->country_name :''}}</option>
-							<?php
-						   }
-						} */
-							?>
-						</select>-->
 						<select name ="gender" class="form-control">
 						<option value="Male">Male</option>
 						<option value="Female">Female</option>
