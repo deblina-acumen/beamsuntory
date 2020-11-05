@@ -211,6 +211,23 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('delete-Produt-Category/{id}', 'product\ProductCategoryController@delete_product_category');
 	
 	
+	/////////////////////////// product attribute ///////////
+	
+	Route::any('Produt-attribute-list', 'product\ProductAttributeValueController@list_product_attribute_value');
+	
+	Route::any('add-Produt-attribute-value', 'product\ProductAttributeValueController@add_product_attribute_value');
+	
+	Route::any('save-Produt-attribute-value', 'product\ProductAttributeValueController@save_product_attribute_value');
+	
+	Route::any('edit-Produt-attribute-value/{id}', 'product\ProductAttributeValueController@edit_product_attribute_value');
+	
+	Route::any('update-Produt-attribute-value', 'product\ProductAttributeValueController@update_product_attribute_value');
+	
+	Route::any('delete-Produt-attribute-value/{id}', 'product\ProductAttributeValueController@delete_product_attribute');
+	
+	Route::any('Produt-attribute-value-active/{id}/{value?}', 'product\ProductAttributeValueController@change_status_product_attribute');
+	
+	
 		//////////// Warehouse manager////////////
 	
 	// listing warehouse manager
