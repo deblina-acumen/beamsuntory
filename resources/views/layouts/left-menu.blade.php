@@ -44,7 +44,7 @@
             <li><a href="#"><i class="fa fa-circle-thin"></i>All Products</a></li>
             <li><a href="#"><i class="fa fa-circle-thin"></i>Add New</a></li>
             <li><a href="{{URL('product-category-list')}}"><i class="fa fa-circle-thin"></i>Product Categories</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin"></i>Attributes</a></li>
+            <li><a href="{{URL('Produt-attribute-list')}}"><i class="fa fa-circle-thin"></i>Attributes</a></li>
           </ul>
         </li>
 		<li class="treeview">
