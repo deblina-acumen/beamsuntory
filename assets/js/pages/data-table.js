@@ -8,9 +8,9 @@ $(function () {
 	$('#example8').DataTable();
     $('#example2').DataTable({
       'paging'      : true,
-      'lengthChange': true,
-      'searching'   : true,
-      'ordering'    : false,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
       'info'        : true,
       'autoWidth'   : false
     });
@@ -60,7 +60,7 @@ $(function () {
 	//---------------Form inputs
 	var table = $('#example6').DataTable();
  
-   /*  $('button').click( function() {
+    $('button').click( function() {
         var data = table.$('input, select').serialize();
         alert(
             "The following data would have been submitted to the server: \n\n"+
@@ -68,7 +68,7 @@ $(function () {
         );
         return false;
     } );
-	 */
+	
 	
 	
 	
@@ -80,13 +80,13 @@ $(function () {
     "use strict";
 		var table = $('#example1').DataTable();
 
-		/* $('#example1 tbody').on( 'click', 'tr', function () {
+		$('#example1 tbody').on( 'click', 'tr', function () {
 			$(this).toggleClass('selected');
 		} );
 
 		$('#row-count').click( function () {
 			alert( table.rows('.selected').data().length +' row(s) selected' );
-		} ); */
+		} );
 	  
 	  
 	} );// End of use strict

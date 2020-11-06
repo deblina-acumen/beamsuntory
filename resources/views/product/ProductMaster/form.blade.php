@@ -13,52 +13,56 @@
 						
 					  </div>
 					  @endif
-              <div class="row">
+             <div class="row">
               <div class="col-md-12">
               <div class="form-group">
                 <label>Product Name</label>
-                <input type="text" class="form-control" placeholder="Username">
+                <input type="text" class="form-control" placeholder=""  name="product_name" required>
               </div>
               </div>
             </div>
+			
             <div class="row">
-              <div class="col-md-4">
+			<div class="col-md-3">
+              <div class="form-group">
+                <label>Product Type</label>
+				<select class="form-control select2" name="product_type" onchange="hide_attibute(this)">
+				<option  value="">Select</option>
+                 <option  value="simple_product">Simple Product</option>
+				  <option  value="variable_product">Variable Product</option>
+				  </select>
+              </div>
+              </div>
+              <div class="col-md-3">
               <div class="form-group">
                 <label>Select Brand</label>
-                <select class="form-control select2">
-                <option>Select</option>
-                <option>Brand A</option>
-                <option>Brand B</option>
+                <select class="form-control select2" name="brand">
+                <option  value="">Select</option>
+                @foreach($brand as $brand_value)
+				<option value="<?= $brand_value->id?>"><?= $brand_value->name?></option>
+				@endforeach
                 </select>
               </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
           <div class="form-group">
           <label>Select Category</label>
-          <select class="form-control select2" multiple="multiple" data-placeholder="Select Category"
-              style="width: 100%;">
-            <option>Tshirt</option>
-            <option>Polo T</option>
-            <option>Shirts</option>
-            <option>Keychains</option>
-            <option>Glass</option>
-            <option>Watches</option>
-            <option>Bags</option>
+          <select class="form-control select2" data-placeholder="Select Category" style="width: 100%;" name="category">
+             <option  value="">Select</option>
+                @foreach($category as $category_value)
+				<option value="<?= $category_value->id?>"><?= $category_value->name?></option>
+				@endforeach
           </select>
           </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
           <div class="form-group">
           <label>Preferred Vendor</label>
-          <select class="form-control select2" multiple="multiple" data-placeholder="Select Vendor"
-              style="width: 100%;">
-            <option>Vendor A</option>
-            <option>Vendor B</option>
-            <option>Vendor C</option>
-            <option>Vendor D</option>
-            <option>Vendor E</option>
-            <option>Vendor F</option>
-            <option>Vendor G</option>
+          <select class="form-control select2" data-placeholder="Select Vendor" style="width: 100%;" name="vendor">
+			   <option value="">Select</option>
+				@foreach($supplier as $supplier_val)
+				<option value="<?= $supplier_val->id?>"><?= $supplier_val->supplier_name?></option>
+				@endforeach
           </select>
           </div>
               </div>
@@ -67,22 +71,39 @@
               <div class="col-md-6">
               <div class="form-group">
                 <label>Regular Price</label>
-                <input type="text" class="form-control" placeholder="Username">
+                <input type="number" class="form-control" placeholder="" name="regular_price">
               </div>
               </div>
               <div class="col-md-6">
               <div class="form-group">
                 <label>Retail Price</label>
-                <input type="text" class="form-control" placeholder="Username">
+                <input type="number" class="form-control" placeholder="" name="retail_price">
               </div>
               </div>
+			 
             </div>
-            <div class="row">
+            <div class="row"> 
+			 <div class="col-md-4">
+              <div class="form-group">
+                <label> Image</label>
+               <input id="file-input" type="file" name="image" onchange="readURL(this);"/>
+			    
+					<?php if(isset($info[0]->image) && $info[0]->image!=''){ ?>
+					<img src="{{URL('public/product/'.$info[0]->image)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } else { ?>
+					<img src="{{asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } ?>
+				
+              </div>
+              </div>
+			</div>
+			<div class="row">
+			
               <div class="col-md-12">
             <div class="box-body">
               <form>
                 <textarea class="textarea" placeholder="Place some text here"
-                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="product_description"></textarea>
               </form>
             </div>
               </div>
@@ -93,25 +114,29 @@
               <div class="col-md-3">
               <div class="form-group">
                 <label>SKU</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="sku" id="primary_sku">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Low Stock Level</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="low_stock_level">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Stock status</label>
-                <input type="text" class="form-control">
+				<select class="form-control select2" name="status">
+                <option value="in_stock">In Stock</option>
+				<option value="low_stock">Low Stock</option>
+				<option value="out_of_stock">Out Of Stock</option>
+				</select>
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Shelf life</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="shelf_life">
               </div>
               </div>
             </div>
@@ -121,40 +146,43 @@
               <div class="col-md-3">
               <div class="form-group">
                 <label>Weight</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="weight">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Length</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="length">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Width</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" name="Width">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Height</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control"  name="Height">
               </div>
               </div>
             </div>
+			<div id="Attributes">
             <h4 class="box-title text-dark">Attributes</h4>
             <hr class="my-15">
             <div class="row">
               <div class="col-md-4">
               <div class="dataTables_length" id="project-table_length">
                 <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="10">Select Product Attributes</option>
-                  <option value="25">Size</option>
-                  <option value="50">Color</option>
+               <select class="form-control select2" multiple="multiple" aria-controls="project-table" class="form-control form-control-sm" id="attribute">
+                  <option value="Select Product Attributes">Select Product Attributes</option>
+				 
+                  @foreach($product_attribute as $attribute)
+				   <option value="<?= $attribute->id ?>"><?= $attribute->name ?></option>
+				  @endforeach
                 </select>
-                &nbsp;<button type="button" class="btn btn-default btn-sm">Add</button>
+                &nbsp;<button type="button" class="btn btn-default btn-sm" onclick="add_attribute()">Add</button>
               </div>
               </div>
               </div>
@@ -162,136 +190,17 @@
                 &nbsp;
               </div>
             </div>
-            <hr class="my-15">
+            <hr class="my-15">                  
             <div class="row">
-              <div class="col-md-4"><h5>Color</h5></div>
-              <div class="col-md-8">
-          <div class="form-group">
-          <label>Select Values</label>
-          <select class="form-control select2" multiple="multiple" data-placeholder="Select Color"
-              style="width: 100%;">
-            <option>Black</option>
-            <option>Red</option>
-            <option>Blue</option>
-            <option>Green</option>
-            <option>Yellow</option>
-            <option>Pink</option>
-            <option>White</option>
-          </select>
-          </div>
-          <button type="button" class="btn btn-default btn-sm">Select All</button>
-          <button type="button" class="btn btn-default btn-sm">Select None</button>
-          <button type="button" class="btn btn-default btn-sm">Add New</button>
-          <div class="pull-right"><button type="button" class="btn btn-default btn-sm">Remove</button></div>
-              </div>
-            </div>
-            <hr class="my-15">
-            <div class="row">
-              <div class="col-md-4"><h5>Size</h5></div>
-              <div class="col-md-8">
-          <div class="form-group">
-          <label>Select Values</label>
-          <select class="form-control select2" multiple="multiple" data-placeholder="Select Size"
-              style="width: 100%;">
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
-          </select>
-          </div>
-          <button type="button" class="btn btn-default btn-sm">Select All</button>
-          <button type="button" class="btn btn-default btn-sm">Select None</button>
-          <button type="button" class="btn btn-default btn-sm">Add New</button>
-          <div class="pull-right"><button type="button" class="btn btn-default btn-sm">Remove</button></div>
-              </div>
-            </div>
+			<div class="col-md-6"><div class="pull-left"><h4 class="box-title text-dark">Variations</h4></div></div>
+         
+			</div>
+			<br/>
+			</div>
+           <div id="variation_div"></div>
+			<input type="hidden" value="0" id="variation_count" name="variation_count">
             <br/>
-            <button type="button" class="btn btn-default btn-sm">Save Attributes</button>
-            <br/>
-            <hr class="my-15">
-            <div class="row">
-          <div class="col-md-6"><div class="pull-left"><h4 class="box-title text-dark">Variations</h4></div></div>
-          <div class="col-md-6"><div class="pull-right"><button type="button" class="btn btn-dark btn-sm">Generate All Variations</button></div></div>
-        </div>
-        <br/>
-            <div class="row">
-              <div class="col-md-3">
-                <label>Select Color</label>
-                <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="10">Black</option>
-                  <option value="25">Red</option>
-                  <option value="50">Blue</option>
-                </select>
-                </div> 
-              </div>
-              <div class="col-md-3">
-                <label>Select Size</label>
-                <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="10">S</option>
-                  <option value="25">L</option>
-                  <option value="50">XL</option>
-                </select>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <label>SKU</label>
-                <div class="input-group">
-                  <input type="text" class="form-control"  placeholder="BST78MXLORG">
-                <button type="button" class="btn btn-light btn-sm">Generate SKU</button>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="pull-right">
-                                    <label>Action</label>
-                <div class="input-group">
-                  <button type="button" class="btn btn-danger btn-sm">Remove Variation</button>
-                </div>
-                </div>
-              </div>
-            </div>
-            <hr class="my-15">
-            <div class="row">
-              <div class="col-md-3">
-                <label>Select Color</label>
-                <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="10">Black</option>
-                  <option value="25">Red</option>
-                  <option value="50">Blue</option>
-                </select>
-                </div> 
-              </div>
-              <div class="col-md-3">
-                <label>Select Size</label>
-                <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="10">S</option>
-                  <option value="25">L</option>
-                  <option value="50">XL</option>
-                </select>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <label>SKU</label>
-                <div class="input-group">
-                  <input type="text" class="form-control">
-                <button type="button" class="btn btn-dark btn-sm">Generate SKU</button>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="pull-right">
-                                    <label>Action</label>
-                <div class="input-group">
-                  <button type="button" class="btn btn-danger btn-sm">Remove Variation</button>
-                </div>
-                </div>
-              </div>
-            </div>
-            <br/>
-            <button type="button" class="btn btn-default btn-sm">Add Variation</button>
-            <br/><br/>
+            
           <!-- /.box-body -->
           <div class="box-footer">
             <button type="submit" class="btn btn-dark">

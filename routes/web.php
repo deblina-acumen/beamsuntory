@@ -87,6 +87,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('store-category-active/{id?}/{value?}', 'Master\StoreCategoryController@changeStatus');
 	//product master
 	Route::get('add-product', 'product\ProductController@add');
+	Route::post('get-attribute-detsils', 'product\ProductController@get_attribute_detsils');
+	Route::post('save-produt', 'product\ProductController@save_produt');
 	
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
