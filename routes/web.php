@@ -16,7 +16,7 @@ Route::get('/', function () {
 	return view('login');
 });
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-Route::post('user-login', 'Auth\LoginController@check_login_details');
+Route::any('user-login', 'Auth\LoginController@check_login_details')->name('loginauth');
 
 Route::any('/forget-password', [
 			'as' => 'forget-password',
