@@ -44,7 +44,7 @@
             <li><a href="#"><i class="fa fa-circle-thin"></i>All Products</a></li>
             <li><a href="#"><i class="fa fa-circle-thin"></i>Add New</a></li>
             <li><a href="{{URL('product-category-list')}}"><i class="fa fa-circle-thin"></i>Product Categories</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin"></i>Attributes</a></li>
+            <li><a href="{{URL('Produt-attribute-list')}}"><i class="fa fa-circle-thin"></i>Attributes</a></li>
           </ul>
         </li>
 		<li class="treeview">
@@ -109,7 +109,19 @@
 			<li><a href="{{URL('role-user-list')}}"><i class="fa fa-circle-thin"></i>All Users</a></li>
             <li><a href="{{URL('add-role-user')}}"><i class="fa fa-circle-thin"></i>Add New User</a></li>
           </ul>
-        </li>               		
+        </li>
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-users"></i> <span>Delivery Agent</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-right pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{URL('delivery-agent-list')}}"><i class="fa fa-circle-thin"></i>All Delivery Agents</a></li>
+            <li><a href="{{URL('add-delivery-agent')}}"><i class="fa fa-circle-thin"></i>Add New Delivery Agent</a></li>
+          </ul>
+        </li>		
       </ul>
     </section>
   </aside>
