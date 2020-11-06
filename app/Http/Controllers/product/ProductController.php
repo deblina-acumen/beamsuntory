@@ -17,11 +17,12 @@ class ProductController extends Controller
     public function product_list()
     {
         $data['title']="Product category";
-        $data['info']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+        $data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->where('item.is_deleted','No')->where('item.is_active','Yes')->orderBy('item.name','asc')->get();
+		$data['product_category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		t($data,1);
-        return view('product.ProductCategory.list',$data);
+		//t($data,1);
+        return view('product.ProductMaster.list',$data);
     }
 
      public function add()
@@ -99,6 +100,7 @@ class ProductController extends Controller
 		$insert_data['sku']=$data['sku'];
 		$insert_data['low_stock_level']=$data['low_stock_level'];
 		$insert_data['status']=$data['status'];
+		$insert_data['batch_no']='BEAM-'.rand(0,1500).'-'.rand(5,500);
 		//$insert_data['category_id']=$data['shelf_life'];
 		$insert_data['weight']=$data['weight'];
 		$insert_data['length']=$data['length'];
@@ -140,11 +142,11 @@ class ProductController extends Controller
         if($id!='')
         {
 			
-            return redirect('product-category-list')->with('success-msg', 'Product Category successfully added');
+            return redirect('produt-list')->with('success-msg', 'Product Category successfully added');
         }
         else			
         {
-            return redirect('add-Produt-Category')->with('error-msg', 'Please try after some time');
+            return redirect('produt-list')->with('error-msg', 'Please try after some time');
         }
     }
 
