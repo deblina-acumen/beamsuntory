@@ -594,6 +594,7 @@ a:active, a:focus, a:hover {
 }
 .sidebar-menu>li {
     padding: 0px 0px;
+    font-size: 15px;
 }
 .sidebar-menu>li {
     position: relative;
@@ -15924,3 +15925,5 @@ hr {
 
 /*---- Sambit Custom CSS ------*/
 .logoTile{ background: #f1f1f1 url(../img/bg.png) repeat; }
+.skin-red .sidebar a{ color: #cccccc !important; }
+.skin-red .main-header { background: #28373e  !important;}
