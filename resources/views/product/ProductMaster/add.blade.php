@@ -12,7 +12,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add New Product  &nbsp;<button type="button" class="btn btn-dark btn-sm">All products</button>
+        Add New Product  &nbsp;<a type="button" href="URL('product-list')" class="btn btn-dark btn-sm">All products</a>
       </h1>
 
       <ol class="breadcrumb">

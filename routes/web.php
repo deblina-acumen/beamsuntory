@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('add-product', 'product\ProductController@add');
 	Route::post('get-attribute-detsils', 'product\ProductController@get_attribute_detsils');
 	Route::post('save-produt', 'product\ProductController@save_produt');
-	Route::any('produt-list', 'product\ProductController@product_list');
+	Route::any('product-list', 'product\ProductController@product_list');
 	
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
