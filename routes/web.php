@@ -91,6 +91,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('save-produt', 'product\ProductController@save_produt');
 	Route::any('produt-list', 'product\ProductController@product_list');
 	
+	Route::get('edit-product/{id}', 'product\ProductController@edit_product');
+	
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
 	Route::get('add-region', [
