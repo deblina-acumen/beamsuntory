@@ -130,9 +130,7 @@
   </div>
   <!-- /.content-wrapper -->
   
-   <footer class="main-footer">
-	  &copy; 2020 <a href="#">JimBeam</a>. All Rights Reserved.
-  </footer>
+  
   <!-- Control Sidebar -->
 
   
