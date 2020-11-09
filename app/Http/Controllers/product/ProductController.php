@@ -401,6 +401,7 @@ class ProductController extends Controller
 	public function view(Request $Request)
 	 {
 		 $data = $Request->all();
+		 //t($data,1);
 		$profile_pic = $current_date = $description = $active = $userid = $email =
 		$phone_number = $address = $member = $logo = '';
 		//$no_image_path = URL("assets/images/avatar/user.jpg");
@@ -410,8 +411,23 @@ class ProductController extends Controller
 		//$logo_pic_rel_path = 'public/logo';
 		
 		$info = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->where('item.is_deleted','No')->
-		where('item.id','=',$data['facility_id'])->get();
+		where('item.id','=',$data['item_id'])->get();
 
+		$item_variation = ProductVariations::select('item_variation_details.*')->where('item_id','=',$data['item_id'])
+		->where('is_deleted','=','No')->get();
+		//t($item_variation[0]->variation,1);
+		/* for($i=0;$i<count($item_variation);$i++){
+			$variation_value = isset($item_variation[$i]->variation)?json_decode($item_variation[$i]->variation,true):array() ;
+			
+			$item_variation_val = array();
+			 foreach($variation_value as $key=>$value){
+				$item_variation_val[$key]=$value;
+				t($item_variation_val);
+
+			} 
+		}
+		exit(); */
+		//t($item_variation_val,1);
 
 			$name = isset($info[0]->name) ? $info[0]->name : '' ;
 
@@ -469,83 +485,85 @@ class ProductController extends Controller
 						<tr>
 						  <th scope="row"> Batch No:</th>
 						  <td>'.$batch_no.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row"> Brand Name:</th>
 						  <td>'.$brand_name.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  category Name:</th>
 						  <td>'.$cat_name.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  Supplier Name:</th>
 						  <td>'.$supplier_name.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  Price:</th>
 						   <td>'.$regular_price.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  Retail Price:</th>
 						   <td>'.$retail_price.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  SKU:</th>
 						   <td>'.$sku.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  Status:</th>
 						   <td>'.$status.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  Low Stock Level:</th>
 						   <td>'.$low_stock_level.'</td>
-						   <td></td>
+						   
 						</tr>
 						<tr>
 						  <th scope="row">  Weight:</th>
 						   <td>'.$weight.'</td>
-						   <td></td>
 						</tr>
 						<tr>
 						  <th scope="row">  Length:</th>
 						   <td>'.$length.'</td>
-						   <td></td>
+						   
 						</tr>
 						<tr>
 						  <th scope="row">  Width:</th>
 						   <td>'.$width.'</td>
-						   <td></td>
+						   
 						</tr>
 						<tr>
 						  <th scope="row">  Height:</th>
 						   <td>'.$height.'</td>
-						   <td></td>
+						   
 						</tr>
 						<tr>
 						  <th scope="row">  Expiration Date:</th>
 						   <td>'.$expire_date.'</td>
-						   <td></td>
-						</tr>
-						<!--<tr>
-						  <th scope="row">  Logo:</th>
-						  <td><a class="avatar avatar-lg status-success" href="#">
-						   <img src="'.$logo.'" alt="...">
-					       </a>
-						   </td>
-						   <td></td>
-						</tr>-->
-					  </tbody>
+						   
+						</tr>';
+						for($i=0;$i<count($item_variation);$i++){
+							
+							$html.= '<tr scope="row">';
+							if($i==0){
+							$html.= '<th> Item Variations</th>';
+							}else { 
+							$html.= '<th></th>';
+							}
+							$variation_value = isset($item_variation[$i]->variation)?json_decode($item_variation[$i]->variation,true):array() ;
+						    //t($variation_value,1);
+							$html .='<td>';
+							foreach($variation_value as $key=>$value){	
+							$html .= $key ." : ".$value." , ";
+							//t($item_variation_val);
+						} 
+						$html .='</td>
+						</tr>';
+					}
+					  $html .='</tbody>
 					</table>
+					
 				</div>
             </div>' ;
 			//$html = '<div>HIIII</div>';

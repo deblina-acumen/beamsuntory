@@ -199,7 +199,7 @@ function open_modal(obj,id)
             method: "POST",
             dataType: 'html',
             data: {
-                "facility_id": id,
+                "item_id": id,
                 "_token": "{{ csrf_token() }}",
 
             },
