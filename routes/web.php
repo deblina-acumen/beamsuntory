@@ -96,7 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
 	
 	Route::get('edit-product/{id}', 'product\ProductController@edit_product');
 	Route::post('update-product', 'product\ProductController@update_product');
-	
+	Route::get('delete-product/{id}', 'product\ProductController@delete_product');
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
 	Route::get('add-region', [
