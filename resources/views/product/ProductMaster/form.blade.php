@@ -17,7 +17,7 @@
               <div class="col-md-12">
               <div class="form-group">
                 <label>Product Name</label>
-                <input type="text" class="form-control" placeholder=""  name="product_name" required>
+                <input type="text" class="form-control" placeholder="" value= "{{isset($info[0]->name)?$info[0]->name:''}}"  name="product_name" required>
               </div>
               </div>
             </div>
@@ -28,8 +28,8 @@
                 <label>Product Type</label>
 				<select class="form-control select2" name="product_type" onchange="hide_attibute(this)">
 				<option  value="">Select</option>
-                 <option  value="simple_product">Simple Product</option>
-				  <option  value="variable_product">Variable Product</option>
+                 <option  value="simple_product" <?php if(isset($info[0]->product_type)&& $info[0]->product_type== 'simple_product'){ echo "selected" ;} ?> >Simple Product</option>
+				  <option  value="variable_product" <?php if(isset($info[0]->product_type)&& $info[0]->product_type== 'variable_product'){ echo "selected" ;} ?> >Variable Product</option>
 				  </select>
               </div>
               </div>
@@ -39,7 +39,7 @@
                 <select class="form-control select2" name="brand">
                 <option  value="">Select</option>
                 @foreach($brand as $brand_value)
-				<option value="<?= $brand_value->id?>"><?= $brand_value->name?></option>
+				<option value="<?= $brand_value->id?>" <?php if(isset($info[0]->brand_id)&& $info[0]->brand_id == $brand_value->id){ echo "selected" ;} ?> ><?= $brand_value->name?></option>
 				@endforeach
                 </select>
               </div>
@@ -50,7 +50,7 @@
           <select class="form-control select2" data-placeholder="Select Category" style="width: 100%;" name="category">
              <option  value="">Select</option>
                 @foreach($category as $category_value)
-				<option value="<?= $category_value->id?>"><?= $category_value->name?></option>
+				<option value="<?= $category_value->id?>" <?php if(isset($info[0]->category_id)&& $info[0]->category_id == $category_value->id){ echo "selected" ;} ?> ><?= $category_value->name?></option>
 				@endforeach
           </select>
           </div>
@@ -61,7 +61,7 @@
           <select class="form-control select2" data-placeholder="Select Vendor" style="width: 100%;" name="vendor">
 			   <option value="">Select</option>
 				@foreach($supplier as $supplier_val)
-				<option value="<?= $supplier_val->id?>"><?= $supplier_val->supplier_name?></option>
+				<option value="<?= $supplier_val->id?>" <?php if(isset($info[0]->supplier_id)&& $info[0]->supplier_id == $supplier_val->id ){ echo "selected" ;} ?> ><?= $supplier_val->supplier_name?></option>
 				@endforeach
           </select>
           </div>
@@ -71,13 +71,13 @@
               <div class="col-md-6">
               <div class="form-group">
                 <label>Regular Price</label>
-                <input type="number" class="form-control" placeholder="" name="regular_price">
+                <input type="number" class="form-control" min="0" value= "{{isset($info[0]->regular_price)?$info[0]->regular_price:''}}" step="0.005" placeholder="" name="regular_price">
               </div>
               </div>
               <div class="col-md-6">
               <div class="form-group">
                 <label>Retail Price</label>
-                <input type="number" class="form-control" placeholder="" name="retail_price">
+                <input type="number" class="form-control" min="0" value= "{{isset($info[0]->retail_price)?$info[0]->retail_price:''}}" step="0.005" placeholder="" name="retail_price">
               </div>
               </div>
 			 
@@ -103,7 +103,7 @@
             <div class="box-body">
               <form>
                 <textarea class="textarea" placeholder="Place some text here"
-                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="product_description"></textarea>
+                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" name="product_description">{{isset($info[0]->description)?$info[0]->description:''}}</textarea>
               </form>
             </div>
               </div>
@@ -114,29 +114,29 @@
               <div class="col-md-3">
               <div class="form-group">
                 <label>SKU</label>
-                <input type="text" class="form-control" name="sku" id="primary_sku">
+                <input type="text" value= "{{isset($info[0]->sku)?$info[0]->sku:''}}" class="form-control" name="sku" id="primary_sku">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Low Stock Level</label>
-                <input type="text" class="form-control" name="low_stock_level">
+                <input type="text" class="form-control" value= "{{isset($info[0]->low_stock_level)?$info[0]->low_stock_level:''}}" name="low_stock_level">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Stock status</label>
 				<select class="form-control select2" name="status">
-                <option value="in_stock">In Stock</option>
-				<option value="low_stock">Low Stock</option>
-				<option value="out_of_stock">Out Of Stock</option>
+                <option value="in_stock" <?php if(isset($info[0]->status)&& $info[0]->status== 'in_stock'){ echo "selected" ;} ?>>In Stock</option>
+				<option value="low_stock" <?php if(isset($info[0]->status)&& $info[0]->status== 'low_stock'){ echo "selected" ;} ?>>Low Stock</option>
+				<option value="out_of_stock" <?php if(isset($info[0]->status)&& $info[0]->status== 'out_of_stock'){ echo "selected" ;} ?>>Out Of Stock</option>
 				</select>
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Shelf life</label>
-                <input type="text" class="form-control" name="shelf_life">
+                <input type="text" class="form-control" value= "{{isset($info[0]->shelf_life)?$info[0]->shelf_life:''}}" name="shelf_life">
               </div>
               </div>
             </div>
@@ -146,25 +146,25 @@
               <div class="col-md-3">
               <div class="form-group">
                 <label>Weight</label>
-                <input type="text" class="form-control" name="weight">
+                <input type="text" class="form-control" value= "{{isset($info[0]->weight)?$info[0]->weight:''}}" name="weight">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Length</label>
-                <input type="text" class="form-control" name="length">
+                <input type="text" class="form-control" value= "{{isset($info[0]->length)?$info[0]->length:''}}" name="length">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Width</label>
-                <input type="text" class="form-control" name="Width">
+                <input type="text" class="form-control" value= "{{isset($info[0]->width)?$info[0]->width:''}}" name="Width">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
                 <label>Height</label>
-                <input type="text" class="form-control"  name="Height">
+                <input type="text" class="form-control" value= "{{isset($info[0]->height)?$info[0]->height:''}}"  name="Height">
               </div>
               </div>
             </div>
@@ -197,14 +197,18 @@
 			</div>
 			<br/>
 			</div>
+			<!------ variation edit --->
+			
+			<!-------- variation edit -------->
            <div id="variation_div"></div>
-			<input type="hidden" value="0" id="variation_count" name="variation_count">
+			<input type="hidden" value="{{isset($info[0]->id)?$varience_count:0}}" id="variation_count" name="variation_count">
             <br/>
             
           <!-- /.box-body -->
           <div class="box-footer">
+		  <input type="hidden" name="id" value="{{isset($id)?$id:''}}" >
             <button type="submit" class="btn btn-dark">
-              <i class="ti-save-alt"></i> &nbsp; Save Product
+              <i class="ti-save-alt"></i> &nbsp; Save Product 
             </button>
           </div>  
 		  </div>
