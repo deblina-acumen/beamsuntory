@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Products  &nbsp;<button type="button" class="btn btn-dark btn-sm">Add New</button>
+        Products  &nbsp;<a type="button" href="{{URL('add-product')}}" class="btn btn-dark btn-sm">Add New</a>
       </h1>
 
       <ol class="breadcrumb">
@@ -26,31 +26,34 @@
            
             <div class="col-sm-12 col-md-9">
               <div class="dataTables_length" id="project-table_length">
+			  <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+			   @csrf
                 <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="">Select Category</option>
+                <select  name="product_category_val" aria-controls="project-table" class="form-control form-control-sm">
+                  <option value="">Select Category </option>
                   @if(!empty($product_category) && count($product_category)>0)
 					  @foreach($product_category as $productCategory)
-						<option value="{{$productCategory->id}}">{{$productCategory->name}}</option>
+						<option value="{{$productCategory->id}}" <?php if(isset($product_category_val)&&$product_category_val == $productCategory->id){ echo "selected" ; } ?> >{{$productCategory->name}}</option>
 					  @endforeach
 				  @endif
                 </select>
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="10">Product Type</option>
-                  <option value="simple_product">Simple</option>
-                  <option value="variable_product">variable</option>
+                <select  name="product_type" aria-controls="project-table" class="form-control form-control-sm">
+                  <option value="">Product Type</option>
+                  <option value="simple_product" <?php if(isset($product_type)&& $product_type== 'simple_product'){ echo "selected" ;} ?>>Simple</option>
+                  <option value="variable_product" <?php if(isset($product_type)&& $product_type== 'variable_product'){ echo "selected" ;} ?>>variable</option>
                 </select>
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
+                <select  name="product_brand" aria-controls="project-table" class="form-control form-control-sm">
                   <option value="">Select Brand</option>
 				 @if(!empty($brand) && count($brand)>0)
 					  @foreach($brand as $brands)
-						<option value="{{$brands->id}}">{{$brands->name}}</option>
+						<option value="{{$brands->id}}" <?php if(isset($product_brand)&& $product_brand == $brands->id){ echo "selected" ;} ?>>{{$brands->name}}</option>
 					  @endforeach
 				  @endif
                 </select>
-				<input type="" class="form-control form-control-sm" placeholder="SKU" >
-                &nbsp;<button type="button" class="btn btn-default btn-sm">Filter</button>
+				<input type="text" name="product_sku" value="{{isset($product_sku)?$product_sku:''}}" class="form-control form-control-sm" placeholder="SKU" >
+                &nbsp;<button type="submit" class="btn btn-default btn-sm">Filter</button>
               </div>
+			  </form>
               </div>
             </div>
           </div>
@@ -70,8 +73,10 @@
 						<tr>
 							<th>SL No</th>
 							<th>Name</th>
+							
 							<th>Batch No.</th>
 							<th>SKU</th>
+							<th>Brand</th>
 							<th>Categories</th>
 							<th>Regular Price</th>
 							<th>Retail Price</th>
@@ -85,11 +90,13 @@
 						<tr>
 							<td><?=$k+1?></td>
 							<td><div class="pull-left"><img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/></div> &nbsp;&nbsp; <span class="td-pic-text">{{ $list->name }}</span></td>
+							
 							<td>{{$list->batch_no}}</td>
 							<td>{{$list->sku}}</td>
 							<td>{{$list->brand_name}}</td>
 							<td>{{$list->cat_name}}</td>
 							<td>{{$list->regular_price}}</td>
+							<td>{{$list->retail_price}}</td>
 							<td>
 						  	<?php 
 							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
@@ -129,10 +136,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  
-   <footer class="main-footer">
-	  &copy; 2020 <a href="#">JimBeam</a>. All Rights Reserved.
-  </footer>
+ 
   <!-- Control Sidebar -->
 
   

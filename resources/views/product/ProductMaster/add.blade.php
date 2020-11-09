@@ -17,7 +17,7 @@
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Products</a></li>
+        <li class="breadcrumb-item"><a href="{{URL('product-list')}}">Products</a></li>
         <li class="breadcrumb-item active">Add Product</li>
       </ol>
     </section>

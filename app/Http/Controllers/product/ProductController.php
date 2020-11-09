@@ -14,11 +14,49 @@ use Auth;
 use DB;
 class ProductController extends Controller
 {
-    public function product_list()
+    public function product_list(Request $request)
     {
+		DB::enableQueryLog();
+		$posteddata = $request->all();
+		//t($posteddata);
+		//exit();
         $data['title']="Product category";
-        $data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->where('item.is_deleted','No')->orderBy('item.name','asc')->get();
+		
+		$data['product_category_val'] = $product_category_val = isset($posteddata['product_category_val']) ? $posteddata['product_category_val'] : '';
+		$data['product_brand'] = $product_brand = isset($posteddata['product_brand']) ? $posteddata['product_brand'] : '';
+		$data['product_type'] = $product_type = isset($posteddata['product_type']) ? $posteddata['product_type'] : '';
+		$data['product_sku'] = $product_sku = isset($posteddata['product_sku']) ? $posteddata['product_sku'] : '';
+		
+		$where = '1=1';
+		if ($posteddata) {
+			
+			if ($product_category_val != '') {
+				
+				$where .= ' and item.category_id='.$product_category_val;
+				
+							
+			}
+			if ($product_brand != '') {
+				$where .= ' and item.brand_id=' . $product_brand;				
+				
+			}
+			if ($product_type != '') {
+				$where .= " and item.product_type='$product_type'";				
+								
+			}
+
+			if ($product_sku != '') {
+				
+				$where .= " and lower(item.sku) LIKE '%$product_sku%'";
+			}
+			
+		}
+		
+        $data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->whereRaw($where)->where('item.is_deleted','No')->orderBy('item.name','asc')->get();
 		$data['product_category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		//$query = DB::getQueryLog();
+		//t($query);
+		///exit();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		//t($data,1);
@@ -214,11 +252,11 @@ class ProductController extends Controller
         if($id!='')
         {
 			
-            return redirect('produt-list')->with('success-msg', 'Product Category successfully added');
+            return redirect('product-list')->with('success-msg', 'Product Category successfully added');
         }
         else			
         {
-            return redirect('produt-list')->with('error-msg', 'Please try after some time');
+            return redirect('product-list')->with('error-msg', 'Please try after some time');
         }
     }
 
@@ -332,7 +370,7 @@ class ProductController extends Controller
         }
         else			
         {
-            return redirect('edit-produt/'.base64_encode($data['id']))->with('error-msg', 'Please try after some time');
+            return redirect('edit-product/'.base64_encode($data['id']))->with('error-msg', 'Please try after some time');
         }
 		
     }
@@ -343,6 +381,18 @@ class ProductController extends Controller
 		$updated=Product::where('id',$id)->update($update_data);
 		if($updated)
             return redirect('product-list')->with('success-msg', 'Status successfully changed');
+        else
+        {
+            return redirect('product-list')->with('error-msg', 'Please try after some time');    
+        }
+	}
+	public function delete_product($id)
+	{
+		$id= base64_decode($id);
+		 $update_data['is_deleted'] = 'Yes';
+		 $updated=Product::where('id',$id)->update($update_data);
+        if($updated)
+            return redirect('product-list')->with('success-msg', 'Product  successfully deleted');
         else
         {
             return redirect('product-list')->with('error-msg', 'Please try after some time');    
