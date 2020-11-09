@@ -93,9 +93,9 @@
 							<td>
 						  	<?php 
 							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-							href="{{URL('brand-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a> 
+							href="{{URL('product-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a> 
 							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
-							href="{{URL('brand-active/'.base64_encode($list->id).'/Yes')}}" class="label label-danger">Inactive</a>
+							href="{{URL('product-active/'.base64_encode($list->id).'/Yes')}}" class="label label-danger">Inactive</a>
 							<?php } ?>
 											
 											
@@ -106,6 +106,8 @@
 										
 										<a class="dropdown-item" href="{{URL('edit-product/'.base64_encode($list->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-product/'.base64_encode($list->id))}}">Delete</a>
+										<a class="dropdown-item" data-toggle="modal" 
+                                                            href="javascript::void(0)" onclick="open_modal(this,'{{$list->id}}')">View</a>
 										
 									</div>
 								</div></td>
@@ -137,6 +139,30 @@
   <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
+<div class="box-body">
+              <!-- sample modal content -->
+				<div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog modal-lg">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="myLargeModalLabel">Product Details</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							</div>
+							<div class="modal-body">
+								
+							</div>
+							<div class="modal-footer">
+								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal-dialog -->
+				</div>
+				<!-- /.modal -->
+              <!-- <img src="../../images/model2.png" alt="default" data-toggle="modal" data-target=".bs-example-modal-lg" class="model_img img-fluid" /> -->
+            </div>
+
 
 @stop
 
@@ -154,8 +180,39 @@
 <script src="{{asset('assets/assets/vendor_components/datatable/datatables.min.js')}}"></script>
 <!-- SoftPro admin for Data Table -->
 <script src="{{asset('assets/js/pages/data-table.js')}}"></script>
-<!-- SoftP
+<!-- SoftP-->
 <script>
+function open_modal(obj,id)
+    {
+        //alert(obj);
+		//alert(id);
+        $('.modal-body').empty();
+       // $(obj).attr('data-target','#modal-'+id);
+      //  $("#myModal").modal("show");
+        
+        $.ajax({
+            url: '<?php echo URL("product-details"); ?>',
+            method: "POST",
+            dataType: 'html',
+            data: {
+                "facility_id": id,
+                "_token": "{{ csrf_token() }}",
+
+            },
+            success: function(data) {
+                console.log(data);
+               
+               
+
+                $('.modal-body').append(data);
+                $("#myModal").modal("show");
+
+               
+            }
+
+        });
+	
+    }
 $('.select2').select2({ width: 'resolve' });
 (function() {
 	$('#Attributes').css('display','none');
