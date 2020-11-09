@@ -131,7 +131,7 @@ class ProductController extends Controller
 				<input type="hidden" value="'.$varience->id.'" name="varience_id'.$k.'[]">
               </div>
               <div class="col-md-3">
-                <div class="pull-right">
+                <div class="pull-left">
                                     <label>Action</label>
                 <div class="input-group">
                   <button type="button" class="btn btn-danger btn-sm" onclick="remove_variation(this)">Remove Variation</button>
