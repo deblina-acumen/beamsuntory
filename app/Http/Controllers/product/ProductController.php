@@ -20,7 +20,7 @@ class ProductController extends Controller
 		$posteddata = $request->all();
 		//t($posteddata);
 		//exit();
-        $data['title']="Product category";
+        $data['title']="Product List";
 		
 		$data['product_category_val'] = $product_category_val = isset($posteddata['product_category_val']) ? $posteddata['product_category_val'] : '';
 		$data['product_brand'] = $product_brand = isset($posteddata['product_brand']) ? $posteddata['product_brand'] : '';
@@ -65,7 +65,7 @@ class ProductController extends Controller
 
      public function add()
     {
-        $data['title']="Product category";
+        $data['title']="Product";
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
@@ -264,7 +264,7 @@ class ProductController extends Controller
     {
 		$data['id'] =$product_id = base64_decode($id);
        
-            $data['title']="Product category";
+            $data['title']="Edit Product";
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
