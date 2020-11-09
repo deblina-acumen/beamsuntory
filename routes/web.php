@@ -92,6 +92,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('produt-list', 'product\ProductController@product_list');
 	
 	Route::get('edit-product/{id}', 'product\ProductController@edit_product');
+	Route::post('update-product', 'product\ProductController@update_product');
 	
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
