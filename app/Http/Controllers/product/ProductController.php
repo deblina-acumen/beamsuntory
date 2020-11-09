@@ -196,7 +196,7 @@ class ProductController extends Controller
 		
 		for($i=0;$i<$data['variation_count'];$i++)
 		{
-			
+			$variation=array();
 			foreach($data['attribute_name'.$i] as $k=>$variations)
 			{
 				
@@ -296,11 +296,12 @@ class ProductController extends Controller
 		
 		ProductVariations::where('item_id',$data["id"])->whereNotIn('id', $varience_id_arr)->delete(); 
 		
-	 $variation=array();
+	 
 		
 		for($i=0;$i<$data['variation_count'];$i++)
 		{
 			$varience_id = $data['varience_id'.$i] ;
+			$variation=array();
 			foreach($data['attribute_name'.$i] as $k=>$variations)
 			{
 				//t($variations);
@@ -327,7 +328,7 @@ class ProductController extends Controller
         if($id!='')
         {
 			
-            return redirect('produt-list')->with('success-msg', 'Product Category successfully Updated');
+            return redirect('product-list')->with('success-msg', 'Product Category successfully Updated');
         }
         else			
         {
