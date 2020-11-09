@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('add-product', 'product\ProductController@add');
 	Route::post('get-attribute-detsils', 'product\ProductController@get_attribute_detsils');
 	Route::post('save-produt', 'product\ProductController@save_produt');
-	Route::any('produt-list', 'product\ProductController@product_list');
+	Route::any('product-list', 'product\ProductController@product_list');
 	
 	Route::get('edit-product/{id}', 'product\ProductController@edit_product');
 	Route::post('update-product', 'product\ProductController@update_product');

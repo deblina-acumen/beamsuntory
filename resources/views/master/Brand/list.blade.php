@@ -130,7 +130,7 @@
 <!-- Select2 -->
 <script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
 <!-- This is data table -->
-<script src="{{asset('assets/vendor_components/datatable/datatables.min.js')}}"></script>
+<script src="{{asset('assets/assets/vendor_components/datatable/datatables.min.js')}}"></script>
 <!-- SoftPro admin for Data Table -->
 <script src="{{asset('assets/js/pages/data-table.js')}}"></script>
 <!-- SoftPro admin for advanced form element -->
