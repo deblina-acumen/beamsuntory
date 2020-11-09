@@ -332,7 +332,7 @@ class ProductController extends Controller
         }
         else			
         {
-            return redirect('edit-produt/'.base64_encode($data['id']))->with('error-msg', 'Please try after some time');
+            return redirect('edit-product/'.base64_encode($data['id']))->with('error-msg', 'Please try after some time');
         }
 		
     }
