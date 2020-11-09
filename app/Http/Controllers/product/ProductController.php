@@ -382,7 +382,8 @@ class ProductController extends Controller
 			$regular_price = isset($info[0]->regular_price) ? $info[0]->regular_price : '' ;
 			$retail_price = isset($info[0]->retail_price) ? $info[0]->retail_price : '' ;
 			$sku = isset($info[0]->sku) ? $info[0]->sku : '' ;
-			$status = isset($info[0]->status) ? $info[0]->status : '' ;
+			$status = isset($info[0]->status) ? str_replace("_"," ",$info[0]->status) : '' ;
+			$status = ucwords($status);
 			$low_stock_level = isset($info[0]->low_stock_level) ? $info[0]->low_stock_level : '' ;
 			$weight = isset($info[0]->weight) ? $info[0]->weight : '' ;
 			$length = isset($info[0]->length) ? $info[0]->length : '' ;
