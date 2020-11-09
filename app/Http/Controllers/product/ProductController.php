@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function product_list()
     {
         $data['title']="Product category";
-        $data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->where('item.is_deleted','No')->where('item.is_active','Yes')->orderBy('item.name','asc')->get();
+        $data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->where('item.is_deleted','No')->orderBy('item.name','asc')->get();
 		$data['product_category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
@@ -336,6 +336,170 @@ class ProductController extends Controller
         }
 		
     }
+		public function changeStatus($id,$status)
+	{
+		$id= base64_decode($id);
+		$update_data['is_active'] = $status;
+		$updated=Product::where('id',$id)->update($update_data);
+		if($updated)
+            return redirect('product-list')->with('success-msg', 'Status successfully changed');
+        else
+        {
+            return redirect('product-list')->with('error-msg', 'Please try after some time');    
+        }
+	}
+	public function view(Request $Request)
+	 {
+		 $data = $Request->all();
+		$profile_pic = $current_date = $description = $active = $userid = $email =
+		$phone_number = $address = $member = $logo = '';
+		//$no_image_path = URL("assets/images/avatar/user.jpg");
+		$no_image_path = '';
+		//$profile_pic_rel_path = 'public/profile_pic';
+		$profile_pic_rel_path = 'public/product';
+		//$logo_pic_rel_path = 'public/logo';
+		
+		$info = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->where('item.is_deleted','No')->
+		where('item.id','=',$data['facility_id'])->get();
+
+
+			$name = isset($info[0]->name) ? $info[0]->name : '' ;
+
+			
+			$profile_pic = (isset($info[0]->image)&&$info[0]->image!='') ? asset($profile_pic_rel_path.'/'.$info[0]->image):$no_image_path;
+
+			$current_date = date('d/m/Y',strtotime($info[0]->created_at)) ;
+			if($info[0]->is_active!='Y'){
+				$active = '<span class="badge badge-success">Active</span>' ;
+			}else{
+				$active = '<span class="badge badge-danger">Inactive</span>' ;
+			}
+			$description = isset($info[0]->description) ? $info[0]->description : '' ;
+			$batch_no = isset($info[0]->batch_no) ? $info[0]->batch_no : '' ;
+			$brand_name = isset($info[0]->brand_name) ? $info[0]->brand_name : '' ;
+			$cat_name = isset($info[0]->cat_name) ? $info[0]->cat_name : '' ;
+			$supplier_name = isset($info[0]->supplier_name) ? $info[0]->supplier_name : '' ;
+			$regular_price = isset($info[0]->regular_price) ? $info[0]->regular_price : '' ;
+			$retail_price = isset($info[0]->retail_price) ? $info[0]->retail_price : '' ;
+			$sku = isset($info[0]->sku) ? $info[0]->sku : '' ;
+			$status = isset($info[0]->status) ? $info[0]->status : '' ;
+			$low_stock_level = isset($info[0]->low_stock_level) ? $info[0]->low_stock_level : '' ;
+			$weight = isset($info[0]->weight) ? $info[0]->weight : '' ;
+			$length = isset($info[0]->length) ? $info[0]->length : '' ;
+			$width = isset($info[0]->width) ? $info[0]->width : '' ;
+			$height = isset($info[0]->height) ? $info[0]->height : '' ;
+			$expire_date = isset($info[0]->expire_date) ? date('d/m/Y',strtotime($info[0]->expire_date)) : '' ;
+
+
+	$html = '
+		   <div class="media-list bb-1 bb-dashed border-light">
+					<div class="media align-items-center">
+					  <a class="avatar avatar-lg status-success" href="#">
+						<img src="'.$profile_pic.'" alt="...">
+					  </a>
+					  <div class="media-body">
+						<p class="font-size-16">
+						  <a class="hover-primary" href="#"><strong>'. $name .'</strong></a>
+						</p>'.$current_date.'
+						 
+						<p>'.$description.'</p>
+						</div>
+					  <div class="media-right">'.$active.'</div>
+					  
+					</div>					
+					
+				  </div>
+				 
+				   <div class="box-body">
+				<div class="table-responsive">
+				  <table class="table table-striped mb-0">
+					  
+					  <tbody>
+						<tr>
+						  <th scope="row"> Batch No:</th>
+						  <td>'.$batch_no.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row"> Brand Name:</th>
+						  <td>'.$brand_name.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  category Name:</th>
+						  <td>'.$cat_name.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Supplier Name:</th>
+						  <td>'.$supplier_name.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Price:</th>
+						   <td>'.$regular_price.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Retail Price:</th>
+						   <td>'.$retail_price.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  SKU:</th>
+						   <td>'.$sku.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Status:</th>
+						   <td>'.$status.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Low Stock Level:</th>
+						   <td>'.$low_stock_level.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Weight:</th>
+						   <td>'.$weight.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Length:</th>
+						   <td>'.$length.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Width:</th>
+						   <td>'.$width.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Height:</th>
+						   <td>'.$height.'</td>
+						   <td></td>
+						</tr>
+						<tr>
+						  <th scope="row">  Expiration Date:</th>
+						   <td>'.$expire_date.'</td>
+						   <td></td>
+						</tr>
+						<!--<tr>
+						  <th scope="row">  Logo:</th>
+						  <td><a class="avatar avatar-lg status-success" href="#">
+						   <img src="'.$logo.'" alt="...">
+					       </a>
+						   </td>
+						   <td></td>
+						</tr>-->
+					  </tbody>
+					</table>
+				</div>
+            </div>' ;
+			//$html = '<div>HIIII</div>';
+				 echo $html;
+	 }
 	
 }
 ?>

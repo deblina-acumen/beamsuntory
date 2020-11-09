@@ -91,6 +91,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('save-produt', 'product\ProductController@save_produt');
 	Route::any('product-list', 'product\ProductController@product_list');
 	
+	Route::any('product-active/{id?}/{value?}', 'product\ProductController@changeStatus');
+	Route::post('product-details', 'product\ProductController@view');
+	
 	Route::get('edit-product/{id}', 'product\ProductController@edit_product');
 	Route::post('update-product', 'product\ProductController@update_product');
 	
