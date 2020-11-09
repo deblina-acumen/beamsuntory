@@ -12,12 +12,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Edit Product  &nbsp;<button type="button" class="btn btn-dark btn-sm">All products</button>
+        Edit Product  &nbsp;<a type="button" href="{{URL('product-list')}}" class="btn btn-dark btn-sm">All products</a>
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Products</a></li>
+        <li class="breadcrumb-item"><a href="{{URL('product-list')}}">Products</a></li>
         <li class="breadcrumb-item active">Edit Product</li>
       </ol>
     </section>
