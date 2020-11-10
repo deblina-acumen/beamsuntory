@@ -90,13 +90,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('get-attribute-detsils', 'product\ProductController@get_attribute_detsils');
 	Route::post('save-produt', 'product\ProductController@save_produt');
 	Route::any('product-list', 'product\ProductController@product_list');
-	
 	Route::any('product-active/{id?}/{value?}', 'product\ProductController@changeStatus');
 	Route::post('product-details', 'product\ProductController@view');
-	
 	Route::get('edit-product/{id}', 'product\ProductController@edit_product');
 	Route::post('update-product', 'product\ProductController@update_product');
 	Route::get('delete-product/{id}', 'product\ProductController@delete_product');
+	
+	//po
+	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
+	Route::post('get-item-details', 'po\PoMasterController@get_item_details');
+	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
 	Route::get('add-region', [

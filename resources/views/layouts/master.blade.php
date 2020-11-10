@@ -60,7 +60,19 @@
 	
 	<!-- FastClick -->
 	<script src="{{asset('assets/assets/vendor_components/fastclick/lib/fastclick.js')}}"></script>
-	
+	<!-- date-range-picker -->
+   <script src="{{asset('assets/assets/vendor_components/moment/min/moment.min.js')}}"></script>
+   <script src="{{asset('assets/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+  
+  <!-- bootstrap datepicker -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+  
+  <!-- bootstrap color picker -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
+  
+  <!-- bootstrap time picker -->
+  <script src="{{asset('assets/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+  
 	<!-- SoftPro admin App -->
 	<script src="{{asset('assets/js/template.js')}}"></script>
 
