@@ -100,6 +100,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
 	Route::post('get-item-details', 'po\PoMasterController@get_item_details');
 	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
+	
+	Route::any('purchase-order-list', 'purchaseorder\PurchaseOrderController@purchase_order_list');
+	Route::any('purchase-active/{id?}/{value?}', 'purchaseorder\PurchaseOrderController@changeStatus');
+	Route::get('delete-purchase/{id}', 'purchaseorder\PurchaseOrderController@delete_purchase');
+	
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
 	Route::get('add-region', [
