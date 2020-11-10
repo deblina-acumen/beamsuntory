@@ -434,7 +434,7 @@ class PoMasterController extends Controller
 			//$html = '<div>HIIII</div>';
 				 echo $html;
 	 }
-	 	     public function purchase_order_list(Request $request)
+	 public function purchase_order_list(Request $request)
     {
 
 		DB::enableQueryLog();
@@ -472,7 +472,7 @@ class PoMasterController extends Controller
 		}
 		
 		
-		$data['purchase_order'] = $list = PurchaseOrder::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.supplier_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.order_no','asc')->get();
+		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.supplier_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.order_no','asc')->get();
 		
 		
 		//$query = DB::getQueryLog();
@@ -481,14 +481,14 @@ class PoMasterController extends Controller
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		//t($data,1);
-        return view('purchase.PurchaseMaster.list',$data);
+        return view('po.list',$data);
     }
 	
 	public function changeStatus($id,$status)
 	{
 		$id= base64_decode($id);
 		$update_data['is_active'] = $status;
-		$updated=PurchaseOrder::where('id',$id)->update($update_data);
+		$updated=PO::where('id',$id)->update($update_data);
 		if($updated)
             return redirect('purchase-order-list')->with('success-msg', 'Status successfully changed');
         else
@@ -500,7 +500,7 @@ class PoMasterController extends Controller
 	{
 		$id= base64_decode($id);
 		 $update_data['is_deleted'] = 'Yes';
-		 $updated=PurchaseOrder::where('id',$id)->update($update_data);
+		 $updated=PO::where('id',$id)->update($update_data);
         if($updated)
             return redirect('purchase-order-list')->with('success-msg', 'Purchase Order  successfully deleted');
         else
