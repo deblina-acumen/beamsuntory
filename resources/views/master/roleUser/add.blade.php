@@ -94,6 +94,7 @@ function generate_password()
  $('#password').val(pass);
 }
 </script>
+
 <script>
     $(document).ready(function(){
         $('input[type="checkbox"]').click(function(){
