@@ -94,4 +94,17 @@ function generate_password()
  $('#password').val(pass);
 }
 </script>
+<script>
+    $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+                //console.log("Checkbox is checked.");
+				$('.store_locator_address_block').css('display','none');
+            }
+            else if($(this).prop("checked") == false){
+                $('.store_locator_address_block').css('display','block');
+            }
+        });
+    });
+</script>
 @stop
