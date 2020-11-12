@@ -78,9 +78,9 @@ class RoleUserController extends Controller
 			$insert_data['password'] = isset($posted['password'])?bcrypt($posted['password']):bcrypt(123456);
 			
 			$insert_data['role_id'] = isset($posted['role'])?$posted['role']:0;
-			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:'';
-			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:'';
-			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:'';
+			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:0;
+			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:0;
+			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:0;
 			$address = isset($posted['address'])?$posted['address']:'';
 			$city = isset($posted['city'])?$posted['city']:'';
 			$zip = isset($posted['zip'])?$posted['zip']:'';
@@ -194,9 +194,9 @@ class RoleUserController extends Controller
 			$insert_data['lastname'] = isset($posted['lastname'])?$posted['lastname']:'';
 			$insert_data['useId'] = isset($posted['userId'])?$posted['userId']:'';
 			
-			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:'';
-			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:'';
-			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:'';
+			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:0;
+			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:0;
+			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:0;
 			
 			$address = isset($posted['address'])?$posted['address']:'';
 			$city = isset($posted['city'])?$posted['city']:'';
