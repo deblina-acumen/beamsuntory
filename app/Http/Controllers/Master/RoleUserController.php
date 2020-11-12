@@ -181,6 +181,7 @@ class RoleUserController extends Controller
             abort(404);
     }
 
+
     public function update_user_data(Request $request)
     {
        $posted = $request->all();// t($posted,1);
