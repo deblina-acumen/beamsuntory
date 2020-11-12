@@ -23,7 +23,7 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" id="datepicker" name="active date" value="" required>
+                  <input type="text" class="form-control pull-right" id="datepicker" name="active date" value="<?=isset($po[0]->active_date)&& $po[0]->active_date!=''?date('m/d/Y',strtotime($po[0]->active_date)):''?>" required>
                 </div>
                 <!-- /.input group -->
               </div>
@@ -33,7 +33,7 @@
                   <label>Active Time:</label>
 
                   <div class="input-group">
-                    <input type="text" class="form-control timepicker" id="datetimepicker3" name="active_time">
+                    <input type="text" class="form-control timepicker" id="datetimepicker3" name="active_time" value="<?=isset($po[0]->active_time)&& $po[0]->active_time!=''?date('m/d/Y',strtotime($po[0]->active_time)):''?>">
 
                     <div class="input-group-addon">
                       <i class="fa fa-clock-o"></i>
@@ -53,7 +53,7 @@
                 <select name="supplier" aria-controls="project-table" class="form-control form-control-sm">
                    <option value="">Select</option>
 				@foreach($supplier as $supplier_val)
-				<option value="<?= $supplier_val->id?>" <?php if(isset($info[0]->supplier_id)&& $info[0]->supplier_id == $supplier_val->id ){ echo "selected" ;} ?> ><?= $supplier_val->supplier_name?></option>
+				<option value="<?= $supplier_val->id?>" <?php if(isset($po[0]->supplier_id) && $po[0]->supplier_id == $supplier_val->id ){ echo "selected" ;} ?> ><?= $supplier_val->supplier_name?></option>
 				@endforeach
                 </select>
               </div>
@@ -64,7 +64,7 @@
                 <select name="warehouse" aria-controls="project-table" class="form-control form-control-sm">
                   <option value="">Select</option>
 				@foreach($warehouse as $warehouses)
-				<option value="<?= $warehouses->id?>" <?php if(isset($info[0]->id)&& $info[0]->supplier_id == $warehouses->id ){ echo "selected" ;} ?> ><?= $warehouses->name?></option>
+				<option value="<?= $warehouses->id?>"  <?php if(isset($po[0]->warehouse_id) && $po[0]->warehouse_id==$warehouses->id){echo"selected";} ?>><?= $warehouses->name?></option>
 				@endforeach
                 </select>
               </div>
@@ -73,9 +73,9 @@
               	<label>Status</label>
                 <div class="input-group">
                 <select name="status" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="draft">Draft</option>
-                  <option value="delivered">Delivered</option>
-                  <option value="in-transit">In-Transit</option>
+                  <option value="draft" <?php if(isset($po[0]->status) && $po[0]->status=="draft"){echo"selected";} ?>>Draft</option>
+                  <option value="delivered" <?php if(isset($po[0]->status) && $po[0]->status=="delivered"){echo"selected";} ?>>Delivered</option>
+                  <option value="in-transit" <?php if(isset($po[0]->status) && $po[0]->status=="in-transit"){echo"selected";} ?>>In-Transit</option>
                 </select>
               </div>
               </div>
@@ -83,10 +83,11 @@
               	<label>Ownership Type</label>
                 <div class="input-group">
                 <select name="ownership_type" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="not_defined">Not Defined</option>
-                  <option value="owner">Owner</option>
-                  <option value="other_role">Other Role</option>
+                  <option value="not_defined" <?php if(isset($po[0]->ownership_type) && $po[0]->ownership_type=="not_defined"){echo"selected";} ?>>Not Defined</option>
+                  <option value="owner" <?php if(isset($po[0]->ownership_type) && $po[0]->ownership_type=="owner"){echo"selected";} ?>>Owner</option>
+                  <option value="other_role" <?php if(isset($po[0]->ownership_type) && $po[0]->ownership_type=="other_role"){echo"selected";} ?>>Other Role</option>
                 </select>
+				<input type="hidden" name="po_id" value="<?= isset($po[0]->id)?$po[0]->id:''?>">
               </div>
               </div>
             </div>
@@ -96,7 +97,61 @@
             <br/>
             <h4 class="box-title text-dark">Add Items </h4>
             <hr class="my-15">
-            <div class="row">
+            
+			@if(!empty($po_item) && count($po_item)>0)
+			@foreach($po_item as $ik=>$items)
+			<div class="row">
+			<div class="col-md-4">
+              	<label>Item Type</label>
+                <div class="input-group">
+                <select name="itemtype[]" aria-controls="project-table" class="form-control form-control-sm" onchange="get_item(this)"required>
+					<option value="">Select</option>
+                    <option value="simple_product" <?php if(isset($items->product_type) && $items->product_type=="simple_product"){echo"selected";} ?>>Simple Product</option>
+					<option value="variable_product" <?php if(isset($items->product_type) && $items->product_type=="variable_product"){echo"selected";} ?>>Variable Product</option>
+                </select>
+              </div>
+              </div>
+			  <?php 
+			  if($items->product_type=='variable_product')
+			  $item_sku_code = $items->item_sku.'_'.$items->item_id.'_'.$items->item_variance_id;
+			  else
+			  $item_sku_code = $items->sku.'_'.$items->item_id;
+			  $item = isset($items->product_type)?get_product_list_type_wise($items->product_type):array();?>
+              <div class="col-md-4">
+              	<label>Select Item</label>
+                <div class="input-group">
+                <select name="item[]" aria-controls="project-table" class="form-control form-control-sm" required>
+                    <option value="">Select</option>
+					@foreach($item as $k=>$itemss)
+					<option value="<?=$k?>" <?php if($item_sku_code == $k){echo"selected";}?>><?=$itemss?></option>
+					@endforeach
+                </select>
+              </div>
+              </div>
+              <div class="col-md-2">
+				<div class="form-group">
+				<label>Select Qty..</label>
+				<input  type="text"  name="quantity[]" class="form-control form-control-sm" data-bts-button-up-class="btn btn-secondary" value="<?=isset($items->quantity)?$items->quantity:''?>" required> 
+				</div>
+              </div>
+              <div class="col-md-2">
+              <div class="pull-right">
+              	<label>Action</label>
+              	<div class="input-group">
+				@if($ik==0)
+                <button type="button" class="btn btn-dark btn-sm mb-5" onclick="add_item(this)"><i class="fa fa-plus"></i> &nbsp;Add Item</button>
+				@else
+					<button type="button" class="btn btn-danger btn-sm mb-5" onclick="remove_item(this)"><i class="fa fa-trash-o"></i> &nbsp;Remove </button>
+				@endif
+                </div>
+          	    </div>
+              </div>
+            </div>
+			<input type="hidden" name="po_item_id[]" value="<?=isset($items->id)?$items->id:''?>">
+			
+			@endforeach
+			@else
+			<div class="row">
 			<div class="col-md-4">
               	<label>Item Type</label>
                 <div class="input-group">
@@ -130,6 +185,7 @@
           	    </div>
               </div>
             </div>
+			@endif
            <div id="new_item"></div>
 
           <!-- /.box-body -->

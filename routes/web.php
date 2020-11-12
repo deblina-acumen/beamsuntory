@@ -100,6 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
 	Route::post('get-item-details', 'po\PoMasterController@get_item_details');
 	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
+	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
 	Route::get('add-region', [
