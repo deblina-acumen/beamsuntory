@@ -9,13 +9,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Products  &nbsp;<a type="button" href="{{URL('add-product')}}" class="btn btn-dark btn-sm">Add New</a>
+        Purchases  &nbsp;<a type="button" href="{{URL('add-purchase')}}" class="btn btn-dark btn-sm">Add New</a>
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Products</a></li>
-        <li class="breadcrumb-item active">All Products</li>
+        <li class="breadcrumb-item"><a href="#">Purchases</a></li>
+        <li class="breadcrumb-item active">All Purchases</li>
       </ol>
     </section>
 
@@ -29,28 +29,24 @@
 			  <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 			   @csrf
                 <div class="input-group">
-                <select  name="product_category_val" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="">Select Category </option>
-                  @if(!empty($product_category) && count($product_category)>0)
-					  @foreach($product_category as $productCategory)
-						<option value="{{$productCategory->id}}" <?php if(isset($product_category_val)&&$product_category_val == $productCategory->id){ echo "selected" ; } ?> >{{$productCategory->name}}</option>
+				<input type="text" name="purchase_order_no_val" value="{{isset($purchase_order_no_val)?$purchase_order_no_val:''}}" class="form-control form-control-sm" placeholder="Order No" >
+				<input type="text" name="purchase_order_status_val" value="{{isset($purchase_order_status_val)?$purchase_order_status_val:''}}" class="form-control form-control-sm" placeholder="Order Status" >
+				<select  name="po_supplier_val" aria-controls="project-table" class="form-control form-control-sm">
+                  <option value="">Select Supplier</option>
+				 @if(!empty($supplier) && count($supplier)>0)
+					  @foreach($supplier as $suppliers)
+						<option value="{{$suppliers->id}}" <?php if(isset($po_supplier_val)&& $po_supplier_val == $suppliers->id){ echo "selected" ;} ?>>{{$suppliers->supplier_name}}</option>
 					  @endforeach
 				  @endif
                 </select>
-                <select  name="product_type" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="">Product Type</option>
-                  <option value="simple_product" <?php if(isset($product_type)&& $product_type== 'simple_product'){ echo "selected" ;} ?>>Simple</option>
-                  <option value="variable_product" <?php if(isset($product_type)&& $product_type== 'variable_product'){ echo "selected" ;} ?>>variable</option>
-                </select>
-                <select  name="product_brand" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="">Select Brand</option>
-				 @if(!empty($brand) && count($brand)>0)
-					  @foreach($brand as $brands)
-						<option value="{{$brands->id}}" <?php if(isset($product_brand)&& $product_brand == $brands->id){ echo "selected" ;} ?>>{{$brands->name}}</option>
+                <select  name="po_warehouse_val" aria-controls="project-table" class="form-control form-control-sm">
+                  <option value="">Select Warehouse</option>
+				 @if(!empty($warehouse) && count($warehouse)>0)
+					  @foreach($warehouse as $warehouses)
+						<option value="{{$warehouses->id}}" <?php if(isset($po_warehouse_val)&& $po_warehouse_val == $warehouses->id){ echo "selected" ;} ?>>{{$warehouses->name}}</option>
 					  @endforeach
 				  @endif
                 </select>
-				<input type="text" name="product_sku" value="{{isset($product_sku)?$product_sku:''}}" class="form-control form-control-sm" placeholder="SKU" >
                 &nbsp;<button type="submit" class="btn btn-default btn-sm">Filter</button>
               </div>
 			  </form>
@@ -62,7 +58,7 @@
         <div class="col-12">         
          <div class="box box-solid bg-gray">
             <div class="box-header with-border">
-              <h3 class="box-title">All Products</h3>
+              <h3 class="box-title">All Purchases</h3>
 			  
             </div>
             <!-- /.box-header -->
@@ -72,37 +68,31 @@
 					<thead>
 						<tr>
 							<th>SL No</th>
-							<th>Name</th>
 							
-							<th>Batch No.</th>
-							<th>SKU</th>
-							<th>Brand</th>
-							<th>Categories</th>
-							<th>Regular Price</th>
-							<th>Retail Price</th>
+							<th>Order No.</th>
+							<th>Purchase order Status</th>
+							<th>Supplier Name</th>
+							<th>Warehose Name</th>
 							<th>Status</th>
 							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-					@if(!empty($product_list) && count($product_list)>0)
-					  @foreach($product_list as $k=>$list)
+					@if(!empty($purchase_order) && count($purchase_order)>0)
+					  @foreach($purchase_order as $k=>$list)
 						<tr>
 							<td><?=$k+1?></td>
-							<td><div class="pull-left"><img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/></div> &nbsp;&nbsp; <span class="td-pic-text">{{ $list->name }}</span></td>
 							
-							<td>{{$list->batch_no}}</td>
-							<td>{{$list->sku}}</td>
-							<td>{{$list->brand_name}}</td>
-							<td>{{$list->cat_name}}</td>
-							<td>{{$list->regular_price}}</td>
-							<td>{{$list->retail_price}}</td>
+							<td>{{$list->order_no}}</td>
+							<td>{{$list->status}}</td>
+							<td>{{$list->supplier_name}}</td>
+							<td>{{$list->warehouse_name}}</td>
 							<td>
 						  	<?php 
 							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-							href="{{URL('product-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a> 
+							href="{{URL('purchase-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a> 
 							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
-							href="{{URL('product-active/'.base64_encode($list->id).'/Yes')}}" class="label label-danger">Inactive</a>
+							href="{{URL('purchase-active/'.base64_encode($list->id).'/Yes')}}" class="label label-danger">Inactive</a>
 							<?php } ?>
 											
 											
@@ -112,7 +102,7 @@
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
 										
 										<a class="dropdown-item" href="{{URL('edit-product/'.base64_encode($list->id))}}">Edit</a>
-										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-product/'.base64_encode($list->id))}}">Delete</a>
+										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-purchase/'.base64_encode($list->id))}}">Delete</a>
 										<a class="dropdown-item" data-toggle="modal" 
                                                             href="javascript::void(0)" onclick="open_modal(this,'{{$list->id}}')">View</a>
 										

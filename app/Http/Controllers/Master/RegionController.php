@@ -22,7 +22,7 @@ class RegionController extends Controller
         //$data['info'] = DB::table('users')
         $data['info'] = Region::
 		select('provinces.*','country.country_name','country.id as country_id')
-		->leftjoin('country','provinces.country_id','=','country_id')
+		->leftjoin('country','provinces.country_id','=','country.id')
 		->where('provinces.is_deleted','=','No')
 		->orderBy('provinces.id','desc')
 		->get();

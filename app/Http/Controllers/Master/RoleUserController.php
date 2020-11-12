@@ -10,6 +10,9 @@ use App\Model\Module_master;
 use App\Model\Designation;
 use Auth;
 use App\Model\Role;
+use  App\Model\Country;
+use  App\Model\Region;
+use App\Model\Brand;
 use DB;
 use Mail;
 
@@ -38,6 +41,19 @@ class RoleUserController extends Controller
 		//$data['designation']=$doc_list = Module_master::where('mod_type','department')->get();
 		//$data['user']= $user = User::where('fl_archive','N')->where('id','!=',$user_id)->get();
 		//t($user,1);
+		 $data['country'] = Country::
+		select('country.*')
+		->where('country.is_deleted','=','No')
+		->where('country.is_active','=','Yes')
+		->orderBy('country.id','desc')
+		->get();
+		$data['province'] = Region::
+		select('provinces.*')
+		->where('provinces.is_deleted','=','No')
+		->where('provinces.is_active','=','Yes')
+		->orderBy('provinces.id','desc')
+		->get();
+		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
         return view('master.roleUser.add',$data);
     }
 
@@ -46,6 +62,7 @@ class RoleUserController extends Controller
     {
         
 		$posted = $request->all();
+		//t($posted,1);
 		if(isset($posted['userId']) && $posted['userId']!='')
 		{
 			$have_user_id = User::where('useId',$posted['userId'])->get();
@@ -61,6 +78,34 @@ class RoleUserController extends Controller
 			$insert_data['password'] = isset($posted['password'])?bcrypt($posted['password']):bcrypt(123456);
 			
 			$insert_data['role_id'] = isset($posted['role'])?$posted['role']:0;
+			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:'';
+			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:'';
+			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:'';
+			$address = isset($posted['address'])?$posted['address']:'';
+			$city = isset($posted['city'])?$posted['city']:'';
+			$zip = isset($posted['zip'])?$posted['zip']:'';
+			$is_same_locator_address = isset($posted['is_same_locator_address'])?$posted['is_same_locator_address']:'';
+			$store_locator_address = isset($posted['store_locator_address'])?$posted['store_locator_address']:'';
+			$store_locator_city = isset($posted['store_locator_city'])?$posted['store_locator_city']:'';
+			$store_locator_zip = isset($posted['store_locator_zip'])?$posted['store_locator_zip']:'';
+
+			$user_fulladdr['street']=$address ;
+			$user_fulladdr['city']=$city ;
+			$user_fulladdr['zip']=$zip ;
+
+			if($is_same_locator_address == true){
+				
+			$insert_data['user_address'] = json_encode($user_fulladdr);
+			$insert_data['storelocator_address'] = json_encode($user_fulladdr);
+			}else{
+			$insert_data['user_address'] = json_encode($user_fulladdr);
+			
+			$store_locator_fulladdr['street']=$store_locator_address ;
+			$store_locator_fulladdr['city']=$store_locator_city ;
+			$store_locator_fulladdr['zip']=$store_locator_zip ;
+			$insert_data['storelocator_address'] = json_encode($store_locator_fulladdr);
+			
+			}
 			$insert_data['created_by'] = Auth::user()->id;
 			 $password =  isset($posted['password'])?$posted['password']:123456;
 			//$id = User::insertGetId($insert_data);
@@ -111,8 +156,24 @@ class RoleUserController extends Controller
 		   $user_id = Auth::user()->id;
 		
             $id = base64_decode($id);
+			
             $data['title']="User Management";
 			$data['roleList']=Role::where('is_active','Yes')->where('is_deleted','No')->where('type','=','user')->get();
+			
+			$data['country'] = Country::
+			select('country.*')
+			->where('country.is_deleted','=','No')
+			->where('country.is_active','=','Yes')
+			->orderBy('country.id','desc')
+			->get();
+			$data['province'] = Region::
+			select('provinces.*')
+			->where('provinces.is_deleted','=','No')
+			->where('provinces.is_active','=','Yes')
+			->orderBy('provinces.id','desc')
+			->get();
+			$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+			
             $data['info']=User::where('id',$id)->get(); 
             return view('master.roleUser.edit',$data);
        }
@@ -128,10 +189,41 @@ class RoleUserController extends Controller
 		{
 			 return redirect('role-user-edit/'.base64_encode($posted['id']))->with('error-msg', 'User Id already added');
 		}
-		$insert_data['name'] = isset($posted['name'])?$posted['name']:'';
+			$insert_data['name'] = isset($posted['name'])?$posted['name']:'';
 			$insert_data['email'] = isset($posted['email'])?$posted['email']:'';
 			$insert_data['lastname'] = isset($posted['lastname'])?$posted['lastname']:'';
 			$insert_data['useId'] = isset($posted['userId'])?$posted['userId']:'';
+			
+			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:'';
+			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:'';
+			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:'';
+			
+			$address = isset($posted['address'])?$posted['address']:'';
+			$city = isset($posted['city'])?$posted['city']:'';
+			$zip = isset($posted['zip'])?$posted['zip']:'';
+			$is_same_locator_address = isset($posted['is_same_locator_address'])?$posted['is_same_locator_address']:'';
+			$store_locator_address = isset($posted['store_locator_address'])?$posted['store_locator_address']:'';
+			$store_locator_city = isset($posted['store_locator_city'])?$posted['store_locator_city']:'';
+			$store_locator_zip = isset($posted['store_locator_zip'])?$posted['store_locator_zip']:'';
+			
+			$user_fulladdr['street']=$address ;
+			$user_fulladdr['city']=$city ;
+			$user_fulladdr['zip']=$zip ;
+
+			if($is_same_locator_address == true){
+				
+			$insert_data['user_address'] = json_encode($user_fulladdr);
+			$insert_data['storelocator_address'] = json_encode($user_fulladdr);
+			}else{	
+			$insert_data['user_address'] = json_encode($user_fulladdr);
+			
+			$store_locator_fulladdr['street']=$store_locator_address ;
+			$store_locator_fulladdr['city']=$store_locator_city ;
+			$store_locator_fulladdr['zip']=$store_locator_zip ;
+			$insert_data['storelocator_address'] = json_encode($store_locator_fulladdr);
+			
+			}
+			
 		if(isset($posted['password']) && $posted['password']!='')
 		{
 		 $insert_data['password'] = isset($posted['password'])?bcrypt($posted['password']):'';
