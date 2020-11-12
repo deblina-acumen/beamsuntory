@@ -25,7 +25,18 @@ class PoMasterController extends Controller
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['product']=$list = Product::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		//t($data,1);
+		if($id=='')
+		{
         return view('po.add',$data);
+		}
+		else
+		{
+			$id = base64_decode($id);
+			$data['po'] = $po = PO::where('id',$id)->get();
+			$data['po_item'] = $po_item = POItem::select('purchase_order_details.*','item.name','item.sku','item.product_type')->join('item','item.id','=','purchase_order_details.item_id','left')->where('po_id',$id)->get();
+			//t($po);t($po_item);exit;
+			return view('po.edit',$data);
+		}
     }
 	
 	
@@ -47,7 +58,7 @@ class PoMasterController extends Controller
 		for($i=0;$i<count($data['item']);$i++)
 		{
 			//t($data['item'][$i]);echo"fffffffffff";
-			$item_variance_id = explode('_', $data['item'][$i]); t($item_variance_id);
+			$item_variance_id = explode('_', $data['item'][$i]); 
 			$insert_item['item_id'] = isset($item_variance_id[1])?$item_variance_id[1]:0;
 			$insert_item['item_sku'] = isset($item_variance_id[0])?$item_variance_id[0]:'';
 			$insert_item['item_variance_id'] = isset($item_variance_id[2])?$item_variance_id[2]:0;
@@ -60,7 +71,7 @@ class PoMasterController extends Controller
         if($id!='')
         {
 			
-            return redirect('add-po-step1')->with('success-msg', 'Purchase order successfully added');
+            return redirect('add-po-step1/'.base64_encode($id))->with('success-msg', 'Purchase order successfully added..');
         }
         else			
         {
@@ -68,6 +79,51 @@ class PoMasterController extends Controller
         }
     }
 	
+	public function update_po_steop1(Request $request)
+	{
+		$data = $request->all();
+		//t($data,1);
+		$update_data['order_no']='PO-BEAM-'.rand(0,1500).'-'.rand(5,500);
+		$update_data['ownership_type']=$data['ownership_type'];
+		$update_data['status']=$data['status'];
+		$update_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
+		$update_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('h:i:s',strtotime($data['active_time'])):'';
+		$update_data['supplier_id']=isset($data['supplier'])?$data['supplier']:'';
+		$update_data['warehouse_id']=isset($data['warehouse'])?$data['warehouse']:'';
+		$update_data['remarks']='';
+        $update_data['created_by'] = Auth::user()->id;
+        $id=PO::where('id',$data['po_id'])->update($update_data);
+		$variation=array();
+		$po_item_id = implode(',',array_filter($data['po_item_id']));
+		POItem::whereRaw("id not in ($po_item_id)")->delete();
+		for($i=0;$i<count($data['item']);$i++)
+		{
+			if($data['po_item_id'][$i] =="")
+			{
+			$item_variance_id = explode('_', $data['item'][$i]); 
+			$insert_item['item_id'] = isset($item_variance_id[1])?$item_variance_id[1]:0;
+			$insert_item['item_sku'] = isset($item_variance_id[0])?$item_variance_id[0]:'';
+			$insert_item['item_variance_id'] = isset($item_variance_id[2])?$item_variance_id[2]:0;
+			$insert_item['po_id'] = $data['po_id'];
+			$insert_item['quantity'] = $data['quantity'][$i];
+			$insert_item['created_by'] = Auth::user()->id;
+			POItem::insertGetId($insert_item);
+			}
+			else
+			{
+				$item_variance_id = explode('_', $data['item'][$i]); 
+				$insert_item['item_id'] = isset($item_variance_id[1])?$item_variance_id[1]:0;
+				$insert_item['item_sku'] = isset($item_variance_id[0])?$item_variance_id[0]:'';
+				$insert_item['item_variance_id'] = isset($item_variance_id[2])?$item_variance_id[2]:0;
+				$insert_item['po_id'] = $data['po_id'];
+				$insert_item['quantity'] = $data['quantity'][$i];
+				$insert_item['updated_by'] = Auth::user()->id;
+				$insert_item['updated_at'] = date('Y-m-d h:i:s');
+				POItem::where('id',$data['po_item_id'][$i])->update($insert_item);
+			}
+		}
+		return redirect('add-po-step1/'.base64_encode($data['po_id']))->with('success-msg', 'Purchase order successfully updated..');
+	}
 	public function get_item_details(Request $request)
 	{
 		$html = '<option value="">Select</option>';
