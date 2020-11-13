@@ -89,23 +89,27 @@ class RoleUserController extends Controller
 			$store_locator_city = isset($posted['store_locator_city'])?$posted['store_locator_city']:'';
 			$store_locator_zip = isset($posted['store_locator_zip'])?$posted['store_locator_zip']:'';
 
+			if($address != '' || $city !='' || $zip != '' ){
 			$user_fulladdr['street']=$address ;
 			$user_fulladdr['city']=$city ;
 			$user_fulladdr['zip']=$zip ;
-
+			}
 			if($is_same_locator_address == true){
 				
-			$insert_data['user_address'] = json_encode($user_fulladdr);
+			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr) :'';
 			$insert_data['storelocator_address'] = json_encode($user_fulladdr);
 			}else{
-			$insert_data['user_address'] = json_encode($user_fulladdr);
+			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
 			
+			if($store_locator_address !='' || $store_locator_city != '' || $store_locator_zip != '' ){
 			$store_locator_fulladdr['street']=$store_locator_address ;
 			$store_locator_fulladdr['city']=$store_locator_city ;
 			$store_locator_fulladdr['zip']=$store_locator_zip ;
-			$insert_data['storelocator_address'] = json_encode($store_locator_fulladdr);
+			}
+			$insert_data['storelocator_address'] = isset($store_locator_fulladdr) ? json_encode($store_locator_fulladdr):'';
 			
 			}
+			//t($insert_data,1);
 			$insert_data['created_by'] = Auth::user()->id;
 			 $password =  isset($posted['password'])?$posted['password']:123456;
 			//$id = User::insertGetId($insert_data);
@@ -206,22 +210,23 @@ class RoleUserController extends Controller
 			$store_locator_address = isset($posted['store_locator_address'])?$posted['store_locator_address']:'';
 			$store_locator_city = isset($posted['store_locator_city'])?$posted['store_locator_city']:'';
 			$store_locator_zip = isset($posted['store_locator_zip'])?$posted['store_locator_zip']:'';
-			
+			if($address != '' || $city !='' || $zip != '' ){
 			$user_fulladdr['street']=$address ;
 			$user_fulladdr['city']=$city ;
 			$user_fulladdr['zip']=$zip ;
-
+			}
 			if($is_same_locator_address == true){
 				
-			$insert_data['user_address'] = json_encode($user_fulladdr);
-			$insert_data['storelocator_address'] = json_encode($user_fulladdr);
+			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
+			$insert_data['storelocator_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
 			}else{	
-			$insert_data['user_address'] = json_encode($user_fulladdr);
-			
+			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
+			if($store_locator_address !='' || $store_locator_city != '' || $store_locator_zip != '' ){
 			$store_locator_fulladdr['street']=$store_locator_address ;
 			$store_locator_fulladdr['city']=$store_locator_city ;
 			$store_locator_fulladdr['zip']=$store_locator_zip ;
-			$insert_data['storelocator_address'] = json_encode($store_locator_fulladdr);
+			}
+			$insert_data['storelocator_address'] = isset($store_locator_fulladdr) ? json_encode($store_locator_fulladdr):'';
 			
 			}
 			
