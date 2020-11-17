@@ -301,4 +301,33 @@ class RoleUserController extends Controller
     {
         return view('master.user.test_mail');
     }
+	/*public function getStates(Country $country)
+    {
+        //return $country->states()->select('id', 'name')->get();
+		 $data['province'] = Region::
+		select('provinces.*')
+		->where('provinces.is_deleted','=','No')
+		->where('provinces.is_active','=','Yes')
+		->orderBy('provinces.id','desc')
+		->get(); 
+		return Region::
+		select('provinces.*')
+		->where('provinces.is_deleted','=','No')
+		->where('provinces.country','=',$country)
+		->orderBy('provinces.id','desc')
+		->get();
+    }*/
+	public function get_village_list_by_taluk(Request $Request)
+	{
+		$data = $Request->all();
+		//t($data,1);
+		$country_id = $data['country_id'];
+		if($country_id == "")
+		{
+			$village_list = Region::where('is_deleted','No')->orderBy('name','asc')->get();
+		}
+		else if($country_id != "")
+		 	$village_list = Region::where('country_id',$country_id)->orderBy('name','asc')->get();
+		echo json_encode($village_list);
+	}
 }

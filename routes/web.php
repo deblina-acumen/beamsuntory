@@ -69,6 +69,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-role-user-data', 'Master\RoleUserController@update_user_data');
 	Route::any('role-user-active/{id?}/{value?}', 'Master\RoleUserController@changeStatus');
 	Route::get('delete-role-user/{id}', 'Master\RoleUserController@delete_user');
+	
+	Route::post('get-village-by-taluk-id', [
+			'as' => 'get-village-by-taluk-id',
+			'uses' => 'Master\RoleUserController@get_village_list_by_taluk'
+		]);
+	
 	//<!-- master Brand section-->
 	Route::get('add-brand', 'Master\BrandController@add_brand');
 	Route::post('save-brand-data', 'Master\BrandController@save_brand_data');
@@ -105,7 +111,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('delete-purchase/{id}', 'po\PoMasterController@delete_purchase');
 	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
 	// Region
-	Route::get('region-master-list', 'Master\RegionController@list');
+	Route::any('region-master-list', 'Master\RegionController@list');
 	Route::get('add-region', [
 		'as' => 'add-region',
 		'uses' => 'Master\RegionController@addRegion'

@@ -87,7 +87,7 @@
 				if(isset($country)&&!empty($country)&&count($country)>0)
                    foreach($country as $k=>$countries)
 				?>
-                <select name="country_id" class="form-control">
+                <select name="country_id"  class="form-control select2" onchange="get_village(this)" id="country_id">
 				<option  value="">Select</option>
 				<?php 
 					if(isset($country)&&!empty($country)&&count($country)>0)
@@ -106,7 +106,7 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Region/Province</label>
-						<select name="province_id" class="form-control">
+						<select  class="form-control select2" id="province_id"  name="province_id">
 						<option  value="">Select</option>
 						<?php 
 						if(isset($province)&&!empty($province)&&count($province)>0)
