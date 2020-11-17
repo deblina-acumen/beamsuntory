@@ -5,6 +5,7 @@
     <section class="sidebar">
       
       <!-- sidebar menu-->
+	  @if(Auth::user()->role_id == 1)
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header nav-small-cap">JIMBEAM WHMS</li>
 		<li class="treeview">
@@ -123,5 +124,28 @@
           </ul>
         </li>		
       </ul>
+	  @elseif(Auth::user()->role_id == 10)
+		   <ul class="sidebar-menu" data-widget="tree">
+        <li class="header nav-small-cap">JIMBEAM WHMS</li>
+		<li class="treeview">
+          <a href="#">
+             <i class="align-sub fa fa-truck"></i> <span>Pickup Order</span>
+            <span class="pull-right-container">
+              
+            </span>
+          </a>
+          
+        </li>
+		<li class="treeview">
+          <a href="#">
+            <i class="fa fa-ambulance" aria-hidden="true"></i> <span>Delivery Order</span>
+            <span class="pull-right-container">
+              
+            </span>
+          </a>
+          
+        </li>
+		</ul>
+	  @endif
     </section>
   </aside>

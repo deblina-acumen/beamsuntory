@@ -9,6 +9,7 @@ use App\Model\ProductCategory;
 use App\Model\Warehouse;
 use App\Model\Supplier;
 use App\Model\PO;
+use App\Model\User;
 use App\Model\POItem;
 use App\Model\ProductVariations;
 use Auth;
@@ -22,7 +23,7 @@ class PoMasterController extends Controller
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();$data['delivery_agent']=$list = User::where('is_deleted','No')->where('is_active','Yes')->where('role_id','10')->orderBy('id','asc')->get();
 		$data['product']=$list = Product::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		//t($data,1);
 		if($id=='')
@@ -44,12 +45,13 @@ class PoMasterController extends Controller
     {
         $data=$request->all(); //t($data,1);
 		
-        $insert_data['order_no']='PO-BEAM-'.rand(0,1500).'-'.rand(5,500);
+        $insert_data['order_no']=$data['order_no'];
 		$insert_data['ownership_type']=$data['ownership_type'];
 		$insert_data['status']=$data['status'];
 		$insert_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
 		$insert_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('h:i:s',strtotime($data['active_time'])):'';
 		$insert_data['supplier_id']=isset($data['supplier'])?$data['supplier']:'';
+		$insert_data['delivery_agent_id']=isset($data['delivery_agent'])?$data['delivery_agent']:'';
 		$insert_data['warehouse_id']=isset($data['warehouse'])?$data['warehouse']:'';
 		$insert_data['remarks']='';
         $insert_data['created_by'] = Auth::user()->id;
@@ -83,12 +85,13 @@ class PoMasterController extends Controller
 	{
 		$data = $request->all();
 		//t($data,1);
-		$update_data['order_no']='PO-BEAM-'.rand(0,1500).'-'.rand(5,500);
+		$update_data['order_no']=$data['order_no'];
 		$update_data['ownership_type']=$data['ownership_type'];
 		$update_data['status']=$data['status'];
 		$update_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
 		$update_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('h:i:s',strtotime($data['active_time'])):'';
 		$update_data['supplier_id']=isset($data['supplier'])?$data['supplier']:'';
+		$update_data['delivery_agent_id']=isset($data['delivery_agent'])?$data['delivery_agent']:'';
 		$update_data['warehouse_id']=isset($data['warehouse'])?$data['warehouse']:'';
 		$update_data['remarks']='';
         $update_data['created_by'] = Auth::user()->id;
@@ -239,6 +242,7 @@ class PoMasterController extends Controller
 		$insert_data['product_type']=isset($data['product_type'])?$data['product_type']:'';
 		$insert_data['category_id']=$data['category'];
 		$insert_data['supplier_id']=$data['vendor'];
+		
 		$insert_data['regular_price']=$data['regular_price'];
 		$insert_data['retail_price']=$data['retail_price'];
 		$insert_data['sku']=$data['sku'];
@@ -528,7 +532,7 @@ class PoMasterController extends Controller
 		}
 		
 		
-		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.supplier_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.order_no','asc')->get();
+		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.supplier_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
 		
 		
 		//$query = DB::getQueryLog();

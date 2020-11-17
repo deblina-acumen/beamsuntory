@@ -14,7 +14,21 @@
 					  </div>
 					  @endif
             <div class="row">
-              <div class="col-md-6">
+			<div class="col-md-3">
+              <!-- Date -->
+              <div class="form-group">
+                <label>Order Id:</label>
+
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right"  name="order_no" value="<?=isset($po[0]->order_no)&& $po[0]->order_no!=''?$po[0]->order_no:'PO-BEAM-'.rand(0,1500).'-'.rand(5,500)?>" required>
+                </div>
+                <!-- /.input group -->
+              </div>
+              </div>
+              <div class="col-md-3">
               <!-- Date -->
               <div class="form-group">
                 <label>Active Date:</label>
@@ -23,12 +37,12 @@
                   <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </div>
-                  <input type="text" class="form-control pull-right" id="datepicker" name="active date" value="<?=isset($po[0]->active_date)&& $po[0]->active_date!=''?date('m/d/Y',strtotime($po[0]->active_date)):''?>" required>
+                  <input type="text" class="form-control pull-right" id="datepicker" name="active_date" value="<?=isset($po[0]->active_date)&& $po[0]->active_date!=''?date('m/d/Y',strtotime($po[0]->active_date)):''?>" required>
                 </div>
                 <!-- /.input group -->
               </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label>Active Time:</label>
 
@@ -42,18 +56,30 @@
                   <!-- /.input group -->
                 </div>
               </div>
-            </div>
-
-
-            
-          <div class="row">
-              <div class="col-md-3">
+			  
+			  <div class="col-md-3">
               	<label>Select Supplier</label>
                 <div class="input-group">
                 <select name="supplier" aria-controls="project-table" class="form-control form-control-sm">
                    <option value="">Select</option>
 				@foreach($supplier as $supplier_val)
 				<option value="<?= $supplier_val->id?>" <?php if(isset($po[0]->supplier_id) && $po[0]->supplier_id == $supplier_val->id ){ echo "selected" ;} ?> ><?= $supplier_val->supplier_name?></option>
+				@endforeach
+                </select>
+              </div>
+              </div>
+            </div>
+
+
+            
+          <div class="row">
+              <div class="col-md-3">
+              	<label>Select Delivery Agent/Currior</label>
+                <div class="input-group">
+                <select name="delivery_agent" aria-controls="project-table" class="form-control form-control-sm">
+                   <option value="">Select</option>
+				@foreach($delivery_agent as $agent)
+				<option value="<?= $agent->id?>" <?php if(isset($po[0]->delivery_agent_id) && $po[0]->delivery_agent_id  == $agent->id ){ echo "selected" ;} ?> ><?= $agent->name?></option>
 				@endforeach
                 </select>
               </div>
@@ -74,6 +100,7 @@
                 <div class="input-group">
                 <select name="status" aria-controls="project-table" class="form-control form-control-sm">
                   <option value="draft" <?php if(isset($po[0]->status) && $po[0]->status=="draft"){echo"selected";} ?>>Draft</option>
+				  <option value="assigned_for_pickup" <?php if(isset($po[0]->status) && $po[0]->status=="assigned_for_pickup"){echo"selected";} ?>>Assigned for pickup</option>
                   <option value="delivered" <?php if(isset($po[0]->status) && $po[0]->status=="delivered"){echo"selected";} ?>>Delivered</option>
                   <option value="in-transit" <?php if(isset($po[0]->status) && $po[0]->status=="in-transit"){echo"selected";} ?>>In-Transit</option>
                 </select>

@@ -9,13 +9,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Purchases  &nbsp;<a type="button" href="{{URL('add-purchase')}}" class="btn btn-dark btn-sm">Add New</a>
+        PO  &nbsp;<a type="button" href="{{URL('add-po-step1')}}" class="btn btn-dark btn-sm">Add New</a>
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Purchases</a></li>
-        <li class="breadcrumb-item active">All Purchases</li>
+        <li class="breadcrumb-item"><a href="#">PO</a></li>
+        <li class="breadcrumb-item active">All PO</li>
       </ol>
     </section>
 
@@ -58,7 +58,7 @@
         <div class="col-12">         
          <div class="box box-solid bg-gray">
             <div class="box-header with-border">
-              <h3 class="box-title">All Purchases</h3>
+              <h3 class="box-title">All PO</h3>
 			  
             </div>
             <!-- /.box-header -->
@@ -101,7 +101,7 @@
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
 										
-										<a class="dropdown-item" href="{{URL('edit-product/'.base64_encode($list->id))}}">Edit</a>
+										<a class="dropdown-item" href="{{URL('add-po-step1/'.base64_encode($list->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-purchase/'.base64_encode($list->id))}}">Delete</a>
 										<a class="dropdown-item" data-toggle="modal" 
                                                             href="javascript::void(0)" onclick="open_modal(this,'{{$list->id}}')">View</a>

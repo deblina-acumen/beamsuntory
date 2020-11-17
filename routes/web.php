@@ -309,7 +309,11 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('update-delivery-agent-data', 'Master\DeliveryAgentController@update_delivery_agent_data');
 		Route::get('delete-delivery-agent/{id}', 'Master\DeliveryAgentController@delete_delivery_agent');
 	
+
+
+//currior or delivery agent web section
 	
+	Route::any('pickup-order-list', 'po\PoMasterController@purchase_order_list');
 });
 
 

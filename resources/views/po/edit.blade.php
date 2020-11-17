@@ -26,7 +26,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add New PO  &nbsp;<a type="button" href="{{URL('po-list')}}" class="btn btn-dark btn-sm">All PO</a>
+        Add New PO  &nbsp;<a type="button" href="{{URL('purchase-order-list')}}" class="btn btn-dark btn-sm">All PO</a>
       </h1>
 
       <ol class="breadcrumb">
