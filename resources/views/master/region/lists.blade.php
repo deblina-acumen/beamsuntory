@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
 @section('header_styles')
+<!-- Bootstrap 4.1-->
+<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Bootstrap extend-->
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/select2/dist/css/select2.min.css')}}">
 <!-- theme style -->
@@ -31,6 +33,27 @@
     <section class="content">
 
         <!-- Action Elements -->
+		          <div class="row mb-10">
+           
+            <div class="col-sm-12 col-md-9">
+              <div class="dataTables_length" id="project-table_length">
+			  <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+			   @csrf
+                <div class="input-group">
+				<select  name="province_country_val" aria-controls="project-table" class="form-control form-control-sm" id = "country_id">
+                  <option value="">Select Country </option>
+				 @if(!empty($country) && count($country)>0)
+					  @foreach($country as $countrys)
+						<option value="{{$countrys->id}}" <?php if(isset($province_country_val)&& $province_country_val == $countrys->id){ echo "selected" ;} ?>>{{$countrys->country_name}}</option>
+					  @endforeach
+				  @endif
+                </select>
+                &nbsp;<button type="submit" class="btn btn-default btn-sm">Filter</button>
+              </div>
+			  </form>
+              </div>
+            </div>
+          </div>
           
 		
 	  <div class="row">
@@ -42,6 +65,20 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
+			@if (session('success-msg'))
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h6><i class="icon fa fa-check"></i> {{session('success-msg')}}</h6>
+
+                            </div>
+                            @endif
+							@if (session('error-msg'))
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h6><i class="icon fa fa-check"></i> {{session('error-msg')}}</h6>
+
+                            </div>
+                            @endif
 				<div class="table-responsive">
 				 <table id="example2" class="table table-bordered table-striped">
 					  <thead>
@@ -168,16 +205,33 @@
 <script src="{{asset('assets/assets/vendor_components/jquery-sparkline/dist/jquery.sparkline.min.js')}}"></script>
 <!-- owlcarousel -->
 <script src="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js')}}"></script>
+<script src="{{asset('assets/main/js/pages/widget-blog.js')}}"></script>
+<script src="{{asset('assets/main/js/pages/list.js')}}"></script>
 <!-- SlimScroll -->
 <script src="{{asset('assets/assets/vendor_components/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
+<script src="{{asset('assets/main/js/template.js')}}"></script>
+
+
+
+
 <!-- This is data table -->
-<script src="{{asset('assets/assets/vendor_components/datatable/datatables.min.js')}}"></script>
-<!-- Select2 -->
-<script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
-<!-- This is data table -->
-<script src="{{asset('assets/vendor_components/datatable/datatables.min.js')}}"></script>
+<script src="{{asset('assets/assets/vendor_components/datatable/datatables.js')}}"></script>
 <!-- SoftPro admin for Data Table -->
 <script src="{{asset('assets/js/pages/data-table.js')}}"></script>
+<!-- Select2 -->
+<script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
+
+
+
+<!-- SoftPro admin for advanced form element -->
+<script src="{{asset('assets/assets/js/pages/advanced-form-element.js')}}"></script>
+
+
+<!--<script src="{{asset('assets/assets/vendor_components/datatable/datatables.min.js')}}"></script>-->
+
+<!-- This is data table -->
+<!--<script src="{{asset('assets/vendor_components/datatable/datatables.min.js')}}"></script>-->
+
 <!-- SoftPro admin for advanced form element -->
 <!---fontawesome online link--->
 <script>
