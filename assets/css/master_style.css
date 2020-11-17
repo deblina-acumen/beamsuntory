@@ -594,7 +594,6 @@ a:active, a:focus, a:hover {
 }
 .sidebar-menu>li {
     padding: 0px 0px;
-    font-size: 15px;
 }
 .sidebar-menu>li {
     position: relative;
@@ -15927,3 +15926,8 @@ hr {
 .logoTile{ background: #f1f1f1 url(../img/bg.png) repeat; }
 .skin-red .sidebar a{ color: #cccccc !important; }
 .skin-red .main-header { background: #28373e  !important;}
+.td-pic{ width: 50px; height: auto; border-radius: 50%; border: 1px solid #ebebeb; }
+.td-pic-text{ vertical-align: middle; line-height: 50px; }
+.mob-container{ padding: 10px 20px; }
+.m-td-pic{width:50px; height: auto; border-radius: 50%; border: 1px solid #ebebeb; margin-right: 20px;}
+.m-media{ padding: 1.5rem 0; }

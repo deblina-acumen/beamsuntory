@@ -31,8 +31,16 @@ class DashboardController extends Controller
     public function index()
     {
 		$userId = Auth::user()->id ;
+		$user_role = Auth::user()->role_id ;
 		$arrOutputData=array();
+		if($user_role==10 )
+		{
+			return view('dashboard.currior',$arrOutputData);
+		}
+		else
+		{
         return view('dashboard.dashboard',$arrOutputData);
+		}
     }
 	
 	
