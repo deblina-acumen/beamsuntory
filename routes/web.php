@@ -313,7 +313,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 //currior or delivery agent web section
 	
-	Route::any('pickup-order-list', 'po\PoMasterController@purchase_order_list');
+	Route::any('pickup-order-list', 'currior\PickupController@purchase_order_list');
+	Route::any('pickup-order-confirmation/{id}', 'currior\PickupController@purchase_order_confirmation');
 });
 
 

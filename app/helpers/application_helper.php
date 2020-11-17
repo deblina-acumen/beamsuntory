@@ -8,7 +8,12 @@ use App\Model\ProductCategory;
 use App\Model\Role;
 use App\Model\Product;
 use App\Model\ProductVariations;
+use App\Model\POItem;;
 
+function get_total_purchase_item($po_id){
+	$total_item = POItem::selectRaw('sum(quantity) as total_item')->where('po_id',$po_id)->get();
+	return isset($total_item[0]->total_item)?$total_item[0]->total_item:0;
+}
 
 function get_product_list_type_wise($type)
 {
