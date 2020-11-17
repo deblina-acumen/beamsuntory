@@ -84,7 +84,7 @@
 							<td><?=$k+1?></td>
 							
 							<td>{{$list->order_no}}</td>
-							<td>{{$list->status}}</td>
+							<td>{{str_replace('_',' ',ucfirst($list->status))}}</td>
 							<td>{{$list->supplier_name}}</td>
 							<td>{{$list->warehouse_name}}</td>
 							<td>
