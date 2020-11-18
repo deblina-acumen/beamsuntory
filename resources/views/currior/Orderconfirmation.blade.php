@@ -8,7 +8,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Accept Orders
+       Stock Received
       </h1>
     </section>
 
@@ -17,16 +17,7 @@
 		
           <!---- List Item ------>
           <div class="box">
-             <div class="box-header no-border bg-dark">
-             <h6 class="pull-left">Incoming Stock (#101)</h6>
-             <div class="pull-right">
-              <a href="#"><i class="fa fa-filter font-size-20 text-secondary" aria-hidden="true"></i></a>
-             </div>
-             <div class="input-group">
-                <input type="search" class="form-control form-control-sm" placeholder="Name, SKU or Category" aria-controls="project-table">
-              &nbsp;<button type="button" class="btn btn-blue btn-sm">Search</button>
-            </div>
-            </div>				
+             				
 				<div class="box-body p-0">
 					<div class="media-list media-list-hover media-list-divided">
 						<div class="media media-single m-media">
@@ -79,16 +70,16 @@
                 <ul class="flexbox flex-justified my-10">
                   <li class="br-1 px-10">
                   <small>Total Items</small>
-                  <h6 class="mb-0 text-bold">200</h6>
+                  <input type="text" class="form-control form-control-sm" placeholder="" aria-controls="project-table">
                   </li>
                   <li class="px-10">
                   <small>Total Boxes</small>
-                  <h6 class="mb-0 text-bold">10</h6>
+                  <input type="text" class="form-control form-control-sm" placeholder="" aria-controls="project-table">
                   </li>
                 </ul>
                 <div class="flexbox flex-justified ">
-                <button type="button" class="btn btn-success btn-lg mt-10">Action A</button>
-                <button type="button" class="btn btn-dark btn-lg mt-10">Action B</button>
+                <button type="button" class="btn btn-success btn-lg mt-10">Pickup Goods</button>
+                
                 </div>
             </div>
 					</div>
