@@ -87,7 +87,7 @@
 				if(isset($country)&&!empty($country)&&count($country)>0)
                    foreach($country as $k=>$countries)
 				?>
-                <select name="country_id"  class="form-control select2" onchange="get_village(this)" id="country_id">
+                <select name="country_id"  class="form-control select2" onchange="get_province(this)" id="country_id">
 				<option  value="">Select</option>
 				<?php 
 					if(isset($country)&&!empty($country)&&count($country)>0)
