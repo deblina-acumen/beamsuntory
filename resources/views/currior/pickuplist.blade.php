@@ -14,7 +14,20 @@
 
     <!-- Main content -->
     <section class="content mob-container">
-		
+		@if (session('error-msg'))
+					  <div class="alert alert-danger alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h6><i class="icon fa fa-ban"></i> {{session('error-msg')}}</h6>
+						
+					  </div>
+					  @endif
+					  @if (session('success-msg'))
+					  <div class="alert alert-danger alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h6><i class="icon fa fa-ban"></i> {{session('success-msg')}}</h6>
+						
+					  </div>
+					  @endif
           <!---- List Item ------>
           <div class="box">				
             	<div class="box-header no-border bg-dark">
@@ -57,7 +70,12 @@
  						  <div class="media-right">
 							<small>Delivered on<br/>15-Nov-2020</small>
 						  </div>
-						
+						@else
+						<small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
+						</div>
+ 						  <div class="media-right">
+							<small> </small>
+						  </div>
 						@endif
 
 						  

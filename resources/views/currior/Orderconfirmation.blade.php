@@ -17,80 +17,95 @@
 		
           <!---- List Item ------>
           <div class="box">
-             				
+		  <div class="box-header no-border bg-dark">
+             <h6 class="pull-left">Stock receive (#101)</h6>
+             <p><a href="#" class="text-blue pull-right">View packaging</a></p>
+            </div>	
+             	<form id="add_development_plan" action="<?= URL('save-packing-info')?>"
+						method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+				@csrf						
 				<div class="box-body p-0">
 					<div class="media-list media-list-hover media-list-divided">
-						<div class="media media-single m-media">
-						  <div class="media-body">
-              <div class="pull-left">
-                  <img src="img/t.jpg" class="rounded-circle m-td-pic">
-              </div>
-              <div class="pull-right ml-10">
-                  <div class="checkbox checkbox-success">
-                  <input id="checkbox2" type="checkbox">
-                  <label for="checkbox2"></label>
-                  </div>
-              </div>
-              <h6>Beam Diwali 2020 Orange Polo T-Shirt</h6>
-              <small>SKU : JEAM1478747</small>
-              <p>Qty: <span class="text-bold">100</span></p>
-             <div class="input-group my-10">
-                <input type="text" class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table">
-              &nbsp;<button type="button" class="btn btn-dark btn-sm">Allocate</button>
-            </div>
-              </div>
-						</div>
-
-            <div class="media media-single m-media">
+					<?php $total_quantity=0; ?>
+					@foreach($po_details as $poDetails)
+					<?php
+					$total_quantity = $total_quantity+$poDetails->quantity;
+					?>
+					
+					 <div class="media media-single">
               <div class="media-body">
-              <div class="pull-left">
-                  <img src="img/t.jpg" class="rounded-circle m-td-pic">
-              </div>
-              <div class="pull-right ml-10">
-                  <div class="checkbox checkbox-success">
-                  <input id="checkbox2" type="checkbox">
-                  <label for="checkbox2"></label>
+              <div class="pull-left"><img src="{{URL('public/product/'.$poDetails->image)}}" class="rounded-circle m-td-pic"></div>
+              <h6><?= $poDetails->name?></h6>
+              <small>SKU : <?=$poDetails->item_sku?></small>
+              <p>Qty. Ordered: <span class="text-bold"><?=$poDetails->quantity?></span></p>
+                <ul class="flexbox flex-justified my-10">
+                  <li>
+                    <div class="form-group">
+                    <label >Qty. Recieved</label>
+                    <input name="quantity[]" type="number"  class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table" required>
+								<input type="hidden" name="item_sku[]" value="<?=$poDetails->item_sku?>" >
+								<input type="hidden" name="po_item_id[]" value="<?=$poDetails->po_item_id?>" >
                   </div>
-              </div>
-              <h6>Beam Diwali 2020 Orange Polo T-Shirt</h6>
-              <small>SKU : JEAM1478747</small>
-              <p>Qty: <span class="text-bold">100</span></p>
-             <div class="input-group my-10">
-                <input type="text" class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table">
-              &nbsp;<button type="button" class="btn btn-dark btn-sm">Allocate</button>
+                  </li>
+                  <li>
+                    <div class="form-group">
+                    <label >Shelf Life</label>
+                    <input name="self_life[]" type="number"  class="form-control form-control-sm" placeholder="Self Life" aria-controls="project-table" value="<?=$poDetails->self_life?>" required>
+                  </div>
+                  </li>
+                </ul>
+                <ul class="flexbox flex-justified my-5">
+                  <li>
+                    <div class="form-group">
+                    <label >Retail Price</label>
+                    <input name="retail_price[]" type="number"  class="form-control form-control-sm" placeholder="Retail price" aria-controls="project-table" value="<?=$poDetails->retail_price?>" required>
+								
+                  </div>
+                  </li>
+                  <li>
+                    <div class="form-group">
+                    <label >Regular Price</label>
+                    <input name="regular_price[]" type="number"  class="form-control form-control-sm" placeholder="Regular price" aria-controls="project-table" value="<?=$poDetails->regular_price?>" required>
+                  </div>
+                  </li>
+                </ul>
+                </div>
             </div>
-              </div>
-            </div>
+				
+					@endforeach
+            <input type="hidden" name="prev_total_count" value="<?=$total_quantity?>" >
+			<input type="hidden" name="po_id" value="<?= isset($po_details[0]->id)?$po_details[0]->id:''?>" >
 
 
-
+			
             <div class="media media-single bg-light text-center">
               <div class="media-body">
                 <h6>Batch No: B662822</h6>
                 <ul class="flexbox flex-justified my-10">
                   <li class="br-1 px-10">
                   <small>Total Items</small>
-                  <input type="text" class="form-control form-control-sm" placeholder="" aria-controls="project-table">
+                  <input type="number" value="<?= $total_quantity?>" name="total_item_quantity" class="form-control form-control-sm" placeholder="" aria-controls="project-table" required>
                   </li>
                   <li class="px-10">
                   <small>Total Boxes</small>
-                  <input type="text" class="form-control form-control-sm" placeholder="" aria-controls="project-table">
+                  <input type="number" name="no_of_box" class="form-control form-control-sm" placeholder="" aria-controls="project-table" required>
                   </li>
                 </ul>
                 <div class="flexbox flex-justified ">
-                <button type="button" class="btn btn-success btn-lg mt-10">Pickup Goods</button>
+                <button type="submit" class="btn btn-success btn-lg mt-10">Pickup Goods</button>
                 
                 </div>
             </div>
 					</div>
 				</div>
 			</div>
-      
+      </form>
     
     <!-- /.content -->
   </div>
+  
   </section>
-</div>
+ </div>
 
 @stop
 

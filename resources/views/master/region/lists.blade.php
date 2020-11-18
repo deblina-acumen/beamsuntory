@@ -1,16 +1,7 @@
 @extends('layouts.master')
 
 @section('header_styles')
-<!-- Bootstrap 4.1-->
-<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
-<!-- Bootstrap extend-->
-<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/select2/dist/css/select2.min.css')}}">
-<!-- theme style -->
-<!-- owlcarousel-->
-<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/assets/owl.carousel.css')}}">
-<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/OwlCarousel2/dist/assets/owl.theme.default.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendor_components/datatable/datatables.min.css')}}"/>
-<link rel="stylesheet" href="{{asset('assets/main/css/skins/_all-skins.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendor_components/datatable/datatables.min.css')}}"/>
 
 @stop
 @section('content')
