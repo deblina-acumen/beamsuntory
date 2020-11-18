@@ -317,7 +317,7 @@ class RoleUserController extends Controller
 		->orderBy('provinces.id','desc')
 		->get();
     }*/
-	public function get_village_list_by_taluk(Request $Request)
+	public function get_province_list_by_country(Request $Request)
 	{
 		$data = $Request->all();
 		//t($data,1);
