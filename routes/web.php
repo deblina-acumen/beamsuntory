@@ -100,6 +100,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
 	Route::post('get-item-details', 'po\PoMasterController@get_item_details');
 	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
+	
+	//po allocation//////
+	Route::get('add-po-step2/{id?}', 'po\PoMasterAllocationController@add');
+	Route::get('add-po-allocation/{itemid?}/{podetailsId?}/{poId?}', 'po\PoMasterAllocationController@add_allocation');
+	Route::post('get-allocation-window', 'po\PoMasterAllocationController@get_allocation_window');
+	Route::post('get-role2', 'po\PoMasterAllocationController@get_role2');
+	Route::post('get-role3', 'po\PoMasterAllocationController@get_role3');
+	Route::post('get-role4', 'po\PoMasterAllocationController@get_role4');
+	Route::post('save-po-steop2', 'po\PoMasterAllocationController@save_po_step2');
+	
 	// Region
 	Route::get('region-master-list', 'Master\RegionController@list');
 	Route::get('add-region', [
