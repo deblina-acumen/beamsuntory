@@ -6,6 +6,8 @@ use App\Model\StoreCategory;
 use  App\Model\Notification;
 use App\Model\ProductCategory;
 use App\Model\Role;
+use App\Model\Brand;
+use App\Model\Region;
 
 function upload_file_single_with_name($file,$type,$file_name,$userId)
 {
@@ -79,5 +81,16 @@ function get_product_category_by_id($id)
 {
 	$details = ProductCategory::where('id',$id)->get();
 	return isset($details[0]->name)?$details[0]->name:'';
-}		
+}
+function get_brand_name($id)
+{
+	$details = Brand::where('id',$id)->get();
+	return isset($details[0]->name)?$details[0]->name:'';
+	
+}	
+function ger_province_name($id)
+{
+	$details = Region::where('id',$id)->get();
+	return isset($details[0]->name)?$details[0]->name:'';
+}
 
