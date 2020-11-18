@@ -133,12 +133,12 @@ function generate_password()
     });
 </script>
 <script>
-	function get_village(obj)
+	function get_province(obj)
 {
 	var country = $(obj).val(); 
 
  $.ajax({
-		url:'<?php echo URL("get-village-by-taluk-id"); ?>',
+		url:'<?php echo URL("get-province-by-country-id"); ?>',
 		method:"POST",
 		dataType: 'json',
 		data: {
