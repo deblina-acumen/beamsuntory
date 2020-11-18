@@ -9,6 +9,7 @@ use App\Model\ProductCategory;
 use App\Model\Warehouse;
 use App\Model\Supplier;
 use App\Model\PO;
+use App\Model\User;
 use App\Model\POItem;
 use App\Model\ProductVariations;
 use Auth;
@@ -22,10 +23,21 @@ class PoMasterController extends Controller
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();$data['delivery_agent']=$list = User::where('is_deleted','No')->where('is_active','Yes')->where('role_id','10')->orderBy('id','asc')->get();
 		$data['product']=$list = Product::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		//t($data,1);
+		if($id=='')
+		{
         return view('po.add',$data);
+		}
+		else
+		{
+			$id = base64_decode($id);
+			$data['po'] = $po = PO::where('id',$id)->get();
+			$data['po_item'] = $po_item = POItem::select('purchase_order_details.*','item.name','item.sku','item.product_type')->join('item','item.id','=','purchase_order_details.item_id','left')->where('po_id',$id)->get();
+			//t($po);t($po_item);exit;
+			return view('po.edit',$data);
+		}
     }
 	
 	
@@ -33,12 +45,13 @@ class PoMasterController extends Controller
     {
         $data=$request->all(); //t($data,1);
 		
-        $insert_data['order_no']='PO-BEAM-'.rand(0,1500).'-'.rand(5,500);
+        $insert_data['order_no']=$data['order_no'];
 		$insert_data['ownership_type']=$data['ownership_type'];
 		$insert_data['status']=$data['status'];
 		$insert_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
 		$insert_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('h:i:s',strtotime($data['active_time'])):'';
 		$insert_data['supplier_id']=isset($data['supplier'])?$data['supplier']:'';
+		$insert_data['delivery_agent_id']=isset($data['delivery_agent'])?$data['delivery_agent']:'';
 		$insert_data['warehouse_id']=isset($data['warehouse'])?$data['warehouse']:'';
 		$insert_data['remarks']='';
         $insert_data['created_by'] = Auth::user()->id;
@@ -47,7 +60,7 @@ class PoMasterController extends Controller
 		for($i=0;$i<count($data['item']);$i++)
 		{
 			//t($data['item'][$i]);echo"fffffffffff";
-			$item_variance_id = explode('_', $data['item'][$i]); t($item_variance_id);
+			$item_variance_id = explode('_', $data['item'][$i]); 
 			$insert_item['item_id'] = isset($item_variance_id[1])?$item_variance_id[1]:0;
 			$insert_item['item_sku'] = isset($item_variance_id[0])?$item_variance_id[0]:'';
 			$insert_item['item_variance_id'] = isset($item_variance_id[2])?$item_variance_id[2]:0;
@@ -60,7 +73,7 @@ class PoMasterController extends Controller
         if($id!='')
         {
 			
-            return redirect('add-po-step1')->with('success-msg', 'Purchase order successfully added');
+            return redirect('add-po-step2/'.base64_encode($id))->with('success-msg', 'Purchase order successfully added..');
         }
         else			
         {
@@ -68,6 +81,52 @@ class PoMasterController extends Controller
         }
     }
 	
+	public function update_po_steop1(Request $request)
+	{
+		$data = $request->all();
+		//t($data,1);
+		$update_data['order_no']=$data['order_no'];
+		$update_data['ownership_type']=$data['ownership_type'];
+		$update_data['status']=$data['status'];
+		$update_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
+		$update_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('h:i:s',strtotime($data['active_time'])):'';
+		$update_data['supplier_id']=isset($data['supplier'])?$data['supplier']:'';
+		$update_data['delivery_agent_id']=isset($data['delivery_agent'])?$data['delivery_agent']:'';
+		$update_data['warehouse_id']=isset($data['warehouse'])?$data['warehouse']:'';
+		$update_data['remarks']='';
+        $update_data['created_by'] = Auth::user()->id;
+        $id=PO::where('id',$data['po_id'])->update($update_data);
+		$variation=array();
+		$po_item_id = implode(',',array_filter($data['po_item_id']));
+		POItem::whereRaw("id not in ($po_item_id)")->delete();
+		for($i=0;$i<count($data['item']);$i++)
+		{
+			if($data['po_item_id'][$i] =="")
+			{
+			$item_variance_id = explode('_', $data['item'][$i]); 
+			$insert_item['item_id'] = isset($item_variance_id[1])?$item_variance_id[1]:0;
+			$insert_item['item_sku'] = isset($item_variance_id[0])?$item_variance_id[0]:'';
+			$insert_item['item_variance_id'] = isset($item_variance_id[2])?$item_variance_id[2]:0;
+			$insert_item['po_id'] = $data['po_id'];
+			$insert_item['quantity'] = $data['quantity'][$i];
+			$insert_item['created_by'] = Auth::user()->id;
+			POItem::insertGetId($insert_item);
+			}
+			else
+			{
+				$item_variance_id = explode('_', $data['item'][$i]); 
+				$insert_item['item_id'] = isset($item_variance_id[1])?$item_variance_id[1]:0;
+				$insert_item['item_sku'] = isset($item_variance_id[0])?$item_variance_id[0]:'';
+				$insert_item['item_variance_id'] = isset($item_variance_id[2])?$item_variance_id[2]:0;
+				$insert_item['po_id'] = $data['po_id'];
+				$insert_item['quantity'] = $data['quantity'][$i];
+				$insert_item['updated_by'] = Auth::user()->id;
+				$insert_item['updated_at'] = date('Y-m-d h:i:s');
+				POItem::where('id',$data['po_item_id'][$i])->update($insert_item);
+			}
+		}
+		return redirect('add-po-step1/'.base64_encode($data['po_id']))->with('success-msg', 'Purchase order successfully updated..');
+	}
 	public function get_item_details(Request $request)
 	{
 		$html = '<option value="">Select</option>';
@@ -148,145 +207,9 @@ class PoMasterController extends Controller
     
     
 
-    public function edit_product($id)
-    {
-		$data['id'] =$product_id = base64_decode($id);
-       
-            $data['title']="Product category";
-		
-		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['product_attribute']=$list = ProductAttribute::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
-		
-		$data['info'] = $info = Product::where('id',$product_id)->get() ;
-		$data['varience_count'] = $varience =  ProductVariations::where('item_id',$product_id)->count();
-		//echo count($varience);
-		//exit();
-		
-        return view('product.ProductMaster.edit',$data);
-        
-    }
+    
 
-    public function update_product(Request $request)
-    {
-        $data=$request->all();// t($data,1);
-		
-		$have_product = Product::where('name',$data['product_name'])->where('is_deleted','No')->get();
-		if(!empty($have_product) && count($have_product)>0 && $have_product[0]->id !=  $data["id"])
-		{
-			return redirect('edit-product/'.base64_encode($data['id']))->with('error-msg', 'Product  already exist');
-		}
-        $insert_data['name']=$data['product_name'];
-		$insert_data['description']=isset($data['product_description'])?$data['product_description']:0;
-		$insert_data['brand_id']=$data['brand'];
-		$insert_data['product_type']=isset($data['product_type'])?$data['product_type']:'';
-		$insert_data['category_id']=$data['category'];
-		$insert_data['supplier_id']=$data['vendor'];
-		$insert_data['regular_price']=$data['regular_price'];
-		$insert_data['retail_price']=$data['retail_price'];
-		$insert_data['sku']=$data['sku'];
-		$insert_data['low_stock_level']=$data['low_stock_level'];
-		$insert_data['status']=$data['status'];
-		//$insert_data['batch_no']='BEAM-'.rand(0,1500).'-'.rand(5,500);
-		$insert_data['weight']=$data['weight'];
-		$insert_data['length']=$data['length'];
-		$insert_data['width']=$data['Width'];
-		$insert_data['height']=$data['Height'];
-		//upload image2wbmp
-		$cat_image = $request->file('image');
-			if($cat_image !='')
-			{
-				
-					$cat_image_pic_name = upload_file_single_with_name($cat_image, 'product','product',$data['product_name']);	
-					if($cat_image_pic_name!='')
-					{
-						$insert_data['image'] = $cat_image_pic_name;
-					}
-				
-			}
-        $insert_data['updated_by'] = Auth::user()->id;
-		$insert_data['updated_at'] = date('Y-m-d h:i:s');
-       $id = Product::where('id',$data["id"])->update($insert_data);
-	   
-	   
-	    $varience_id_arr = [] ;
-		for($i=0;$i<$data['variation_count'];$i++)
-		{
-			
-			if($data['varience_id'.$i][0]!='')
-			{
-			array_push($varience_id_arr,implode(',',$data['varience_id'.$i]));
-			}
-		}
-		
-		ProductVariations::where('item_id',$data["id"])->whereNotIn('id', $varience_id_arr)->delete(); 
-		
-	 
-		
-		for($i=0;$i<$data['variation_count'];$i++)
-		{
-			$varience_id = $data['varience_id'.$i] ;
-			$variation=array();
-			foreach($data['attribute_name'.$i] as $k=>$variations)
-			{
-				//t($variations);
-				//echo $k;
-				//t($data['variation'.$i][$k]);
-				$variation[$variations] =$data['variation'.$i][$k];
-				$variation['sku']= $data['attribute_sku'.$i];
-				
-			}
-			//t($variation);
-			//t(json_encode($variation));
-			$insert_variation['item_id'] = $data['id'];
-			$insert_variation['variation'] = json_encode($variation);
-			$insert_variation['created_by'] = Auth::user()->id;
-			 if($varience_id[0]!='')
-			{
-				ProductVariations::where('id',$varience_id[0])->update($insert_variation);
-			}
-			else{
-			ProductVariations::insertGetId($insert_variation);
-			}
-		} 
-		
-        if($id!='')
-        {
-			
-            return redirect('product-list')->with('success-msg', 'Product Category successfully Updated');
-        }
-        else			
-        {
-            return redirect('edit-product/'.base64_encode($data['id']))->with('error-msg', 'Please try after some time');
-        }
-		
-    }
-		public function changeStatus($id,$status)
-	{
-		$id= base64_decode($id);
-		$update_data['is_active'] = $status;
-		$updated=Product::where('id',$id)->update($update_data);
-		if($updated)
-            return redirect('product-list')->with('success-msg', 'Status successfully changed');
-        else
-        {
-            return redirect('product-list')->with('error-msg', 'Please try after some time');    
-        }
-	}
-	public function delete_product($id)
-	{
-		$id= base64_decode($id);
-		 $update_data['is_deleted'] = 'Yes';
-		 $updated=Product::where('id',$id)->update($update_data);
-        if($updated)
-            return redirect('product-list')->with('success-msg', 'Product  successfully deleted');
-        else
-        {
-            return redirect('product-list')->with('error-msg', 'Please try after some time');    
-        }
-	}
-	public function view(Request $Request)
+    public function view(Request $Request)
 	 {
 		 $data = $Request->all();
 		 //t($data,1);
@@ -457,6 +380,80 @@ class PoMasterController extends Controller
 			//$html = '<div>HIIII</div>';
 				 echo $html;
 	 }
+	 public function purchase_order_list(Request $request)
+    {
+
+		DB::enableQueryLog();
+		$posteddata = $request->all();
+		//t($posteddata);
+		//exit();
+        $data['title']="Purchase Order List";
+		
+		$data['purchase_order_no_val'] = $purchase_order_no_val = isset($posteddata['purchase_order_no_val']) ? $posteddata['purchase_order_no_val'] : '';
+		$data['purchase_order_status_val'] = $purchase_order_status_val = isset($posteddata['purchase_order_status_val']) ? $posteddata['purchase_order_status_val'] : '';
+		$data['po_supplier_val'] = $po_supplier_val = isset($posteddata['po_supplier_val']) ? $posteddata['po_supplier_val'] : '';
+		$data['po_warehouse_val'] = $po_warehouse_val = isset($posteddata['po_warehouse_val']) ? $posteddata['po_warehouse_val'] : '';
+		
+		$where = '1=1';
+		if ($posteddata) {
+			
+			if ($purchase_order_no_val != '') {
+				
+				$where .= ' and purchase_order.order_no='.$purchase_order_no_val;	
+							
+			}
+			if ($purchase_order_status_val != '') {
+				
+				$where .= " and lower(purchase_order.status) LIKE '%$purchase_order_status_val%'";
+			}
+			if ($po_supplier_val != '') {
+				$where .= " and purchase_order.supplier_id='$po_supplier_val'";				
+								
+			}
+			if ($po_warehouse_val != '') {
+				$where .= ' and purchase_order.warehouse_id=' . $po_warehouse_val;				
+				
+			}
+
+		}
+		
+		
+		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.supplier_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
+		
+		
+		//$query = DB::getQueryLog();
+		//t($query);
+		//exit();
+		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		//t($data,1);
+        return view('po.list',$data);
+    }
+	
+	public function changeStatus($id,$status)
+	{
+		$id= base64_decode($id);
+		$update_data['is_active'] = $status;
+		$updated=PO::where('id',$id)->update($update_data);
+		if($updated)
+            return redirect('purchase-order-list')->with('success-msg', 'Status successfully changed');
+        else
+        {
+            return redirect('purchase-order-list')->with('error-msg', 'Please try after some time');    
+        }
+	}
+	public function delete_purchase($id)
+	{
+		$id= base64_decode($id);
+		 $update_data['is_deleted'] = 'Yes';
+		 $updated=PO::where('id',$id)->update($update_data);
+        if($updated)
+            return redirect('purchase-order-list')->with('success-msg', 'Purchase Order  successfully deleted');
+        else
+        {
+            return redirect('purchase-order-list')->with('error-msg', 'Please try after some time');    
+        }
+	}
 	
 }
 ?>
