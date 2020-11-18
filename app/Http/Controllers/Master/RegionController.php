@@ -14,18 +14,35 @@ use Session ;
 
 class RegionController extends Controller
 {
-	public function list()
+	public function list(Request $request)
     {
+		DB::enableQueryLog();
+		$posteddata = $request->all();
+		
         $data['title']="Region Management";
-        //$data['info']=User::where('fl_archive','N')->get();
-        
-        //$data['info'] = DB::table('users')
-        $data['info'] = Region::
+		
+		$data['province_country_val'] = $province_country_val = isset($posteddata['province_country_val']) ? $posteddata['province_country_val'] : '';
+
+		
+		$where = '1=1';
+		if ($posteddata) {
+			
+
+			if ($province_country_val != '') {
+				$where .= " and provinces.country_id='$province_country_val'";				
+								
+			}
+
+		}
+		
+        $data['info'] =$list = Region::
 		select('provinces.*','country.country_name','country.id as country_id')
-		->leftjoin('country','provinces.country_id','=','country_id')
+		->leftjoin('country','provinces.country_id','=','country.id')
+		->whereRaw($where)
 		->where('provinces.is_deleted','=','No')
 		->orderBy('provinces.id','desc')
 		->get();
+		$data['country']=$list = Country::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 
         return view('master.region.lists',$data);
     } 
