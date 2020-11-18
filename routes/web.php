@@ -98,8 +98,10 @@ Route::group(['middleware' => 'auth'], function () {
 	
 	//po
 	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
+	Route::any('purchase-order-list', 'po\PoMasterController@purchase_order_list');
 	Route::post('get-item-details', 'po\PoMasterController@get_item_details');
 	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
+	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
 	
 	//po allocation//////
 	Route::get('add-po-step2/{id?}', 'po\PoMasterAllocationController@add');
@@ -314,8 +316,9 @@ Route::group(['middleware' => 'auth'], function () {
 		// updating delivery agent data
 		Route::post('update-delivery-agent-data', 'Master\DeliveryAgentController@update_delivery_agent_data');
 		Route::get('delete-delivery-agent/{id}', 'Master\DeliveryAgentController@delete_delivery_agent');
-	
-	
+	    Route::any('pickup-order-list', 'currior\PickupController@purchase_order_list');
+		Route::any('pickup-order-confirmation/{id}', 'currior\PickupController@purchase_order_confirmation');
+		Route::post('save-packing-info', 'currior\PickupController@save_packing_info');
 });
 
 
