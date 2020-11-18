@@ -1,5 +1,7 @@
 @extends('layouts.master')
 @section('header_styles')
+<!-- Bootstrap select -->
+<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/select2/dist/css/select2.min.css')}}">
 @stop
 @section('content')
 
@@ -48,7 +50,29 @@
 @stop
 
 @section('footer_scripts')
+<script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
+<script>
+$('.select2').select2({ width: 'resolve' });
+(function() {
+	$('#Attributes').css('display','none');
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
 
+</script>
 <!-- fullscreen -->
 <script>
 function readURL(input) {
@@ -92,6 +116,52 @@ function generate_password()
 {
  var pass = 'JMB'+<?php echo $rand = rand(100,8588888);?>+'@!#';
  $('#password').val(pass);
+}
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+                //console.log("Checkbox is checked.");
+				$('.store_locator_address_block').css('display','none');
+            }
+            else if($(this).prop("checked") == false){
+                $('.store_locator_address_block').css('display','block');
+            }
+        });
+    });
+</script>
+<script>
+	function get_village(obj)
+{
+	var country = $(obj).val(); 
+
+ $.ajax({
+		url:'<?php echo URL("get-village-by-taluk-id"); ?>',
+		method:"POST",
+		dataType: 'json',
+		data: {
+		"country_id": country,
+        "_token": "{{ csrf_token() }}",
+        
+        },
+		success:function(data)
+		{
+			$('#province_id').html('');
+			var html = '<option value="">select </option>';
+			if(data.length > 0)
+			{
+				for(i =0;i < data.length; i++)
+				{
+					html = html + '<option value="'+data[i]['id']+'">'+data[i]['name'] +'</option>';
+					
+				}
+			}
+			$('#province_id').html(html);
+		}
+		
+	   });
 }
 </script>
 @stop

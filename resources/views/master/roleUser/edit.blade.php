@@ -93,5 +93,17 @@ function generate_password()
  var pass = 'JMB'+<?php echo $rand = rand(100,8588888);?>+'@!#';
  $('#password').val(pass);
 }
+
+    $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).prop("checked") == true){
+                //console.log("Checkbox is checked.");
+				$('.store_locator_address_block').css('display','none');
+            }
+            else if($(this).prop("checked") == false){
+                $('.store_locator_address_block').css('display','block');
+            }
+        });
+    });
 </script>
 @stop

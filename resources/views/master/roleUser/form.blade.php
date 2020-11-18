@@ -78,6 +78,127 @@
               </div>
 			 
             </div>
+			<div class="row">
+			 <div class="col-md-6">
+              <div class="form-group">
+                <label>Country *</label>
+				<?php 
+				//t($country,1);
+				if(isset($country)&&!empty($country)&&count($country)>0)
+                   foreach($country as $k=>$countries)
+				?>
+                <select name="country_id"  class="form-control select2" onchange="get_village(this)" id="country_id">
+				<option  value="">Select</option>
+				<?php 
+					if(isset($country)&&!empty($country)&&count($country)>0)
+					{
+					   foreach($country as $k=>$countries)
+					   {
+				?>
+				<option value="{{isset($countries->id)?$countries->id :''}}" <?php if(isset( $info[0]->country_id) && ($countries->id == $info[0]->country_id)){echo "selected";}?>>{{isset($countries->country_name)?$countries->country_name :''}}</option>
+				<?php 
+					   }
+					}
+				?>
+                </select>
+              </div>
+              </div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Region/Province</label>
+						<select  class="form-control select2" id="province_id"  name="province_id">
+						<option  value="">Select</option>
+						<?php 
+						if(isset($province)&&!empty($province)&&count($province)>0)
+						{
+						   foreach($province as $k=>$provinces)
+						   {
+						?>
+								<option value="{{isset($provinces->id)?$provinces->id :''}}" <?php if(isset( $info[0]->province_id) && ($provinces->id == $info[0]->province_id)){echo "selected";}?>>{{isset($provinces->name)?$provinces->name :''}}</option>
+						   <?php 
+						   }
+						}
+						?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			  <div class="col-md-6">
+              <div class="form-group">
+                <label>Brand</label>
+                <select class="form-control select2" name="brand_id">
+                <option  value="">Select</option>
+                @foreach($brand as $brand_value)
+				<option value="<?= $brand_value->id?>" <?php if(isset($info[0]->brand_id)&& $info[0]->brand_id == $brand_value->id){ echo "selected" ;} ?> ><?= $brand_value->name?></option>
+				@endforeach
+                </select>
+              </div>
+              </div>
+			</div>
+			<div class="row">
+			    <div class="col-md-6">
+					<?php
+					$user_address_arr = isset($info[0]->user_address)? json_decode($info[0]->user_address,true) : array();
+					//t($user_address_arr,1) 
+					?>
+					<div class="form-group">
+						<label>City</label>
+						<input type="text" class="form-control" name="city" value="{{isset($user_address_arr['city'])?$user_address_arr['city']:''}}" placeholder="Enter City">
+					</div>
+				</div>
+			    <div class="col-md-6">
+					<div class="form-group">
+						<label >Zip Code/Postal Code</label>
+						<input type="text" class="form-control" name="zip" value="{{isset($user_address_arr['zip'])?$user_address_arr['zip']:''}}" placeholder="Enter Zip">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			    <div class="col-md-6">
+					<div class="form-group">
+						<label> Street Address</label>
+						<textarea class="form-control" name="address"><?=isset($user_address_arr['street'])?$user_address_arr['street']:''?></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			<div class="col-md-6">
+			<div class="form-group">
+			<input type="checkbox" id="is_check" name="is_same_locator_address" value="true">
+			<label for="is_check"> Same As Store Locator Address.</label><br>
+			</div>
+			</div>
+			</div>
+			<div class="store_locator_address_block">
+			<div class="row">
+			    <div class="col-md-6">
+				<?php
+				//t($info,1);
+					$storelocator_address_arr = isset($info[0]->storelocator_address)? json_decode($info[0]->storelocator_address,true) : array();
+				//t($storelocator_address_arr,1) 
+					?>
+					<div class="form-group">
+						<label>City</label>
+						<input type="text" class="form-control" name="store_locator_city" value="{{isset($storelocator_address_arr['city'])?$storelocator_address_arr['city']:''}}" placeholder="Enter City">
+					</div>
+				</div>
+			    <div class="col-md-6">
+					<div class="form-group">
+						<label >Zip Code/Postal Code</label>
+						<input type="text" class="form-control" name="store_locator_zip" value="{{isset($storelocator_address_arr['zip'])?$storelocator_address_arr['zip']:''}}" placeholder="Enter Zip">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			    <div class="col-md-6">
+					<div class="form-group">
+						<label>street Address</label>
+						<textarea class="form-control" name="store_locator_address"><?=isset($storelocator_address_arr['street'])?$storelocator_address_arr['street']:''?></textarea>
+					</div>
+				</div>
+			</div>
+			</div>
           <!-- /.box-body -->
           <div class="box-footer">
 		  <input type="hidden" id="id" name="id" value="<?=isset($info[0]->id)?$info[0]->id:''?>">
