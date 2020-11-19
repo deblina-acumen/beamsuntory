@@ -30,8 +30,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-thin"></i>All orders</a></li>
-            <li><a href="#"><i class="fa fa-circle-thin"></i>Add New Order</a></li>
+            <li><a href="{{URL('purchase-order-list')}}"><i class="fa fa-circle-thin"></i>All orders</a></li>
+            <li><a href="{{URL('add-po-step1')}}"><i class="fa fa-circle-thin"></i>Add New Order</a></li>
           </ul>
         </li>
 		<li class="treeview">
