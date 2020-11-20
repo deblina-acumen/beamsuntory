@@ -405,7 +405,6 @@ class PoMasterController extends Controller
 		$data['title']="Purchase Order Details";
 		
 		$id= base64_decode($id);
-
 		
 		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->where('purchase_order.id',$id)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
 		
