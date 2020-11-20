@@ -50,7 +50,7 @@
 							<small class="badge bg-gray">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 						</div>
 						<div class="media-right">
-							<a class="btn btn-block btn-dark btn-sm" href="#">Confirm</a>
+								<small>Re allocation pending from admin<br/></small>
 						  </div>
 						@elseif(trim($list->status) =='assigned_for_pickup')
 						<small class="badge bg-warning">{{str_replace('_',' ',ucfirst($list->status))}}</small>
