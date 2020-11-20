@@ -11,7 +11,6 @@
       <h1>
         PO  &nbsp;<a type="button" href="{{URL('add-po-step1')}}" class="btn btn-dark btn-sm">Add New</a>
       </h1>
-
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
         <li class="breadcrumb-item"><a href="#">PO</a></li>

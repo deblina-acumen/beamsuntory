@@ -25,7 +25,6 @@
 				  <table id="example1" class="table table-bordered table-separated">
 					<thead>
 						<tr>
-							
 							<th>Order No.</th>
 							<th>Purchase order Status</th>
 							<th>Supplier Name</th>
