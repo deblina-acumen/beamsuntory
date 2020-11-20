@@ -399,6 +399,25 @@ class PoMasterController extends Controller
 			//$html = '<div>HIIII</div>';
 				 echo $html;
 	 }
+	 
+	 	public function purchase_order_details($id)
+	{
+		$data['title']="Purchase Order Details";
+		
+		$id= base64_decode($id);
+
+		
+		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->where('purchase_order.id',$id)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
+		
+		
+		//$query = DB::getQueryLog();
+		//t($query);
+		//exit();
+		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		//t($data,1);
+        return view('po.po_details',$data);
+	}
 	
 }
 ?>
