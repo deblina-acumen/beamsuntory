@@ -209,64 +209,100 @@ class PoMasterController extends Controller
 
     
 
-    public function view(Request $Request)
+
+	 public function purchase_order_list(Request $request)
+    {
+
+		DB::enableQueryLog();
+		$posteddata = $request->all();
+		//t($posteddata);
+		//exit();
+        $data['title']="Purchase Order List";
+		
+		$data['purchase_order_no_val'] = $purchase_order_no_val = isset($posteddata['purchase_order_no_val']) ? $posteddata['purchase_order_no_val'] : '';
+		$data['purchase_order_status_val'] = $purchase_order_status_val = isset($posteddata['purchase_order_status_val']) ? $posteddata['purchase_order_status_val'] : '';
+		$data['po_supplier_val'] = $po_supplier_val = isset($posteddata['po_supplier_val']) ? $posteddata['po_supplier_val'] : '';
+		$data['po_warehouse_val'] = $po_warehouse_val = isset($posteddata['po_warehouse_val']) ? $posteddata['po_warehouse_val'] : '';
+		
+		$where = '1=1';
+		if ($posteddata) {
+			
+			if ($purchase_order_no_val != '') {
+				
+				$where .= " and purchase_order.order_no LIKE '%$purchase_order_no_val%'";	
+							
+			}
+			if ($purchase_order_status_val != '') {
+				
+				$where .= " and lower(purchase_order.status) LIKE '%$purchase_order_status_val%'";
+			}
+			if ($po_supplier_val != '') {
+				$where .= " and purchase_order.supplier_id='$po_supplier_val'";				
+								
+			}
+			if ($po_warehouse_val != '') {
+				$where .= " and purchase_order.warehouse_id='$po_warehouse_val'";				
+				
+			}
+
+		}
+		
+		
+		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
+		
+		
+		//$query = DB::getQueryLog();
+		//t($query);
+		//exit();
+		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		//t($data,1);
+        return view('po.list',$data);
+    }
+	
+	public function changeStatus($id,$status)
+	{
+		$id= base64_decode($id);
+		$update_data['is_active'] = $status;
+		$updated=PO::where('id',$id)->update($update_data);
+		if($updated)
+            return redirect('purchase-order-list')->with('success-msg', 'Status successfully changed');
+        else
+        {
+            return redirect('purchase-order-list')->with('error-msg', 'Please try after some time');    
+        }
+	}
+	public function delete_purchase($id)
+	{
+		$id= base64_decode($id);
+		 $update_data['is_deleted'] = 'Yes';
+		 $updated=PO::where('id',$id)->update($update_data);
+        if($updated)
+            return redirect('purchase-order-list')->with('success-msg', 'Purchase Order  successfully deleted');
+        else
+        {
+            return redirect('purchase-order-list')->with('error-msg', 'Please try after some time');    
+        }
+	}
+	    public function view(Request $Request)
 	 {
 		 $data = $Request->all();
 		 //t($data,1);
-		$profile_pic = $current_date = $description = $active = $userid = $email =
-		$phone_number = $address = $member = $logo = '';
-		//$no_image_path = URL("assets/images/avatar/user.jpg");
-		$no_image_path = '';
-		//$profile_pic_rel_path = 'public/profile_pic';
-		$profile_pic_rel_path = 'public/product';
-		//$logo_pic_rel_path = 'public/logo';
+		$profile_pic = $current_date = $description = $active = $cat_name = 
+		$userid = $email = $regular_price = $retail_price = $sku = $low_stock_level = 
+		$status = $weight = $length = $width = $height = $expire_date = 
+		$phone_number = $address = $member = $logo = $name = '';
+
 		
-		$info = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->where('item.is_deleted','No')->
-		where('item.id','=',$data['item_id'])->get();
+		$info = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.supplier_id','left')->where('purchase_order.is_deleted','No')->
+		where('purchase_order.id','=',$data['po_id'])->
+		orderBy('purchase_order.id','desc')->get();
 
-		$item_variation = ProductVariations::select('item_variation_details.*')->where('item_id','=',$data['item_id'])
-		->where('is_deleted','=','No')->get();
-		//t($item_variation[0]->variation,1);
-		/* for($i=0;$i<count($item_variation);$i++){
-			$variation_value = isset($item_variation[$i]->variation)?json_decode($item_variation[$i]->variation,true):array() ;
-			
-			$item_variation_val = array();
-			 foreach($variation_value as $key=>$value){
-				$item_variation_val[$key]=$value;
-				t($item_variation_val);
-
-			} 
-		}
-		exit(); */
-		//t($item_variation_val,1);
-
-			$name = isset($info[0]->name) ? $info[0]->name : '' ;
-
-			
-			$profile_pic = (isset($info[0]->image)&&$info[0]->image!='') ? asset($profile_pic_rel_path.'/'.$info[0]->image):$no_image_path;
-
-			$current_date = date('d/m/Y',strtotime($info[0]->created_at)) ;
-			if($info[0]->is_active!='Y'){
-				$active = '<span class="badge badge-success">Active</span>' ;
-			}else{
-				$active = '<span class="badge badge-danger">Inactive</span>' ;
-			}
-			$description = isset($info[0]->description) ? $info[0]->description : '' ;
-			$batch_no = isset($info[0]->batch_no) ? $info[0]->batch_no : '' ;
-			$brand_name = isset($info[0]->brand_name) ? $info[0]->brand_name : '' ;
-			$cat_name = isset($info[0]->cat_name) ? $info[0]->cat_name : '' ;
+			$order_no = isset($info[0]->order_no) ? $info[0]->order_no : '' ;
 			$supplier_name = isset($info[0]->supplier_name) ? $info[0]->supplier_name : '' ;
-			$regular_price = isset($info[0]->regular_price) ? $info[0]->regular_price : '' ;
-			$retail_price = isset($info[0]->retail_price) ? $info[0]->retail_price : '' ;
-			$sku = isset($info[0]->sku) ? $info[0]->sku : '' ;
-			$status = isset($info[0]->status) ? str_replace("_"," ",$info[0]->status) : '' ;
-			$status = ucwords($status);
-			$low_stock_level = isset($info[0]->low_stock_level) ? $info[0]->low_stock_level : '' ;
-			$weight = isset($info[0]->weight) ? $info[0]->weight : '' ;
-			$length = isset($info[0]->length) ? $info[0]->length : '' ;
-			$width = isset($info[0]->width) ? $info[0]->width : '' ;
-			$height = isset($info[0]->height) ? $info[0]->height : '' ;
-			$expire_date = isset($info[0]->expire_date) ? date('d/m/Y',strtotime($info[0]->expire_date)) : '' ;
+			$warehouse_name = isset($info[0]->warehouse_name) ? $info[0]->warehouse_name : '' ;
+			//t($warehouse_name,1);
+	
 
 
 	$html = '
@@ -294,20 +330,20 @@ class PoMasterController extends Controller
 					  
 					  <tbody>
 						<tr>
-						  <th scope="row"> Batch No:</th>
-						  <td>'.$batch_no.'</td>
-						</tr>
-						<tr>
-						  <th scope="row"> Brand Name:</th>
-						  <td>'.$brand_name.'</td>
-						</tr>
-						<tr>
-						  <th scope="row">  category Name:</th>
-						  <td>'.$cat_name.'</td>
+						  <th scope="row"> Order No:</th>
+						  <td>'.$order_no.'</td>
 						</tr>
 						<tr>
 						  <th scope="row">  Supplier Name:</th>
 						  <td>'.$supplier_name.'</td>
+						</tr>
+						<tr>
+						  <th scope="row"> Warehouse Name:</th>
+						  <td>'.$warehouse_name.'</td>
+						</tr>
+						<tr>
+						  <th scope="row">  category Name:</th>
+						  <td>'.$cat_name.'</td>
 						</tr>
 						<tr>
 						  <th scope="row">  Price:</th>
@@ -354,24 +390,7 @@ class PoMasterController extends Controller
 						   <td>'.$expire_date.'</td>
 						   
 						</tr>';
-						for($i=0;$i<count($item_variation);$i++){
-							
-							$html.= '<tr scope="row">';
-							if($i==0){
-							$html.= '<th> Item Variations</th>';
-							}else { 
-							$html.= '<th></th>';
-							}
-							$variation_value = isset($item_variation[$i]->variation)?json_decode($item_variation[$i]->variation,true):array() ;
-						    //t($variation_value,1);
-							$html .='<td>';
-							foreach($variation_value as $key=>$value){	
-							$html .= $key ." : ".$value." , ";
-							//t($item_variation_val);
-						} 
-						$html .='</td>
-						</tr>';
-					}
+
 					  $html .='</tbody>
 					</table>
 					
@@ -380,80 +399,6 @@ class PoMasterController extends Controller
 			//$html = '<div>HIIII</div>';
 				 echo $html;
 	 }
-	 public function purchase_order_list(Request $request)
-    {
-
-		DB::enableQueryLog();
-		$posteddata = $request->all();
-		//t($posteddata);
-		//exit();
-        $data['title']="Purchase Order List";
-		
-		$data['purchase_order_no_val'] = $purchase_order_no_val = isset($posteddata['purchase_order_no_val']) ? $posteddata['purchase_order_no_val'] : '';
-		$data['purchase_order_status_val'] = $purchase_order_status_val = isset($posteddata['purchase_order_status_val']) ? $posteddata['purchase_order_status_val'] : '';
-		$data['po_supplier_val'] = $po_supplier_val = isset($posteddata['po_supplier_val']) ? $posteddata['po_supplier_val'] : '';
-		$data['po_warehouse_val'] = $po_warehouse_val = isset($posteddata['po_warehouse_val']) ? $posteddata['po_warehouse_val'] : '';
-		
-		$where = '1=1';
-		if ($posteddata) {
-			
-			if ($purchase_order_no_val != '') {
-				
-				$where .= ' and purchase_order.order_no='.$purchase_order_no_val;	
-							
-			}
-			if ($purchase_order_status_val != '') {
-				
-				$where .= " and lower(purchase_order.status) LIKE '%$purchase_order_status_val%'";
-			}
-			if ($po_supplier_val != '') {
-				$where .= " and purchase_order.supplier_id='$po_supplier_val'";				
-								
-			}
-			if ($po_warehouse_val != '') {
-				$where .= ' and purchase_order.warehouse_id=' . $po_warehouse_val;				
-				
-			}
-
-		}
-		
-		
-		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.supplier_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
-		
-		
-		//$query = DB::getQueryLog();
-		//t($query);
-		//exit();
-		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//t($data,1);
-        return view('po.list',$data);
-    }
-	
-	public function changeStatus($id,$status)
-	{
-		$id= base64_decode($id);
-		$update_data['is_active'] = $status;
-		$updated=PO::where('id',$id)->update($update_data);
-		if($updated)
-            return redirect('purchase-order-list')->with('success-msg', 'Status successfully changed');
-        else
-        {
-            return redirect('purchase-order-list')->with('error-msg', 'Please try after some time');    
-        }
-	}
-	public function delete_purchase($id)
-	{
-		$id= base64_decode($id);
-		 $update_data['is_deleted'] = 'Yes';
-		 $updated=PO::where('id',$id)->update($update_data);
-        if($updated)
-            return redirect('purchase-order-list')->with('success-msg', 'Purchase Order  successfully deleted');
-        else
-        {
-            return redirect('purchase-order-list')->with('error-msg', 'Please try after some time');    
-        }
-	}
 	
 }
 ?>
