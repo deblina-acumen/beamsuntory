@@ -13,6 +13,22 @@
                 <input type="text" class="form-control" placeholder="Brand" name="name" required value="<?=isset($info[0]->name)?$info[0]->name:''?>">
               </div>
               </div>
+			  <div class="col-md-6">
+              <div class="form-group">
+                <label>Parent Brand *</label>
+                <select class="form-control" name="parent_id">
+                <option value="">Select</option>
+                <?php if(isset($BrandList)&&!empty($BrandList)&&count($BrandList)>0){
+					foreach($BrandList as $BrandLists)
+					{					
+					?>
+					<option value="{{$BrandLists->id}}" <?php if(isset($info[0]->parent_id)&& $info[0]->parent_id !='' &&  $info[0]->parent_id == $BrandLists->id) { echo "selected" ; } ?>>{{$BrandLists->name}}</option>
+				<?php }} ?>
+                </select>
+              </div>
+              </div>
+			  </div>
+			  <div class="row">
 			   <div class="col-md-6">
               <div class="form-group">
                 <label> Image</label>

@@ -21,9 +21,12 @@
                 <label>Select Type(Role/Division) </label>
                 <select  class="form-control" name="type">
 				<option value="">Select</option>
-				<option value="master">Master</option>
-				<option value="division">Division</option>
-				<option value="user">User</option>
+				<option value="master" <?php if(isset($info[0]->type) && $info[0]->type != ''
+				&& strtolower($info[0]->type) == "master"){ echo "selected" ; }  ?>>Master</option>
+				<option value="division" <?php if(isset($info[0]->type) && $info[0]->type != ''
+				&& strtolower($info[0]->type) == "division"){ echo "selected" ; }  ?>>Division</option>
+				<option value="user" <?php if(isset($info[0]->type) && $info[0]->type != ''
+				&& strtolower($info[0]->type) == "user"){ echo "selected" ; }  ?>>User</option>
 				</select>
               </div>
               </div>

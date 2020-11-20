@@ -35,6 +35,7 @@ class BrandController extends Controller
 			return redirect('add-brand')->with('error-msg', 'Brand already exist');
 		}
         $insert_data['name']=$data['name'];
+		$insert_data['parent_id']=isset($data['parent_id'])?$data['parent_id']:0;
 		$cat_image = $request->file('image');
 			if($cat_image !='')
 			{
@@ -81,6 +82,7 @@ class BrandController extends Controller
 			return redirect('edit-brand/'.base64_encode($data['id']))->with('error-msg', 'Brand already exist');
 		}
         $update_data['name']=$data['name'];
+		$update_data['parent_id']=isset($data['parent_id'])?$data['parent_id']:'0';
 		$cat_image = $request->file('image');
 			if($cat_image !='')
 			{

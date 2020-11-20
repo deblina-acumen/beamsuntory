@@ -139,7 +139,7 @@
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h4 class="modal-title" id="myLargeModalLabel">Product Details</h4>
+								<h4 class="modal-title" id="myLargeModalLabel">Purchase Order Details</h4>
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 							</div>
 							<div class="modal-body">
@@ -185,11 +185,11 @@ function open_modal(obj,id)
       //  $("#myModal").modal("show");
         
         $.ajax({
-            url: '<?php echo URL("product-details"); ?>',
+            url: '<?php echo URL("purchase-order-details"); ?>',
             method: "POST",
             dataType: 'html',
             data: {
-                "item_id": id,
+                "po_id": id,
                 "_token": "{{ csrf_token() }}",
 
             },
