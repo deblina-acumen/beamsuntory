@@ -82,6 +82,14 @@ class PickupController extends Controller
 		{
 			$update_status['status'] = 'pending_for_verification';
 			PO::where('id',$data['po_id'])->update($update_status);
+			foreach($data['po_item_id'] as $k=>$po_item_id)
+			{
+				$update_po_item['regular_price'] = $data['regular_price'][$k];
+				$update_po_item['quantity'] = $data['quantity'][$k];
+				$update_po_item['retail_price'] =  $data['retail_price'][$k];
+				$update_po_item['self_life'] =  $data['self_life'][$k];
+				POItem::where('id',$po_item_id)->update($update_po_item);
+			}
 			return redirect('pickup-order-list')->with('error-msg', 'Item quantity no match with po details,po order send to admin for verification');
 		}
 		else
@@ -97,10 +105,20 @@ class PickupController extends Controller
 				$update_po_item['self_life'] =  $data['self_life'][$k];
 				POItem::where('id',$po_item_id)->update($update_po_item);
 			}
-			$po_details = PO::select('purchase_order.*','purchase_order_details.item_sku','purchase_order_details.id as po_item_id','purchase_order_details.item_variance_id','purchase_order_details.item_id','purchase_order_details.quantity','item.name','item.image','item.regular_price','item.retail_price','item.self_life')->join('purchase_order_details','purchase_order_details.po_id','=','purchase_order.id','left')->join('item','item.id','=',"purchase_order_details.item_id","left")->where('purchase_order.id',$data['po_id'])->get();
-			$info['po_details'] = $po_details;
-			return view('currior.poboxInformation',$info);
+			return redirect('packing-box-info/'.base64_encode($data['po_id']))->with('', 'Item quantity no match with po details,po order send to admin for verification');
 		}
+	}
+	
+	public function packing_box_info($id)
+	{
+		$id = base64_decode($id);
+		$po_details = PO::select('purchase_order.*','purchase_order_details.item_sku','purchase_order_details.id as po_item_id','purchase_order_details.item_variance_id','purchase_order_details.item_id','purchase_order_details.quantity','item.name','item.image','item.regular_price','item.retail_price','item.self_life')->join('purchase_order_details','purchase_order_details.po_id','=','purchase_order.id','left')->join('item','item.id','=',"purchase_order_details.item_id","left")->where('purchase_order.id',$id)->get();
+			$info['po_details'] = $po_details;
+			//t($po_details,1);
+			$user_details = User::where('id',$po_details[0]->created_by)->get();
+			$info['warehouse'] = $warehouse = Warehouse::where('id',$po_details[0]->warehouse_id)->get();
+			$info['user_details']=$user_details;
+			return view('currior.poboxInformation',$info);
 	}
 }
 ?>
