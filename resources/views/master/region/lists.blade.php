@@ -2,7 +2,6 @@
 
 @section('header_styles')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendor_components/datatable/datatables.min.css')}}"/>
-
 @stop
 @section('content')
 <!-- Content Header (Page header) -->
