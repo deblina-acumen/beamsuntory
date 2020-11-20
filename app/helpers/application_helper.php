@@ -13,7 +13,7 @@ use App\Model\Region;
 use App\Model\Product;
 use App\Model\ProductVariations;
 use App\Model\POItem;;
-
+use  App\Model\POAllocation;
 
 function get_total_purchase_item($po_id){
 	$total_item = POItem::selectRaw('sum(quantity) as total_item')->where('po_id',$po_id)->get();
@@ -129,5 +129,35 @@ function ger_province_name($id)
 {
 	$details = Region::where('id',$id)->get();
 	return isset($details[0]->name)?$details[0]->name:'';
+}
+
+function check_allocation_present($itemId,$podetailsId,$poId)
+{
+	$details = POAllocation::where('item_id',$itemId)->where('po_id',$poId)->where('podetails_id',$podetailsId)->get();
+	$count = count($details);
+	if($count>0)
+	{
+		return true ;
+	}
+	else
+	{
+		return false ;
+	}
+	
+}
+
+function get_salesref_name_by_regionid($idarray)
+{
+	//t($idarray);
+	$details = User::whereIn('province_id',$idarray)->where('role_id',11)->get();
+	return isset($details)?$details:'';
+}
+
+function get_brandmm_name_by_brandid($idarray,$parentId)
+{
+	//t($idarray);
+	$chiledRole =  Role::where('parent_id',$parentId)->get();
+	$details = User::whereIn('brand_id',$idarray)->where('role_id',$chiledRole[0]->id)->get();
+	return isset($details)?$details:'';
 }
 

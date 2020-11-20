@@ -587,7 +587,10 @@ return view('poallocation.add_allocation',$data);
 	{
 		 $data=$request->all(); //t($data);
 		// exit();
-		 $userrole=[];
+		 $userrole2=[];
+		 $userrole5=[];
+		 $userrole9=[];
+		 $userrole11=[];
 		 $count_row = $data['countrow'];
 		 for($i=0;$i<$count_row;$i++)
 		 {
@@ -597,11 +600,16 @@ return view('poallocation.add_allocation',$data);
 			$insertdata['podetails_id'] = isset($data['puchaseOrderDetailsId'])?$data['puchaseOrderDetailsId']:0 ;
 			$insertdata['item_sku'] = isset($data['itemSkuCode'])?$data['itemSkuCode']:0 ;
 			
+			
+			
 			  if($data['userrole1_'.$i]==2)
 			 {
 				 $insertdata['role_id'] = $data['userrole1_'.$i];
-				 $userrole['roleuser1']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
-				 $userrole['roleuser2']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
+				  $insertdata['region_id']= '';
+				  $insertdata['country_id']= '';
+				   $insertdata['brand_id']= '';
+				 $userrole2['roleuser1']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
+				 $userrole2['roleuser2']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
@@ -610,16 +618,22 @@ return view('poallocation.add_allocation',$data);
 				 else{
 					 $insertdata['share_user'] = "shared" ;
 				 }
+				 $insertdata['user'] = json_encode($userrole2); 
 			 }
 			 if($data['userrole1_'.$i]==5)
 			 {
 				 $insertdata['role_id'] = $data['userrole1_'.$i];
 				 $insertdata['brand_id']= implode(',',$data['userrole2_'.$i]);
-				  $userrole['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
+				 
+				  $insertdata['region_id']= '';
+				  $insertdata['country_id']= '';
+				   
+				 
+				  $userrole5['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
 				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
-					$userrole['roleuser'. $j1]= isset($data['userrole4_'.$j.'_'.$i])?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					$userrole5['roleuser'. $j1]= isset($data['userrole4_'.$j.'_'.$i])?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
 				 }
 				
 				/*  $userrole['roleuser2']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
@@ -634,16 +648,20 @@ return view('poallocation.add_allocation',$data);
 				 else{
 					 $insertdata['share_user'] = "shared" ;
 				 }
+				 $insertdata['user'] = json_encode($userrole5); 
 			 } 
 			  if($data['userrole1_'.$i]==9)
 			 {
 				 $insertdata['role_id'] = $data['userrole1_'.$i];
 				 $insertdata['country_id']= implode(',',$data['userrole2_'.$i]);
+				  $insertdata['region_id']= '';
+				 
+				   $insertdata['brand_id']= '';
 				 $insertdata['region_id']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
 				 
 				  for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
-					$userrole['roleuser'.$j]= isset($data['userrole4_'.$j.'_'.$i])?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					$userrole9['roleuser'.$j]= isset($data['userrole4_'.$j.'_'.$i])?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
 				 }
 				 
 				/*  $userrole['roleuser1']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
@@ -660,13 +678,16 @@ return view('poallocation.add_allocation',$data);
 				 else{
 					 $insertdata['share_user'] = "shared" ;
 				 }
-				 
+				 $insertdata['user'] = json_encode($userrole9); 
 			 } 
 			  if($data['userrole1_'.$i]==11)
 			 {
+				 //t($data['userrole3_'.$i]);
 				 $insertdata['role_id'] = $data['userrole1_'.$i];
-				 $insertdata['region_id']== isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
-				 $userrole['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
+				 $insertdata['region_id']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
+				  $insertdata['country_id']= '';
+				   $insertdata['brand_id']= '';
+				 $userrole11['roleuser1']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
@@ -682,16 +703,61 @@ return view('poallocation.add_allocation',$data);
 				 else{
 					 $insertdata['share_user'] = "shared" ;
 				 }
+				 $insertdata['user'] = json_encode($userrole11); 
 			 }
 			// t(json_encode($userrole));
-			 $insertdata['user'] = json_encode($userrole); 
-			// t($insertdata);
+			 
+		 //t($insertdata);
+			// exit() ;
 			 POAllocation::insert($insertdata);
 		 }
 		 //$insertdata['user'] =json_encode($userrole); 
 		 
 		 exit();
 		 
+	}
+	
+	public function edit_allocation($itemid='',$podetailsId='',$poId='')
+	{
+		
+		$data['title']="Purchase Order";
+		
+		$data['itemid'] = $itemid= base64_decode($itemid);
+		$data['podetailsId'] = $podetailsId= base64_decode($podetailsId);
+		$data['poId'] = $poId= base64_decode($poId);
+	$data['poinfo']=$poinfo =PO::where('id',$poId)->get();
+	$data['po_details_val'] = $po_details_val= POItem::select('purchase_order_details.item_sku','purchase_order_details.quantity','item.name','item.product_type','item.regular_price','item.batch_no','item.brand_id','item.expire_date','item.retail_price','item.image','item.sku as skucode','item_variation_details.variation','purchase_order_details.id as puchase_order_details_id','item.id as itemid','item_variation_details.id as varienceid','purchase_order_details.po_id as po_id')->join('item','item.id','=','purchase_order_details.item_id')->leftjoin('item_variation_details','item_variation_details.id','=','purchase_order_details.item_variance_id')->where('purchase_order_details.id',$podetailsId)->get() ;
+	
+	$data['product_name'] = $product_name = isset($po_details_val[0]->name)?$po_details_val[0]->name:'' ;
+		
+	$data['product_sku'] =	$product_sku = isset($po_details_val[0]->item_sku)?$po_details_val[0]->item_sku:'' ;
+		
+	$data['quantity'] =	$quantity = isset($po_details_val[0]->quantity)?$po_details_val[0]->quantity:'' ;
+	$data['brandName'] =	$brandName = isset($po_details_val[0]->brand_id)?get_brand_name($po_details_val[0]->brand_id):'';
+	$data['userRole'] =	$userRole = Role::where('type','master')->orWhere('type','division')->orWhere('id',11)->get() ;
+		
+	$data['itemId'] =	$itemId = isset($po_details_val[0]->itemid)?$po_details_val[0]->itemid:'';
+	$data['varienceId'] =	$varienceId = isset($po_details_val[0]->varienceid)?$po_details_val[0]->varienceid:'';
+	$data['poId'] =	$poId = isset($po_details_val[0]->po_id)?$po_details_val[0]->po_id:'';
+		
+	$data['itemSkuCode'] =	$itemSkuCode = isset($po_details_val[0]->skucode)?$po_details_val[0]->skucode:'';
+	$data['puchaseOrderDetailsId'] =	$puchaseOrderDetailsId = isset($po_details_val[0]->puchase_order_details_id)?$po_details_val[0]->puchase_order_details_id:'';
+	
+	$data['info'] = $info = POAllocation::where('item_id',$itemid)->where('po_id',$poId)->where('podetails_id',$podetailsId)->get();
+	$data['count_allocation'] = count($info);
+	
+	$data['province_list'] =$province_list = Region::where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->orderBy('provinces.id','desc')->get();
+	$data['brand_list'] = $brand_list = Brand::where('brand.is_deleted','=','No')->where('brand.is_active','=','Yes')->orderBy('brand.id','desc')->get();
+	
+	$data['country_list'] = $country_list = Country::where('is_deleted','=','No')->where('is_active','=','Yes')->orderBy('country_name','asc')->get();
+	$mix_manager_role = Role::where('parent_id',2)->get() ;
+	$mixit_assistant_role = Role::where('parent_id',$mix_manager_role[0]->id)->get() ;
+	$data['mixitmanager'] = User::where('role_id',$mix_manager_role[0]->id)->get() ;
+	$data['mixitassistant'] = User::where('role_id',$mixit_assistant_role[0]->id)->get() ;
+	
+	//t($info);
+	//exit();
+	return view('poallocation.edit_allocation',$data);
 	}
 	
     
