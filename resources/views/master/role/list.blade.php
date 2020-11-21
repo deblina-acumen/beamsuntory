@@ -91,7 +91,7 @@
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
 										
 										<a class="dropdown-item" href="{{URL('edit-role/'.base64_encode($infos->id))}}">Edit</a>
-										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-role/'.base64_encode($infos->id))}}">Delete</a>
+										<!--<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-role/'.base64_encode($infos->id))}}">Delete</a>-->
 										
 									</div>
 								</div>
