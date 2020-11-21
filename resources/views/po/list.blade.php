@@ -11,7 +11,6 @@
       <h1>
         PO  &nbsp;<a type="button" href="{{URL('add-po-step1')}}" class="btn btn-dark btn-sm">Add New</a>
       </h1>
-
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
         <li class="breadcrumb-item"><a href="#">PO</a></li>
@@ -103,8 +102,11 @@
 										
 										<a class="dropdown-item" href="{{URL('add-po-step1/'.base64_encode($list->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-purchase/'.base64_encode($list->id))}}">Delete</a>
-										<a class="dropdown-item" data-toggle="modal" 
-                                                            href="javascript::void(0)" onclick="open_modal(this,'{{$list->id}}')">View</a>
+										<!--<a class="dropdown-item" data-toggle="modal" 
+                                                            href="javascript::void(0)" onclick="open_modal(this,'{{$list->id}}')">View</a>-->
+										<a class="dropdown-item" 
+										href="{{URL('purchase-order-details/'.base64_encode($list->id))}}">View
+										</a>
 										
 									</div>
 								</div></td>

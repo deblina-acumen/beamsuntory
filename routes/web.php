@@ -105,10 +105,12 @@ Route::group(['middleware' => 'auth'], function () {
 	//po
 	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
 	Route::any('purchase-order-list', 'po\PoMasterController@purchase_order_list');
+	Route::any('purchase-active/{id?}/{value?}', 'po\PoMasterController@changeStatus');
 	Route::post('get-item-details', 'po\PoMasterController@get_item_details');
 	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
 	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
-	Route::post('purchase-order-details', 'po\PoMasterController@view');
+	Route::any('purchase-order-details/{id?}', 'po\PoMasterController@purchase_order_details');
+	
 	
 	//po allocation//////
 	Route::get('add-po-step2/{id?}', 'po\PoMasterAllocationController@add');
