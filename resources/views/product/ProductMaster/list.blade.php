@@ -94,7 +94,13 @@
 							<td>{{$list->batch_no}}</td>
 							<td>{{$list->sku}}</td>
 							<td>{{$list->brand_name}}</td>
-							<td>{{$list->cat_name}}</td>
+							<td>
+							@if($list->is_deleted_cat == 'No')
+							{{$list->cat_name}}
+							@else
+								Uncategorised
+							@endif
+							</td>
 							<td>{{$list->regular_price}}</td>
 							<td>{{$list->retail_price}}</td>
 							<td>
