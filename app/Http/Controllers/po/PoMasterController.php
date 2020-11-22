@@ -418,5 +418,43 @@ class PoMasterController extends Controller
         return view('po.po_details',$data);
 	}
 	
+	public function datatale_example_plus()
+	{
+		return view('po.po_details_datatable');
+	}
+	public function get_allocation_details_per_po_details(Request $request)
+	{
+		$data = $request->all();
+		$allocation_id = base64_decode($data['khata_no']);
+		
+		$output = '	
+		<table id="" class="table table-striped table-bordered bulk_action">
+			<thead>
+			<tr>
+				   
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">User Role</th> 				  
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Country</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Region</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Brand</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">User</th> 
+				
+
+			</tr>
+			</thead>
+			<tbody>';
+			
+			$output .= '<tr>
+				  
+				  <td style="font-size: 13px;">Test</td>				  
+				  <td style="font-size: 13px;">Test</td>
+				  <td style="font-size: 13px;">'. $allocation_id.'</td>
+				  <td style="font-size: 13px;">'. $allocation_id.'</td>
+				  </tr>';                     						
+			
+			$output .= '</tbody></table>';
+
+		echo $output;	
+	}
+	
 }
 ?>
