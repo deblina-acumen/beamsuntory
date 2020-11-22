@@ -111,6 +111,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
 	Route::any('purchase-order-details/{id?}', 'po\PoMasterController@purchase_order_details');
 	
+	/////////// datatlbe plus icon example///////////
+	Route::any('purchase-order-details-example', 'po\PoMasterController@datatale_example_plus');
+	Route::any('get-allocation-details-per-po-details', 'po\PoMasterController@get_allocation_details_per_po_details');
+	////////// datatable plus icon example //////////
+	
 	
 	//po allocation//////
 	Route::get('add-po-step2/{id?}', 'po\PoMasterAllocationController@add');
