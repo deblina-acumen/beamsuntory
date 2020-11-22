@@ -161,3 +161,40 @@ function get_brandmm_name_by_brandid($idarray,$parentId)
 	return isset($details)?$details:'';
 }
 
+function get_provence_name_by_country($idarray)
+{
+	$details = Region::whereIn('country_id',$idarray)->get() ;
+	return isset($details)?$details:'';
+}
+function get_previous_role($idarray)
+{
+	
+	$user_info = User::whereIn('id',$idarray)->get();
+	
+	$chiledRole =  Role::where('parent_id',$user_info[0]->role_id)->get();
+	return isset($chiledRole[0]->id)?$chiledRole[0]->id:'';
+	
+}
+function get_chiled_user_brand_marketing($brand,$chiledrole)
+{
+	$details = User::whereIn('brand_id',$brand)->where('role_id',$chiledrole)->get();
+	return isset($details)?$details:'';
+}
+
+function get_field_marketing_manager_by_county($idaar,$role)
+{
+	$chiledRole =  Role::where('parent_id',$role)->get();
+	$details = User::whereIn('province_id',$idaar)->where('role_id',$chiledRole[0]->id)->get();
+	return isset($details)?$details:'';
+}
+function get_chiled_role_for_fmm($id)
+{
+	$chiledRole =  Role::where('parent_id',$id)->get();
+	return isset($chiledRole[0]->id)?$chiledRole[0]->id:'';
+}
+function get_chiled_user_field_marketing($country,$chiledrole)
+{
+	$details = User::whereIn('province_id',$country)->where('role_id',$chiledrole)->get();
+	return isset($details)?$details:'';
+}
+
