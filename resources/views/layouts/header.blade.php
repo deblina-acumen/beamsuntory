@@ -23,18 +23,15 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
 		  
-		  <li class="search-box">
-            <a class="nav-link hidden-sm-down" href="javascript:void(0)"><i class="mdi mdi-magnify"></i></a>
-            <form class="app-search" style="display: none;">
-                <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
-			</form>
-          </li>	
+		  
 		  <!-- full Screen -->
+		  @if(Auth::user()->role_id == 1)
 	      <li class="full-screen-btn">
 			<a href="{{URL('user-list')}}" data-provide="fullscreen" title="Users">
 				<i class="mdi mdi-account-multiple-outline"></i>
 			</a>
 		  </li>	
+		  @endif
        <!-- full Screen -->
         <li class="full-screen-btn">
       <a href="#" data-provide="fullscreen" title="Reports">

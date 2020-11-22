@@ -14,12 +14,26 @@
 
     <!-- Main content -->
     <section class="content mob-container">
-		
+		@if (session('error-msg'))
+					  <div class="alert alert-danger alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h6><i class="icon fa fa-ban"></i> {{session('error-msg')}}</h6>
+						
+					  </div>
+					  @endif
+					  @if (session('success-msg'))
+					  <div class="alert alert-success alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h6><i class="icon fa fa-ban"></i> {{session('success-msg')}}</h6>
+						
+					  </div>
+					  @endif
+
           <!---- List Item ------>
           <div class="box">
 		  <div class="box-header no-border bg-dark">
              <h6 class="pull-left">Stock receive (#101)</h6>
-             <p><a href="#" class="text-blue pull-right">View packaging</a></p>
+             
             </div>	
              	<form id="add_development_plan" action="<?= URL('save-packing-info')?>"
 						method="post" class="needs-validation" novalidate enctype="multipart/form-data">
@@ -42,9 +56,10 @@
                   <li>
                     <div class="form-group">
                     <label >Qty. Recieved</label>
-                    <input name="quantity[]" type="number"  class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table" required>
+                    <input name="quantity[]" type="number"  class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table" required value="<?= isset($poDetails->quantity_received)?$poDetails->quantity_received:''?>">
 								<input type="hidden" name="item_sku[]" value="<?=$poDetails->item_sku?>" >
 								<input type="hidden" name="po_item_id[]" value="<?=$poDetails->po_item_id?>" >
+								<input type="hidden" name="item_orderd[]" value="<?=$poDetails->quantity?>" >
                   </div>
                   </li>
                   <li>
@@ -71,7 +86,7 @@
                 </ul>
                 </div>
             </div>
-				
+				<div style="text-align:center"><a href="{{URL('packing-box-info/'.base64_encode($poDetails->po_item_id))}}" class="btn btn-success btn-lg mt-10">packaging Information</a></div>
 					@endforeach
             <input type="hidden" name="prev_total_count" value="<?=$total_quantity?>" >
 			<input type="hidden" name="po_id" value="<?= isset($po_details[0]->id)?$po_details[0]->id:''?>" >
@@ -80,17 +95,8 @@
 			
             <div class="media media-single bg-light text-center">
               <div class="media-body">
-                <h6>Batch No: B662822</h6>
-                <ul class="flexbox flex-justified my-10">
-                  <li class="br-1 px-10">
-                  <small>Total Items</small>
-                  <input type="number" value="<?= $total_quantity?>" name="total_item_quantity" class="form-control form-control-sm" placeholder="" aria-controls="project-table" required>
-                  </li>
-                  <li class="px-10">
-                  <small>Total Boxes</small>
-                  <input type="number" name="no_of_box" class="form-control form-control-sm" placeholder="" aria-controls="project-table" required>
-                  </li>
-                </ul>
+                <h6>Batch No: <?=$po_details[0]->batch_no?></h6>
+                
                 <div class="flexbox flex-justified ">
                 <button type="submit" class="btn btn-success btn-lg mt-10">Pickup Goods</button>
                 

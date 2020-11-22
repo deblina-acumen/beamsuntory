@@ -126,9 +126,9 @@
       </ul>
 	  @elseif(Auth::user()->role_id == 10)
 		   <ul class="sidebar-menu" data-widget="tree">
-        <li class="header nav-small-cap">JIMBEAM WHMS</li>
+        <li class="header nav-small-cap">JIMBEAM Delivery Agent</li>
 		<li class="treeview">
-          <a href="#">
+          <a href="{{URL('pickup-order-list')}}">
              <i class="align-sub fa fa-truck"></i> <span>Pickup Order</span>
             <span class="pull-right-container">
               

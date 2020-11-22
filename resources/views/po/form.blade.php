@@ -60,7 +60,7 @@
 			  <div class="col-md-3">
               	<label>Select Supplier</label>
                 <div class="input-group">
-                <select name="supplier" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="supplier" aria-controls="project-table" class="form-control form-control-sm" required>
                    <option value="">Select</option>
 				@foreach($supplier as $supplier_val)
 				<option value="<?= $supplier_val->id?>" <?php if(isset($po[0]->supplier_id) && $po[0]->supplier_id == $supplier_val->id ){ echo "selected" ;} ?> ><?= $supplier_val->supplier_name?></option>
@@ -76,7 +76,7 @@
               <div class="col-md-3">
               	<label>Select Delivery Agent/Currior</label>
                 <div class="input-group">
-                <select name="delivery_agent" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="delivery_agent" aria-controls="project-table" class="form-control form-control-sm" required>
                    <option value="">Select</option>
 				@foreach($delivery_agent as $agent)
 				<option value="<?= $agent->id?>" <?php if(isset($po[0]->delivery_agent_id) && $po[0]->delivery_agent_id  == $agent->id ){ echo "selected" ;} ?> ><?= $agent->name?></option>
@@ -87,7 +87,7 @@
               <div class="col-md-3">
               	<label>Select Warehouse</label>
                 <div class="input-group">
-                <select name="warehouse" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="warehouse" aria-controls="project-table" class="form-control form-control-sm" required>
                   <option value="">Select</option>
 				@foreach($warehouse as $warehouses)
 				<option value="<?= $warehouses->id?>"  <?php if(isset($po[0]->warehouse_id) && $po[0]->warehouse_id==$warehouses->id){echo"selected";} ?>><?= $warehouses->name?></option>
