@@ -125,7 +125,7 @@ class PoMasterController extends Controller
 				POItem::where('id',$data['po_item_id'][$i])->update($insert_item);
 			}
 		}
-		return redirect('add-po-step1/'.base64_encode($data['po_id']))->with('success-msg', 'Purchase order successfully updated..');
+		return redirect('add-po-step2/'.base64_encode($data['po_id']))->with('success-msg', 'Purchase order successfully updated..');
 	}
 	public function get_item_details(Request $request)
 	{
