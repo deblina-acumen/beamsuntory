@@ -122,6 +122,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('save-po-steop2', 'po\PoMasterAllocationController@save_po_step2');
 	
 	Route::get('edit-po-allocation/{itemid?}/{podetailsId?}/{poId?}', 'po\PoMasterAllocationController@edit_allocation');
+	Route::post('update-po-steop2', 'po\PoMasterAllocationController@update_po_step2');
 	
 	// Region
 	Route::any('region-master-list', 'Master\RegionController@list');
