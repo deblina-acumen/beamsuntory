@@ -151,15 +151,16 @@
 
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="submit" class="btn btn-default">
+            
+			<a href="{{URL('add-po-step1/'.base64_encode($po_details_val->po_id))}}" class="btn btn-default">
               <i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp; Previous Step
-            </button>
-                        <button type="submit" class="btn btn-dark">
+           </a>
+             <a href="{{URL('add-po-step1/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark">
               Skip & Save
-            </button>
-                        <button type="submit" class="btn btn-dark">
+            </a>
+                      <!--  <button type="submit" class="btn btn-dark">
               Save & Finish &nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            </button>
+            </button> -->
           </div> 
                
         </div>
