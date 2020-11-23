@@ -160,4 +160,9 @@ function get_brandmm_name_by_brandid($idarray,$parentId)
 	$details = User::whereIn('brand_id',$idarray)->where('role_id',$chiledRole[0]->id)->get();
 	return isset($details)?$details:'';
 }
+function get_parent_brand_by_id($parent_id)
+{
+	$details = Brand::where('id',$parent_id)->get();
+	return isset($details[0]->name)?$details[0]->name:'';
+}
 
