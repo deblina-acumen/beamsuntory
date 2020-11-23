@@ -159,5 +159,36 @@ function readURL(input) {
                 reader.readAsDataURL(input.files[0]);
             }
         }
+function get_sub_brand(obj)
+{
+	var brand_id = $(obj).val(); 
+	//alert(brand_id);
+
+ $.ajax({
+		url:'<?php echo URL("get-sub-brand-by-brand-id"); ?>',
+		method:"POST",
+		dataType: 'json',
+		data: {
+		"brand_id": brand_id,
+        "_token": "{{ csrf_token() }}",
+        
+        },
+		success:function(data)
+		{
+			$('#sub_brand').html('');
+			var html = '<option value="">select </option>';
+			if(data.length > 0)
+			{
+				for(i =0;i < data.length; i++)
+				{
+					html = html + '<option value="'+data[i]['id']+'">'+data[i]['name'] +'</option>';
+					
+				}
+			}
+			$('#sub_brand').html(html);
+		}
+		
+	   });
+}
 </script>
 @stop
