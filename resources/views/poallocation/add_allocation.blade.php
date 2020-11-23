@@ -37,7 +37,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add New PO  &nbsp;<a type="button" href="{{URL('po-list')}}" class="btn btn-dark btn-sm">All PO</a>
+        Add New PO  &nbsp;<a type="button" href="{{URL('purchase-order-list')}}" class="btn btn-dark btn-sm">All PO</a>
       </h1>
 
       <ol class="breadcrumb">
@@ -268,42 +268,7 @@ defaultDate: new Date(),
 				var datahtml = JSON.parse(data).html ;
 			var childid = JSON.parse(data).childid ;
 			
-				/* $("#role2_"+incid+'_'+pid).html('');
-				 var newData = JSON.parse(data) ;
-				console.log(JSON.parse(data).length); 
-			var html = '<option value="">select </option>';
-			if(newData.length > 0)
-			{
 				
-				for(i =0;i < newData.length; i++)
-				{
-					var provinveId = newData[i]['province_id'] ;
-					var brandId = newData[i]['brand_id'] ;
-					console.log(provinveId);
-					console.log(brandId);
-					if(provinveId != null)
-					{
-					var provincename = '<?php echo ger_province_name('+provinveId+'); ?>'
-					}
-					else
-					{
-						var provincename = '';
-					}
-					if(brandId != null)
-					{
-						var brandname =  '<?php echo get_brand_name('+brandId+'); ?>'
-					}
-					else{
-						var brandname = '' ;
-					}
-					
-					console.log(provincename);
-					console.log(brandname);
-					html = html + '<option value="'+newData[i]['id']+'">'+newData[i]['name'] +'</option>';
-					
-				}
-			}
-			console.log(html); */
 			for(i=1;i<=6;i++)
 			{
 			$("#dynamo_dropdown_"+incid+'_'+pid+'_'+i).remove() ;
@@ -318,27 +283,44 @@ defaultDate: new Date(),
 				$("#role1_"+incid+'_'+pid).attr('roleid',childid);
 				$("#role1_"+incid+'_'+pid).attr('data-placeholder','select Mixit Managers');
 				
+				
+				$("#role2_"+incid+'_'+pid).attr('multiple','multiple');
+				//$("#role2_"+incid+'_'+pid).addClass('select2');
+				
 			}
 			else if(userid == 5)
 			{
 				$("#role1_"+incid+'_'+pid).attr('usertype','marketing');
 				$("#role1_"+incid+'_'+pid).attr('roleid',childid);
 				$("#role1_"+incid+'_'+pid).attr('data-placeholder','select Brand');
+				
+				$("#role2_"+incid+'_'+pid).attr('multiple','multiple');
+				//$("#role2_"+incid+'_'+pid).addClass('select2');
 			}
 			else if(userid == 9)
 			{
 				$("#role1_"+incid+'_'+pid).attr('usertype','field_marking');
 				$("#role1_"+incid+'_'+pid).attr('roleid',childid);
 				$("#role1_"+incid+'_'+pid).attr('data-placeholder','select Country');
+				
+				$("#role2_"+incid+'_'+pid).removeAttr('multiple','multiple');
+				
+				
+				
 			}
 			else if(userid == 11)
 			{
 				$("#role1_"+incid+'_'+pid).attr('usertype','sales_ref');
 				$("#role1_"+incid+'_'+pid).attr('roleid',childid);
 				$("#role1_"+incid+'_'+pid).attr('data-placeholder','select Region');
+				$("#role2_"+incid+'_'+pid).attr('multiple','multiple');
+				//$("#role2_"+incid+'_'+pid).removeAttr('multiple','multiple');
+				//$("#role2_"+incid+'_'+pid).removeClass('select2');
+				
 			}
 			else{
 			}
+			$('.select2').select2({ width: 'resolve' });	
    
             }
 
@@ -389,6 +371,8 @@ defaultDate: new Date(),
 			{
 				$("#role2_"+incid+'_'+pid).attr('usertype','field_marking');
 				$("#role2_"+incid+'_'+pid).attr('roleid',childid);
+				$("#role2_"+incid+'_'+pid).removeAttr('multiple','multiple');
+				//$("#role2_"+incid+'_'+pid).removeClass('select2');
 			}
 			else if(attrval == 'sales_ref')
 			{
@@ -519,7 +503,7 @@ defaultDate: new Date(),
             if (count < max_fields_1) { //max input box allowed
                
                 console.log(count);
-                $(wrapper_1).append('<div class="row add_1_' + count + '"><div class="col-md-2 add_1_' + count + '"><div class="input-group"><select  aria-controls="project-table" name="userrole1_'+count+'" id="role_'+count+'_'+pid+'" onchange=get_role2(this,'+count + ','+pid+') class="form-control form-control-sm">'+'<?=$htmloption?>'+'</select></div></div><div class="col-md-2 add_1_' + count + '"><div class="form-group"><select name="userrole2_'+count+'[]" class="form-control select2" id="role1_'+count+'_'+pid+'" roleid="" usertype="" onchange=get_role3(this,'+count + ','+pid+') multiple="multiple" data-placeholder=""style="width: 100%;"></select></div></div><div class="col-md-2 add_1_' + count + '" id="dynamo_dropdown_'+count+'_'+pid+'_0"><div class="form-group"><select class="form-control select2" dynamodropdownincid="0" name="userrole3_'+count+'[]" usertype="" roleid="" id="role2_'+count+'_'+pid+'" onchange=get_role4(this,'+count + ','+pid+') multiple="multiple" data-placeholder=""style="width: 100%;"></select></div></div><div class="col-md-2 add_1_' + count + '"><div class="input-group" style="margin-top: 20px;"><div class="checkbox checkbox-success"  id="hide_locker_'+count + '_'+pid+'"><input id="checkbox3_'+count + '_'+pid+'" type="checkbox" name="storelocator_'+count + '" value="store" ><label for="checkbox3_'+count + '_'+pid+'"> Locker </label></div><div class="checkbox checkbox-success" ><input id="checkbox4_'+count + '_'+pid+'" type="checkbox" name="eachselectbox_'+count + '" value="each"><label for="checkbox4_'+count + '_'+pid+'"> Each </label></div></div></div><div class="col-md-1 add_1_' + count + '"><div class="form-group"><input type="number"  onblur="calculate_amount()" name="quantity_'+count+'" id="quantity_'+count+'_'+pid+'"  class="form-control quantity" placeholder=""></div><input type="hidden" name="dynamoselectcount_'+count+'" id="dynamoselectcount_'+count+'_'+pid+'"></div><div class="col-md-1 add_1_' + count + '"><div class="pull-right"><div class="input-group"><button type="button" onClick="remove_field_1('+count+')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button></div></div></div></div>');
+                $(wrapper_1).append('<div class="row add_1_' + count + '"><div class="col-md-2 add_1_' + count + '"><div class="input-group"><select  aria-controls="project-table" name="userrole1_'+count+'" id="role_'+count+'_'+pid+'" onchange=get_role2(this,'+count + ','+pid+') required class="form-control form-control-sm">'+'<?=$htmloption?>'+'</select></div></div><div class="col-md-2 add_1_' + count + '"><div class="form-group"><select name="userrole2_'+count+'[]" class="form-control select2" id="role1_'+count+'_'+pid+'" roleid="" usertype="" required onchange=get_role3(this,'+count + ','+pid+')  data-placeholder=""style="width: 100%;"></select></div></div><div class="col-md-2 add_1_' + count + '" id="dynamo_dropdown_'+count+'_'+pid+'_0"><div class="form-group"><select class="form-control select2" dynamodropdownincid="0" name="userrole3_'+count+'[]" usertype="" required roleid="" id="role2_'+count+'_'+pid+'" onchange=get_role4(this,'+count + ','+pid+')  data-placeholder=""style="width: 100%;"></select></div></div><div class="col-md-2 add_1_' + count + '"><div class="input-group" style="margin-top: 20px;"><div class="checkbox checkbox-success"  id="hide_locker_'+count + '_'+pid+'"><input id="checkbox3_'+count + '_'+pid+'" type="checkbox" name="storelocator_'+count + '" value="store" ><label for="checkbox3_'+count + '_'+pid+'"> Locker </label></div><div class="checkbox checkbox-success" ><input id="checkbox4_'+count + '_'+pid+'" type="checkbox" name="eachselectbox_'+count + '" value="each"><label for="checkbox4_'+count + '_'+pid+'"> Each </label></div></div></div><div class="col-md-1 add_1_' + count + '"><div class="form-group"><input type="number"  onblur="calculate_amount()" name="quantity_'+count+'" id="quantity_'+count+'_'+pid+'" required  class="form-control quantity" placeholder=""></div><input type="hidden" name="dynamoselectcount_'+count+'" id="dynamoselectcount_'+count+'_'+pid+'"></div><div class="col-md-1 add_1_' + count + '"><div class="pull-right"><div class="input-group"><button type="button" onClick="remove_field_1('+count+')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button></div></div></div></div>');
                count++; //text box increment
 			   $("#countrow").val(count) ;
             }

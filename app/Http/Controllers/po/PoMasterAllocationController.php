@@ -69,7 +69,7 @@ class PoMasterAllocationController extends Controller
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
-			$html1 .='<option value="'.$dropdownarr_val.'">All Region ('.count($province_list).')</option>';
+			//$html1 .='<option value="'.$dropdownarr_val.'">All Region ('.count($province_list).')</option>';
 				$returnarray['childid']=$id ;
 				$html3 = $html1 . $html2;
 				$returnarray['html']= $html3 ;
@@ -94,7 +94,7 @@ class PoMasterAllocationController extends Controller
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
-				$html1 .='<option value="'.$dropdownarr_val.'">All Brand('.count($brand_list).')</option>';
+				//$html1 .='<option value="'.$dropdownarr_val.'">All Brand('.count($brand_list).')</option>';
 				$returnarray['childid']=$id ;
 				$html3 = $html1 . $html2;
 				$returnarray['html']= $html3 ;
@@ -117,7 +117,7 @@ class PoMasterAllocationController extends Controller
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
-				$html1 .='<option value="'.$dropdownarr_val.'">All Country ('.count($brand_list).')</option>';
+				//$html1 .='<option value="'.$dropdownarr_val.'">All Country ('.count($brand_list).')</option>';
 				$returnarray['childid']=$id ;
 				$html3 = $html1 . $html2;
 				$returnarray['html']= $html3 ;
@@ -143,7 +143,7 @@ class PoMasterAllocationController extends Controller
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
-				$html1 .='<option value="'.$dropdownarr_val.'">All Mixit Managers('.count($userlist).')</option>';
+				//$html1 .='<option value="'.$dropdownarr_val.'">All Mixit Managers('.count($userlist).')</option>';
 				$returnarray['childid']=$mixitmanagerid[0]->id ;
 				$html3 = $html1 . $html2;
 				$returnarray['html']= $html3 ;
@@ -170,9 +170,9 @@ class PoMasterAllocationController extends Controller
 		//t($roletype);
 		//t($id);
 		//t($role_id);
-		if(isset($data['value'])&&!empty($data['value'])&&count($data['value'])>0)
+		if(isset($data['value'])&& $data['value']!='')
 		{
-		$useridarray= explode(',',implode(',',$data['value'])) ;
+		$useridarray= explode(',',$data['value']) ;
 		}
 		else{
 			$useridarray= array()  ;
@@ -229,7 +229,7 @@ class PoMasterAllocationController extends Controller
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
-				$html1 .='<option value="'.$dropdownarr_val.'">All Region('.count($userprovince).')</option>';
+				//$html1 .='<option value="'.$dropdownarr_val.'">All Region('.count($userprovince).')</option>';
 				
 				}
 				$html3 = $html1 . $html2 ;
@@ -324,13 +324,6 @@ class PoMasterAllocationController extends Controller
 		$dynamodropdownid = $data['dynamodropdownincid'];
 		$incrimented_dynamodropdownid = $data['dynamodropdownincid']+1 ;
 		$dropdownarr = [] ;
-		if(isset($data['value'])&&!empty($data['value'])&&count($data['value'])>0)
-		{
-		$useridarray= explode(',',implode(',',$data['value'])) ;
-		}
-		else{
-			$useridarray= array()  ;
-		}
 		
 		$sales_rep_region = [] ;
 		$userrole_arr = [] ;
@@ -338,6 +331,27 @@ class PoMasterAllocationController extends Controller
 		$user_details_arr=[] ;
 		
 		if($roletype == 'field_marking'){
+			if(is_array($data['value']))
+			{
+				if(isset($data['value'])&&!empty($data['value'])&&count($data['value'])>0)
+					{
+					$useridarray= explode(',',implode(',',$data['value'])) ;
+					}
+					else{
+						$useridarray= array()  ;
+					}
+				
+			}else{
+				
+				if(isset($data['value'])&&$data['value']!='')
+					{
+					$useridarray= explode(',',$data['value']) ;
+					}
+					else{
+						$useridarray= array()  ;
+					}
+			}
+			
 			//t($role_id);
 			$userroleid = Role::where('parent_id',$role_id)->where('type','user')->get() ;
 			foreach($userroleid as $userroleid)
@@ -347,15 +361,17 @@ class PoMasterAllocationController extends Controller
 			//t($userrole_arr);
 			if($dynamodropdownid ==0)
 			{
+				//echo "test";
 				$userlist = User::whereIn('province_id',$useridarray)->whereIn('role_id',$userrole_arr)->get() ;
 				
 			}else{
+				//echo "test2";
 				$user_details = User::whereIn('id',$useridarray)->get() ;
 				foreach($user_details as $user_details_val)
 				{
 					array_push($user_details_arr,$user_details_val->province_id);
 				}
-				
+				//t($user_details_arr);
 				$userlist = User::whereIn('province_id',$user_details_arr)->whereIn('role_id',$userrole_arr)->get() ;
 			}
 				
@@ -398,6 +414,14 @@ class PoMasterAllocationController extends Controller
 		}
 		else if($roletype == 'marketing')
 		{
+			if(isset($data['value'])&&!empty($data['value'])&&count($data['value'])>0)
+		{
+		$useridarray= explode(',',implode(',',$data['value'])) ;
+		}
+		else{
+			$useridarray= array()  ;
+		}
+		
 			$userroleid = Role::where('parent_id',$role_id)->get() ;
 			foreach($userroleid as $userroleid)
 			{
@@ -586,7 +610,7 @@ return view('poallocation.add_allocation',$data);
 	public function save_po_step2(Request $request)
 	{
 		 $data=$request->all(); //t($data);
-		// exit();
+		 //exit();
 		 $userrole2=[];
 		 $userrole5=[];
 		 $userrole9=[];
@@ -608,8 +632,8 @@ return view('poallocation.add_allocation',$data);
 				  $insertdata['region_id']= '';
 				  $insertdata['country_id']= '';
 				   $insertdata['brand_id']= '';
-				 $userrole2['roleuser1']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
-				 $userrole2['roleuser2']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
+				 $userrole2['roleuser1']= (isset($data['userrole2_'.$i])&&$data['userrole2_'.$i]!='')?implode(',',$data['userrole2_'.$i]):'';
+				 $userrole2['roleuser2']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
@@ -633,7 +657,10 @@ return view('poallocation.add_allocation',$data);
 				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
-					$userrole5['roleuser'. $j1]= isset($data['userrole4_'.$j.'_'.$i])?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
+					 {
+					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					 }
 				 }
 				
 				/*  $userrole['roleuser2']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
@@ -659,9 +686,12 @@ return view('poallocation.add_allocation',$data);
 				   $insertdata['brand_id']= '';
 				 $insertdata['region_id']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
 				 
-				  for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
+				  for($j=1;$j<=$data['dynamoselectcount_'.$i];$j++)
 				 {
-					$userrole9['roleuser'.$j]= isset($data['userrole4_'.$j.'_'.$i])?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
+					{
+					$userrole9['roleuser'.$j]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					}
 				 }
 				 
 				/*  $userrole['roleuser1']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
@@ -713,7 +743,7 @@ return view('poallocation.add_allocation',$data);
 		 }
 		 //$insertdata['user'] =json_encode($userrole); 
 		 
-		 exit();
+		 return redirect('purchase-order-list')->with('success-msg', 'Purchase Order Added Successfully');
 		 
 	}
 	
@@ -758,6 +788,179 @@ return view('poallocation.add_allocation',$data);
 	//t($info);
 	//exit();
 	return view('poallocation.edit_allocation',$data);
+	}
+	
+	public function update_po_step2(Request $request)
+	{
+		 $data=$request->all(); 
+		 t($data);
+		// exit();
+		 $userrole2=[];
+		 $userrole5=[];
+		 $userrole9=[];
+		 $userrole11=[];
+		 $count_row = $data['countrow'];
+		 $allcation_id_array= [] ;
+		 $existing_allcation_id_array= [] ;
+		 $item_id = isset($data['itemid'])?$data['itemid']:0 ;
+		$po_id = isset($data['poid'])?$data['poid']:0 ;
+		$podetails_id = isset($data['puchaseOrderDetailsId'])?$data['puchaseOrderDetailsId']:0 ;
+		
+		$existing_allcation =POAllocation::where('item_id',$item_id)->where('po_id',$po_id)->where('podetails_id',$podetails_id)->get();
+		
+		foreach($existing_allcation as $existing_allcation_val)
+		{
+			array_push($existing_allcation_id_array,$existing_allcation_val->id);
+		}
+		
+		for($exal=0;$exal<$count_row;$exal++)
+		 {
+			
+			 array_push($allcation_id_array,isset($data['allocation_id_'.$exal])?$data['allocation_id_'.$exal]:0);
+		 }
+		// t($allcation_id_array);
+		$diff_array = array_diff($existing_allcation_id_array,$allcation_id_array);
+		
+		if(!empty($diff_array)&&count($diff_array)>0)
+		{
+		POAllocation::whereIn('id',$diff_array)->delete();
+		}
+		 for($i=0;$i<$count_row;$i++)
+		 {
+			 //t($data['userrole1_'.$i]);
+			$insertdata['item_id'] = isset($data['itemid'])?$data['itemid']:0 ;
+			$insertdata['po_id'] = isset($data['poid'])?$data['poid']:0 ;
+			$insertdata['podetails_id'] = isset($data['puchaseOrderDetailsId'])?$data['puchaseOrderDetailsId']:0 ;
+			$insertdata['item_sku'] = isset($data['itemSkuCode'])?$data['itemSkuCode']:0 ;
+			
+			
+			
+			  if(isset($data['userrole1_'.$i])&& $data['userrole1_'.$i]==2)
+			 {
+				 $insertdata['role_id'] = (isset($data['userrole1_'.$i])&& $data['userrole1_'.$i]!='')?$data['userrole1_'.$i]:0;
+				  $insertdata['region_id']= '';
+				  $insertdata['country_id']= '';
+				   $insertdata['brand_id']= '';
+				 $userrole2['roleuser1']= (isset($data['userrole2_'.$i])&&$data['userrole2_'.$i]!='')?implode(',',$data['userrole2_'.$i]):'';
+				 $userrole2['roleuser2']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
+				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+				 {
+					 $insertdata['each_user'] = isset($data['eachselectbox_'.$i])?$data['eachselectbox_'.$i]:''  ;
+				 }
+				 else{
+					 $insertdata['share_user'] = "shared" ;
+				 }
+				 $insertdata['user'] = json_encode($userrole2); 
+			 }
+			 if(isset($data['userrole1_'.$i]) && $data['userrole1_'.$i]==5)
+			 {
+				 $insertdata['role_id'] = isset($data['userrole1_'.$i])?$data['userrole1_'.$i]:0;
+				 $insertdata['brand_id']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
+				 
+				  $insertdata['region_id']= '';
+				  $insertdata['country_id']= '';
+				   
+				 
+				  $userrole5['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
+				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
+				 {
+					 $j1 = $j+1 ;
+					 if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
+					 {
+					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					 }
+				 }
+				
+				/*  $userrole['roleuser2']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
+				 $userrole['roleuser3']= isset($data['userrole4_2_'.$i])?implode(',',$data['userrole4_2_'.$i]):'';
+				 $userrole['roleuser4']= isset($data['userrole4_3_'.$i])?implode(',',$data['userrole4_3_'.$i]):'';
+				 $userrole['roleuser5']= isset($data['userrole4_4_'.$i])?implode(',',$data['userrole4_4_'.$i]):''; */
+				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+				 {
+					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+				 }
+				 else{
+					 $insertdata['share_user'] = "shared" ;
+				 }
+				 $insertdata['user'] = json_encode($userrole5); 
+			 } 
+			  if($data['userrole1_'.$i]==9)
+			 {
+				 $insertdata['role_id'] = $data['userrole1_'.$i];
+				 $insertdata['country_id']= implode(',',$data['userrole2_'.$i]);
+				  $insertdata['region_id']= '';
+				 
+				   $insertdata['brand_id']= '';
+				 $insertdata['region_id']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
+				
+				  for($j=1;$j<=$data['dynamoselectcount_'.$i];$j++)
+				 {
+					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
+					{
+					$userrole9['roleuser'.$j]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					}
+				 }
+				 
+				/*  $userrole['roleuser1']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
+				 $userrole['roleuser2']= isset($data['userrole4_2_'.$i])?implode(',',$data['userrole4_2_'.$i]):'';
+				 $userrole['roleuser3']= isset($data['userrole4_3_'.$i])?implode(',',$data['userrole4_3_'.$i]):'';
+				 $userrole['roleuser4']= isset($data['userrole4_4_'.$i])?implode(',',$data['userrole4_4_'.$i]):'';
+				 $userrole['roleuser5']= isset($data['userrole4_5_'.$i])?implode(',',$data['userrole4_5_'.$i]):''; */
+				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+				 
+				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+				 {
+					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+				 }
+				 else{
+					 $insertdata['share_user'] = "shared" ;
+				 }
+				 $insertdata['user'] = json_encode($userrole9); 
+			 } 
+			  if($data['userrole1_'.$i]==11)
+			 {
+				 //t($data['userrole3_'.$i]);
+				 $insertdata['role_id'] = $data['userrole1_'.$i];
+				 $insertdata['region_id']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
+				  $insertdata['country_id']= '';
+				   $insertdata['brand_id']= '';
+				 $userrole11['roleuser1']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
+				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+				 {
+					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+				 }
+				  if(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store')
+				 {
+					 $insertdata['store_locker'] = $data['storelocator_'.$i]  ;
+				 }
+				 if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') ||(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
+				 {
+				 }
+				 else{
+					 $insertdata['share_user'] = "shared" ;
+				 }
+				 $insertdata['user'] = json_encode($userrole11); 
+			 }
+			 
+			 
+		 //t($insertdata);
+			
+			if(isset($data['allocation_id_'.$i])&& $data['allocation_id_'.$i])
+			{
+				POAllocation::where('id',$data['allocation_id_'.$i])->update($insertdata);
+			}
+			else{
+				POAllocation::insert($insertdata);
+			}
+			 
+		 } 
+		 //exit() ;
+		 //$insertdata['user'] =json_encode($userrole); 
+		 
+		return redirect('purchase-order-list')->with('success-msg', 'Purchase Order Update Successfully');
 	}
 	
     

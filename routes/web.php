@@ -128,6 +128,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
 	Route::any('purchase-order-details/{id?}', 'po\PoMasterController@purchase_order_details');
 	
+	/////////// datatlbe plus icon example///////////
+	Route::any('purchase-order-details-example', 'po\PoMasterController@datatale_example_plus');
+	Route::any('get-allocation-details-per-po-details', 'po\PoMasterController@get_allocation_details_per_po_details');
+	////////// datatable plus icon example //////////
+	
 	
 	//po allocation//////
 	Route::get('add-po-step2/{id?}', 'po\PoMasterAllocationController@add');
@@ -139,6 +144,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('save-po-steop2', 'po\PoMasterAllocationController@save_po_step2');
 	
 	Route::get('edit-po-allocation/{itemid?}/{podetailsId?}/{poId?}', 'po\PoMasterAllocationController@edit_allocation');
+	Route::post('update-po-steop2', 'po\PoMasterAllocationController@update_po_step2');
 	
 	// Region
 	Route::any('region-master-list', 'Master\RegionController@list');
@@ -348,6 +354,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('pickup-order-confirmation/{id}', 'currior\PickupController@purchase_order_confirmation');
 		Route::post('save-packing-info', 'currior\PickupController@save_packing_info');
 		Route::any('packing-box-info/{id}', 'currior\PickupController@packing_box_info');
+		Route::post('save-box-info', 'currior\PickupController@save_box_info');
 });
 
 

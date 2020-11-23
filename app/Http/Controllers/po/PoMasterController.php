@@ -125,7 +125,7 @@ class PoMasterController extends Controller
 				POItem::where('id',$data['po_item_id'][$i])->update($insert_item);
 			}
 		}
-		return redirect('add-po-step1/'.base64_encode($data['po_id']))->with('success-msg', 'Purchase order successfully updated..');
+		return redirect('add-po-step2/'.base64_encode($data['po_id']))->with('success-msg', 'Purchase order successfully updated..');
 	}
 	public function get_item_details(Request $request)
 	{
@@ -416,6 +416,44 @@ class PoMasterController extends Controller
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		//t($data,1);
         return view('po.po_details',$data);
+	}
+	
+	public function datatale_example_plus()
+	{
+		return view('po.po_details_datatable');
+	}
+	public function get_allocation_details_per_po_details(Request $request)
+	{
+		$data = $request->all();
+		$allocation_id = base64_decode($data['khata_no']);
+		
+		$output = '	
+		<table id="" class="table table-striped table-bordered bulk_action">
+			<thead>
+			<tr>
+				   
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">User Role</th> 				  
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Country</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Region</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Brand</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">User</th> 
+				
+
+			</tr>
+			</thead>
+			<tbody>';
+			
+			$output .= '<tr>
+				  
+				  <td style="font-size: 13px;">Test</td>				  
+				  <td style="font-size: 13px;">Test</td>
+				  <td style="font-size: 13px;">'. $allocation_id.'</td>
+				  <td style="font-size: 13px;">'. $allocation_id.'</td>
+				  </tr>';                     						
+			
+			$output .= '</tbody></table>';
+
+		echo $output;	
 	}
 	
 }
