@@ -75,6 +75,11 @@ Route::group(['middleware' => 'auth'], function () {
 			'uses' => 'Master\RoleUserController@get_province_list_by_country'
 		]);
 		
+	Route::post('get-storelocator-province-by-country-id', [
+			'as' => 'get-storelocator-province-by-country-id',
+			'uses' => 'Master\RoleUserController@get_storelocator_province_list_by_country_id'
+		]);
+		
 	//<!-- master Brand section-->
 	Route::get('add-brand', 'Master\BrandController@add_brand');
 	Route::post('save-brand-data', 'Master\BrandController@save_brand_data');
@@ -83,6 +88,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-brand-data', 'Master\BrandController@update_brand_data');
 	Route::get('delete-brand/{id}', 'Master\BrandController@delete_brand');
 	Route::any('brand-active/{id?}/{value?}', 'Master\BrandController@changeStatus');
+	
+	Route::post('get-parent-brand-by-brand', [
+			'as' => 'get-parent-brand-by-brand',
+			'uses' => 'Master\BrandController@get_parent_brand_by_brand'
+		]);
+		
 	//<!-- master store category section-->
 	Route::get('add-store-category', 'Master\StoreCategoryController@add_store_category');
 	Route::post('save-store-category-data', 'Master\StoreCategoryController@save_store_category_data');
@@ -101,6 +112,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('edit-product/{id}', 'product\ProductController@edit_product');
 	Route::post('update-product', 'product\ProductController@update_product');
 	Route::get('delete-product/{id}', 'product\ProductController@delete_product');
+	
+	Route::post('get-sub-brand-by-brand-id', [
+			'as' => 'get-sub-brand-by-brand-id',
+			'uses' => 'product\ProductController@get_sub_brand_by_brand_id'
+		]);
+		
 	
 	//po
 	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
