@@ -61,7 +61,7 @@
 					
 						<!-- Step 1 -->
 						
-						<form id="add_development_plan" action="<?= URL('save-po-steop2')?>"
+						<form id="add_development_plan" name="submit_form" action="<?= URL('save-po-steop2')?>"
 						method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 						<!-- Step 1 -->
 						@csrf
@@ -542,6 +542,17 @@ var sum = 0 ;
 	
 	
 }
+
+$(document).ready(function(e){
+	
+	$('#submit_btn').click(function(e)
+	{
+	
+		 document.getElementById("add_development_plan").submit();
+	});
+	
+});
+ 
  
 </script>
 @stop
