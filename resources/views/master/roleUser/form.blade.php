@@ -79,6 +79,19 @@
 			 
             </div>
 			<div class="row">
+			  <div class="col-md-6">
+              <div class="form-group">
+                <label>Brand</label>
+                <select class="form-control select2" name="brand_id">
+                <option  value="">Select</option>
+                @foreach($brand as $brand_value)
+				<option value="<?= $brand_value->id?>" <?php if(isset($info[0]->brand_id)&& $info[0]->brand_id == $brand_value->id){ echo "selected" ;} ?> ><?= $brand_value->name?></option>
+				@endforeach
+                </select>
+              </div>
+              </div>
+			</div>
+			<div class="row">
 			 <div class="col-md-6">
               <div class="form-group">
                 <label>Country *</label>
@@ -124,19 +137,6 @@
 				</div>
 			</div>
 			<div class="row">
-			  <div class="col-md-6">
-              <div class="form-group">
-                <label>Brand</label>
-                <select class="form-control select2" name="brand_id">
-                <option  value="">Select</option>
-                @foreach($brand as $brand_value)
-				<option value="<?= $brand_value->id?>" <?php if(isset($info[0]->brand_id)&& $info[0]->brand_id == $brand_value->id){ echo "selected" ;} ?> ><?= $brand_value->name?></option>
-				@endforeach
-                </select>
-              </div>
-              </div>
-			</div>
-			<div class="row">
 			    <div class="col-md-6">
 					<?php
 					$user_address_arr = isset($info[0]->user_address)? json_decode($info[0]->user_address,true) : array();
@@ -171,13 +171,59 @@
 			</div>
 			</div>
 			<div class="store_locator_address_block">
+			<p><b> Store Locator / Shipping Address : </b></p><br>
 			<div class="row">
-			    <div class="col-md-6">
+			 <div class="col-md-6">
+              <div class="form-group">
+                <label>Country *</label>
 				<?php
 				//t($info,1);
 					$storelocator_address_arr = isset($info[0]->storelocator_address)? json_decode($info[0]->storelocator_address,true) : array();
 				//t($storelocator_address_arr,1) 
 					?>
+				<?php 
+				//t($country,1);
+				if(isset($country)&&!empty($country)&&count($country)>0)
+                   foreach($country as $k=>$countries)
+				?>
+                <select name="store_locator_country_id"  class="form-control select2" onchange="get_store_locator_province(this)" id="store_locator_country_id">
+				<option  value="">Select</option>
+				<?php 
+					if(isset($country)&&!empty($country)&&count($country)>0)
+					{
+					   foreach($country as $k=>$countries)
+					   {
+				?>
+				<option value="{{isset($countries->id)?$countries->id :''}}" <?php if(isset( $storelocator_address_arr['country']) && ($countries->id == $storelocator_address_arr['country'])){echo "selected";}?>>{{isset($countries->country_name)?$countries->country_name :''}}</option>
+				<?php 
+					   }
+					}
+				?>
+                </select>
+              </div>
+              </div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Region/Province</label>
+						<select  class="form-control select2" id="store_locator_province_id"  name="store_locator_province_id">
+						<option  value="">Select</option>
+						<?php 
+						if(isset($province)&&!empty($province)&&count($province)>0)
+						{
+						   foreach($province as $k=>$provinces)
+						   {
+						?>
+								<option value="{{isset($provinces->id)?$provinces->id :''}}" <?php if(isset( $storelocator_address_arr['province']) && ($provinces->id == $storelocator_address_arr['province'])){echo "selected";}?>>{{isset($provinces->name)?$provinces->name :''}}</option>
+						   <?php 
+						   }
+						}
+						?>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+			    <div class="col-md-6">
 					<div class="form-group">
 						<label>City</label>
 						<input type="text" class="form-control" name="store_locator_city" value="{{isset($storelocator_address_arr['city'])?$storelocator_address_arr['city']:''}}" placeholder="Enter City">
