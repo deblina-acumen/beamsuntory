@@ -84,7 +84,11 @@ class RoleUserController extends Controller
 			$address = isset($posted['address'])?$posted['address']:'';
 			$city = isset($posted['city'])?$posted['city']:'';
 			$zip = isset($posted['zip'])?$posted['zip']:'';
+			
 			$is_same_locator_address = isset($posted['is_same_locator_address'])?$posted['is_same_locator_address']:'';
+			
+			$store_locator_country = isset($posted['store_locator_country_id'])?$posted['store_locator_country_id']:'';
+			$store_locator_province = isset($posted['store_locator_province_id'])?$posted['store_locator_province_id']:'';
 			$store_locator_address = isset($posted['store_locator_address'])?$posted['store_locator_address']:'';
 			$store_locator_city = isset($posted['store_locator_city'])?$posted['store_locator_city']:'';
 			$store_locator_zip = isset($posted['store_locator_zip'])?$posted['store_locator_zip']:'';
@@ -97,11 +101,21 @@ class RoleUserController extends Controller
 			if($is_same_locator_address == true){
 				
 			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr) :'';
-			$insert_data['storelocator_address'] = json_encode($user_fulladdr);
+			
+			$store_locator_fulladdr['country']=isset($posted['country_id'])?$posted['country_id']:0;
+			$store_locator_fulladdr['province']=isset($posted['province_id'])?$posted['province_id']:0;
+			$store_locator_fulladdr['street']=$address ;
+			$store_locator_fulladdr['city']=$city ;
+			$store_locator_fulladdr['zip']=$zip ;
+			
+			$insert_data['storelocator_address'] = isset($store_locator_fulladdr) ? json_encode($store_locator_fulladdr) :'';
 			}else{
+				
 			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
 			
-			if($store_locator_address !='' || $store_locator_city != '' || $store_locator_zip != '' ){
+			if($store_locator_country != '' || $store_locator_province != '' || $store_locator_address !='' || $store_locator_city != '' || $store_locator_zip != '' ){
+			$store_locator_fulladdr['country']=$store_locator_country ;
+			$store_locator_fulladdr['province']=$store_locator_province ;
 			$store_locator_fulladdr['street']=$store_locator_address ;
 			$store_locator_fulladdr['city']=$store_locator_city ;
 			$store_locator_fulladdr['zip']=$store_locator_zip ;
@@ -206,7 +220,11 @@ class RoleUserController extends Controller
 			$address = isset($posted['address'])?$posted['address']:'';
 			$city = isset($posted['city'])?$posted['city']:'';
 			$zip = isset($posted['zip'])?$posted['zip']:'';
+			
 			$is_same_locator_address = isset($posted['is_same_locator_address'])?$posted['is_same_locator_address']:'';
+			
+			$store_locator_country = isset($posted['store_locator_country_id'])?$posted['store_locator_country_id']:'';
+			$store_locator_province = isset($posted['store_locator_province_id'])?$posted['store_locator_province_id']:'';
 			$store_locator_address = isset($posted['store_locator_address'])?$posted['store_locator_address']:'';
 			$store_locator_city = isset($posted['store_locator_city'])?$posted['store_locator_city']:'';
 			$store_locator_zip = isset($posted['store_locator_zip'])?$posted['store_locator_zip']:'';
@@ -218,10 +236,21 @@ class RoleUserController extends Controller
 			if($is_same_locator_address == true){
 				
 			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
-			$insert_data['storelocator_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
-			}else{	
+			
+			$store_locator_fulladdr['country']=isset($posted['country_id'])?$posted['country_id']:0;
+			$store_locator_fulladdr['province']=isset($posted['province_id'])?$posted['province_id']:0;
+			$store_locator_fulladdr['street']=$address ;
+			$store_locator_fulladdr['city']=$city ;
+			$store_locator_fulladdr['zip']=$zip ;
+			
+			$insert_data['storelocator_address'] = isset($store_locator_fulladdr) ? json_encode($store_locator_fulladdr) :'';
+			
+			}else{
+				
 			$insert_data['user_address'] = isset($user_fulladdr) ? json_encode($user_fulladdr):'';
-			if($store_locator_address !='' || $store_locator_city != '' || $store_locator_zip != '' ){
+			if($store_locator_country != '' || $store_locator_province != '' || $store_locator_address !='' || $store_locator_city != '' || $store_locator_zip != '' ){
+			$store_locator_fulladdr['country']=$store_locator_country ;
+			$store_locator_fulladdr['province']=$store_locator_province ;
 			$store_locator_fulladdr['street']=$store_locator_address ;
 			$store_locator_fulladdr['city']=$store_locator_city ;
 			$store_locator_fulladdr['zip']=$store_locator_zip ;
@@ -318,6 +347,19 @@ class RoleUserController extends Controller
 		->get();
     }*/
 	public function get_province_list_by_country(Request $Request)
+	{
+		$data = $Request->all();
+		//t($data,1);
+		$country_id = $data['country_id'];
+		if($country_id == "")
+		{
+			$village_list = Region::where('is_deleted','No')->orderBy('name','asc')->get();
+		}
+		else if($country_id != "")
+		 	$village_list = Region::where('country_id',$country_id)->orderBy('name','asc')->get();
+		echo json_encode($village_list);
+	}
+	public function get_storelocator_province_list_by_country_id(Request $Request)
 	{
 		$data = $Request->all();
 		//t($data,1);
