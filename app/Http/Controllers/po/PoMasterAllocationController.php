@@ -30,7 +30,7 @@ class PoMasterAllocationController extends Controller
 		//exit();
 		$data['poinfo']=$poinfo =PO::where('id',$poId)->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$suppler_id = isset($poinfo[0]->supplier_id)?$poinfo[0]->supplier_id:0 ;
+		$suppler_id =$list= isset($poinfo[0]->supplier_id)?$poinfo[0]->supplier_id:0 ;
 		$data['supplier']= Supplier::where('id',$suppler_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		
 		$data['po_details'] = $po_details= POItem::select('purchase_order_details.item_sku','purchase_order_details.quantity','item.name','item.product_type','item.regular_price','item.batch_no','item.expire_date','item.retail_price','item.image','item_variation_details.variation','purchase_order_details.id as puchase_order_details_id','item.id as itemid','item_variation_details.id as varienceid','purchase_order_details.po_id as po_id')->join('item','item.id','=','purchase_order_details.item_id')->leftjoin('item_variation_details','item_variation_details.id','=','purchase_order_details.item_variance_id')->where('purchase_order_details.po_id',$poId)->get() ;
