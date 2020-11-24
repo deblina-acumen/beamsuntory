@@ -28,7 +28,7 @@
 			<input type="hidden" name="poid" value="{{$poId}}">
 			<input type="hidden" name="itemSkuCode" value="{{$itemSkuCode}}">
 			<input type="hidden" name="puchaseOrderDetailsId" value="{{$puchaseOrderDetailsId}}">
-			<input type="hidden" name="countrow" id="countrow" value="">
+			<input type="hidden" name="countrow" id="countrow" value="1">
 
           
             
