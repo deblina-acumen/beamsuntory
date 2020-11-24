@@ -12,6 +12,11 @@ use App\Model\PO;
 use App\Model\User;
 use App\Model\POItem;
 use App\Model\ProductVariations;
+use App\Model\Brand;
+use App\Model\Region;
+use App\Model\Role;
+use  App\Model\Country;
+use  App\Model\POAllocation;
 use Auth;
 use DB;
 class PoMasterController extends Controller
@@ -418,15 +423,42 @@ class PoMasterController extends Controller
         return view('po.po_details',$data);
 	}
 	
-	public function datatale_example_plus()
+	public function po_products_details($id)
 	{
-		return view('po.po_details_datatable');
+		$poId= base64_decode($id);
+		//t($poId);
+		//exit();
+		$data['poinfo']=$poinfo =PO::where('id',$poId)->get();
+		
+		$warehouse_id = isset($poinfo[0]->warehouse_id)?$poinfo[0]->warehouse_id:0 ;
+		$data['warehouse']=$list = Warehouse::where('id',$warehouse_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		
+		$suppler_id = isset($poinfo[0]->supplier_id)?$poinfo[0]->supplier_id:0 ;
+		$data['supplier']= Supplier::where('id',$suppler_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		
+		$data['po_details'] = $po_details= POItem::select('purchase_order_details.item_sku','purchase_order_details.quantity','item.name','item.product_type','item.regular_price','item.batch_no','item.expire_date','item.retail_price','item.image','item_variation_details.variation','purchase_order_details.id as puchase_order_details_id','item.id as itemid','item_variation_details.id as varienceid','purchase_order_details.po_id as po_id','purchase_order_details.id as po_details_id')->join('item','item.id','=','purchase_order_details.item_id')->leftjoin('item_variation_details','item_variation_details.id','=','purchase_order_details.item_variance_id')->where('purchase_order_details.po_id',$poId)->get() ;
+		
+		return view('po.po_product_details',$data);
 	}
 	public function get_allocation_details_per_po_details(Request $request)
 	{
+		DB::enableQueryLog();
 		$data = $request->all();
-		$allocation_id = base64_decode($data['khata_no']);
+		//t($data,1);
+
+		$po_item_podetails_id = $data['khata_no'];
+		$po_item_podetails_id = explode('-',$po_item_podetails_id);
 		
+		/* $data['po_allocationinfo'] = $po_allocationinfo= POAllocation::select('purchase_order_allocation.user as po_allocation_user,user_role.name as user_role_name,country.country_name,provinces.name as provinces_name,brand.name as brand_name')->join('user_role','purchase_order_allocation.role_id','=','user_role.id')->leftjoin('country','purchase_order_allocation.country_id','=','country.id')->leftjoin('provinces','purchase_order_allocation.region_id','=','provinces.id')->leftjoin('brand','purchase_order_allocation.brand_id','=','brand.id')->where('purchase_order_allocation.po_id',$po_item_podetails_id[0])->where('purchase_order_allocation.item_id',$po_item_podetails_id[1])->where('purchase_order_allocation.podetails_id',$po_item_podetails_id[2])->where('purchase_order_allocation.is_deleted','No')->where('purchase_order_allocation.is_active','Yes')->get() ;
+		$data['count_allocation'] = count($po_allocationinfo); */
+		
+		$data['po_allocationinfo'] = $po_allocationinfo= POAllocation::select('purchase_order_allocation.user as po_allocation_user','user_role.name as user_role_name','country.country_name','provinces.name as provinces_name','brand.name as brand_name')->leftjoin('user_role','purchase_order_allocation.role_id','=','user_role.id')->leftjoin('country','purchase_order_allocation.country_id','=','country.id')->leftjoin('provinces','purchase_order_allocation.region_id','=','provinces.id')->leftjoin('brand','purchase_order_allocation.brand_id','=','brand.id')->where('purchase_order_allocation.po_id',$po_item_podetails_id[0])->where('purchase_order_allocation.item_id',$po_item_podetails_id[1])->where('purchase_order_allocation.podetails_id',$po_item_podetails_id[2])->where('purchase_order_allocation.is_deleted','No')->where('purchase_order_allocation.is_active','Yes')->get() ;
+		$data['count_allocation'] = count($po_allocationinfo);
+		//print_r($po_allocationinfo[0]->user_role_name);exit();
+		//$query = DB::getQueryLog();
+		//t($query);exit();
+		//t($po_allocationinfo[0]->user_role_name,1);
+
 		$output = '	
 		<table id="" class="table table-striped table-bordered bulk_action">
 			<thead>
@@ -443,13 +475,43 @@ class PoMasterController extends Controller
 			</thead>
 			<tbody>';
 			
-			$output .= '<tr>
+				if($data['count_allocation']>0){
+						for($i=0;$i<count($po_allocationinfo);$i++){
+							//t($po_allocationinfo[$i]->user_role_name,1);
+							$user_role_name =isset($po_allocationinfo[$i]->user_role_name)?$po_allocationinfo[$i]->user_role_name:'';
+							$country_name =isset($po_allocationinfo[$i]->country_name)?$po_allocationinfo[$i]->country_name:'';
+							$provinces_name =isset($po_allocationinfo[$i]->provinces_name)?$po_allocationinfo[$i]->provinces_name:'';
+							$brand_name =isset($po_allocationinfo[$i]->brand_name)?$po_allocationinfo[$i]->brand_name:'';
+							$po_allocation_user =isset($po_allocationinfo[$i]->po_allocation_user)?json_decode($po_allocationinfo[$i]->po_allocation_user,true):array();
+							//t(count($po_allocation_user),1);
+				$output .= '<tr>
 				  
-				  <td style="font-size: 13px;">Test</td>				  
-				  <td style="font-size: 13px;">Test</td>
-				  <td style="font-size: 13px;">'. $allocation_id.'</td>
-				  <td style="font-size: 13px;">'. $allocation_id.'</td>
-				  </tr>';                     						
+				  <td style="font-size: 13px;">'.$user_role_name.'</td>				  
+				  <td style="font-size: 13px;">'.$country_name.'</td>
+				  <td style="font-size: 13px;">'. $provinces_name.'</td>
+				  <td style="font-size: 13px;">'. $brand_name.'</td>';
+				  
+				  $output .= '<td style="font-size: 13px;">';
+				  for($j=0;$j<count($po_allocation_user);$j++){
+				  foreach($po_allocation_user as $key=>$value){	
+				  if(strpos(',',$value) !== false){
+					  $useridarray = explode(',',$value);
+					  $user_details = User::whereIn('id',$useridarray)->get() ;
+				  }else{
+					  $user_details = User::where('id',$value)->get() ;
+				  }
+							//$output .= $key ." : ".$value." , ";
+							//$output .= $user_details." , ";
+							foreach($user_details as $k=>$list){
+								$output .= $list->name." , ";
+							}
+				  }
+				  break;
+				  }
+				  $output .= '</td>
+				  </tr>';
+					}
+				}				  
 			
 			$output .= '</tbody></table>';
 
