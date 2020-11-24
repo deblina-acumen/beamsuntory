@@ -174,5 +174,5 @@ var table = $('#khata_table').DataTable();
             }
         });
     });
-</script>
+</script>  
 @stop
