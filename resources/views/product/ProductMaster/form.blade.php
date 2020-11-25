@@ -23,7 +23,7 @@
             </div>
 			
             <div class="row">
-			<div class="col-md-3">
+			<div class="col-md-4">
               <div class="form-group">
                 <label>Product Type</label>
 				<select class="form-control select2" name="product_type" onchange="hide_attibute(this)">
@@ -33,10 +33,10 @@
 				  </select>
               </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
               <div class="form-group">
                 <label>Select Brand</label>
-                <select class="form-control select2" name="brand">
+                <select class="form-control select2" name="brand" onchange="get_sub_brand(this)" id="brand">
                 <option  value="">Select</option>
                 @foreach($brand as $brand_value)
 				<option value="<?= $brand_value->id?>" <?php if(isset($info[0]->brand_id)&& $info[0]->brand_id == $brand_value->id){ echo "selected" ;} ?> ><?= $brand_value->name?></option>
@@ -44,7 +44,20 @@
                 </select>
               </div>
               </div>
-              <div class="col-md-3">
+			  <div class="col-md-4">
+              <div class="form-group">
+                <label>Select Sub-brand</label>
+                <select class="form-control select2" name="sub_brand" id="sub_brand">
+                <option  value="">Select</option>
+                @foreach($subbrand as $sub_brand_value)
+				<option value="<?= $sub_brand_value->id?>" <?php if(isset($info[0]->sub_brand_id)&& $info[0]->sub_brand_id == $sub_brand_value->id){ echo "selected" ;} ?> ><?= $sub_brand_value->name?></option>
+				@endforeach
+                </select>
+              </div>
+              </div>
+			  </div>
+			   <div class="row">
+              <div class="col-md-4">
           <div class="form-group">
           <label>Select Category</label>
           <select class="form-control select2" data-placeholder="Select Category" style="width: 100%;" name="category">
@@ -55,7 +68,7 @@
           </select>
           </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
           <div class="form-group">
           <label>Preferred Vendor</label>
           <select class="form-control select2" data-placeholder="Select Vendor" style="width: 100%;" name="vendor">
@@ -136,7 +149,7 @@
               <div class="col-md-3">
               <div class="form-group">
                 <label>Shelf life</label>
-                <input type="text" class="form-control" value= "{{isset($info[0]->shelf_life)?$info[0]->shelf_life:''}}" name="shelf_life">
+                <input type="text" class="form-control" value= "{{isset($info[0]->self_life)?$info[0]->self_life:''}}" name="shelf_life">
               </div>
               </div>
             </div>

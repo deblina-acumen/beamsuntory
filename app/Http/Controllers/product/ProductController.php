@@ -69,6 +69,7 @@ class ProductController extends Controller
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['subbrand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->where('parent_id','!=',0)->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['product_attribute']=$list = ProductAttribute::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		//t($data,1);
@@ -196,7 +197,7 @@ class ProductController extends Controller
 		$have_product = Product::where('name',$data['product_name'])->where('is_deleted','No')->get();
 		if(!empty($have_product) && count($have_product)>0)
 		{
-			return redirect('add-product')->with('error-msg', 'Product  already exist');
+			return redirect('add-product')->with('error-msg', 'Product  already exists');
 		}
         $insert_data['name']=$data['product_name'];
 		$insert_data['description']=isset($data['product_description'])?$data['product_description']:0;
@@ -215,6 +216,8 @@ class ProductController extends Controller
 		$insert_data['length']=$data['length'];
 		$insert_data['width']=$data['Width'];
 		$insert_data['height']=$data['Height'];
+		$insert_data['sub_brand_id']=$data['sub_brand'];
+		$insert_data['self_life']=$data['shelf_life'];
 		//upload image2wbmp
 		$cat_image = $request->file('image');
 			if($cat_image !='')
@@ -268,6 +271,7 @@ class ProductController extends Controller
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['subbrand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->where('parent_id','!=',0)->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['product_attribute']=$list = ProductAttribute::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		
@@ -287,7 +291,7 @@ class ProductController extends Controller
 		$have_product = Product::where('name',$data['product_name'])->where('is_deleted','No')->get();
 		if(!empty($have_product) && count($have_product)>0 && $have_product[0]->id !=  $data["id"])
 		{
-			return redirect('edit-product/'.base64_encode($data['id']))->with('error-msg', 'Product  already exist');
+			return redirect('edit-product/'.base64_encode($data['id']))->with('error-msg', 'Product  already exists');
 		}
         $insert_data['name']=$data['product_name'];
 		$insert_data['description']=isset($data['product_description'])?$data['product_description']:0;
@@ -305,6 +309,8 @@ class ProductController extends Controller
 		$insert_data['length']=$data['length'];
 		$insert_data['width']=$data['Width'];
 		$insert_data['height']=$data['Height'];
+		$insert_data['sub_brand_id']=$data['sub_brand'];
+		$insert_data['self_life']=$data['shelf_life'];
 		//upload image2wbmp
 		$cat_image = $request->file('image');
 			if($cat_image !='')
@@ -569,6 +575,19 @@ class ProductController extends Controller
 			//$html = '<div>HIIII</div>';
 				 echo $html;
 	 }
+	 public function get_sub_brand_by_brand_id(Request $Request)
+	{
+		$data = $Request->all();
+		//t($data,1);
+		$brand_id = $data['brand_id'];
+		if($brand_id == "")
+		{
+			$sub_product_list = Brand::where('is_deleted','No')->orderBy('name','asc')->get();
+		}
+		else if($brand_id != "")
+		 	$sub_product_list = Brand::where('parent_id',$brand_id)->orderBy('name','asc')->get();
+		echo json_encode($sub_product_list);
+	}
 	
 }
 ?>

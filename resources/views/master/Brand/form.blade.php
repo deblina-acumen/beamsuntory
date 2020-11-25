@@ -15,6 +15,21 @@
               </div>
 			  <div class="col-md-6">
               <div class="form-group">
+                <label> Image</label>
+               <input id="file-input" type="file" name="image" onchange="readURL(this);"/>
+			    <label for="file-input">
+					<?php if(isset($info[0]->image) && $info[0]->image!=''){ ?>
+					<img src="{{URL('public/brandMaster/'.$info[0]->image)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } else { ?>
+					<img src="{{asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+					<?php } ?>
+				</label>
+              </div>
+              </div>
+			  </div>
+			  <div class="row">
+			  <div class="col-md-6">
+              <div class="form-group">
                 <label>Parent Brand *</label>
                 <select class="form-control" name="parent_id">
                 <option value="">Select</option>
@@ -25,21 +40,6 @@
 					<option value="{{$BrandLists->id}}" <?php if(isset($info[0]->parent_id)&& $info[0]->parent_id !='' &&  $info[0]->parent_id == $BrandLists->id) { echo "selected" ; } ?>>{{$BrandLists->name}}</option>
 				<?php }} ?>
                 </select>
-              </div>
-              </div>
-			  </div>
-			  <div class="row">
-			   <div class="col-md-6">
-              <div class="form-group">
-                <label> Image</label>
-               <input id="file-input" type="file" name="image" onchange="readURL(this);"/>
-			    <label for="file-input">
-					<?php if(isset($info[0]->image) && $info[0]->image!=''){ ?>
-					<img src="{{URL('public/brandMaster/'.$info[0]->image)}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
-					<?php } else { ?>
-					<img src="{{asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
-					<?php } ?>
-				</label>
               </div>
               </div>
             </div>

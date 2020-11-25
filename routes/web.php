@@ -75,6 +75,11 @@ Route::group(['middleware' => 'auth'], function () {
 			'uses' => 'Master\RoleUserController@get_province_list_by_country'
 		]);
 		
+	Route::post('get-storelocator-province-by-country-id', [
+			'as' => 'get-storelocator-province-by-country-id',
+			'uses' => 'Master\RoleUserController@get_storelocator_province_list_by_country_id'
+		]);
+		
 	//<!-- master Brand section-->
 	Route::get('add-brand', 'Master\BrandController@add_brand');
 	Route::post('save-brand-data', 'Master\BrandController@save_brand_data');
@@ -83,6 +88,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-brand-data', 'Master\BrandController@update_brand_data');
 	Route::get('delete-brand/{id}', 'Master\BrandController@delete_brand');
 	Route::any('brand-active/{id?}/{value?}', 'Master\BrandController@changeStatus');
+	
+	Route::post('get-parent-brand-by-brand', [
+			'as' => 'get-parent-brand-by-brand',
+			'uses' => 'Master\BrandController@get_parent_brand_by_brand'
+		]);
+		
 	//<!-- master store category section-->
 	Route::get('add-store-category', 'Master\StoreCategoryController@add_store_category');
 	Route::post('save-store-category-data', 'Master\StoreCategoryController@save_store_category_data');
@@ -102,6 +113,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-product', 'product\ProductController@update_product');
 	Route::get('delete-product/{id}', 'product\ProductController@delete_product');
 	
+	Route::post('get-sub-brand-by-brand-id', [
+			'as' => 'get-sub-brand-by-brand-id',
+			'uses' => 'product\ProductController@get_sub_brand_by_brand_id'
+		]);
+		
+	
 	//po
 	Route::get('add-po-step1/{id?}', 'po\PoMasterController@add');
 	Route::any('purchase-order-list', 'po\PoMasterController@purchase_order_list');
@@ -110,6 +127,11 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
 	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
 	Route::any('purchase-order-details/{id?}', 'po\PoMasterController@purchase_order_details');
+	
+	/////////// datatlbe plus icon example///////////
+	Route::any('purchase-order-details-example/{id?}', 'po\PoMasterController@po_products_details');  
+	Route::any('get-allocation-details-per-po-details', 'po\PoMasterController@get_allocation_details_per_po_details');
+	////////// datatable plus icon example //////////
 	
 	
 	//po allocation//////
@@ -122,6 +144,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('save-po-steop2', 'po\PoMasterAllocationController@save_po_step2');
 	
 	Route::get('edit-po-allocation/{itemid?}/{podetailsId?}/{poId?}', 'po\PoMasterAllocationController@edit_allocation');
+	Route::post('update-po-steop2', 'po\PoMasterAllocationController@update_po_step2');
 	
 	// Region
 	Route::any('region-master-list', 'Master\RegionController@list');

@@ -59,7 +59,7 @@
 						  
 							<th scope="col">Brand Name</th>
 							<th scope="col">Image</th>
-							
+							<th scope="col">Parent Brand</th>
 							<th scope="col">Status</th>
 							<th scope="col"></th>
 							</tr>
@@ -72,7 +72,9 @@
 						  <td>{{$infos->name}}</td>
 						  <td> <label for="file-input">
 								<img src="{{isset($infos->image) && $infos->image!=''?URL('public/brandMaster/'.$infos->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
-							  </label>&nbsp;&nbsp;&nbsp; {{$infos->name}}</td>
+							  </label>&nbsp;&nbsp;&nbsp; {{$infos->name}}
+						  </td>
+						  <td>{{isset($infos->parent_id)?get_parent_brand_by_id($infos->parent_id):''}}</td>	  
 						  <td>
 						  	<?php 
 							if($infos->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
