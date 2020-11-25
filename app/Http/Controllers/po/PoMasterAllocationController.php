@@ -793,7 +793,7 @@ return view('poallocation.add_allocation',$data);
 	public function update_po_step2(Request $request)
 	{
 		 $data=$request->all(); 
-		 t($data);
+		 //t($data);
 		// exit();
 		 $userrole2=[];
 		 $userrole5=[];
