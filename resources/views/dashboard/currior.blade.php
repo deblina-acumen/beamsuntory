@@ -26,12 +26,15 @@
     <section class="content mob-container">
 		
       <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
-          <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
+		
+		 <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
+		 <a href="{{URL('pickup-order-list')}}" class="text-center"> <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
           <i class="align-sub fa fa-truck font-size-40" aria-hidden="true"></i>
-          </span>
+          </a></span>
           <div class="mt-20">
             <h4 class="text-uppercase fw-500">Pickup Orders</h4>
           </div>
+		  
         </div>
 
         <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
