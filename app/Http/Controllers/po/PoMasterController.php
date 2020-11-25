@@ -501,7 +501,7 @@ class PoMasterController extends Controller
 					  $user_details = User::where('id',$value)->get() ;
 				  }
 							//$output .= $key ." : ".$value." , ";
-							//$output .= $user_details." , ";    
+							//$output .= $user_details." , ";
 							foreach($user_details as $k=>$list){
 								$output .= "User : ". $list->name." => Quantity : ".$po_aloc_quantity." , ";
 							}
