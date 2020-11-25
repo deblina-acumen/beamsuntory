@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Master;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
-use  App\Model\Region;
-use  App\Model\Country;
+use App\Model\Region;
+use App\Model\Country;
 use Auth;
-	use DB;
+use DB;
 use Session ;
 //use Mail;
 
