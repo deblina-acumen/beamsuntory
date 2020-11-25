@@ -73,8 +73,6 @@
 				 <table id="example2" class="table table-bordered table-striped">
 					  <thead>
 						<tr>
-						  <!--<th scope="col"><input type="checkbox" id="checkbox_a">
-                <label for="checkbox_a" class="block"></label></th>-->
 						  <th scope="col">Region Name</th>
 						  <th scope="col">Country Name</th>
               <th scope="col">Status</th>
@@ -90,8 +88,6 @@
 					   {
 					?>
 						<tr>
-						  <!--<th scope="row"><input type="checkbox" id="checkbox_aa">
-              <label for="checkbox_aa" class="block"></label></th>-->
 						  <td>{{isset($infos->name)?$infos->name :''}}</td>
 						  <td>{{isset($infos->country_name)?$infos->country_name :''}} </td>
 						  <!--<td><?php if($infos->is_active!='Yes'){?>Disabled<?php }else{ ?>Enabled<?php } ?></td>-->
