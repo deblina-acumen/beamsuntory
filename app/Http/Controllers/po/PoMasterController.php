@@ -450,7 +450,7 @@ class PoMasterController extends Controller
 		$po_item_podetails_id = explode('-',$po_item_podetails_id);
 		
 		
-		$data['po_allocationinfo'] = $po_allocationinfo= POAllocation::select('purchase_order_allocation.id as po_aloc_id','purchase_order_allocation.quantity as po_aloc_quantity','purchase_order_allocation.user as po_allocation_user','user_role.name as user_role_name','country.country_name','provinces.name as provinces_name','brand.name as brand_name')->leftjoin('user_role','purchase_order_allocation.role_id','=','user_role.id')->leftjoin('country','purchase_order_allocation.country_id','=','country.id')->leftjoin('provinces','purchase_order_allocation.region_id','=','provinces.id')->leftjoin('brand','purchase_order_allocation.brand_id','=','brand.id')->where('purchase_order_allocation.po_id',$po_item_podetails_id[0])->where('purchase_order_allocation.item_id',$po_item_podetails_id[1])->where('purchase_order_allocation.podetails_id',$po_item_podetails_id[2])->where('purchase_order_allocation.is_deleted','No')->where('purchase_order_allocation.is_active','Yes')->get() ;
+		$data['po_allocationinfo'] = $po_allocationinfo= POAllocation::select('purchase_order_allocation.each_user as po_alloc_each_user','purchase_order_allocation.share_user as po_alloc_share_user','purchase_order_allocation.quantity as po_aloc_quantity','purchase_order_allocation.user as po_allocation_user','user_role.name as user_role_name','country.country_name','provinces.name as provinces_name','brand.name as brand_name')->leftjoin('user_role','purchase_order_allocation.role_id','=','user_role.id')->leftjoin('country','purchase_order_allocation.country_id','=','country.id')->leftjoin('provinces','purchase_order_allocation.region_id','=','provinces.id')->leftjoin('brand','purchase_order_allocation.brand_id','=','brand.id')->where('purchase_order_allocation.po_id',$po_item_podetails_id[0])->where('purchase_order_allocation.item_id',$po_item_podetails_id[1])->where('purchase_order_allocation.podetails_id',$po_item_podetails_id[2])->where('purchase_order_allocation.is_deleted','No')->where('purchase_order_allocation.is_active','Yes')->get() ;
 		$data['count_allocation'] = count($po_allocationinfo);
 		//print_r($po_allocationinfo[0]->user_role_name);exit();
 		//$query = DB::getQueryLog();
@@ -467,6 +467,8 @@ class PoMasterController extends Controller
 				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Region</th> 
 				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Brand</th> 
 				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">User</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Quantity</th> 
+				  <th style="background: #1eb16d !important;font-size: 13px; color:#FFF">Share Type</th> 
 				
 
 			</tr>
@@ -482,8 +484,17 @@ class PoMasterController extends Controller
 							$brand_name =isset($po_allocationinfo[$i]->brand_name)?$po_allocationinfo[$i]->brand_name:'';
 							$po_aloc_quantity =isset($po_allocationinfo[$i]->po_aloc_quantity)?$po_allocationinfo[$i]->po_aloc_quantity:'';
 							$po_allocation_user =isset($po_allocationinfo[$i]->po_allocation_user)?json_decode($po_allocationinfo[$i]->po_allocation_user,true):array();
-							//$po_aloc_id = isset($po_allocationinfo[$i]->po_aloc_id)?$po_allocationinfo[$i]->po_aloc_id:'';
-							//t($po_aloc_id,1);
+							$po_alloc_each_user = isset($po_allocationinfo[$i]->po_alloc_each_user)?$po_allocationinfo[$i]->po_alloc_each_user:'';
+							$po_alloc_share_user = isset($po_allocationinfo[$i]->po_alloc_share_user)?$po_allocationinfo[$i]->po_alloc_share_user:'';
+							$share_type = '';
+							if($po_alloc_each_user != '' && strtolower($po_alloc_each_user) == 'each' 
+							&& $po_alloc_share_user != '' && strtolower($po_alloc_share_user) == 'shared'){
+								$share_type = 'Each , Shared';
+							}else if($po_alloc_each_user != '' && $po_alloc_each_user == 'each'){
+								$share_type = 'Each';
+							}else if($po_alloc_share_user != '' && $po_alloc_share_user == 'shared'){
+								$share_type = 'Shared';
+							} 
 				$output .= '<tr>
 				  
 				  <td style="font-size: 13px;">'.$user_role_name.'</td>				  
@@ -503,12 +514,14 @@ class PoMasterController extends Controller
 							//$output .= $key ." : ".$value." , ";
 							//$output .= $user_details." , ";
 							foreach($user_details as $k=>$list){
-								$output .= "User : ". $list->name." => Quantity : ".$po_aloc_quantity." , ";
+								$output .= $list->name." , ";
 							}
 				  }
 				  break;
 				  }
 				  $output .= '</td>
+				  <td style="font-size: 13px;">'. $po_aloc_quantity.'</td>
+				  <td style="font-size: 13px;">'. $share_type.'</td>
 				  </tr>';
 					}
 				}				  
