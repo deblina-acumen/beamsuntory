@@ -425,17 +425,25 @@ class PoMasterController extends Controller
 	
 	public function po_products_details($id)
 	{
+		DB::enableQueryLog();
 		$poId= base64_decode($id);
 		//t($poId);
 		//exit();
 		$data['poinfo']=$poinfo =PO::where('id',$poId)->get();
 		
 		$warehouse_id = isset($poinfo[0]->warehouse_id)?$poinfo[0]->warehouse_id:0 ;
-		$data['warehouse']=$list = Warehouse::where('id',$warehouse_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		
+		$data['warehouse']=$warehouse_list = Warehouse::where('id',$warehouse_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		//$query = DB::getQueryLog();
+		//t($query,1);
 		$suppler_id = isset($poinfo[0]->supplier_id)?$poinfo[0]->supplier_id:0 ;
 		$data['supplier']= Supplier::where('id',$suppler_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$user_id = isset($warehouse_list[0]->user_id)?$warehouse_list[0]->user_id:0 ;
+		//t($user_id,1);
+		$data['user']= User::where('id',$user_id)->where('is_deleted','No')->where('is_active','Yes')->get();
 		
+		$delivery_agent_id = isset($poinfo[0]->delivery_agent_id)?$poinfo[0]->delivery_agent_id:0 ;
+		$data['delivery_agent']= User::where('id',$delivery_agent_id)->where('role_id',10)->where('is_deleted','No')->where('is_active','Yes')->get();
+
 		$data['po_details'] = $po_details= POItem::select('purchase_order_details.item_sku','purchase_order_details.quantity','item.name','item.product_type','item.regular_price','item.batch_no','item.expire_date','item.retail_price','item.image','item_variation_details.variation','purchase_order_details.id as puchase_order_details_id','item.id as itemid','item_variation_details.id as varienceid','purchase_order_details.po_id as po_id','purchase_order_details.id as po_details_id')->join('item','item.id','=','purchase_order_details.item_id')->leftjoin('item_variation_details','item_variation_details.id','=','purchase_order_details.item_variance_id')->where('purchase_order_details.po_id',$poId)->get() ;
 		
 		return view('po.po_product_details',$data);
