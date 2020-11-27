@@ -87,7 +87,7 @@
 							<td>{{str_replace('_',' ',ucfirst($list->status))}}</td>
 							<td>{{$list->supplier_name}}</td>
 							<td>{{$list->warehouse_name}}</td>
-							<td>{{ucfirst($list->status)}}</td>
+							<td>{{ucfirst($list->status)}}</td>    
 							<td>
 						  	<?php 
 							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
