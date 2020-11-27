@@ -37,8 +37,12 @@
 								<td class="td-description">{{isset($warehouse[0]->name) ?$warehouse[0]->name:0}}</td>
 							</tr>
 							<tr>
+								<td class="td-heading">Wirehouse Manager :</td>
+								<td class="td-description">{{isset($user[0]->name) ?$user[0]->name:0}} {{isset($user[0]->lastname) ?$user[0]->lastname:0}}</td>
+							</tr>
+							<tr>
 								<td class="td-heading">Status :</td>
-								<td class="td-description">{{isset($poinfo[0]->status)?$poinfo[0]->status:''}}</td>
+								<td class="td-description">{{isset($poinfo[0]->status)?ucfirst($poinfo[0]->status):''}}</td>
 							</tr>
 							<tr>
 								<td class="td-heading">Ownership Type :</td>
@@ -51,13 +55,19 @@
 						<table class="table">
 							
 							
-							<tbody><tr>
+							<tbody>
+							<tr>
 								<td class="td-heading">Supplier:</td>
 								<td class="td-description">{{isset($supplier[0]->supplier_name)?$supplier[0]->supplier_name:''}}</td>
 							</tr>
 							<tr>
 								<td class="td-heading">Supplier Details :</td>
 								<td class="td-description">Address: {{isset($supplier[0]->address)?$supplier[0]->address:''}} <br/>Ph: {{isset($supplier[0]->supplier_phone)?$supplier[0]->supplier_phone:''}} <br/>Email: {{isset($supplier[0]->supplier_email)?$supplier[0]->supplier_email:''}}</td>
+							</tr>
+							<tr>
+								<td class="td-heading">Delivery Agent:</td>
+								<td class="td-description">{{isset($delivery_agent[0]->name)?$delivery_agent[0]->name:''}} 
+								{{isset($delivery_agent[0]->lastname) ?$delivery_agent[0]->lastname:0}}</td>
 							</tr>
 							<tr>
 								<td class="td-heading">Item Kitting :</td>
