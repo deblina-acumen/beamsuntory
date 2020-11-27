@@ -421,19 +421,6 @@ class ProductController extends Controller
 
 		$item_variation = ProductVariations::select('item_variation_details.*')->where('item_id','=',$data['item_id'])
 		->where('is_deleted','=','No')->get();
-		//t($item_variation[0]->variation,1);
-		/* for($i=0;$i<count($item_variation);$i++){
-			$variation_value = isset($item_variation[$i]->variation)?json_decode($item_variation[$i]->variation,true):array() ;
-			
-			$item_variation_val = array();
-			 foreach($variation_value as $key=>$value){
-				$item_variation_val[$key]=$value;
-				t($item_variation_val);
-
-			} 
-		}
-		exit(); */
-		//t($item_variation_val,1);
 
 			$name = isset($info[0]->name) ? $info[0]->name : '' ;
 

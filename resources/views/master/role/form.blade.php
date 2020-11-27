@@ -13,8 +13,7 @@
                 <label>Role Name *</label>
                 <input type="text" class="form-control" placeholder="Role Name" name="name" required value="<?=isset($info[0]->name)?$info[0]->name:''?>">
               </div>
-              </div>
-			   
+              </div>  
 			   <!-- parent role -->
               <div class="col-md-6">
               <div class="form-group">

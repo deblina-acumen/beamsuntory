@@ -190,5 +190,6 @@ function get_sub_brand(obj)
 		
 	   });
 }
+
 </script>
 @stop

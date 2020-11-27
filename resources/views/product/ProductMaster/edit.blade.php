@@ -109,7 +109,6 @@ $(document).ready(function(e)
 	
 })
 
-
 function add_attribute()
 {
 	var attribute  = $('#attribute').val();
@@ -198,10 +197,9 @@ function readURL(input) {
                 reader.readAsDataURL(input.files[0]);
             }
         }
-		function get_sub_brand(obj)
+function get_sub_brand(obj)
 {
 	var brand_id = $(obj).val(); 
-	//alert(brand_id);
 
  $.ajax({
 		url:'<?php echo URL("get-sub-brand-by-brand-id"); ?>',
