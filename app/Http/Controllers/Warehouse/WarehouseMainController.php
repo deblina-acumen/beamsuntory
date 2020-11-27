@@ -14,6 +14,8 @@ use App\Model\POItem;
 use App\Model\BoxType;
 use App\Model\ProductVariations;
 use App\Model\PoBox;
+use App\Model\POAllocation;
+use App\Model\Stock;
 use Auth;
 use DB;
 class WarehouseMainController extends Controller
@@ -73,58 +75,73 @@ class WarehouseMainController extends Controller
 		 return view('Warehouse.Orderconfirmation',$data);
 	}
 	
-	public function save_packing_info(Request $request)
+	public function save_accpt_order_details(Request $request)
 	{
 		DB::beginTransaction();
 		$data = $request->all();
-	//t($data,1);
+		//t($data,1);
 		$total_quantity =0;
 		$item_matched = true;
-		foreach($data['quantity'] as $k=>$quantity)
-		{
-			if($quantity < $data['item_orderd'][$k])
-			{
-				$item_matched = false;
-			}
-		}
-		if($item_matched == false)
-		{
-			$update_status['status'] = 'pending_for_verification';
-			PO::where('id',$data['po_id'])->update($update_status);
+		
+			
 			foreach($data['po_item_id'] as $k=>$po_item_id)
 			{
-				$update_po_item['regular_price'] = $data['regular_price'][$k];
-				$update_po_item['quantity_received'] =  $data['quantity'][$k];
-				$update_po_item['quantity'] = $data['quantity'][$k];
-				$update_po_item['retail_price'] =  $data['retail_price'][$k];
-				$update_po_item['self_life'] =  $data['self_life'][$k];
-				POItem::where('id',$po_item_id)->update($update_po_item);
-			}
-			return redirect('pickup-order-list')->with('error-msg', 'Item quantity no match with po details,po order send to admin for verification');
-		}
-		else
-		{
-			$update_status['status'] = 'in_transit';
-			//$update_status['total_tiem_quantity'] = $data['total_item_quantity'];
-			//$update_status['no_of_box'] = $data['no_of_box'];
-			PO::where('id',$data['po_id'])->update($update_status); 
-			foreach($data['po_item_id'] as $k=>$po_item_id)
+				$allocation_detials = POAllocation::where('po_id',$data['po_id'])->where('podetails_id',$po_item_id)->where('is_deleted','No')->get();
+			//t($allocation_detials);
+			//$usr_arr=array();
+			foreach($allocation_detials as $k=>$alocation)
 			{
-				$update_po_item['regular_price'] = $data['regular_price'][$k];
-				$update_po_item['retail_price'] =  $data['retail_price'][$k];
-				$update_po_item['self_life'] =  $data['self_life'][$k];
-				$update_po_item['quantity_received'] =  $data['quantity'][$k];
-				POItem::where('id',$po_item_id)->update($update_po_item);
-				$have_packing_info = PoBox::where('po_item_id',$po_item_id)->get();
+				if($alocation->store_locker != 'store')
+				{
+					$user = json_decode($alocation->user); 
+					foreach($user as $usr)
+					{
+						$user_ids = explode(',',$usr);
+						foreach($user_ids as $usrinfo)
+						{
+							$item_details = product($alocation->item_id);
+							$user_data = User::where('id',$usrinfo)->get();
+							//insert into stock 
+							$stock_data['warehouse_id'] = $data['po_warehouse_id'];
+							$stock_data['user_id'] = $user_data[0]->id;
+							$stock_data['item_id'] = $alocation->item_id;
+							$stock_data['sku_code'] = $data['item_sku'][$k];
+							$stock_data['item_type'] = isset($item_details->product_type)?$item_details->product_type:'';
+							$stock_data['stock_type'] = 'in';
+							$stock_data['order_type'] = 'po';
+							$stock_data['order_type_id'] = $data['po_id'];
+							$stock_data['quantity'] = $alocation->quantity;
+							
+							 if($alocation->each_user =="each")
+							{
+							 $stock_data['type'] = 'each';
+							 Stock::insert($stock_data);
+							}
+							 else if($alocation->share_user =="shared")
+							{
+							 $stock_data['type'] = 'store';
+							 Stock::insert($stock_data);
+							}
+							 
+						}
+					}
+				}
+				
+			}
+				$update_status['status'] = 'delivered';
+				$update_status['delivery_date'] = date('Y-m-d h:i:s');
+				PO::where('id',$data['po_id'])->update($update_status); 
+				//POItem::where('id',$po_item_id)->update($update_po_item);
+				/* $have_packing_info = PoBox::where('po_item_id',$po_item_id)->whereRaw('box_recceived_by_wh  is null')->get();
 				if(empty($have_packing_info) || count($have_packing_info)==0)
 				{
 					DB::rollBack();
-					return redirect('pickup-order-confirmation/'.base64_encode($data['po_id']))->with('error-msg', 'Please provide packing information for all item');
-				}
+					return redirect('wh-order-confirmation/'.base64_encode($data['po_id']))->with('error-msg', 'Please provide packing information for all item');
+				} */
 			}
 			DB::commit();
-			return redirect('packing-box-info/'.base64_encode($data['po_id']))->with('success-message', 'Item verification successfully done');
-		}
+			return redirect('wh-incomming-stock/')->with('success-msg', 'Successfully accept po items');
+		
 	}
 	
 	public function confirm_box($po_itemId)

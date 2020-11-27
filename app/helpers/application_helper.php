@@ -6,16 +6,19 @@ use App\Model\StoreCategory;
 use  App\Model\Notification;
 use App\Model\ProductCategory;
 use App\Model\Role;
-
 use App\Model\Brand;
 use App\Model\Region;
-
 use App\Model\Product;
 use App\Model\ProductVariations;
 use App\Model\POItem;;
 use  App\Model\POAllocation;
 use  App\Model\Warehouse;
 
+function product($item_id)
+{
+	$item = POItem::where('id',$item_id)->get();
+	return isset($item[0])?$item[0]:array();
+}
 function get_warehouse_id_by_user($user_id)
 {
 	$ware_house_details = Warehouse::where('user_id',$user_id)->where('is_active','Yes')->where('is_deleted','No')->get();

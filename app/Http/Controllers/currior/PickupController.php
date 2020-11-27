@@ -9,11 +9,13 @@ use App\Model\ProductCategory;
 use App\Model\Warehouse;
 use App\Model\Supplier;
 use App\Model\PO;
+use App\Model\Stock;
 use App\Model\User;
 use App\Model\POItem;
 use App\Model\BoxType;
 use App\Model\ProductVariations;
 use App\Model\PoBox;
+use App\Model\POAllocation;
 use Auth;
 use DB;
 class PickupController extends Controller
@@ -65,7 +67,7 @@ class PickupController extends Controller
 	{
 		$data= array();
 		$poId = base64_decode($POorderId);
-		$po_details = PO::select('purchase_order.*','purchase_order_details.item_sku','purchase_order_details.id as po_item_id','purchase_order_details.item_variance_id','purchase_order_details.item_id','purchase_order_details.quantity','item.name','item.image','item.regular_price','item.retail_price','item.self_life','item.batch_no','purchase_order_details.self_life','purchase_order_details.quantity_received')->join('purchase_order_details','purchase_order_details.po_id','=','purchase_order.id','left')->join('item','item.id','=',"purchase_order_details.item_id","left")->where('purchase_order.id',$poId)->get();
+		$po_details = PO::select('purchase_order.*','purchase_order_details.item_sku','purchase_order_details.id as po_item_id','purchase_order_details.item_variance_id','purchase_order_details.item_id','purchase_order_details.quantity','item.name','item.image','item.regular_price','item.retail_price','item.self_life','item.batch_no','item.self_life','purchase_order_details.quantity_received')->join('purchase_order_details','purchase_order_details.po_id','=','purchase_order.id','left')->join('item','item.id','=',"purchase_order_details.item_id","left")->where('purchase_order.id',$poId)->get();
 		//t($po_details,1);
 		$data['po_details'] = $po_details;
 		 return view('currior.Orderconfirmation',$data);
@@ -75,7 +77,11 @@ class PickupController extends Controller
 	{
 		DB::beginTransaction();
 		$data = $request->all();
-	//t($data,1);
+		$po_details = PO::where('id',$data['po_id'])->get();
+		if($po_details != 'assigned_for_pickup')
+		{
+			return redirect('pickup-order-list')->with('error-msg', 'You dont have permisstion,please contact with admin');
+		}
 		$total_quantity =0;
 		$item_matched = true;
 		foreach($data['quantity'] as $k=>$quantity)
@@ -108,6 +114,47 @@ class PickupController extends Controller
 			PO::where('id',$data['po_id'])->update($update_status); 
 			foreach($data['po_item_id'] as $k=>$po_item_id)
 			{
+				$allocation_detials = POAllocation::where('po_id',$data['po_id'])->where('podetails_id',$po_item_id)->where('is_deleted','No')->get();
+			//t($allocation_detials);
+			//$usr_arr=array();
+			foreach($allocation_detials as $k=>$alocation)
+			{
+				if($alocation->store_locker == 'store')
+				{
+					$user = json_decode($alocation->user); 
+					foreach($user as $usr)
+					{
+						$user_ids = explode(',',$usr);
+						foreach($user_ids as $usrinfo)
+						{
+							$item_details = product($data['item_id'][$k]);
+							$user_data = User::where('id',$usrinfo)->get();
+							//insert into stock 
+							//$stock_data['warehouse_id'] = $data['po_warehouse_id'];
+							$stock_data['user_id'] = $user_data[0]->id;
+							$stock_data['item_id'] = $alocation->item_id;
+							$stock_data['sku_code'] = $data['item_sku'][$k];
+							$stock_data['item_type'] = isset($item_details->product_type)?$item_details->product_type:'';
+							$stock_data['stock_type'] = 'in';
+							$stock_data['order_type'] = 'po';
+							$stock_data['order_type_id'] = $data['po_id'];
+							$stock_data['quantity'] = $alocation->quantity;
+							
+							 if($alocation->store_locker =="store")
+							{
+							 $stock_data['type'] = 'store';
+							 Stock::insert($stock_data);
+							}
+							 
+						}
+					}
+				}
+				
+			}
+		//t($allocation_detials,1);
+			//stock
+				
+				
 				$update_po_item['regular_price'] = $data['regular_price'][$k];
 				$update_po_item['retail_price'] =  $data['retail_price'][$k];
 				$update_po_item['self_life'] =  $data['self_life'][$k];
@@ -120,6 +167,9 @@ class PickupController extends Controller
 					return redirect('pickup-order-confirmation/'.base64_encode($data['po_id']))->with('error-msg', 'Please provide packing information for all item');
 				}
 			}
+			
+			
+			
 			DB::commit();
 			return redirect('pickup-order-list/')->with('success-msg', 'Item verification successfully done');
 		}
