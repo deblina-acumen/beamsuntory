@@ -62,13 +62,13 @@
 						<small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 						</div>
 						<div class="media-right">
-							<a class="btn btn-block btn-dark btn-sm" href="{{URL('pickup-order-confirmation/'.base64_encode($list->id))}}"> Confirm</a>
+							
 						  </div>
 					@elseif($list->status =='delivered')
 						<small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 						</div>
  						  <div class="media-right">
-							<small>Delivered on<br/>15-Nov-2020</small>
+							<small>Delivered on<br/><?= date('d-M-Y',strtotime($list->delivery_date))?></small>
 						  </div>
 						@else
 						<small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>

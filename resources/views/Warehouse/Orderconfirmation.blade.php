@@ -57,9 +57,11 @@
                 </div>
             </div>
 				<div style="text-align:center"><a href="{{URL('wh-confirm-box/'.base64_encode($poDetails->po_item_id))}}" class="btn btn-success btn-lg mt-10">Box Details</a></div>
+				<input type="hidden" name="po_item_id[]" value="<?=$poDetails->po_item_id?>" >
+				<input type="hidden" name="item_sku[]" value="<?=$poDetails->item_sku?>" >
 					@endforeach
             <input type="hidden" name="prev_total_count" value="<?=$total_quantity?>" >
-			<input type="hidden" name="po_id" value="<?= isset($po_details[0]->id)?$po_details[0]->id:''?>" >
+			<input type="hidden" name="po_id" value="<?= isset($po_details[0]->id)?$po_details[0]->id:''?>" ><input type="hidden" name="po_warehouse_id" value="<?= isset($po_details[0]->warehouse_id)?$po_details[0]->warehouse_id:''?>" >
 
 
 			

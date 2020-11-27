@@ -56,9 +56,10 @@
                   <li>
                     <div class="form-group">
                     <label >Qty. Recieved</label>
-                    <input name="quantity[]" type="number"  class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table" required value="<?= isset($poDetails->quantity_received)?$poDetails->quantity_received:''?>">
+                    <input name="quantity[]" type="number"  class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table" required value="<?= isset($poDetails->quantity_received) && $poDetails->quantity_received>0?$poDetails->quantity_received:''?>">
 								<input type="hidden" name="item_sku[]" value="<?=$poDetails->item_sku?>" >
 								<input type="hidden" name="po_item_id[]" value="<?=$poDetails->po_item_id?>" >
+								<input type="hidden" name="item_id[]" value="<?=$poDetails->item_id?>" >
 								<input type="hidden" name="item_orderd[]" value="<?=$poDetails->quantity?>" >
                   </div>
                   </li>
@@ -90,7 +91,7 @@
 					@endforeach
             <input type="hidden" name="prev_total_count" value="<?=$total_quantity?>" >
 			<input type="hidden" name="po_id" value="<?= isset($po_details[0]->id)?$po_details[0]->id:''?>" >
-
+			<input type="hidden" name="po_warehouse_id" value="<?= isset($po_details[0]->warehouse_id)?$po_details[0]->warehouse_id:''?>" >
 
 			
             <div class="media media-single bg-light text-center">

@@ -22,7 +22,7 @@
 					  </div>
 					  @endif
 					  @if (session('success-msg'))
-					  <div class="alert alert-danger alert-dismissible">
+					  <div class="alert alert-success alert-dismissible">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 						<h6><i class="icon fa fa-ban"></i> {{session('success-msg')}}</h6>
 						
@@ -63,7 +63,7 @@
 						<small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 						</div>
  						  <div class="media-right">
-							<small>Received on<br/>15-Nov-2020</small>
+							<small>Received on<br/><?= date('d-M-Y',strtotime($list->delivery_date))?></small>
 						  </div>
 						@else
 						<small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
