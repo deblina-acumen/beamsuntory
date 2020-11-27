@@ -48,6 +48,10 @@
 								<td class="td-heading">Ownership Type :</td>
 								<td class="td-description">{{isset($poinfo[0]->ownership_type)?$poinfo[0]->ownership_type:''}}</td>
 							</tr>
+							<tr>
+								<td class="td-heading">Ownership Details :</td>
+								<td class="td-description">Not Available</td>
+							</tr>
 							
 						</tbody></table>
 					</div>
@@ -65,6 +69,11 @@
 								<td class="td-description">Address: {{isset($supplier[0]->address)?$supplier[0]->address:''}} <br/>Ph: {{isset($supplier[0]->supplier_phone)?$supplier[0]->supplier_phone:''}} <br/>Email: {{isset($supplier[0]->supplier_email)?$supplier[0]->supplier_email:''}}</td>
 							</tr>
 							<tr>
+								<td class="td-heading">Delivery Date:</td>
+								<td class="td-description">{{isset($poinfo[0]->delivery_date)?date('Y-m-d',strtotime($poinfo[0]->delivery_date)):''}} 
+								</td>
+							</tr>
+							<tr>
 								<td class="td-heading">Delivery Agent:</td>
 								<td class="td-description">{{isset($delivery_agent[0]->name)?$delivery_agent[0]->name:''}} 
 								{{isset($delivery_agent[0]->lastname) ?$delivery_agent[0]->lastname:0}}</td>
@@ -73,12 +82,6 @@
 								<td class="td-heading">Item Kitting :</td>
 								<td class="td-description">#Item (50) <br/>Oversized Item (5)								</td>
 							</tr>
-							<tr>
-								<td class="td-heading">Ownership Details :</td>
-								<td class="td-description">Not Available</td>
-							</tr>
-							
-							
 						</tbody></table>
 					</div>
 					<div class="col-md-12">
