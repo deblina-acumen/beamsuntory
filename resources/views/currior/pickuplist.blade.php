@@ -22,7 +22,7 @@
 					  </div>
 					  @endif
 					  @if (session('success-msg'))
-					  <div class="alert alert-danger alert-dismissible">
+					  <div class="alert alert-success alert-dismissible">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 						<h6><i class="icon fa fa-ban"></i> {{session('success-msg')}}</h6>
 						

@@ -121,7 +121,7 @@ class PickupController extends Controller
 				}
 			}
 			DB::commit();
-			return redirect('packing-box-info/'.base64_encode($data['po_id']))->with('success-message', 'Item verification successfully done');
+			return redirect('pickup-order-list/')->with('success-msg', 'Item verification successfully done');
 		}
 	}
 	
@@ -152,7 +152,7 @@ class PickupController extends Controller
 			$insert_boxInfo['updated_by'] =Auth::user()->id;
 			$insert_boxInfo['box'] =$data['box'][$k];
 			$insert_boxInfo['quantity_per_box'] = $data['qtn_per_box'][$k];
-			PoBox::where('id',$data['box_packing_id'])->update($insert_boxInfo);
+			PoBox::where('id',$data['box_packing_id'][$k])->update($insert_boxInfo);
 			}
 			else{
 			$insert_boxInfo['po_item_id'] = $data['po_item_id'];

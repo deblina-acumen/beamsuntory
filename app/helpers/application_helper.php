@@ -14,7 +14,13 @@ use App\Model\Product;
 use App\Model\ProductVariations;
 use App\Model\POItem;;
 use  App\Model\POAllocation;
+use  App\Model\Warehouse;
 
+function get_warehouse_id_by_user($user_id)
+{
+	$ware_house_details = Warehouse::where('user_id',$user_id)->where('is_active','Yes')->where('is_deleted','No')->get();
+	return $ware_house_details;
+}
 function get_total_purchase_item($po_id){
 	$total_item = POItem::selectRaw('sum(quantity) as total_item')->where('po_id',$po_id)->get();
 	return isset($total_item[0]->total_item)?$total_item[0]->total_item:0;
