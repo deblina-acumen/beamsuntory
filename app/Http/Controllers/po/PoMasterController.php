@@ -53,7 +53,7 @@ class PoMasterController extends Controller
         $insert_data['order_no']=$data['order_no'];
 		$insert_data['ownership_type']=$data['ownership_type'];
 		$insert_data['status']=$data['status'];
-		$insert_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
+		$insert_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';   
 		$insert_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('h:i:s',strtotime($data['active_time'])):'';
 		$insert_data['supplier_id']=isset($data['supplier'])?$data['supplier']:'';
 		$insert_data['delivery_agent_id']=isset($data['delivery_agent'])?$data['delivery_agent']:'';
