@@ -56,7 +56,7 @@
                   <li>
                     <div class="form-group">
                     <label >Qty. Recieved</label>
-                    <input name="quantity[]" type="number"  class="form-control form-control-sm" placeholder="Quantity" aria-controls="project-table" required value="<?= isset($poDetails->quantity_received) && $poDetails->quantity_received>0?$poDetails->quantity_received:''?>">
+                    <input name="quantity[]" type="number"  class="form-control form-control-sm" min="1" placeholder="Quantity" aria-controls="project-table" required value="<?= isset($poDetails->quantity_received) && $poDetails->quantity_received>0?$poDetails->quantity_received:''?>">
 								<input type="hidden" name="item_sku[]" value="<?=$poDetails->item_sku?>" >
 								<input type="hidden" name="po_item_id[]" value="<?=$poDetails->po_item_id?>" >
 								<input type="hidden" name="item_id[]" value="<?=$poDetails->item_id?>" >
