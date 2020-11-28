@@ -673,7 +673,7 @@
               </div>
               <div class="col-md-1">
 						<div class="form-group">
-						 <input type="number" name="quantity_{{$incid}}" value="{{isset($info_val->	quantity)?$info_val->	quantity:''}}" id="quantity_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" class="form-control quantity" placeholder="" onblur="calculate_amount()">
+						 <input type="number" name="quantity_{{$incid}}" value="{{isset($info_val->	quantity)?$info_val->	quantity:''}}" id="quantity_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" class="form-control quantity" placeholder="" onblur="calculate_amount()" min="0">
 						</div>
 						
               </div>
@@ -736,7 +736,7 @@
               </div>
               <div class="col-md-1">
 						<div class="form-group">
-						 <input type="number" name="quantity_0" required id="quantity_0_{{$po_details_val[0]->puchase_order_details_id}}" class="form-control quantity" placeholder="" onblur="calculate_amount()">
+						 <input type="number" name="quantity_0" required id="quantity_0_{{$po_details_val[0]->puchase_order_details_id}}" class="form-control quantity" placeholder="" onblur="calculate_amount()" min="0">
 						</div>
 						<input type="hidden" name="dynamoselectcount_0" id="dynamoselectcount_0_{{$po_details_val[0]->puchase_order_details_id}}">
               </div>
