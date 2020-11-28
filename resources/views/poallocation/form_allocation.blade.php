@@ -57,7 +57,7 @@
               </div>
               <div class="col-md-2">
 					  <div class="form-group">
-					  <?php if($info_val->role_id==2){ 
+					  <?php if($info_val->role_id==20){ 
 					  //t(explode(',',json_decode($info[0]->user,true)['roleuser1']));
 					  $mixmanager = explode(',',json_decode($info_val->user,true)['roleuser1']) ;
 					  $count_total_mix_m = count($mixitmanager)  ;
@@ -213,7 +213,7 @@
 					   
 					  </select>
 					  <?php } ?>
-					  <?php if($info_val->role_id==9){ 
+					  <?php if($info_val->role_id==15){ 
 					  $country = explode(',',$info_val->country_id) ;
 					  
 					   $count_total_fm_country = count($country_list);
@@ -271,7 +271,7 @@
               </div>
               <div class="col-md-2" id="dynamo_dropdown_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}_0">
 					  <div class="form-group">
-					  <?php if($info_val->role_id==2){
+					  <?php if($info_val->role_id==20){
 					  $mixassistant = explode(',',json_decode($info_val->user,true)['roleuser2']) ;
 					  
 					   $count_total_mixi_assistant = count($mixitassistant);
@@ -325,7 +325,7 @@
 					  
 					  </select>
 					  <?php } ?>
-					  <?php if($info_val->role_id==9){ 
+					  <?php if($info_val->role_id==15){ 
 					  $province = explode(',',$info_val->region_id) ;
 					  $fm_province_list = get_provence_name_by_country(explode(',',$info_val->country_id));
 					  
@@ -568,7 +568,7 @@
 				 <?php
 				 } ?>
 				 
-				 <?php if($info_val->role_id==9)
+				 <?php if($info_val->role_id==15)
 				 {	
 				 $user_info = json_decode($info_val->user,true) ;
 				 //t($user_info);

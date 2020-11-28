@@ -98,7 +98,7 @@ class PoMasterAllocationController extends Controller
 				
 		}
 		/////// field marketing //////
-		else if($id == 9)
+		else if($id == 15)
 		{
 			$brand_list = Country::where('is_deleted','=','No')->where('is_active','=','Yes')->orderBy('country_name','asc')->get();
 			$html2='';
@@ -121,7 +121,7 @@ class PoMasterAllocationController extends Controller
 				
 		}
 		/////// mixit /////
-		else if($id == 2)
+		else if($id == 20)
 		{
 			$mixitrole = Role::where('id',$id)->get() ;
 				$mixitmanagerid = Role::where('parent_id',$mixitrole[0]->id)->get() ;
@@ -632,7 +632,7 @@ return view('poallocation.add_allocation',$data);
 			
 			
 			
-			  if($data['userrole1_'.$i]==2)
+			  if($data['userrole1_'.$i]==20)
 			 {
 				 $insertdata['role_id'] = $data['userrole1_'.$i];
 				  $insertdata['region_id']= '';
@@ -687,7 +687,7 @@ return view('poallocation.add_allocation',$data);
 				 }
 				 $insertdata['user'] = json_encode($userrole5); 
 			 } 
-			  if($data['userrole1_'.$i]==9)
+			  if($data['userrole1_'.$i]==15)
 			 {
 				 $insertdata['role_id'] = $data['userrole1_'.$i];
 				 $insertdata['country_id']= implode(',',$data['userrole2_'.$i]);
@@ -851,7 +851,7 @@ return view('poallocation.add_allocation',$data);
 			
 			
 			
-			  if(isset($data['userrole1_'.$i])&& $data['userrole1_'.$i]==2)
+			  if(isset($data['userrole1_'.$i])&& $data['userrole1_'.$i]==20)
 			 {
 				 $insertdata['role_id'] = (isset($data['userrole1_'.$i])&& $data['userrole1_'.$i]!='')?$data['userrole1_'.$i]:0;
 				  $insertdata['region_id']= '';
@@ -906,7 +906,7 @@ return view('poallocation.add_allocation',$data);
 				 }
 				 $insertdata['user'] = json_encode($userrole5); 
 			 } 
-			  if($data['userrole1_'.$i]==9)
+			  if($data['userrole1_'.$i]==15)
 			 {
 				 $insertdata['role_id'] = $data['userrole1_'.$i];
 				 $insertdata['country_id']= implode(',',$data['userrole2_'.$i]);

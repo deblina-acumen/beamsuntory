@@ -277,7 +277,7 @@ defaultDate: new Date(),
 			$("#role1_"+incid+'_'+pid).html(datahtml);
 			
 			
-			if(userid == 2)
+			if(userid == 20)
 			{
 				$("#role1_"+incid+'_'+pid).attr('usertype','mixit');
 				$("#role1_"+incid+'_'+pid).attr('roleid',childid);
@@ -297,7 +297,7 @@ defaultDate: new Date(),
 				$("#role2_"+incid+'_'+pid).attr('multiple','multiple');
 				//$("#role2_"+incid+'_'+pid).addClass('select2');
 			}
-			else if(userid == 9)
+			else if(userid == 15)
 			{
 				$("#role1_"+incid+'_'+pid).attr('usertype','field_marking');
 				$("#role1_"+incid+'_'+pid).attr('roleid',childid);
