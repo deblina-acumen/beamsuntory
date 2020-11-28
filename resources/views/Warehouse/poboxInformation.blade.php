@@ -56,7 +56,7 @@
                   <li>
                     <div class="form-group">
                     <label ># Boxes</label>
-                    <input type="text" class="form-control" name="box[]" value="<?= isset($packingInfo->box)?$packingInfo->box:''?>">
+                    <input type="text" class="form-control" name="box[]" value="<?= isset($packingInfo->box_recceived_by_wh)&& $packingInfo->box_recceived_by_wh>0?$packingInfo->box_recceived_by_wh:$packingInfo->box?>">
                   </div>
                   </li>
                   
