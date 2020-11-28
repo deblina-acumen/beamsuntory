@@ -41,6 +41,10 @@ class DashboardController extends Controller
 		{
 			return view('dashboard.warehouse',$arrOutputData);
 		}
+		if($user_role==11 )
+		{
+			return view('dashboard.sales_ref',$arrOutputData);
+		}
 		else
 		{
         return view('dashboard.dashboard',$arrOutputData);

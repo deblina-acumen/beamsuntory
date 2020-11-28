@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\currior;
+namespace App\Http\Controllers\salesref;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,17 +9,93 @@ use App\Model\ProductCategory;
 use App\Model\Warehouse;
 use App\Model\Supplier;
 use App\Model\PO;
-use App\Model\Stock;
 use App\Model\User;
 use App\Model\POItem;
 use App\Model\BoxType;
 use App\Model\ProductVariations;
 use App\Model\PoBox;
-use App\Model\POAllocation;
 use Auth;
 use DB;
-class PickupController extends Controller
+
+use App\Model\Brand;
+use App\Model\Region;
+
+use App\Model\Role;
+use  App\Model\Country;
+use  App\Model\POAllocation;
+
+class StockController extends Controller
 {
+	
+	public function stock_dashboard()
+	{
+		$data['title'] = 'My Stock dashboard';
+		return view('salesref.my_stock_dashboard',$data);
+	}
+	
+	public function stock_category(Request $request)
+	{
+		$data['title'] = 'My Stock Category';
+		
+		$posteddata = $request->all();
+		$data['search_category'] = $search_category = isset($posteddata['search_category']) ? $posteddata['search_category'] : '';
+		$where = '1=1';
+		$cat_id_arr = [] ;
+		$product_id_arr = [] ;
+		$item_array=[] ;
+		if ($posteddata) {
+			if($search_category!='')
+			{
+				$category_name = ProductCategory::where('name', 'LIKE', "%$search_category%")->get();
+				if(!empty($category_name)&& count($category_name)>0)
+				{
+					foreach($category_name as $category_name_val)
+					{
+						array_push($cat_id_arr,$category_name_val->id);
+					}
+				}
+				else{
+					$product_sku_id = Product::where('sku', 'LIKE', "%$search_category%")->get();
+					if(!empty($product_sku_id)&& count($product_sku_id)>0)
+						{
+							foreach($product_sku_id as $product_sku_id_val)
+							{
+								array_push($product_id_arr,$product_sku_id_val->id);
+							}
+						}
+						else{
+							$product_name_id = Product::where('name', 'LIKE', "%$search_category%")->get();
+							if(!empty($product_name_id)&& count($product_name_id)>0)
+								{
+									foreach($product_name_id as $product_name_id_val)
+									{
+										array_push($product_id_arr,$product_name_id_val->id);
+									}
+								}
+								array_push($product_id_arr,0);
+						}
+						
+						
+								 $item_details = Product::whereIn('id',$product_id_arr)->get();
+								 if(!empty($item_details)&& count($item_details)>0)
+								 {
+								 foreach($item_details as $item_details_val)
+								 {
+									 array_push($cat_id_arr,$item_details_val->category_id);
+								 }
+								 }
+								 else{
+									  array_push($cat_id_arr,0);
+								 }
+				}
+				//$where .= " and lower(product_category.name) LIKE '%$search_category%'";
+				$category_id_val = implode(',',$cat_id_arr);
+				$where .= ' and product_category.id in('.$category_id_val.')';
+			}
+		}
+		$data['category']=$category = ProductCategory::where('is_deleted','No')->whereRaw($where)->orderBy('id','asc')->get();
+		return view('salesref.productcategorylist',$data);
+	}
 	
 	public function purchase_order_list(Request $request)
     {
@@ -67,7 +143,7 @@ class PickupController extends Controller
 	{
 		$data= array();
 		$poId = base64_decode($POorderId);
-		$po_details = PO::select('purchase_order.*','purchase_order_details.item_sku','purchase_order_details.id as po_item_id','purchase_order_details.item_variance_id','purchase_order_details.item_id','purchase_order_details.quantity','item.name','item.image','item.regular_price','item.retail_price','item.self_life','item.batch_no','item.self_life','purchase_order_details.quantity_received')->join('purchase_order_details','purchase_order_details.po_id','=','purchase_order.id','left')->join('item','item.id','=',"purchase_order_details.item_id","left")->where('purchase_order.id',$poId)->get();
+		$po_details = PO::select('purchase_order.*','purchase_order_details.item_sku','purchase_order_details.id as po_item_id','purchase_order_details.item_variance_id','purchase_order_details.item_id','purchase_order_details.quantity','item.name','item.image','item.regular_price','item.retail_price','item.self_life','item.batch_no','purchase_order_details.self_life','purchase_order_details.quantity_received')->join('purchase_order_details','purchase_order_details.po_id','=','purchase_order.id','left')->join('item','item.id','=',"purchase_order_details.item_id","left")->where('purchase_order.id',$poId)->get();
 		//t($po_details,1);
 		$data['po_details'] = $po_details;
 		 return view('currior.Orderconfirmation',$data);
@@ -77,11 +153,7 @@ class PickupController extends Controller
 	{
 		DB::beginTransaction();
 		$data = $request->all();
-		$po_details = PO::where('id',$data['po_id'])->get();
-		if($po_details[0]->status != 'assigned_for_pickup')
-		{
-			return redirect('pickup-order-list')->with('error-msg', 'You dont have permisstion,please contact with admin');
-		}
+	//t($data,1);
 		$total_quantity =0;
 		$item_matched = true;
 		foreach($data['quantity'] as $k=>$quantity)
@@ -114,47 +186,6 @@ class PickupController extends Controller
 			PO::where('id',$data['po_id'])->update($update_status); 
 			foreach($data['po_item_id'] as $k=>$po_item_id)
 			{
-				$allocation_detials = POAllocation::where('po_id',$data['po_id'])->where('podetails_id',$po_item_id)->where('is_deleted','No')->get();
-			//t($allocation_detials);
-			//$usr_arr=array();
-			foreach($allocation_detials as $k=>$alocation)
-			{
-				if($alocation->store_locker == 'store')
-				{
-					$user = json_decode($alocation->user); 
-					foreach($user as $usr)
-					{
-						$user_ids = explode(',',$usr);
-						foreach($user_ids as $usrinfo)
-						{
-							$item_details = product($data['item_id'][$k]);
-							$user_data = User::where('id',$usrinfo)->get();
-							//insert into stock 
-							//$stock_data['warehouse_id'] = $data['po_warehouse_id'];
-							$stock_data['user_id'] = $user_data[0]->id;
-							$stock_data['item_id'] = $alocation->item_id;
-							$stock_data['sku_code'] = $data['item_sku'][$k];
-							$stock_data['item_type'] = isset($item_details->product_type)?$item_details->product_type:'';
-							$stock_data['stock_type'] = 'in';
-							$stock_data['order_type'] = 'po';
-							$stock_data['order_type_id'] = $data['po_id'];
-							$stock_data['quantity'] = $alocation->quantity;
-							
-							 if($alocation->store_locker =="store")
-							{
-							 $stock_data['type'] = 'store';
-							 Stock::insert($stock_data);
-							}
-							 
-						}
-					}
-				}
-				
-			}
-		//t($allocation_detials,1);
-			//stock
-				
-				
 				$update_po_item['regular_price'] = $data['regular_price'][$k];
 				$update_po_item['retail_price'] =  $data['retail_price'][$k];
 				$update_po_item['self_life'] =  $data['self_life'][$k];
@@ -167,11 +198,8 @@ class PickupController extends Controller
 					return redirect('pickup-order-confirmation/'.base64_encode($data['po_id']))->with('error-msg', 'Please provide packing information for all item');
 				}
 			}
-			
-			
-			
 			DB::commit();
-			return redirect('pickup-order-list/')->with('success-msg', 'Item verification successfully done');
+			return redirect('packing-box-info/'.base64_encode($data['po_id']))->with('success-message', 'Item verification successfully done');
 		}
 	}
 	
@@ -202,7 +230,7 @@ class PickupController extends Controller
 			$insert_boxInfo['updated_by'] =Auth::user()->id;
 			$insert_boxInfo['box'] =$data['box'][$k];
 			$insert_boxInfo['quantity_per_box'] = $data['qtn_per_box'][$k];
-			PoBox::where('id',$data['box_packing_id'][$k])->update($insert_boxInfo);
+			PoBox::where('id',$data['box_packing_id'])->update($insert_boxInfo);
 			}
 			else{
 			$insert_boxInfo['po_item_id'] = $data['po_item_id'];

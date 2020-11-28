@@ -645,10 +645,12 @@ return view('poallocation.add_allocation',$data);
 				 {
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 					 $insertdata['share_user'] = '' ;
+					  $insertdata['store_locker'] ='';
 				 }
 				 else{
 					 $insertdata['each_user'] = '';
 					 $insertdata['share_user'] = "shared" ;
+					  $insertdata['store_locker'] ='';
 				 }
 				 $insertdata['user'] = json_encode($userrole2); 
 			 }
@@ -680,8 +682,10 @@ return view('poallocation.add_allocation',$data);
 				 {
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 					 $insertdata['share_user'] ='' ;
+					  $insertdata['store_locker'] ='';
 				 }
 				 else{
+					  $insertdata['store_locker'] ='';
 					 $insertdata['each_user'] = '' ;
 					 $insertdata['share_user'] = "shared" ;
 				 }
@@ -715,8 +719,10 @@ return view('poallocation.add_allocation',$data);
 				 {
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 					 $insertdata['share_user'] = '' ;
+					  $insertdata['store_locker'] ='';
 				 }
 				 else{
+					  $insertdata['store_locker'] ='';
 					 $insertdata['share_user'] = "shared" ;
 					 $insertdata['each_user'] = '' ;
 				 }
@@ -796,7 +802,7 @@ return view('poallocation.add_allocation',$data);
 	$data['brand_list'] = $brand_list = Brand::where('brand.is_deleted','=','No')->where('brand.is_active','=','Yes')->orderBy('brand.id','desc')->get();
 	
 	$data['country_list'] = $country_list = Country::where('is_deleted','=','No')->where('is_active','=','Yes')->orderBy('country_name','asc')->get();
-	$mix_manager_role = Role::where('parent_id',2)->get() ;
+	$mix_manager_role = Role::where('parent_id',20)->get() ;
 	$mixit_assistant_role = Role::where('parent_id',$mix_manager_role[0]->id)->get() ;
 	$data['mixitmanager'] = User::where('role_id',$mix_manager_role[0]->id)->get() ;
 	$data['mixitassistant'] = User::where('role_id',$mixit_assistant_role[0]->id)->get() ;
@@ -862,10 +868,12 @@ return view('poallocation.add_allocation',$data);
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
+					  $insertdata['store_locker'] ='';
 					 $insertdata['share_user'] ='';
 					 $insertdata['each_user'] = isset($data['eachselectbox_'.$i])?$data['eachselectbox_'.$i]:''  ;
 				 }
 				 else{
+					  $insertdata['store_locker'] ='';
 					 $insertdata['each_user'] = '';
 					 $insertdata['share_user'] = "shared" ;
 				 }
@@ -897,10 +905,12 @@ return view('poallocation.add_allocation',$data);
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
+					  $insertdata['store_locker'] ='';
 					 $insertdata['share_user'] = '' ;
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 				 }
 				 else{
+					  $insertdata['store_locker'] ='';
 					 $insertdata['each_user'] = '';
 					 $insertdata['share_user'] = "shared" ;
 				 }
@@ -932,10 +942,12 @@ return view('poallocation.add_allocation',$data);
 				 
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
+					  $insertdata['store_locker'] ='';
 					 $insertdata['share_user']='';
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 				 }
 				 else{
+					  $insertdata['store_locker'] ='';
 					 $insertdata['share_user'] = "shared" ;
 					 $insertdata['each_user'] ='';
 				 }

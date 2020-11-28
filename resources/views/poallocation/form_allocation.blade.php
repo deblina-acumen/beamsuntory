@@ -666,7 +666,7 @@
 					  </div>
 							<?php } ?>
 					  <div class="checkbox checkbox-success" >
-						<input id="checkbox4_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" <?php if(isset($info_val->each_user)&& $info_val->each_user =='each') { echo "checked" ; } ?> value="each" type="checkbox" name="eachselectbox_0">
+						<input id="checkbox4_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" <?php if(isset($info_val->each_user)&& $info_val->each_user =='each') { echo "checked" ; } ?> value="each" type="checkbox" name="eachselectbox_{{$incid}}">
 						<label for="checkbox4_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}"> Each </label>
 					  </div>
 					</div>

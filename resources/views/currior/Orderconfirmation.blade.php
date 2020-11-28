@@ -66,7 +66,7 @@
                   <li>
                     <div class="form-group">
                     <label >Shelf Life</label>
-                    <input name="self_life[]" type="number"  class="form-control form-control-sm" placeholder="Self Life" aria-controls="project-table" value="<?=$poDetails->self_life?>" required>
+                    <input name="self_life[]" type="number"  class="form-control form-control-sm" min="1" placeholder="Self Life" aria-controls="project-table" value="<?=$poDetails->self_life?>" required>
                   </div>
                   </li>
                 </ul>
@@ -74,14 +74,14 @@
                   <li>
                     <div class="form-group">
                     <label >Retail Price</label>
-                    <input name="retail_price[]" type="number"  class="form-control form-control-sm" placeholder="Retail price" aria-controls="project-table" value="<?=$poDetails->retail_price?>" required>
+                    <input name="retail_price[]" type="number" min="1" class="form-control form-control-sm" placeholder="Retail price" aria-controls="project-table" value="<?=$poDetails->retail_price?>" required>
 								
                   </div>
                   </li>
                   <li>
                     <div class="form-group">
                     <label >Regular Price</label>
-                    <input name="regular_price[]" type="number"  class="form-control form-control-sm" placeholder="Regular price" aria-controls="project-table" value="<?=$poDetails->regular_price?>" required>
+                    <input name="regular_price[]" type="number" min="1" class="form-control form-control-sm" placeholder="Regular price" aria-controls="project-table" value="<?=$poDetails->regular_price?>" required>
                   </div>
                   </li>
                 </ul>

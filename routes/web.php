@@ -362,6 +362,15 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('save-packing-info', 'currior\PickupController@save_packing_info');
 		Route::any('packing-box-info/{id}', 'currior\PickupController@packing_box_info');
 		Route::post('save-box-info', 'currior\PickupController@save_box_info');
+		
+		
+		/////////////// sales representative /////////////
+  
+		Route::get('my-stock', 'salesref\StockController@stock_dashboard');
+		Route::any('my-stock-item-category', 'salesref\StockController@stock_category');
+		
+		
+		
 });
 
 
