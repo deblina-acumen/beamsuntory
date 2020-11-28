@@ -43,8 +43,10 @@ protected $redirectTo = '/dashboard';
 	
 	 public function check_login_details(Request $Request)
   {
+	  
 	  $data = $Request->all();
-	
+	  if($Request->all())
+	  {
 	  $user_id = isset($data['email'])?$data['email']:'';
 	  $password = isset($data['password'])?$data['password']:'';
 	  if($user_id=='' || $password=='')
@@ -61,6 +63,9 @@ protected $redirectTo = '/dashboard';
 	  }
 	  else{
 		  return redirect('/')->with('error',"Please provide valid credentials");
+	  }
+	  }else{
+		  return view('login');
 	  }
   }
   
