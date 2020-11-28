@@ -155,8 +155,8 @@
 			<a href="{{URL('add-po-step1/'.base64_encode($po_details_val->po_id))}}" class="btn btn-default">
               <i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp; Previous Step
            </a>
-             <a href="{{URL('add-po-step1/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark">
-              Skip & Save
+             <a href="{{URL('purchase-order-list/')}}" class="btn btn-dark">
+               Save & Finish
             </a>
                       <!--  <button type="submit" class="btn btn-dark">
               Save & Finish &nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>

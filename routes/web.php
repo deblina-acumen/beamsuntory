@@ -135,7 +135,7 @@ Route::group(['middleware' => 'auth'], function () {
 	
 	
 	//po allocation//////
-	Route::get('add-po-step2/{id?}', 'po\PoMasterAllocationController@add');
+	Route::get('add-po-step2/{id?}', 'po\PoMasterAllocationController@add_step2');
 	Route::get('add-po-allocation/{itemid?}/{podetailsId?}/{poId?}', 'po\PoMasterAllocationController@add_allocation');
 	Route::post('get-allocation-window', 'po\PoMasterAllocationController@get_allocation_window');
 	Route::post('get-role2', 'po\PoMasterAllocationController@get_role2');

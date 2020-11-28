@@ -707,7 +707,7 @@
               </div>
               <div class="col-md-2">
 					  <div class="form-group">
-					  <select name="userrole2_0[]" class="form-control" usertype="" roleid="" id="role1_0_{{$po_details_val[0]->puchase_order_details_id}}" required onchange="get_role3(this,0,'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder=""
+					  <select name="userrole2_0[]" class="form-control select2" usertype="" roleid="" id="role1_0_{{$po_details_val[0]->puchase_order_details_id}}" required onchange="get_role3(this,0,'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder=""
 						  style="width: 100%;">
 					   
 					  </select>
@@ -769,7 +769,7 @@
             <a href="{{URL('add-po-step2/'.base64_encode($poId))}}" class="btn btn-default">
               <i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp; Previous Step
            </a>
-                      <button type="button" id="submit_btn" class="btn btn-dark submit_btn">
+                      <button   class="btn btn-dark">
               Save & Finish &nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>
             </button>
           </div> 

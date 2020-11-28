@@ -61,7 +61,7 @@
 					
 						<!-- Step 1 -->
 						
-						<form id="add_development_plan" name="submit_form" action="<?= URL('update-po-steop2')?>"
+						<form id="add_development_plan" name="submit_form" onsubmit="return validate_form ();" action="<?= URL('update-po-steop2')?>"
 						method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 						<!-- Step 1 -->
 						@csrf
@@ -171,7 +171,7 @@ $('.select2').select2({ width: 'resolve' });
 })();
 
 </script>
-<script>
+<script type="text/javascript">
 
 $('#datepicker').daterangepicker({
 singleDatePicker: true,
@@ -512,9 +512,10 @@ defaultDate: new Date(),
 		
 		
 	}
-	 var count = <?php echo count($info); ?>;
+	 
 	function addmorerow(pid)
 	{
+		var count = $("#countrow").val();
 		//alert(pid);
 		var max_fields_1 = 10; //maximum input boxes allowed
         var wrapper_1 = $(".input_fields_wrap_1"); //Fields wrapper
@@ -528,51 +529,39 @@ defaultDate: new Date(),
                
                 console.log(count);
                 $(wrapper_1).append('<div class="row add_1_' + count + '"><div class="col-md-2 add_1_' + count + '"><div class="input-group"><select  aria-controls="project-table" name="userrole1_'+count+'" id="role_'+count+'_'+pid+'" onchange=get_role2(this,'+count + ','+pid+') required class="form-control form-control-sm">'+'<?=$htmloption?>'+'</select></div></div><div class="col-md-2 add_1_' + count + '"><div class="form-group"><select name="userrole2_'+count+'[]" class="form-control select2" id="role1_'+count+'_'+pid+'" roleid="" usertype="" required onchange=get_role3(this,'+count + ','+pid+')  data-placeholder=""style="width: 100%;"></select></div></div><div class="col-md-2 add_1_' + count + '" id="dynamo_dropdown_'+count+'_'+pid+'_0"><div class="form-group"><select class="form-control select2" dynamodropdownincid="0" name="userrole3_'+count+'[]" usertype="" required roleid="" id="role2_'+count+'_'+pid+'" onchange=get_role4(this,'+count + ','+pid+')  data-placeholder=""style="width: 100%;"></select></div></div><div class="col-md-2 add_1_' + count + '"><div class="input-group" style="margin-top: 20px;"><div class="checkbox checkbox-success"  id="hide_locker_'+count + '_'+pid+'"><input id="checkbox3_'+count + '_'+pid+'" type="checkbox" name="storelocator_'+count + '" value="store" ><label for="checkbox3_'+count + '_'+pid+'"> Locker </label></div><div class="checkbox checkbox-success" ><input id="checkbox4_'+count + '_'+pid+'" type="checkbox" name="eachselectbox_'+count + '" value="each"><label for="checkbox4_'+count + '_'+pid+'"> Each </label></div></div></div><div class="col-md-1 add_1_' + count + '"><div class="form-group"><input type="number" required  onblur="calculate_amount()" name="quantity_'+count+'" id="quantity_'+count+'_'+pid+'"  class="form-control quantity" placeholder=""></div><input type="hidden" name="dynamoselectcount_'+count+'" id="dynamoselectcount_'+count+'_'+pid+'"></div><div class="col-md-1 add_1_' + count + '"><div class="pull-right"><div class="input-group"><button type="button" onClick="remove_field_1('+count+')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button></div></div></div></div>');
-               count++; //text box increment
+                count++; //text box increment
 			   $("#countrow").val(count) ;
+			  
             }
 
      $('.select2').select2({ width: 'resolve' });
 	}
 	
 	function remove_field_1(remove_class) {
+		var count = $("#countrow").val() ;
 		console.log(remove_class);
        new_remove_class = 'add_1_' + remove_class;
 	   console.log(new_remove_class);
        $("." + new_remove_class).remove();
 	   
 	   count--; //text box increment
-			   $("#countrow").val(count) ;
+	 $("#countrow").val(count) ;
    }
    
-   function calculate_amount()
-{
-	var total_qty = $(".total_quantity").val() ;
-var sum = 0 ;
-	$(".quantity").each(function( index ) {
-		
-	
-		 sum += Number($(this).val());
- // alert( "test:"+index + ": " + $(this).attr('area'));
- 
-});
-	// alert(sum);
-	 if(sum>total_qty)
-	 {
-		 $('.submit_btn').prop('disabled',true);
-		 alert('allocation quantity overflow');
-	 }
-	 else{
-		 $('.submit_btn').prop('disabled',false);
-}
-	
-}
+
 $(document).ready(function(e){
 	var rowcount = <?php echo count($info); ?>;
 	$("#countrow").val(rowcount) ;
+	
+	
+})
+
+
+function validate_form ( )
+{
+    valid = true;
+	
 	var sum = 0 ;
-	$('#submit_btn').click(function(e)
-	{
 		var total_quantity = $('#total_quantity').val() ;
 		
 	$(".quantity").each(function( index ) {
@@ -582,15 +571,18 @@ $(document).ready(function(e){
  
  
 		});
-	 if(sum <= total_quantity)
+	 if(sum > total_quantity)
 	 {
-		 document.getElementById("add_development_plan").submit();
+		 alert ( "Allocation Quantity exceeded from total quantity" );
+        valid = false;
 	 }
-	 else{
-		 alert('Allocation Quantity exceeded from total quantity');
-	 }
-	});
-})
+	 
+    return valid;
+}
+
+
+
+
  
 </script>
 @stop

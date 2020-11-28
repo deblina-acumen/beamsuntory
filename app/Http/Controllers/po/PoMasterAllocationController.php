@@ -22,8 +22,9 @@ use DB;
 class PoMasterAllocationController extends Controller
 {
 	
-	 public function add($id='')
+	 public function add_step2($id='')
     {
+		
         $data['title']="Purchase Order";
 		$poId= base64_decode($id);
 		//t($poId);
@@ -38,13 +39,6 @@ class PoMasterAllocationController extends Controller
 		$data['userRole'] =$userRole = Role::where('type','master')->orWhere('type','division')->orWhere('id',11)->get() ;
  
 
-		//t($po_details,1);
-		
-	/* 	$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['product']=$list = Product::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get(); */
-		//t($data,1);
         return view('poallocation.add',$data);
     }
 	
@@ -58,7 +52,7 @@ class PoMasterAllocationController extends Controller
 		if($id == 11)
 			{
 				
-			$province_list = Region::where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->orderBy('provinces.id','desc')->get();
+			$province_list = Region::where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->orderBy('provinces.name','asc')->get();
 			$html2 = '';
 			$html1 ='<option value="">Select Region</option>';
 			
@@ -131,7 +125,7 @@ class PoMasterAllocationController extends Controller
 		{
 			$mixitrole = Role::where('id',$id)->get() ;
 				$mixitmanagerid = Role::where('parent_id',$mixitrole[0]->id)->get() ;
-				$userlist = User::where('role_id',$mixitmanagerid[0]->id)->get() ;
+				$userlist = User::where('role_id',$mixitmanagerid[0]->id)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
 				//t($userlist);
 				//exit() ;
 				$html2 ='' ;
@@ -187,7 +181,7 @@ class PoMasterAllocationController extends Controller
 		{
 		
 				
-				$userlist = User::whereIn('province_id',$useridarray)->where('role_id',$role_id)->get() ;
+				$userlist = User::whereIn('province_id',$useridarray)->where('role_id',$role_id)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
 				$html2='';
 				$html1 ='<option value="">Select Sales Representative</option>';
 				if(count($userlist)>0)
@@ -213,7 +207,7 @@ class PoMasterAllocationController extends Controller
 		}
 		else if($roletype == 'field_marking'){
 			
-				$userprovince = Region::whereIn('country_id',$useridarray)->get() ;
+				$userprovince = Region::whereIn('country_id',$useridarray)->where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->get() ;
 				//t($userprovince);
 				//exit();
 				
@@ -252,7 +246,7 @@ class PoMasterAllocationController extends Controller
 				//$userprovince = User::whereIn('id',$useridarray)->get() ;
 				//$userprovince_id = $userprovince[0]->brand_id ;
 				
-				$userlist = User::whereIn('brand_id',$useridarray)->whereIn('role_id',$userrole_arr)->get() ;
+				$userlist = User::whereIn('brand_id',$useridarray)->whereIn('role_id',$userrole_arr)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
 				
 				$html2='';
 				$html1 ='<option value="">Select Brand Marketing manager</option>';
@@ -285,7 +279,7 @@ class PoMasterAllocationController extends Controller
 				array_push($userrole_arr,$userroleid->id);
 			}
 			
-				$userlist = User::whereIn('role_id',$userrole_arr)->get() ;
+				$userlist = User::whereIn('role_id',$userrole_arr)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
 				$html2='';
 				$html1 ='<option value="">Select mixit assistant</option>';
 				if(count($userlist)>0)
@@ -362,17 +356,20 @@ class PoMasterAllocationController extends Controller
 			if($dynamodropdownid ==0)
 			{
 				//echo "test";
-				$userlist = User::whereIn('province_id',$useridarray)->whereIn('role_id',$userrole_arr)->get() ;
+				$userlist = User::whereIn('province_id',$useridarray)->whereIn('role_id',$userrole_arr)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
+				$provence_id_arry_new = $useridarray ;
 				
 			}else{
 				//echo "test2";
-				$user_details = User::whereIn('id',$useridarray)->get() ;
+				$user_details = User::whereIn('id',$useridarray)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
 				foreach($user_details as $user_details_val)
 				{
 					array_push($user_details_arr,$user_details_val->province_id);
 				}
 				//t($user_details_arr);
-				$userlist = User::whereIn('province_id',$user_details_arr)->whereIn('role_id',$userrole_arr)->get() ;
+				$userlist = User::whereIn('province_id',$user_details_arr)->whereIn('role_id',$userrole_arr)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
+				
+				$provence_id_arry_new = $user_details_arr ;
 			}
 				
 				
@@ -396,7 +393,11 @@ class PoMasterAllocationController extends Controller
 				$html4 = $html2 . $html1 . $html3 ;
 				$return_arr['html'] = $html4 ;
 				$check_chieldId = Role::where('parent_id',$role_id)->where('type','user')->get() ;
-				if(count($check_chieldId)>0)
+				//t($check_chieldId[0]->id);
+				//t($provence_id_arry_new);
+				$check_user_exist= User::whereIn('province_id',$provence_id_arry_new)->where('role_id',$check_chieldId[0]->id)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get();
+				//echo count($check_user_exist);
+				if(count($check_chieldId)>0 && count($check_user_exist)>0)
 				{
 					$return_arr['dynamodropdownid'] = $dynamodropdownid+1 ;
 					$return_arr['prevdynamodropdownid'] = $dynamodropdownid ;
@@ -429,13 +430,13 @@ class PoMasterAllocationController extends Controller
 			}
 			
 			
-				$user_details = User::whereIn('id',$useridarray)->get() ;
+				$user_details = User::whereIn('id',$useridarray)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
 				foreach($user_details as $user_details_val)
 				{
 					array_push($user_details_arr,$user_details_val->brand_id);
 				}
 				
-				$userlist = User::whereIn('brand_id',$user_details_arr)->whereIn('role_id',$userrole_arr)->get() ;
+				$userlist = User::whereIn('brand_id',$user_details_arr)->whereIn('role_id',$userrole_arr)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get() ;
 			
 		
 			
@@ -461,7 +462,12 @@ class PoMasterAllocationController extends Controller
 				
 				$return_arr['html'] = $html4 ;
 				$check_chieldId = Role::where('parent_id',$role_id)->where('type','user')->get() ;
-				if(count($check_chieldId)>0)
+				//t($check_chieldId[0]->id);
+				$check_user_exist= User::whereIn('brand_id',$user_details_arr)->where('role_id',$check_chieldId[0]->id)->where('users.is_deleted','=','No')->where('users.is_active','=','Yes')->get();
+				//echo count($check_chieldId) ;
+				//echo count($check_user_exist) ;
+				//t($check_user_exist);
+				if(count($check_chieldId)>0 && count($check_user_exist)>0)
 				{
 					$return_arr['dynamodropdownid'] = $dynamodropdownid+1 ;
 					$return_arr['prevdynamodropdownid'] = $dynamodropdownid ;
@@ -638,8 +644,10 @@ return view('poallocation.add_allocation',$data);
 				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata['share_user'] = '' ;
 				 }
 				 else{
+					 $insertdata['each_user'] = '';
 					 $insertdata['share_user'] = "shared" ;
 				 }
 				 $insertdata['user'] = json_encode($userrole2); 
@@ -671,8 +679,10 @@ return view('poallocation.add_allocation',$data);
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata['share_user'] ='' ;
 				 }
 				 else{
+					 $insertdata['each_user'] = '' ;
 					 $insertdata['share_user'] = "shared" ;
 				 }
 				 $insertdata['user'] = json_encode($userrole5); 
@@ -704,9 +714,11 @@ return view('poallocation.add_allocation',$data);
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata['share_user'] = '' ;
 				 }
 				 else{
 					 $insertdata['share_user'] = "shared" ;
+					 $insertdata['each_user'] = '' ;
 				 }
 				 $insertdata['user'] = json_encode($userrole9); 
 			 } 
@@ -722,15 +734,19 @@ return view('poallocation.add_allocation',$data);
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata['share_user'] ='';
 				 }
 				  if(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store')
 				 {
 					 $insertdata['store_locker'] = $data['storelocator_'.$i]  ;
+					 $insertdata['share_user']='';
 				 }
 				 if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') ||(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
 				 {
 				 }
 				 else{
+					 $insertdata['each_user'] ='';
+					 $insertdata['store_locker'] ='';
 					 $insertdata['share_user'] = "shared" ;
 				 }
 				 $insertdata['user'] = json_encode($userrole11); 
@@ -743,7 +759,7 @@ return view('poallocation.add_allocation',$data);
 		 }
 		 //$insertdata['user'] =json_encode($userrole); 
 		 
-		 return redirect('purchase-order-list')->with('success-msg', 'Purchase Order Added Successfully');
+		 return redirect('add-po-step2/'.base64_encode($data['poid']))->with('success-msg', 'Allocation Added Successfully');
 		 
 	}
 	
@@ -846,9 +862,11 @@ return view('poallocation.add_allocation',$data);
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
+					 $insertdata['share_user'] ='';
 					 $insertdata['each_user'] = isset($data['eachselectbox_'.$i])?$data['eachselectbox_'.$i]:''  ;
 				 }
 				 else{
+					 $insertdata['each_user'] = '';
 					 $insertdata['share_user'] = "shared" ;
 				 }
 				 $insertdata['user'] = json_encode($userrole2); 
@@ -879,9 +897,11 @@ return view('poallocation.add_allocation',$data);
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
+					 $insertdata['share_user'] = '' ;
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 				 }
 				 else{
+					 $insertdata['each_user'] = '';
 					 $insertdata['share_user'] = "shared" ;
 				 }
 				 $insertdata['user'] = json_encode($userrole5); 
@@ -912,10 +932,12 @@ return view('poallocation.add_allocation',$data);
 				 
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
+					 $insertdata['share_user']='';
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 				 }
 				 else{
 					 $insertdata['share_user'] = "shared" ;
+					 $insertdata['each_user'] ='';
 				 }
 				 $insertdata['user'] = json_encode($userrole9); 
 			 } 
@@ -930,16 +952,20 @@ return view('poallocation.add_allocation',$data);
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
+					 $insertdata['share_user']='';
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 				 }
 				  if(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store')
 				 {
+					 $insertdata['share_user']='';
 					 $insertdata['store_locker'] = $data['storelocator_'.$i]  ;
 				 }
 				 if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') ||(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
 				 {
 				 }
 				 else{
+					 $insertdata['each_user'] ='';
+					 $insertdata['store_locker'] ='';
 					 $insertdata['share_user'] = "shared" ;
 				 }
 				 $insertdata['user'] = json_encode($userrole11); 
@@ -960,7 +986,7 @@ return view('poallocation.add_allocation',$data);
 		 //exit() ;
 		 //$insertdata['user'] =json_encode($userrole); 
 		 
-		return redirect('purchase-order-list')->with('success-msg', 'Purchase Order Update Successfully');
+		return redirect('add-po-step2/'.base64_encode($data['poid']))->with('success-msg', 'Purchase Order Update Successfully');
 	}
 	
     
