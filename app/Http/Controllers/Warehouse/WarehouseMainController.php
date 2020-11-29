@@ -84,7 +84,7 @@ class WarehouseMainController extends Controller
 		$item_matched = true;
 		
 			
-			foreach($data['po_item_id'] as $k=>$po_item_id)
+			foreach($data['po_item_id'] as $k1=>$po_item_id)
 			{
 				$allocation_detials = POAllocation::where('po_id',$data['po_id'])->where('podetails_id',$po_item_id)->where('is_deleted','No')->get();
 			//t($allocation_detials);
@@ -105,7 +105,7 @@ class WarehouseMainController extends Controller
 							$stock_data['warehouse_id'] = $data['po_warehouse_id'];
 							$stock_data['user_id'] = $user_data[0]->id;
 							$stock_data['item_id'] = $alocation->item_id;
-							$stock_data['sku_code'] = $data['item_sku'][$k];
+							$stock_data['sku_code'] = $data['item_sku'][$k1];
 							$stock_data['item_type'] = isset($item_details->product_type)?$item_details->product_type:'';
 							$stock_data['stock_type'] = 'in';
 							$stock_data['order_type'] = 'po';
