@@ -119,7 +119,7 @@ class WarehouseMainController extends Controller
 							}
 							 else if($alocation->share_user =="shared")
 							{
-							 $stock_data['type'] = 'store';
+							 $stock_data['type'] = 'shared';
 							 Stock::insert($stock_data);
 							}
 							 
