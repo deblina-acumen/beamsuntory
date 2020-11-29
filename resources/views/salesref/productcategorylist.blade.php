@@ -43,7 +43,7 @@
           </span>
           <div class="mt-20">
             <h6 class="text-uppercase fw-500">{{isset($category_val->name)?$category_val->name:''}}</h6>
-            <p>888 items </p>
+            <p>{{get_allocated_product_count_per_user($category_val->id,Auth::user()->id,Auth::user()->role_id)}} items </p>
           </div>
       </div>
       </div>

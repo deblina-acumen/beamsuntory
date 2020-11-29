@@ -13,6 +13,7 @@ use App\Model\ProductVariations;
 use App\Model\POItem;;
 use  App\Model\POAllocation;
 use  App\Model\Warehouse;
+use App\Model\Stock;
 
 function product($item_id)
 {
@@ -211,6 +212,42 @@ function get_chiled_user_field_marketing($country,$chiledrole)
 	$details = User::whereIn('province_id',$country)->where('role_id',$chiledrole)->get();
 	return isset($details)?$details:'';
 }
+
+function get_allocated_product_count_per_user($cateid,$userId,$roleId)
+{
+	DB::enableQueryLog();
+	//t($cateid);
+	//exit();
+	$item_array=[] ;
+	 $item_details = Product::where('category_id',$cateid)->get();
+	 if(!empty($item_details)&& count($item_details)>0)
+	 {
+	 foreach($item_details as $item_details_val)
+	 {
+		 array_push($item_array,$item_details_val->id);
+	 }
+	 }
+	 else{
+		  array_push($item_array,0);
+	 }
+	 $item_id= implode(',',$item_array) ;
+	$count_stock_product =  DB::select(DB::raw("SELECT count(*) as count FROM `stock` where item_id IN ($item_id) and user_id=$userId and type='store' and stock_type='in' and order_type='po' GROUP BY sku_code"));
+	//$query = DB::getQueryLog();
+  // t($query);
+   //exit();
+	$sum = 0 ;
+	foreach($count_stock_product as $count_stock_product_val)
+	{
+		$sum = $sum + $count_stock_product_val->count ;
+	}
+	 
+	 
+
+	return $sum ;
+	
+	
+}
+
 
 
 

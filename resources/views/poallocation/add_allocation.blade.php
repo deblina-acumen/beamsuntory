@@ -61,7 +61,7 @@
 					
 						<!-- Step 1 -->
 						
-						<form id="add_development_plan" name="submit_form" action="<?= URL('save-po-steop2')?>"
+						<form id="add_development_plan" name="submit_form" onsubmit="return validate_form ();" action="<?= URL('save-po-steop2')?>"
 						method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 						<!-- Step 1 -->
 						@csrf
