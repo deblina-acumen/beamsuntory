@@ -112,7 +112,7 @@ class PickupController extends Controller
 			//$update_status['total_tiem_quantity'] = $data['total_item_quantity'];
 			//$update_status['no_of_box'] = $data['no_of_box'];
 			PO::where('id',$data['po_id'])->update($update_status); 
-			foreach($data['po_item_id'] as $k=>$po_item_id)
+			foreach($data['po_item_id'] as $k1=>$po_item_id)
 			{
 				$allocation_detials = POAllocation::where('po_id',$data['po_id'])->where('podetails_id',$po_item_id)->where('is_deleted','No')->get();
 			//t($allocation_detials);
@@ -127,13 +127,13 @@ class PickupController extends Controller
 						$user_ids = explode(',',$usr);
 						foreach($user_ids as $usrinfo)
 						{
-							$item_details = product($data['item_id'][$k]);
+							$item_details = product($data['item_id'][$k1]);
 							$user_data = User::where('id',$usrinfo)->get();
 							//insert into stock 
 							//$stock_data['warehouse_id'] = $data['po_warehouse_id'];
 							$stock_data['user_id'] = $user_data[0]->id;
 							$stock_data['item_id'] = $alocation->item_id;
-							$stock_data['sku_code'] = $data['item_sku'][$k];
+							$stock_data['sku_code'] = $data['item_sku'][$k1];
 							$stock_data['item_type'] = isset($item_details->product_type)?$item_details->product_type:'';
 							$stock_data['stock_type'] = 'in';
 							$stock_data['order_type'] = 'po';
@@ -155,10 +155,10 @@ class PickupController extends Controller
 			//stock
 				
 				
-				$update_po_item['regular_price'] = $data['regular_price'][$k];
-				$update_po_item['retail_price'] =  $data['retail_price'][$k];
-				$update_po_item['self_life'] =  $data['self_life'][$k];
-				$update_po_item['quantity_received'] =  $data['quantity'][$k];
+				$update_po_item['regular_price'] = $data['regular_price'][$k1];
+				$update_po_item['retail_price'] =  $data['retail_price'][$k1];
+				$update_po_item['self_life'] =  $data['self_life'][$k1];
+				$update_po_item['quantity_received'] =  $data['quantity'][$k1];
 				POItem::where('id',$po_item_id)->update($update_po_item);
 				$have_packing_info = PoBox::where('po_item_id',$po_item_id)->get();
 				if(empty($have_packing_info) || count($have_packing_info)==0)
