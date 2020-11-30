@@ -33,22 +33,23 @@ class DashboardController extends Controller
 		$userId = Auth::user()->id ;
 		$user_role = Auth::user()->role_id ;
 		$arrOutputData=array();
-		if($user_role==10 )
+		if($user_role==1)
+		{
+			return view('dashboard.dashboard',$arrOutputData);
+		}
+		else if($user_role==10 )
 		{
 			return view('dashboard.currior',$arrOutputData);
 		}
-		if($user_role==2 )
+		else if($user_role==2 )
 		{
 			return view('dashboard.warehouse',$arrOutputData);
 		}
-		if($user_role==11 )
+		else
 		{
 			return view('dashboard.sales_ref',$arrOutputData);
 		}
-		else
-		{
-        return view('dashboard.dashboard',$arrOutputData);
-		}
+		
     }
 	
 	
