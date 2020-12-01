@@ -367,8 +367,11 @@ Route::group(['middleware' => 'auth'], function () {
 		/////////////// sales representative /////////////
   
 		Route::get('my-stock', 'salesref\StockController@stock_dashboard');
-		Route::any('my-stock-item-category', 'salesref\StockController@stock_category');
+		Route::any('item-category/{type?}/{role_id?}', 'salesref\StockController@stock_category');
+		Route::any('item-list/{type?}/{role_id?}/{cate_id?}', 'salesref\StockController@item_list');
 		
+		Route::get('ship-request', 'salesref\StoreDeliveryController@item_list');
+		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');
 		
 		
 });

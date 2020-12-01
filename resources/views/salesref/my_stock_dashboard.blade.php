@@ -24,11 +24,11 @@
 
     <!-- Main content -->
     <section class="content mob-container">
-		
+		<?php if(Auth::user()->role_id==11){ ?>
       <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
 		
 		 <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
-		 <a href="{{URL('my-stock-item-category')}}" class="text-center"> <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
+		 <a href="{{URL('item-category/my-locker/'.base64_encode(Auth::user()->role_id))}}" class="text-center"> <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
           <i class="align-sub fa fa-file-archive-o font-size-40" aria-hidden="true"></i>
           </a></span>
           <div class="mt-20">
@@ -36,10 +36,11 @@
           </div>
 		  
         </div>
+		<?php } ?>
 
         <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
          <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
-		 <a href="{{URL('my-stock-item-category')}}" class="text-center"> <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
+		 <a href="{{URL('item-category/own-by-me/'.base64_encode(Auth::user()->role_id))}}" class="text-center"> <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
           <i class="align-sub fa fa-file-archive-o font-size-40" aria-hidden="true"></i>
           </a></span>
           <div class="mt-20">
@@ -50,11 +51,11 @@
 		
 		 <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
          <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
-		 <a href="{{URL('my-stock-category')}}" class="text-center"> <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
+		 <a href="{{URL('item-category/not-own-by-me/'.base64_encode(Auth::user()->role_id))}}" class="text-center"> <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
           <i class="align-sub fa fa-file-archive-o font-size-40" aria-hidden="true"></i>
           </a></span>
           <div class="mt-20">
-            <h4 class="text-uppercase fw-500">Stocks owned by me</h4>
+            <h4 class="text-uppercase fw-500">Stocks Not owned by me</h4>
           </div>
         </div>
 		

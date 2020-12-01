@@ -23,6 +23,8 @@ use App\Model\Region;
 use App\Model\Role;
 use  App\Model\Country;
 use  App\Model\POAllocation;
+use  App\Model\Stock;
+use  App\Model\ProductPrivacy;
 
 class StockController extends Controller
 {
@@ -33,10 +35,10 @@ class StockController extends Controller
 		return view('salesref.my_stock_dashboard',$data);
 	}
 	
-	public function stock_category(Request $request)
+	public function stock_category(Request $request,$type,$role_id)
 	{
 		$data['title'] = 'My Stock Category';
-		
+		$data['type'] = $type ;
 		$posteddata = $request->all();
 		$data['search_category'] = $search_category = isset($posteddata['search_category']) ? $posteddata['search_category'] : '';
 		$where = '1=1';
@@ -95,6 +97,44 @@ class StockController extends Controller
 		}
 		$data['category']=$category = ProductCategory::where('is_deleted','No')->whereRaw($where)->orderBy('id','asc')->get();
 		return view('salesref.productcategorylist',$data);
+	}
+	
+	public function item_list(Request $request,$type='',$role_id='',$cate_id='')
+	{
+		DB::enableQueryLog();
+		$data['title'] = 'Stock List';
+		$data['type'] = $type ;
+		$data['role_id'] = $role_id =  base64_decode($role_id) ;
+		$data['cate_id'] = $cate_id = base64_decode($cate_id) ;
+		$user_id = Auth::user()->id ;
+		$posteddata = $request->all();
+		
+		$where = '1=1' ;
+		if($cate_id!='')
+		{
+			$where .= ' and item.category_id='.$cate_id;
+			
+		}
+		if($type =='my-locker')
+		{
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->where('type','store')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
+		}
+		else if($type =='own-by-me')
+		{
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->where('type','each')->orWhere('type','shared')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
+		}
+		else if($type =='not-own-by-me')
+		{
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','!=',$user_id)->where('stock.stock_type','in')->where('type','store')->orWhere('type','each')->orWhere('type','shared')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
+		}
+		
+		$query = DB::getQueryLog();
+		$data['product_list'] = $product_list ;
+		//t($query);
+		//t($product_list);
+		//exit();
+		return view('salesref.mystock.itemlist',$data);
+		
 	}
 	
 	public function purchase_order_list(Request $request)

@@ -39,11 +39,17 @@
       <div class="col-6">
       <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
           <span class="avatar avatar-xl bg-purple opacity-60 mx-auto">
+		  
+		  <a href="{{URL('item-list/'.$type.'/'.base64_encode(Auth::user()->role_id).'/'.base64_encode($category_val->id))}}" class="text-center"> 
           <i class="align-sub ti-crown font-size-30"></i>
+          </a>
+		  
           </span>
           <div class="mt-20">
-            <h6 class="text-uppercase fw-500">{{isset($category_val->name)?$category_val->name:''}}</h6>
-            <p>{{get_allocated_product_count_per_user($category_val->id,Auth::user()->id,Auth::user()->role_id)}} items </p>
+            <h6 class="text-uppercase fw-500">
+			
+			{{isset($category_val->name)?$category_val->name:''}}</h6>
+            <p>{{get_allocated_product_count_per_user($category_val->id,Auth::user()->id,Auth::user()->role_id,$type)}} items </p>
           </div>
       </div>
       </div>
