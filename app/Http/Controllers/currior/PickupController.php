@@ -138,6 +138,7 @@ class PickupController extends Controller
 							$stock_data['stock_type'] = 'in';
 							$stock_data['order_type'] = 'po';
 							$stock_data['order_type_id'] = $data['po_id'];
+							$stock_data['allocation_id'] = $alocation->id;
 							$stock_data['quantity'] = $alocation->quantity;
 							
 							 if($alocation->store_locker =="store")
