@@ -227,7 +227,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('supplier-details', 'Master\SupplierController@view');
 	Route::any('supplier/active/{id?}/{value?}', 'Master\SupplierController@changeStatus');
 	Route::any('supplier/delete/{id?}/{value?}', 'Master\SupplierController@delete_fn');
-	
+	Route::post('get-supplier-province-by-country-id', [
+			'as' => 'get-supplier-province-by-country-id',
+			'uses' => 'Master\SupplierController@get_supplier_province_list_by_country'
+		]);
 	
 	
 	//////// Master store section ///
@@ -370,8 +373,12 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('item-category/{type?}/{role_id?}', 'salesref\StockController@stock_category');
 		Route::any('item-list/{type?}/{role_id?}/{cate_id?}', 'salesref\StockController@item_list');
 		
+
 		Route::get('ship-request', 'salesref\StoreDeliveryController@item_list');
 		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');
+
+		Route::any('ship-request-list', 'user\ShipRequestController@purchase_order_list');
+
 		
 		
 });
