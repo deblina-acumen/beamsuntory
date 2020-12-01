@@ -44,7 +44,7 @@
 					<div class="media-list media-list-hover media-list-divided">
 			<?php $sum = 0 ; ?>
 			@if(!empty($product_list)&& count($product_list)>0)	
-			@foreach($product_list as $product_list_val)
+			@foreach($product_list as $k=>$product_list_val)
             <div class="media media-single m-media">
               <div class="media-body">
               <div class="pull-left">
@@ -52,8 +52,8 @@
               </div>
               <div class="pull-right ml-10">
                   <div class="checkbox checkbox-success">
-                  <input id="checkbox2" type="checkbox">
-                  <label for="checkbox2"></label>
+                  <input id="checkbox2_{{$k}}" type="checkbox">
+                  <label for="checkbox2_{{$k}}"></label>
                   </div>
               </div>
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
