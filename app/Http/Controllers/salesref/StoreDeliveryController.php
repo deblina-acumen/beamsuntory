@@ -41,7 +41,7 @@ class StoreDeliveryController extends Controller
 		
 		if($role_id ==11)
 		{
-			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','=',$user_id)->where('stock.stock_type','in')->where('type','store')->orWhere('type','each')->orWhere('type','shared')->groupBy('stock_item_id','stock.sku_code')->get();
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','=',$user_id)->whereRaw("stock.stock_type = 'in' and  (type='store'  or type = 'each' or type='shared')")->groupBy('stock_item_id','stock.sku_code')->get();
 		}
 		else
 		{
