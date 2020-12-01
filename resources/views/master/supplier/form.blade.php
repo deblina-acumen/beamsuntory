@@ -27,7 +27,8 @@
 				 <div class="col-md-12">
 					<div class="form-group">
 						<label>Country</label>
-						<select name="country_id" class="form-control" >
+						<select name="country_id" class="form-control select2" onchange="get_province(this)" id="country_id" >
+						<option  value="">Select</option>
 						<?php 
 						if(isset($country)&&!empty($country)&&count($country)>0)
 						{
@@ -47,7 +48,8 @@
 				<div class="col-md-12">
 					<div class="form-group">
 						<label>Region/Province</label>
-						<select name="province_id" class="form-control">
+						<select name="province_id" class="form-control select2" id="province_id"  name="province_id">
+						<option  value="">Select</option>
 						<?php 
 						if(isset($province)&&!empty($province)&&count($province)>0)
 						{
@@ -96,7 +98,7 @@
 				</div>
 			</div>
 			<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-4">
               <div class="form-group">
                 <label> Image</label>
                <input id="file-input" type="file" name="image" onchange="readURL(this);"/>
