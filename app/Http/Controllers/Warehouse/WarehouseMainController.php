@@ -91,8 +91,7 @@ class WarehouseMainController extends Controller
 			//$usr_arr=array();
 			foreach($allocation_detials as $k=>$alocation)
 			{
-				if($alocation->store_locker != 'store')
-				{
+				
 					$user = json_decode($alocation->user); 
 					foreach($user as $usr)
 					{
@@ -125,7 +124,7 @@ class WarehouseMainController extends Controller
 							 
 						}
 					}
-				}
+				
 				
 			}
 				$update_status['status'] = 'delivered';
