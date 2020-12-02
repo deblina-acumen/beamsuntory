@@ -27,7 +27,7 @@
 <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 			   @csrf
             <div class="input-group mb-20">
-                <input type="search" name="search_category" class="form-control form-control-sm" placeholder="Name, SKU or Category" aria-controls="project-table">
+                <input type="search" name="search_category" value="{{$search_category}}" class="form-control form-control-sm" placeholder="Name, SKU or Category" aria-controls="project-table">
               &nbsp;<button type="submit" class="btn btn-blue btn-sm">Search</button>
             </div>
 			</form>

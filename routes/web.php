@@ -372,7 +372,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('my-stock', 'salesref\StockController@stock_dashboard');
 		Route::any('item-category/{type?}/{role_id?}', 'salesref\StockController@stock_category');
 		Route::any('item-list/{type?}/{role_id?}/{cate_id?}', 'salesref\StockController@item_list');
-		
+		Route::post('item-list-change-privacystatus/', 'salesref\StockController@change_privacy_status');
 
 		Route::any('ship-request', 'salesref\StoreDeliveryController@item_list');
 		Route::any('ship-request-list', 'salesref\StoreDeliveryController@ship_request_list');

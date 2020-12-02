@@ -108,24 +108,67 @@ class StockController extends Controller
 		$data['cate_id'] = $cate_id = base64_decode($cate_id) ;
 		$user_id = Auth::user()->id ;
 		$posteddata = $request->all();
-		
+		$data['search_category'] = $search_category = isset($posteddata['search_category']) ? $posteddata['search_category'] : '';
 		$where = '1=1' ;
+		
+		$cat_id_arr = [] ;
+		$product_id_arr = [] ;
+		$item_array=[] ;
+		if ($posteddata) {
+			if($search_category!='')
+			{
+				$category_name = ProductCategory::where('name', 'LIKE', "%$search_category%")->get();
+				if(!empty($category_name)&& count($category_name)>0)
+				{
+					foreach($category_name as $category_name_val)
+					{
+						array_push($cat_id_arr,$category_name_val->id);
+					}
+					$item_details = Product::whereIn('category_id',$cat_id_arr)->get();
+								 if(!empty($item_details)&& count($item_details)>0)
+								 {
+								 foreach($item_details as $item_details_val)
+								 {
+									 array_push($product_id_arr,$item_details_val->id);
+								 }
+								 }
+								 else{
+									  array_push($product_id_arr,0);
+								 }
+								 $item_id_val = implode(',',$product_id_arr);
+				$where .= ' and stock.item_id in('.$item_id_val.')';
+				}
+				else{
+					
+					$item_search = strtolower($search_category);
+			$where .=" and (lower(item.name) like '%$item_search%' or lower(stock.sku_code) like '%$item_search%')";
+					
+								 
+				}
+				
+				
+			}
+		}
+		
 		if($cate_id!='')
 		{
 			$where .= ' and item.category_id='.$cate_id;
 			
 		}
+		
 		if($type =='my-locker')
 		{
 			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->where('type','store')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
 		}
 		else if($type =='own-by-me')
 		{
-			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->where('type','each')->orWhere('type','shared')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
+			$where .= " and (stock.type ='each' or stock.type ='shared')" ;
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
 		}
 		else if($type =='not-own-by-me')
 		{
-			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','!=',$user_id)->where('stock.stock_type','in')->where('type','store')->orWhere('type','each')->orWhere('type','shared')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
+			$where .= " and (stock.type ='each' or stock.type ='shared' or stock.type ='store')" ;
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','!=',$user_id)->where('stock.stock_type','in')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
 		}
 		
 		$query = DB::getQueryLog();
@@ -135,6 +178,40 @@ class StockController extends Controller
 		//exit();
 		return view('salesref.mystock.itemlist',$data);
 		
+	}
+	
+	public function change_privacy_status(Request $request)
+	{
+		DB::enableQueryLog();
+		$posteddata = $request->all();
+		//t($posteddata);
+		$row_count = $posteddata['row_count'] ;
+		//t($row_count);
+		//exit();
+		for($i=0;$i<=$row_count;$i++)
+		{
+			if(isset($posteddata['sku_code_'.$i])&&$posteddata['sku_code_'.$i]!='')
+			{
+				echo $posteddata['item_id_'.$i] ;
+				$insertData['user_id']= Auth::user()->id ;
+				$insertData['item_id']= $posteddata['item_id_'.$i];
+				$insertData['stock_id']= $posteddata['stock_id_'.$i];
+				$insertData['sku_code']= $posteddata['sku_code_'.$i];
+				$insertData['quantity']= $posteddata['quantity_'.$i];
+				
+				$insertData['privacy_type']= $posteddata['submit'];
+				$insertData['created_by'] = Auth::user()->id;
+				$item_privacy = ProductPrivacy::where('user_id',Auth::user()->id)->where('item_id',$posteddata['item_id_'.$i])->where('sku_code',$posteddata['sku_code_'.$i])->get();
+				if(count($item_privacy)>0)
+				{
+					ProductPrivacy::where('id',$item_privacy[0]->id)->update($insertData) ;
+				}else{
+				ProductPrivacy::insert($insertData) ;
+				}
+			}
+		}
+		
+		return redirect('item-list/'.$posteddata['type'].'/'.base64_encode($posteddata['role_id']).'/'.base64_encode($posteddata['cate_id']))->with('success-message', 'Item verification successfully done');
 	}
 	
 	public function purchase_order_list(Request $request)
