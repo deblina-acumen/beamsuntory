@@ -41,14 +41,14 @@
           <!---- List Item ------>
           <div class="box">
              <div class="box-header no-border bg-dark">
-             <h6 class="pull-left">Request List</h6>
+             <h6 class="pull-left">Search</h6>
              <div class="pull-right">
               <a href="#"><i class="fa fa-filter font-size-20 text-secondary" aria-hidden="true"></i></a>
              </div>
 			 <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 			   @csrf
              <div class="input-group">
-                <input type="text" name="item_search" class="form-control form-control-sm" placeholder="Name, SKU or Category" aria-controls="project-table" value="<?= isset($item_search)?$item_search:''?>">
+                <input type="text" name="search" class="form-control form-control-sm" placeholder="Order No" aria-controls="project-table" value="<?= isset($search)?$search:''?>">
                &nbsp;<button type="submit" class="btn btn-blue btn-sm">Search</button>
             </div>
 			</form>

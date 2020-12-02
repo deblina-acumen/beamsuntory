@@ -117,10 +117,22 @@ class StoreDeliveryController extends Controller
 			return redirect('ship-request-list')->with('error-msg', 'Error!Please try after sometime');
 		}
 	}
-	public function ship_request_list()
+	public function ship_request_list(Request $request)
 	{
+		$posted = $request->all();
+		$where = "";
+		if(isset($posted['search']) && $posted['search']!='')
+		{
+			$search = $posted['search'];
+			//$where =" and delivery_order.oder_no = '$search' ";
+			$do_list = Delivery_order::select('delivery_order.*','store.store_name','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->where('delivery_order.oder_no', 'like',$search)->get();
+			
+		}
+		else{
+			$do_list = Delivery_order::select('delivery_order.*','store.store_name','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->get();
+		}
 		$data['title'] = 'Ship Request List';
-		$do_list = Delivery_order::select('delivery_order.*','store.store_name','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->get();
+		
 		$data['do_list'] = $do_list;
 		//t($do_list,1);
 		return view('salesref.store_delivary.ship_request_list',$data);
