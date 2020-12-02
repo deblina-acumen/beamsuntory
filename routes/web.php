@@ -374,10 +374,14 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('item-list/{type?}/{role_id?}/{cate_id?}', 'salesref\StockController@item_list');
 		
 
-		Route::get('ship-request', 'salesref\StoreDeliveryController@item_list');
+		Route::any('ship-request', 'salesref\StoreDeliveryController@item_list');
+		Route::any('ship-request-list', 'salesref\StoreDeliveryController@ship_request_list');
+		Route::any('create-store-request', 'salesref\StoreDeliveryController@create_store_request');
+		Route::post('save-store-request', 'salesref\StoreDeliveryController@save_store_request');
+		Route::any('get-store-list', 'salesref\StoreDeliveryController@get_store_list');
 		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');
 
-		Route::any('ship-request-list', 'user\ShipRequestController@purchase_order_list');
+		
 
 		
 		
