@@ -18,7 +18,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Item List
+         Add Ship Request <a href="{{URL('ship-request-list')}}" type="button" class="btn btn-dark btn-sm"> Ship Request List</a>
       </h1>
     </section>
 
