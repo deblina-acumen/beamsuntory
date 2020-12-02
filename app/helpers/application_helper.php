@@ -233,20 +233,20 @@ function get_allocated_product_count_per_user($cateid,$userId,$roleId,$type)
 	 $item_id= implode(',',$item_array) ;
 	 if($type=='own-by-me')
 	 {
-		 $count_stock_product =  DB::select(DB::raw("SELECT count(*) as count FROM `stock` where item_id IN ($item_id) and user_id=$userId and (type='each' or type='shared') and stock_type='in' and order_type='po' GROUP BY sku_code"));
+		 $count_stock_product =  DB::select(DB::raw("SELECT count(*) as count FROM `stock` where item_id IN ($item_id) and user_id=$userId and (type='each' or type='shared') and stock_type='in' and order_type='po' GROUP BY item_id,sku_code"));
 	 }
 	 else if($type=='not-own-by-me')
 	 {
-		 $count_stock_product =  DB::select(DB::raw("SELECT count(*) as count FROM `stock` where item_id NOT IN ($item_id) and user_id=$userId and (type='each' or type='shared' or type='store') and stock_type='in' and order_type='po' GROUP BY sku_code"));
+		 $count_stock_product =  DB::select(DB::raw("SELECT count(*) as count FROM `stock` where item_id NOT IN ($item_id) and user_id=$userId and (type='each' or type='shared' or type='store') and stock_type='in' and order_type='po' GROUP BY item_id,sku_code"));
 	 }
 	 else if($type=='my-locker'){
-		 $count_stock_product =  DB::select(DB::raw("SELECT count(*) as count FROM `stock` where item_id IN ($item_id) and user_id=$userId and type='store' and stock_type='in' and order_type='po' GROUP BY sku_code"));
+		 $count_stock_product =  DB::select(DB::raw("SELECT count(*) as count FROM `stock` where item_id IN ($item_id) and user_id=$userId and type='store' and stock_type='in' and order_type='po' GROUP BY item_id,sku_code"));
 	 }
 	 else{
 	 }
 	
 	//$query = DB::getQueryLog();
-  // t($query);
+ //  t($query);
    //exit();
 	$sum = 0 ;
 	foreach($count_stock_product as $count_stock_product_val)
@@ -256,7 +256,7 @@ function get_allocated_product_count_per_user($cateid,$userId,$roleId,$type)
 	 
 	 
 
-	return $sum ;
+	return count($count_stock_product) ;
 	
 	
 }

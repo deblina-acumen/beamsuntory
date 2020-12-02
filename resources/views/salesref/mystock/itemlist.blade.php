@@ -50,12 +50,14 @@
               <div class="pull-left">
                   <img src="{{isset($product_list_val->image) && $product_list_val->image!=''?URL('public/product/'.$product_list_val->image):asset('assets/images/150x100.png')}}" class="rounded-circle m-td-pic">
               </div>
+			  <?php if($type!= 'not-own-by-me') {?>
               <div class="pull-right ml-10">
                   <div class="checkbox checkbox-success">
-                  <input id="checkbox2" type="checkbox">
+                  <input id="checkbox2" name="sku_code_{{$k}}" value="{{$product_list_val->sku_code}}" type="checkbox">
                   <label for="checkbox2"></label>
                   </div>
               </div>
+			  <?php } ?>
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
               <p>Qty: <span class="text-bold">{{get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}</span></p>
@@ -88,10 +90,12 @@
                   <h6 class="mb-0 text-bold">10</h6>
                   </li>
                 </ul>
+				 <?php if($type!= 'not-own-by-me') {?>
                 <div class="flexbox flex-justified ">
                 <button type="button" class="btn btn-success btn-lg mt-10">Make As Public</button>
                 <button type="button" class="btn btn-dark btn-lg mt-10">Make As Private</button>
                 </div>
+				 <?php } ?>
             </div>
 					</div>
 				</div>
