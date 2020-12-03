@@ -57,6 +57,38 @@ class StoreDeliveryController extends Controller
 		return view('salesref.store_delivary.itemlist',$data);
 		
 	}
+	public function edit_ship_request($id,Request $request)
+	{
+		$id = base64_decode($id);
+		DB::enableQueryLog();
+		$posted_data = $request->all();
+		$data['item_search'] = $item_search = isset($posted_data['item_search'])?$posted_data['item_search']:'';
+		$data['title'] = 'Stock List';
+		$data['role_id'] = $role_id =  Auth::user()->role_id ;
+		$data['type']='' ;
+		$user_id = Auth::user()->id ;
+		$posteddata = $request->all();
+		$where ="";
+		if($item_search!='')
+		{
+			$item_search = strtolower($item_search);
+			$where =" and (lower(item.name) like '%$item_search%' or lower(stock.sku_code) like '%$item_search%')";
+		}
+		if($role_id ==11)
+		{
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity','delivery_order_item.id as do_item_id','delivery_order_item.item_sku as do_iem_sku','delivery_order_item.quantity as do_quantity')->join('stock','item.id','=',"stock.item_id")->join('delivery_order_item','delivery_order_item.item_sku','=','stock.sku_code','left')->where('stock.user_id','=',$user_id)->whereRaw("stock.stock_type = 'in' and  (type='store'  or type = 'each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
+		}
+		else
+		{
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.stock_item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity','delivery_order_item.id as do_item_id','delivery_order_item.item_sku as do_iem_sku','delivery_order_item.quantity as do_quantity')->join('stock','item.id','=',"stock.item_id")->join('delivery_order_item','delivery_order_item.item_sku','=','stock.sku_code','left')->where('stock.user_id',$user_id)->whereRaw("stock.stock_type ='in' and (type ='each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
+		}
+		//t($product_list,1);exit;
+		$query = DB::getQueryLog();
+		$data['product_list'] = $product_list ;
+		$data['do_items'] = Delivery_orderItem::where('do_id',$id)->get();
+		//t($data['do_items'],1);
+		return view('salesref.store_delivary.edititemlist',$data);
+	}
 	public function create_store_request(Request $request)
 	{
 		$data = $request->all();
