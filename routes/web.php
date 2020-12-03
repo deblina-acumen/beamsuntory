@@ -376,6 +376,20 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::any('ship-request', 'salesref\StoreDeliveryController@item_list');
 		Route::any('ship-request-list', 'salesref\StoreDeliveryController@ship_request_list');
+		
+		Route::get('customer-store-list', 'salesref\customer_store\CustomerStoreController@customer_store_list');
+		Route::post('remove-store', 'salesref\customer_store\CustomerStoreController@remove_store');
+		Route::get('add-customer-store', 'salesref\customer_store\CustomerStoreController@add_customer_store');
+		Route::post('submit-customer-store', 'salesref\customer_store\CustomerStoreController@save_customer_store');
+		Route::get('edit-customer-store/{storeId}', 'salesref\customer_store\CustomerStoreController@edit_customer_store');
+		Route::post('update-customer--store', 'salesref\customer_store\CustomerStoreController@update_customer_store');
+		Route::post('get-store-province-by-country-id', [
+			'as' => 'get-store-province-by-country-id',
+			'uses' => 'salesref\customer_store\CustomerStoreController@get_store_province_list_by_country'
+		]);
+		
+	
+		
 		Route::any('create-store-request', 'salesref\StoreDeliveryController@create_store_request');
 		Route::post('save-store-request', 'salesref\StoreDeliveryController@save_store_request');
 		Route::any('get-store-list', 'salesref\StoreDeliveryController@get_store_list');
