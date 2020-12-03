@@ -387,7 +387,6 @@ Route::group(['middleware' => 'auth'], function () {
 			'as' => 'get-store-province-by-country-id',
 			'uses' => 'salesref\customer_store\CustomerStoreController@get_store_province_list_by_country'
 		]);
-		
 	
 		
 		Route::any('create-store-request', 'salesref\StoreDeliveryController@create_store_request');
