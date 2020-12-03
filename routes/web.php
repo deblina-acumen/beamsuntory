@@ -373,6 +373,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('item-category/{type?}/{role_id?}', 'salesref\StockController@stock_category');
 		Route::any('item-list/{type?}/{role_id?}/{cate_id?}', 'salesref\StockController@item_list');
 		Route::post('item-list-change-privacystatus/', 'salesref\StockController@change_privacy_status');
+		Route::any('assign-ownership/item-list', 'salesref\assign_ownershipController@item_list');
+		Route::any('add-assign-allocation/{item_id}/{sku_code}', 'salesref\assign_ownershipController@add_allocation');
+		Route::any('submit-assign-allocation', 'salesref\assign_ownershipController@submit_assign_allocation');
+		
 
 		Route::any('ship-request', 'salesref\StoreDeliveryController@item_list');
 		Route::any('ship-request-list', 'salesref\StoreDeliveryController@ship_request_list');

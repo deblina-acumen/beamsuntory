@@ -616,13 +616,142 @@ return view('poallocation.add_allocation',$data);
 	public function save_po_step2(Request $request)
 	{
 		 $data=$request->all(); //t($data);
-		 //exit();
+		 
 		 $userrole2=[];
 		 $userrole5=[];
 		 $userrole9=[];
 		 $userrole11=[];
 		 $count_row = $data['countrow'];
-		 for($i=0;$i<$count_row;$i++)
+		 $total_po_quantity = $data['total_quantity'];
+		 $total_quantity = 0 ;
+		 for($sum_count=0;$sum_count<$count_row;$sum_count++)
+		 {
+			 if($data['userrole1_'.$sum_count]==20)
+			 {
+				 if(isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')
+				 {
+					 $mixit_user = $data['userrole3_'.$sum_count];
+				 }else{
+					  $mixit_user = $data['userrole2_'.$sum_count];
+				 }
+				 
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+				 {
+					$count_mix_user = count($mixit_user);
+					$sum_amount = $count_mix_user * $quantity ;
+				 }
+				 else{
+					 $sum_amount =  $quantity ;
+				 }
+				 
+				$total_quantity = $total_quantity+ $sum_amount ; 
+				 
+			 }
+			 
+			 if($data['userrole1_'.$sum_count]==11)
+			 {
+				 $sales_ref = (isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')?$data['userrole3_'.$sum_count]:array();
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				 
+				 
+				 if((isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')&&(isset($data['storelocator_'.$sum_count])&&$data['storelocator_'.$sum_count]== 'store'))
+				 {
+					  $count_sales_ref_user = count($sales_ref);
+					$sum_amount_each = $count_sales_ref_user * $quantity ;
+					$sum_amount_locker = $count_sales_ref_user * $quantity ; ;
+					$sum_amount = 0 ;
+					 
+				 }
+				 
+				 if((isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')&&(!isset($data['storelocator_'.$sum_count])))
+				 {
+					  $count_sales_ref_user = count($sales_ref);
+					$sum_amount_each = $count_sales_ref_user * $quantity ;
+					$sum_amount_locker = 0 ;
+					$sum_amount = 0 ;
+					 
+				 }
+				  if((isset($data['storelocator_'.$sum_count])&&$data['storelocator_'.$sum_count]== 'store')&&(!isset($data['eachselectbox_'.$sum_count])))
+				 {
+					 $count_sales_ref_user = count($sales_ref);
+					$sum_amount_each = 0 ;
+					$sum_amount_locker = $count_sales_ref_user * $quantity ;
+					$sum_amount = 0 ;
+				 }
+				 if((isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each') ||(isset($data['storelocator_'.$sum_count])&&$data['storelocator_'.$sum_count]== 'store'))
+				 {
+				 }
+				 else{
+					$sum_amount =  $quantity ;
+					 $sum_amount_each = 0 ;
+					 $sum_amount_locker = 0 ;
+				 }
+				 
+				 
+				 $total_quantity = $total_quantity+ $sum_amount +$sum_amount_locker+ $sum_amount_each ; 
+			 }
+			  if($data['userrole1_'.$sum_count]==15)
+			 {
+				 
+				  for($j=1;$j<=$data['dynamoselectcount_'.$sum_count];$j++)
+				 {
+					if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
+					{
+				    	$field_market_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array();; 
+					}
+				 }
+				 
+				 
+				// $field_market_user = (isset($data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count])&&$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]!='')?$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]:array(); 
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+				 {
+					$count_field_market_user = count(end($field_market_user));
+					$sum_amount = $count_field_market_user * $quantity ;
+				 }
+				 else{
+					 $sum_amount =  $quantity ;
+				 }
+				 
+				$total_quantity = $total_quantity+ $sum_amount ; 
+			 }
+			 
+			  if($data['userrole1_'.$sum_count]==5)
+			 {
+				 for($j=1;$j<$data['dynamoselectcount_'.$sum_count];$j++)
+				 {
+					 
+					 if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
+					 {
+					$marketing_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array(); 
+					 }
+				 }
+				 
+				 //$marketing_user = (isset($data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count])&&$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]!='')?$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]:array(); 
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+				 {
+					$count_marketing_user = count(end($marketing_user));
+					$sum_amount = $count_marketing_user * $quantity ;
+				 }
+				 else{
+					 $sum_amount =  $quantity ;
+				 }
+				 
+				$total_quantity = $total_quantity+ $sum_amount ; 
+			 }
+			 
+		 }
+		
+		 if($total_quantity>$total_po_quantity)
+		 {
+			 return redirect('add-po-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['puchaseOrderDetailsId']).'/'.base64_encode($data['poid']))->with('error-msg', 'Allcation Quantity Not Sufficient');
+		 }
+		 else{
+			 
+			 
+			 for($i=0;$i<$count_row;$i++)
 		 {
 			 //t($data['userrole1_'.$i]);
 			$insertdata['item_id'] = isset($data['itemid'])?$data['itemid']:0 ;
@@ -639,7 +768,7 @@ return view('poallocation.add_allocation',$data);
 				  $insertdata['country_id']= '';
 				   $insertdata['brand_id']= '';
 				 $userrole2['roleuser1']= (isset($data['userrole2_'.$i])&&$data['userrole2_'.$i]!='')?implode(',',$data['userrole2_'.$i]):'';
-				 $userrole2['roleuser2']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
+				 $userrole2['roleuser2']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
@@ -766,7 +895,10 @@ return view('poallocation.add_allocation',$data);
 		 //$insertdata['user'] =json_encode($userrole); 
 		 
 		 return redirect('add-po-step2/'.base64_encode($data['poid']))->with('success-msg', 'Allocation Added Successfully');
-		 
+			 
+			 
+		 }
+		  
 	}
 	
 	public function edit_allocation($itemid='',$podetailsId='',$poId='')
@@ -815,7 +947,7 @@ return view('poallocation.add_allocation',$data);
 	public function update_po_step2(Request $request)
 	{
 		 $data=$request->all(); 
-		 //t($data);
+		// t($data);
 		// exit();
 		 $userrole2=[];
 		 $userrole5=[];
@@ -826,7 +958,140 @@ return view('poallocation.add_allocation',$data);
 		 $existing_allcation_id_array= [] ;
 		 $item_id = isset($data['itemid'])?$data['itemid']:0 ;
 		$po_id = isset($data['poid'])?$data['poid']:0 ;
-		$podetails_id = isset($data['puchaseOrderDetailsId'])?$data['puchaseOrderDetailsId']:0 ;
+		
+		$total_po_quantity = $data['total_quantity'];
+		 $total_quantity = 0 ;
+		 for($sum_count=0;$sum_count<$count_row;$sum_count++)
+		 {
+			 if($data['userrole1_'.$sum_count]==20)
+			 {
+				 if(isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')
+				 {
+					 $mixit_user = $data['userrole3_'.$sum_count];
+				 }else{
+					  $mixit_user = $data['userrole2_'.$sum_count];
+				 }
+				 //t($mixit_user);
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				// t($quantity);
+				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+				 {
+					$count_mix_user = count($mixit_user);
+					$sum_amount = $count_mix_user * $quantity ;
+				 }
+				 else{
+					 $sum_amount =  $quantity ;
+				 }
+				
+				$total_quantity = $total_quantity+ $sum_amount ; 
+				// t($total_quantity) ;
+			 }
+			 
+			 if($data['userrole1_'.$sum_count]==11)
+			 {
+				 $sales_ref = (isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')?$data['userrole3_'.$sum_count]:array();
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				// t($quantity);
+				// t($sales_ref);
+				 if((isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')&&(isset($data['storelocator_'.$sum_count])&&$data['storelocator_'.$sum_count]== 'store'))
+				 {
+					  $count_sales_ref_user = count($sales_ref);
+					$sum_amount_each = $count_sales_ref_user * $quantity ;
+					$sum_amount_locker = $count_sales_ref_user * $quantity ; ;
+					$sum_amount = 0 ;
+					 
+				 }
+				 
+				 if((isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')&&(!isset($data['storelocator_'.$sum_count])))
+				 {
+					  $count_sales_ref_user = count($sales_ref);
+					$sum_amount_each = $count_sales_ref_user * $quantity ;
+					$sum_amount_locker = 0 ;
+					$sum_amount = 0 ;
+					 
+				 }
+				  if((isset($data['storelocator_'.$sum_count])&&$data['storelocator_'.$sum_count]== 'store')&&(!isset($data['eachselectbox_'.$sum_count])))
+				 {
+					 $count_sales_ref_user = count($sales_ref);
+					$sum_amount_each = 0 ;
+					$sum_amount_locker = $count_sales_ref_user * $quantity ;
+					$sum_amount = 0 ;
+				 }
+				 if((isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each') ||(isset($data['storelocator_'.$sum_count])&&$data['storelocator_'.$sum_count]== 'store'))
+				 {
+				 }
+				 else{
+					$sum_amount =  $quantity ;
+					 $sum_amount_each = 0 ;
+					 $sum_amount_locker = 0 ;
+				 }
+				 
+				
+				 $total_quantity = $total_quantity+ $sum_amount +$sum_amount_locker+ $sum_amount_each ; 
+			 }
+			  if($data['userrole1_'.$sum_count]==15)
+			 {
+				 
+				  for($j=1;$j<=$data['dynamoselectcount_'.$sum_count];$j++)
+				 {
+					if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
+					{
+				    	$field_market_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array();; 
+					}
+				 }
+				 
+				 
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				
+				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+				 {
+					$count_field_market_user = count(end($field_market_user));
+					$sum_amount = $count_field_market_user * $quantity ;
+				 }
+				 else{
+					 $sum_amount =  $quantity ;
+				 }
+				 
+				$total_quantity = $total_quantity+ $sum_amount ; 
+				//t($total_quantity);
+			 }
+			 
+			  if($data['userrole1_'.$sum_count]==5)
+			 {
+				 
+				 
+				 for($j=1;$j<$data['dynamoselectcount_'.$sum_count];$j++)
+				 {
+					 
+					 if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
+					 {
+					$marketing_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array(); 
+					 }
+				 }
+				 
+				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+				 {
+					$count_marketing_user = count(end($marketing_user));
+					$sum_amount = $count_marketing_user * $quantity ;
+				 }
+				 else{
+					 $sum_amount =  $quantity ;
+				 }
+				 
+				$total_quantity = $total_quantity+ $sum_amount ; 
+			 }
+			 
+		 }
+		//t($total_quantity);
+		//exit();
+		 if($total_quantity>$total_po_quantity)
+		 {
+			 return redirect('edit-po-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['puchaseOrderDetailsId']).'/'.base64_encode($data['poid']))->with('error-msg', 'Allcation Not Sufficient');
+		 }
+		 else{
+			 
+			 $podetails_id = isset($data['puchaseOrderDetailsId'])?$data['puchaseOrderDetailsId']:0 ;
 		
 		$existing_allcation =POAllocation::where('item_id',$item_id)->where('po_id',$po_id)->where('podetails_id',$podetails_id)->get();
 		
@@ -999,6 +1264,10 @@ return view('poallocation.add_allocation',$data);
 		 //$insertdata['user'] =json_encode($userrole); 
 		 
 		return redirect('add-po-step2/'.base64_encode($data['poid']))->with('success-msg', 'Purchase Order Update Successfully');
+			 
+		 }
+		
+		
 	}
 	
     
