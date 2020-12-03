@@ -12,6 +12,7 @@
 <!-- SoftPro admin skins -->
 <link rel="stylesheet" href="{{asset('assets/main/css/skins/_all-skins.css')}}">
 
+
 @stop
 @section('content')
 <div class="content-wrapper">
