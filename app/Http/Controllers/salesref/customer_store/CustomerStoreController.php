@@ -79,6 +79,7 @@ class CustomerStoreController extends Controller
             return redirect('customer-store-list')->with('error-msg', 'Please try after some time');    
         }
 		
+		
 	}
 	public function add_customer_store()
     {
