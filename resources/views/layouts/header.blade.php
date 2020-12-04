@@ -1,6 +1,6 @@
 ﻿<header class="main-header">
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="{{URL('dashboard')}}" class="logo">
       <!-- mini logo -->
 	  <b class="logo-mini">
 		  <span class="light-logo"><img src="{{asset('assets/img/logo-mini.png')}}" alt="logo"></span>

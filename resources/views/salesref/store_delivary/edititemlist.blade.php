@@ -72,8 +72,8 @@
 			  <div>
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
-              <p>Qty: 
-			  <span class="text-bold">{{$available_qtn =get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}
+              <p>Available Qty: 
+			  <span class="text-bold"><?=$available_qtn =get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)?>
 			  </span>
 			  </p>
 			  
