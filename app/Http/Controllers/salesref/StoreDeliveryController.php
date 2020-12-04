@@ -183,6 +183,29 @@ class StoreDeliveryController extends Controller
 		}
 		echo $html;
 	}
+	public function view_ship_request($id,Request $request)
+	{
+		$id = base64_decode($id);
+		DB::enableQueryLog();
+		$posted_data = $request->all();
+		$data['title'] = 'Stock List';
+		$data['role_id'] = $role_id =  Auth::user()->role_id ;
+		$data['type']='' ;
+		$user_id = Auth::user()->id ;
+		$posteddata = $request->all();
+
+/* $do_list = Delivery_order::select('delivery_order.*','store.store_name','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->get(); */
+
+$data['do_list'] = $do_list = Delivery_orderItem::select('delivery_order_item.*','delivery_order.oder_no','delivery_order.status','store.store_name','store.country as store_country','store.state as store_state','store.city as store_city','store.zipcode as store_zipcode','store.address as store_address','store_category.name as store_category','item.name as item_name','country.country_name as country_name','provinces.name as provinces_name')->join('delivery_order','delivery_order_item.do_id','=','delivery_order.id')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->join('country','store.country','=','country.id','left')->join('provinces','store.state','=','provinces.id','left')->join('item','delivery_order_item.item_id','=','item.id','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order_item.is_active','Yes')->where('delivery_order_item.is_deleted','No')->get();
+
+		//t($do_list,1);exit;
+		//$query = DB::getQueryLog();
+		//t($query,1);
+		//$data['product_list'] = $product_list ;
+		//$data['do_items'] = Delivery_orderItem::where('do_id',$id)->get();
+		//t($data['do_items'],1);
+		return view('salesref.store_delivary.view_delivery_item',$data);
+	}
 	
 	
 	
