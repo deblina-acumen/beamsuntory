@@ -37,13 +37,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add New PO  &nbsp;<a type="button" href="{{URL('purchase-order-list')}}" class="btn btn-dark btn-sm">All PO</a>
+        Add Ownership  &nbsp;
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
        
-        <li class="breadcrumb-item active"> PO</li>
+        <li class="breadcrumb-item active"> Assign Ownership</li>
       </ol>
     </section>
 
@@ -53,7 +53,7 @@
     <div class="col-lg-12 col-12">
         <div class="box box-solid bg-gray">
         <div class="box-header with-border">
-          <h4 class="box-title">{{$poinfo[0]->order_no}} / Assign Ownership</h4>      
+          <h4 class="box-title">{{$product_name}} / Assign Ownership</h4>      
           <ul class="box-controls pull-right">
             <li><a class="box-btn-fullscreen" href="#"></a></li>
           </ul>
@@ -61,11 +61,11 @@
 					
 						<!-- Step 1 -->
 						
-						<form id="add_development_plan" name="submit_form" onsubmit="return validate_form ();" action="<?= URL('save-po-steop2')?>"
+						<form id="add_development_plan" name="submit_form" onsubmit="return validate_form ();" action="<?= URL('submit-assign-ownership')?>"
 						method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 						<!-- Step 1 -->
 						@csrf
-						@include('poallocation/form_allocation')
+						@include('salesref/assignownership/form_allocation')
 					</form>
 						
 						
