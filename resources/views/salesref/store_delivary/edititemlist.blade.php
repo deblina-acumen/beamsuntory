@@ -1,10 +1,8 @@
 @extends('layouts.master')
 
 @section('header_styles')
-
 <!-- Bootstrap extend-->
 <link rel="stylesheet" href="{{asset('assets/main/css/bootstrap-extend.css')}}">
-
 <!-- Bootstrap 4.1-->
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- theme style -->
@@ -53,7 +51,7 @@
             </div>
 			</form>
             </div>	
-			<form id="add_request" method="post" action="{{URL('create-store-request')}}" class="needs-validation" novalidate enctype="multipart/form-data">
+			<form id="add_request" method="post" action="{{URL('update-store-request')}}" class="needs-validation" novalidate enctype="multipart/form-data">
 			   @csrf			
 				<div class="box-body p-0">
 					<div class="media-list media-list-hover media-list-divided">
@@ -67,7 +65,7 @@
               </div>
               <div class="pull-right ml-10">
                   <div class="checkbox checkbox-success">
-                  <input id="checkbox2_{{$k}}" type="checkbox" name="sku_code[]" value="{{isset($product_list_val->sku_code )?$product_list_val->sku_code :''}}">
+                  <input id="checkbox2_{{$k}}" type="checkbox" name="sku_code[]" value="{{isset($product_list_val->sku_code )?$product_list_val->sku_code :''}}" <?php if($product_list_val->do_iem_sku==$product_list_val->sku_code){echo"checked";}?>>
                   <label for="checkbox2_{{$k}}"></label>
                   </div>
               </div>
@@ -75,23 +73,23 @@
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
               <p>Available Qty: 
-			  <span class="text-bold">{{$available_qtn =get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}
+			  <span class="text-bold"><?=$available_qtn =get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)?>
 			  </span>
 			  </p>
 			  
 			  <p>Batch No: <span class="text-bold">{{(isset($product_list_val->batch_no) && $product_list_val->batch_no!='')?$product_list_val->batch_no:''}}</span></p>
               </div>
 			  <div class="input-group my-10">
-                <input type="text" class="form-control form-control-sm qtn" placeholder="Quantity" aria-controls="project-table" name="request_quantity[<?=$product_list_val->sku_code?>]" id="request_quantity" required>
+                <input type="text" class="form-control form-control-sm qtn" placeholder="Quantity" aria-controls="project-table" name="request_quantity[<?=$product_list_val->sku_code?>]" id="request_quantity" required value="{{isset($product_list_val->do_quantity)?$product_list_val->do_quantity:''}}">
 				<input type="hidden" name="available_quantity[<?=$product_list_val->sku_code?>]" value="{{isset($available_qtn )?$available_qtn :0}}" >
               <input type="hidden" name="item_id[<?=$product_list_val->sku_code?>]" value="{{isset($product_list_val->stock_item_id )?$product_list_val->stock_item_id :''}}" >
-			  
+			  <input type="hidden" name="do_item_id[<?=$product_list_val->sku_code?>]" value="{{isset($product_list_val->do_item_id )?$product_list_val->do_item_id :''}}" >
             </div>
               </div>
 			  
             </div>
 			<?php
-			$sum = $sum + get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code) ;
+			$sum = $sum + ($product_list_val->do_quantity) ;
 			?>
 			@endforeach
 			@endif
@@ -100,23 +98,13 @@
                
                 <ul class="flexbox flex-justified my-10">
                   <li class="br-1 px-20">
-                  <small>Total Available Items</small>
+                  <small>Total Requested Items</small>
                   <h6 class="mb-0 text-bold">{{$sum}}</h6>
                   </li>
                   
                 </ul>
                 <div class="flexbox flex-justified ">
-				<?php if(Auth::user()->role_id==11)
-				{ ?>
-				 <button type="button" class="btn btn-success btn-lg mt-10" onclick="add_request('ship_to_store')">Ship To Store</button>
-				  <button type="button" class="btn btn-dark btn-lg mt-10">Ship To Locker</button>
-				<?php } else 
-				{ ?>
-				
-				  <button type="button" class="btn btn-dark btn-lg mt-10">Ship To Store</button>
-				<?php } ?>
-               
-               
+				<button type="button" class="btn btn-success btn-lg mt-10" onclick="add_request('ship_to_store')">Update Quantity</button>
                 </div>
             </div>
 					</div>
@@ -153,6 +141,7 @@ function readURL(input) {
 	  $("input:checkbox[name='sku_code[]']:checked").each(function(){
 		 request_qtn = $(this).parent().parent().next().next().children().val();
 		 avaiable_qtn = $(this).parent().parent().next().next().children().next().val();
+		 
 		 if(request_qtn =='')
 		 {
 			 $(this).parent().parent().next().next().children().css('border','1px solid #d80808a1');
@@ -162,7 +151,7 @@ function readURL(input) {
 		 {
 			 err=true;
 			 $(this).parent().parent().next().next().children().css('border','1px solid #d80808a1');
-			 alert("Plase provide valid quantity");
+			 alert("Please provide valid quantity");
 		 }
 		 else
 		 {
@@ -172,7 +161,7 @@ function readURL(input) {
 		});
 		if(err==false)
 		{
-	  $('#add_request').submit();
+		$('#add_request').submit();
 		}
   }
   </script>

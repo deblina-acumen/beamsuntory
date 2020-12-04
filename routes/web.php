@@ -379,7 +379,9 @@ Route::group(['middleware' => 'auth'], function () {
 		
 
 		Route::any('ship-request', 'salesref\StoreDeliveryController@item_list');
+		Route::any('edit-ship-request/{id}', 'salesref\StoreDeliveryController@edit_ship_request');
 		Route::any('ship-request-list', 'salesref\StoreDeliveryController@ship_request_list');
+		Route::any('view-ship-request/{id}', 'salesref\StoreDeliveryController@view_ship_request');
 		
 		Route::get('customer-store-list', 'salesref\customer_store\CustomerStoreController@customer_store_list');
 		Route::post('remove-store', 'salesref\customer_store\CustomerStoreController@remove_store');
@@ -395,11 +397,13 @@ Route::group(['middleware' => 'auth'], function () {
 		
 		Route::any('create-store-request', 'salesref\StoreDeliveryController@create_store_request');
 		Route::post('save-store-request', 'salesref\StoreDeliveryController@save_store_request');
+		Route::get('edit-store-info/{id}', 'salesref\StoreDeliveryController@edit_store_info');
+		Route::post('update-store-info', 'salesref\StoreDeliveryController@update_store_info');
+		Route::post('update-store-request', 'salesref\StoreDeliveryController@update_store_request');
 		Route::any('get-store-list', 'salesref\StoreDeliveryController@get_store_list');
 		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');
 
 		
-
 		
 		
 });

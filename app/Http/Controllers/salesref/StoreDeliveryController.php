@@ -57,6 +57,38 @@ class StoreDeliveryController extends Controller
 		return view('salesref.store_delivary.itemlist',$data);
 		
 	}
+	public function edit_ship_request($id,Request $request)
+	{
+		$id = base64_decode($id);
+		DB::enableQueryLog();
+		$posted_data = $request->all();
+		$data['item_search'] = $item_search = isset($posted_data['item_search'])?$posted_data['item_search']:'';
+		$data['title'] = 'Stock List';
+		$data['role_id'] = $role_id =  Auth::user()->role_id ;
+		$data['type']='' ;
+		$user_id = Auth::user()->id ;
+		$posteddata = $request->all();
+		$where ="";
+		if($item_search!='')
+		{
+			$item_search = strtolower($item_search);
+			$where =" and (lower(item.name) like '%$item_search%' or lower(stock.sku_code) like '%$item_search%')";
+		}
+		if($role_id ==11)
+		{
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity','delivery_order_item.id as do_item_id','delivery_order_item.item_sku as do_iem_sku','delivery_order_item.quantity as do_quantity')->join('stock','item.id','=',"stock.item_id")->join('delivery_order_item','delivery_order_item.item_sku','=','stock.sku_code','left')->where('stock.user_id','=',$user_id)->whereRaw("stock.stock_type = 'in' and  (type='store'  or type = 'each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
+		}
+		else
+		{
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.stock_item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity','delivery_order_item.id as do_item_id','delivery_order_item.item_sku as do_iem_sku','delivery_order_item.quantity as do_quantity')->join('stock','item.id','=',"stock.item_id")->join('delivery_order_item','delivery_order_item.item_sku','=','stock.sku_code','left')->where('stock.user_id',$user_id)->whereRaw("stock.stock_type ='in' and (type ='each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
+		}
+		//t($product_list,1);exit;
+		$query = DB::getQueryLog();
+		$data['product_list'] = $product_list ;
+		$data['do_items'] = Delivery_orderItem::where('do_id',$id)->get();
+		//t($data['do_items'],1);
+		return view('salesref.store_delivary.edititemlist',$data);
+	}
 	public function create_store_request(Request $request)
 	{
 		$data = $request->all();
@@ -117,6 +149,45 @@ class StoreDeliveryController extends Controller
 			return redirect('ship-request-list')->with('error-msg', 'Error!Please try after sometime');
 		}
 	}
+	public function update_store_request(Request $request)
+	{
+		$data =  $request->all();//t($data,1);
+		if(isset($data['sku_code']) && !empty($data['sku_code']))
+		{
+			foreach($data['sku_code'] as $k=>$sku_code)
+			{
+				$do_item['item_id']=$data['item_id'][$sku_code];
+				$do_item['item_sku']=$sku_code;
+				$do_item['quantity']=$data['request_quantity'][$sku_code];
+				if(isset($data['do_item_id'][$sku_code]) && $data['do_item_id'][$sku_code]!='')
+				{
+					Delivery_orderItem::where('id',$data['do_item_id'][$sku_code])->update($do_item);
+				}
+				else
+				{
+					Delivery_orderItem::insertGetId($do_item);
+				}
+			}
+		}
+		return redirect('ship-request-list')->with('success-msg', 'Item successfully updated');
+	}
+	public function update_store_info(Request $request)
+	{
+			$data = $request->all();
+			$update_store['store_id'] =$data['store'];
+			$update_store['updated_by'] =Auth::user()->id;
+			Delivery_order::where('id',$data['do_id'])->update($update_store);
+			return redirect('ship-request-list')->with('success-msg', 'Store successfully updated');
+	}
+	public function edit_store_info($id)
+	{
+		$id= base64_decode($id);
+		$data['do'] = $do = Delivery_order::select('delivery_order.*','store.store_category')->join('store','store.id','=','store_id','left')->where('delivery_order.id',$id)->get();
+		//t($do,1);
+		$data['store_category'] = $store_category= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
+		$data['store'] = $store= Store::where('is_active','Yes')->where('is_deleted','No')->get();
+		return view('salesref.store_delivary.edit_create_store_request',$data);
+	}
 	public function ship_request_list(Request $request)
 	{
 		$posted = $request->all();
@@ -151,8 +222,22 @@ class StoreDeliveryController extends Controller
 		}
 		echo $html;
 	}
-	
-	
+	public function view_ship_request($id,Request $request)
+	{
+		$id = base64_decode($id);
+		DB::enableQueryLog();
+		$posted_data = $request->all();
+		$data['title'] = 'Stock List';
+		$data['role_id'] = $role_id =  Auth::user()->role_id ;
+		$user_id = Auth::user()->id ;
+		$posteddata = $request->all();
+
+
+		$data['do_list'] = $do_list = Delivery_orderItem::select('delivery_order_item.*','delivery_order.oder_no','delivery_order.status','store.store_name','store.country as store_country','store.state as store_state','store.city as store_city','store.zipcode as store_zipcode','store.address as store_address','store_category.name as store_category','item.name as item_name','country.country_name as country_name','provinces.name as provinces_name')->join('delivery_order','delivery_order_item.do_id','=','delivery_order.id')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->join('country','store.country','=','country.id','left')->join('provinces','store.state','=','provinces.id','left')->join('item','delivery_order_item.item_id','=','item.id','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order_item.is_active','Yes')->where('delivery_order_item.is_deleted','No')->get();
+
+		return view('salesref.store_delivary.view_delivery_item',$data);
+	}
+		
 	
 }
 	
