@@ -91,7 +91,7 @@ class StoreDeliveryController extends Controller
 	}
 	public function create_store_request(Request $request)
 	{
-		$data = $request->all();
+		$data = $request->all(); //t($data,1);
 		$total_requested_qtn =0;
 		if(isset($data['sku_code']) && !empty($data['sku_code']))
 		{
@@ -112,8 +112,14 @@ class StoreDeliveryController extends Controller
 			return redirect('ship-request')->with('error-msg', 'Please select item');
 		}
 		$data['store_category'] = $store_category= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
-		
+		if(isset($data['request_type']) && $data['request_type'] == 'ship_to_locker')
+		{
+			return view('salesref.store_delivary.create_locker_request',$data);
+		}
+		else
+		{
 		return view('salesref.store_delivary.create_store_request',$data);
+		}
 	}
 	public function save_store_request(Request $request)
 	{

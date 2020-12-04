@@ -53,7 +53,7 @@
             </div>
 			</form>
             </div>	
-			<form id="add_request" method="post" action="{{URL('create-store-request')}}" class="needs-validation" novalidate enctype="multipart/form-data">
+			<form id="add_request" method="post" action="{{URL('create-request')}}" class="needs-validation" novalidate enctype="multipart/form-data">
 			   @csrf			
 				<div class="box-body p-0">
 					<div class="media-list media-list-hover media-list-divided">
@@ -109,11 +109,11 @@
 				<?php if(Auth::user()->role_id==11)
 				{ ?>
 				 <button type="button" class="btn btn-success btn-lg mt-10" onclick="add_request('ship_to_store')">Ship To Store</button>
-				  <button type="button" class="btn btn-dark btn-lg mt-10">Ship To Locker</button>
+				  <button type="button" class="btn btn-dark btn-lg mt-10" onclick="add_request('ship_to_locker')">Ship To Locker</button>
 				<?php } else 
 				{ ?>
 				
-				  <button type="button" class="btn btn-dark btn-lg mt-10">Ship To Store</button>
+				  <button type="button" class="btn btn-dark btn-lg mt-10" onclick="add_request('ship_to_locker')">Ship To Store</button>
 				<?php } ?>
                
                
@@ -149,7 +149,7 @@ function readURL(input) {
   function add_request(type)
   {
 	  var err = false;
-	  $('#request_type').val(type);
+	  $('#request_type').val(type); 
 	  $("input:checkbox[name='sku_code[]']:checked").each(function(){
 		 request_qtn = $(this).parent().parent().next().next().children().val();
 		 avaiable_qtn = $(this).parent().parent().next().next().children().next().val();
