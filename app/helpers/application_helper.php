@@ -31,6 +31,11 @@ function get_total_purchase_item($po_id){
 	return isset($total_item[0]->total_item)?$total_item[0]->total_item:0;
 }
 
+function get_product_name_by_id($id)
+{
+	$item = Product::where('id',$id)->get();
+	return isset($item[0]->name)?$item[0]->name:'';
+}
 function get_product_list_type_wise($type)
 {
 	$product_list = Product::where('is_deleted','No')->where('product_type',$type)->where('is_active','Yes')->where('product_type',$type)->orderBy('name','asc')->get();
