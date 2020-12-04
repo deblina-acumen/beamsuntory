@@ -396,6 +396,8 @@ Route::group(['middleware' => 'auth'], function () {
 		
 		Route::any('create-store-request', 'salesref\StoreDeliveryController@create_store_request');
 		Route::post('save-store-request', 'salesref\StoreDeliveryController@save_store_request');
+		Route::get('edit-store-info/{id}', 'salesref\StoreDeliveryController@edit_store_info');
+		Route::post('update-store-info', 'salesref\StoreDeliveryController@update_store_info');
 		Route::post('update-store-request', 'salesref\StoreDeliveryController@update_store_request');
 		Route::any('get-store-list', 'salesref\StoreDeliveryController@get_store_list');
 		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');

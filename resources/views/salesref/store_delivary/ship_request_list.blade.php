@@ -74,7 +74,7 @@
               <button type="button" class="btn btn-dark btn-lg mt-5">View Item</button>
 			  &nbsp;
 			   <a href="{{URL('edit-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-warning btn-lg mt-5">Edit Item</a>
-			   <a href="{{URL('edit-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Store</a>
+			   <a href="{{URL('edit-store-info/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Store</a>
 			  </div>
 			  <div class="input-group my-10">
                
