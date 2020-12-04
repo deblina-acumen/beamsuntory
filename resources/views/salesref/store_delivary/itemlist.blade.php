@@ -74,7 +74,7 @@
 			  <div>
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
-              <p>Qty: 
+              <p>Available Qty: 
 			  <span class="text-bold">{{$available_qtn =get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}
 			  </span>
 			  </p>
@@ -108,8 +108,8 @@
                 <div class="flexbox flex-justified ">
 				<?php if(Auth::user()->role_id==11)
 				{ ?>
-				 <button type="button" class="btn btn-success btn-lg mt-10" onclick="add_request('ship_to_store')">Ship To Locker</button>
-				  <button type="button" class="btn btn-dark btn-lg mt-10">Ship To Store</button>
+				 <button type="button" class="btn btn-success btn-lg mt-10" onclick="add_request('ship_to_store')">Ship To Store</button>
+				  <button type="button" class="btn btn-dark btn-lg mt-10">Ship To Locker</button>
 				<?php } else 
 				{ ?>
 				

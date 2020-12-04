@@ -1,14 +1,8 @@
 @extends('layouts.master')
-
 @section('header_styles')
-
-
-
 <!-- Bootstrap 4.1-->
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- theme style -->
-
-
 @stop
 @section('content')
 <div class="content-wrapper">
@@ -18,10 +12,8 @@
         Create Store Request
       </h1>
     </section>
-
     <!-- Main content -->
      <section class="content mob-container">
-		
           <!---- List Item ------>
           <div class="box">
              <div class="box-header no-border bg-dark">
@@ -31,7 +23,7 @@
              </div>
 			 
             </div>	
-			<form id="project_list" method="post" action="{{URL('save-store-request')}}" class="needs-validation" novalidate enctype="multipart/form-data">
+			<form id="project_list" method="post" action="{{URL('update-store-info')}}" class="needs-validation" novalidate enctype="multipart/form-data">
 			   @csrf			
 				<div class="box-body p-0">
 					<div class="media-list media-list-hover media-list-divided">
@@ -45,10 +37,10 @@
 			  <div class="input-group my-2">
 			  <label>Select Category &nbsp;</label>
 			  </div>
-                <select class="form-control form-control-sm" name="store_category" onchange="get_store(this)"required>
+                <select class="form-control form-control-sm" name="store_category" onchange="get_store(this)" required>
 				<option value="">Select</option>
 				@foreach($store_category as $category)
-				<option value="<?=$category->id?>"><?=$category->name?></option>
+				<option value="<?=$category->id?>" <?php if(isset($do[0]->store_category)&& $do[0]->store_category==$category->id){echo"selected";} ?>><?=$category->name?></option>
 				@endforeach
 				</select>
               
@@ -59,29 +51,25 @@
 			  </div>
                 <select class="form-control form-control-sm" name="store" id="store" required>
 				<option value="">Select</option>
-				
+				@foreach($store as $storelist)
+				<option value="<?=$storelist->id?>" <?php if(isset($do[0]->store_id)&& $do[0]->store_id==$storelist->id){echo"selected";}?>><?=$storelist->store_name?></option>
+				@endforeach
 				</select>
               
 				</div>
               </div>
 			  
             </div>
-			<input type="hidden" name="sku_code" value="<?=isset($sku_code)?implode(',',$sku_code):''?>" >
-			<input type="hidden" name="quantuty" value="<?=isset($request_quantity)?implode(',',$request_quantity):''?>" >
-			<input type="hidden" name="item_id" value="<?=isset($item_id)?implode(',',$item_id):''?>" >
+			<input type="hidden" name="do_id" value="<?=isset($do[0]->id)?$do[0]->id:''?>" >
+			
+			
             <div class="media media-single bg-light text-center">
               <div class="media-body">
                
-                <ul class="flexbox flex-justified my-10">
-                  <li class="br-1 px-20">
-                  <small>Total Requested Items</small>
-                  <h6 class="mb-0 text-bold">{{isset($total_requested_qtn)?$total_requested_qtn:0}}</h6>
-                  </li>
-                  
-                </ul>
+                
                 <div class="flexbox flex-justified ">
 				
-				  <button type="submit" class="btn btn-dark btn-lg mt-10">Ship To Store</button>
+				  <button type="submit" class="btn btn-dark btn-lg mt-10">Update Store</button>
 				
                 </div>
             </div>

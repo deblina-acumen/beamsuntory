@@ -149,6 +149,45 @@ class StoreDeliveryController extends Controller
 			return redirect('ship-request-list')->with('error-msg', 'Error!Please try after sometime');
 		}
 	}
+	public function update_store_request(Request $request)
+	{
+		$data =  $request->all();//t($data,1);
+		if(isset($data['sku_code']) && !empty($data['sku_code']))
+		{
+			foreach($data['sku_code'] as $k=>$sku_code)
+			{
+				$do_item['item_id']=$data['item_id'][$sku_code];
+				$do_item['item_sku']=$sku_code;
+				$do_item['quantity']=$data['request_quantity'][$sku_code];
+				if(isset($data['do_item_id'][$sku_code]) && $data['do_item_id'][$sku_code]!='')
+				{
+					Delivery_orderItem::where('id',$data['do_item_id'][$sku_code])->update($do_item);
+				}
+				else
+				{
+					Delivery_orderItem::insertGetId($do_item);
+				}
+			}
+		}
+		return redirect('ship-request-list')->with('success-msg', 'Item successfully updated');
+	}
+	public function update_store_info(Request $request)
+	{
+			$data = $request->all();
+			$update_store['store_id'] =$data['store'];
+			$update_store['updated_by'] =Auth::user()->id;
+			Delivery_order::where('id',$data['do_id'])->update($update_store);
+			return redirect('ship-request-list')->with('success-msg', 'Store successfully updated');
+	}
+	public function edit_store_info($id)
+	{
+		$id= base64_decode($id);
+		$data['do'] = $do = Delivery_order::select('delivery_order.*','store.store_category')->join('store','store.id','=','store_id','left')->where('delivery_order.id',$id)->get();
+		//t($do,1);
+		$data['store_category'] = $store_category= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
+		$data['store'] = $store= Store::where('is_active','Yes')->where('is_deleted','No')->get();
+		return view('salesref.store_delivary.edit_create_store_request',$data);
+	}
 	public function ship_request_list(Request $request)
 	{
 		$posted = $request->all();
