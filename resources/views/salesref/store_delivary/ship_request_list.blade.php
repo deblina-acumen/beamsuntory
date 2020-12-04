@@ -77,8 +77,7 @@
 			   <a href="{{URL('edit-store-info/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Store</a>
 			  </div>
 			  <div class="input-group my-10">
-               
-			   
+               		   
 				</div>
               </div>
 			 </div>
