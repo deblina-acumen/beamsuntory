@@ -237,8 +237,7 @@ class StoreDeliveryController extends Controller
 
 		return view('salesref.store_delivary.view_delivery_item',$data);
 	}
-	
-	
+		
 	
 }
 	
