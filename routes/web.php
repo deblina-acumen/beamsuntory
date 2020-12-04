@@ -404,7 +404,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');
 
 		
-
 		
 		
 });
