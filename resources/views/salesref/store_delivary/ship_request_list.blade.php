@@ -71,7 +71,7 @@
 			  <br><span><b>Store:</b> <?= isset($doinfo->store_name)?$doinfo->store_name:''?></span>
 			  <br><span><b>Status:</b>&nbsp;<span class="badge bg-success"> <?= isset($doinfo->status)?ucwords(str_replace('_',' ',$doinfo->status)):''?></span></span>
 			  </p>
-              <button type="button" class="btn btn-dark btn-lg mt-5">View Item</button>
+              <a href="{{URL('view-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-dark btn-lg mt-5">View Item</a>
 			  &nbsp;
 			   <a href="{{URL('edit-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-warning btn-lg mt-5">Edit Item</a>
 			   <a href="{{URL('edit-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Store</a>
