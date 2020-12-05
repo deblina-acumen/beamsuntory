@@ -15,6 +15,8 @@ use  App\Model\POAllocation;
 use  App\Model\Warehouse;
 use App\Model\Stock;
 use App\Model\ProductPrivacy ;
+use App\Model\Supplier;
+use App\Model\Store;
 
 function product($item_id)
 {
@@ -311,6 +313,20 @@ function get_product_privacy($userId,$item_id,$skucode)
 	return isset($item_privacy[0]->privacy_type)?$item_privacy[0]->privacy_type:'';
 }
 
+function get_supplier_name($id)
+{
+	
+	$Supplier = Supplier::where('id',$id)->get();
+	return isset($Supplier[0]->supplier_name)?$Supplier[0]->supplier_name:'';
+}
 
-
-
+function get_delivery_agent($id)
+{
+	$agent = User::where('id',$id)->get();
+	return isset($agent[0]->name)?$agent[0]->name:'';
+}
+function get_store_name($id)
+{
+	$agent = Store::where('id',$id)->get();
+	return isset($agent[0]->store_name)?$agent[0]->store_name:'';
+}

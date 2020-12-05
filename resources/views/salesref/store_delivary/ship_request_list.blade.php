@@ -65,16 +65,32 @@
               <h6><?=isset($doinfo->oder_no)?$doinfo->oder_no:'';?></h6>
               <span><b>Created Date : </b><?=isset($doinfo->created_at) && $doinfo->created_at!='' ? date('d-m-Y',strtotime($doinfo->created_at)):''?></span>
               <p>
+			  <?php if($doinfo->suppler_id==''){ ?>
 			  <span><b>Store Category: </b>
 			  <?= isset($doinfo->store_category)?$doinfo->store_category:''?>
 			  </span>
-			  <br><span><b>Store:</b> <?= isset($doinfo->store_name)?$doinfo->store_name:''?></span>
+			
+			  </span>
+			  <br><span><b>Store:</b> <?= isset($doinfo->store_id)?get_store_name($doinfo->store_id):''?></span>
+			  <?php }else{ ?>
+			  <span><b>Supplier: </b><?php echo 123;?>
+			  <?= isset($doinfo->suppler_id)?get_supplier_name($doinfo->suppler_id):''?>
+			  </span>
+			
+			  </span>
+			  <br><span><b>Delivery Agent:</b> <?= isset($doinfo->delivery_agent)?get_delivery_agent($doinfo->delivery_agent):''?></span>
+			  <?php } ?>
+			  <br><span><b> Type:</b><?php if($doinfo->suppler_id==''){echo"Store Delivery";}else{echo"Ship To Locker";}?></span>
 			  <br><span><b>Status:</b>&nbsp;<span class="badge bg-success"> <?= isset($doinfo->status)?ucwords(str_replace('_',' ',$doinfo->status)):''?></span></span>
 			  </p>
               <a href="{{URL('view-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-dark btn-lg mt-5">View Item</a>
 			  &nbsp;
 			   <a href="{{URL('edit-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-warning btn-lg mt-5">Edit Item</a>
+			   <?php if($doinfo->suppler_id==''){ ?>
 			   <a href="{{URL('edit-store-info/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Store</a>
+			   <?php }else{ ?>
+			   <a href="{{URL('edit-supplier-info/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Supplier</a>
+			   <?php }?>
 			  </div>
 			  <div class="input-group my-10">
                		   

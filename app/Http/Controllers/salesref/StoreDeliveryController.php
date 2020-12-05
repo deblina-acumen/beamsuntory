@@ -14,7 +14,8 @@ use App\Model\Store;
 use App\Model\Brand;
 use App\Model\Region;
 use App\Model\StoreCategory;
-
+use App\Model\Supplier;
+use App\Model\User;
 use App\Model\Role;
 use  App\Model\Country;
 use  App\Model\POAllocation;
@@ -109,16 +110,55 @@ class StoreDeliveryController extends Controller
 			$data['total_requested_qtn'] = $total_requested_qtn ;
 		}
 		else{
+			
 			return redirect('ship-request')->with('error-msg', 'Please select item');
 		}
 		$data['store_category'] = $store_category= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
 		if(isset($data['request_type']) && $data['request_type'] == 'ship_to_locker')
 		{
+			$data['supplier'] = Supplier::where('is_active','Yes')->where('is_deleted','No')->get();
+			$data['agent'] = $delivery_agent = User::where('role_id','10')->where('is_active','Yes')->where('is_deleted','No')->get();
+			//t($delivery_agent,1);
 			return view('salesref.store_delivary.create_locker_request',$data);
 		}
 		else
 		{
 		return view('salesref.store_delivary.create_store_request',$data);
+		}
+	}
+	function save_locker_request(Request $request)
+	{
+		$posted_data = $request->all();
+	//	t($posted_data ,1);
+		$insert_do['oder_no']='BEAM-DO'.time();
+		$insert_do['suppler_id']=$posted_data['supplier'];
+		$insert_do['delivery_agent']=$posted_data['agent'];
+		$insert_do['status']='assign_for_pickup';
+		$insert_do['type']='locker';
+		$insert_do['created_by']=Auth::user()->id;
+		$insert_do['is_active'] ='Yes';
+		$insert_do['is_deleted'] ='No';
+		$do_id = Delivery_order::insertGetId($insert_do);
+		if($do_id!='')
+		{
+			$sku = isset($posted_data['sku_code'])?explode(',',$posted_data['sku_code']):array();
+			$quantuty = isset($posted_data['quantuty'])?explode(',',$posted_data['quantuty']):array();
+			$item_id = isset($posted_data['item_id'])?explode(',',$posted_data['item_id']):array();
+			foreach($sku as $k=>$skucode){
+			$insert_do_item['do_id'] = $do_id;
+			$insert_do_item['item_id'] = isset($item_id[$k])?$item_id[$k]:'';
+			$insert_do_item['item_sku'] = $skucode;
+			$insert_do_item['quantity'] =isset($quantuty[$k])&&$quantuty[$k]!=''?$quantuty[$k]:0;
+			$insert_do_item['is_active'] ='Yes';
+			$insert_do_item['is_deleted'] ='No';
+			$insert_do_item['created_by'] = Auth::user()->id;
+			Delivery_orderItem::insertGetId($insert_do_item);
+			
+			}
+			return redirect('ship-request-list')->with('success-msg', 'Request successfully created');
+		}
+		else{
+			return redirect('ship-request-list')->with('error-msg', 'Error!Please try after sometime');
 		}
 	}
 	public function save_store_request(Request $request)
@@ -202,11 +242,11 @@ class StoreDeliveryController extends Controller
 		{
 			$search = $posted['search'];
 			//$where =" and delivery_order.oder_no = '$search' ";
-			$do_list = Delivery_order::select('delivery_order.*','store.store_name','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->where('delivery_order.oder_no', 'like',$search)->get();
+			$do_list = Delivery_order::select('delivery_order.*','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->where('delivery_order.oder_no', 'like',$search)->orderBy('id','desc')->get();
 			
 		}
 		else{
-			$do_list = Delivery_order::select('delivery_order.*','store.store_name','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->get();
+			$do_list = Delivery_order::select('delivery_order.*','store_category.name as store_category')->join('store','store.id','=','store_id','left')->join('store_category','store_category.id','=','store.store_category','left')->where('delivery_order.created_by',Auth::user()->id)->where('delivery_order.is_active','Yes')->where('delivery_order.is_deleted','No')->orderBy('id','desc')->get();
 		}
 		$data['title'] = 'Ship Request List';
 		
@@ -244,7 +284,21 @@ class StoreDeliveryController extends Controller
 		return view('salesref.store_delivary.view_delivery_item',$data);
 	}
 		
-	
+	public function edit_supplier_info($id)
+	{	$id = base64_decode($id);
+		$data['supplier'] = Supplier::where('is_active','Yes')->where('is_deleted','No')->get();
+		$data['agent'] = $delivery_agent = User::where('role_id','10')->where('is_active','Yes')->where('is_deleted','No')->get();
+		$data['do'] = $do = Delivery_order::select('delivery_order.*','store.store_category')->join('store','store.id','=','store_id','left')->where('delivery_order.id',$id)->get();
+		return view('salesref.store_delivary.edit_locker_request',$data);
+	}
+	public function update_locker_info(Request $request)
+	{
+		$data =  $request->all();
+		$update['suppler_id'] = $data['supplier'];
+		$update['delivery_agent'] = $data['agent'];
+		Delivery_order::where('id',$data['do_id'])->update($update);
+		return redirect('ship-request-list')->with('success-msg', 'Supplier information successfully created');
+	}
 }
 	
 ?>
