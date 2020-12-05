@@ -349,7 +349,11 @@ function get_product_quantity_by_stock_id($stockId,$userid)
 	return $inquantity-$outquantity ;
 }
 
-
+function get_user_details($id)
+{
+	$agent = User::where('id',$id)->get();
+	return isset($agent[0])?$agent[0]:'';
+}
 
 function get_delivery_agent($id)
 {
@@ -360,4 +364,9 @@ function get_store_name($id)
 {
 	$agent = Store::where('id',$id)->get();
 	return isset($agent[0]->store_name)?$agent[0]->store_name:'';
+}
+function get_store_details($id)
+{
+	$store = Store::where('id',$id)->get();
+	return isset($store)?$store:'';
 }

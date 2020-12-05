@@ -39,8 +39,9 @@
 
         <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
           <span class="avatar avatar-xxl bg-blue opacity-60 mx-auto">
+		  <a href="<?=URL('delivery-order-list')?>">
           <i class="align-sub fa fa-truck font-size-40" aria-hidden="true"></i>
-          </span>
+         </a> </span>
           <div class="mt-20">
             <h4 class="text-uppercase fw-500">Delivery Orders</h4>
           </div>

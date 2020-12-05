@@ -57,6 +57,17 @@
 				</select>
               
 				</div>
+				<div class="input-group my-10">
+						<div class="input-group my-2">
+					  <label>Select Deliver  Agent &nbsp;</label>
+					  </div>
+						<select class="form-control form-control-sm" name="agent" id="store" required>
+						@foreach($agent as $agentlst)
+						<option value="<?=$agentlst->id?>" <?php if(isset($do[0]->delivery_agent)&& $do[0]->delivery_agent==$agentlst->id){echo"selected";}?>><?=$agentlst->name?></option>
+						@endforeach
+						</select>
+              
+				</div>
               </div>
 			  
             </div>

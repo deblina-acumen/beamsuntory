@@ -47,7 +47,7 @@ class StoreDeliveryController extends Controller
 		}
 		else
 		{
-			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.stock_item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->whereRaw("stock.stock_type ='in' and (type ='each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->whereRaw("stock.stock_type ='in' and (type ='each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
 		}
 		
 		$query = DB::getQueryLog();
@@ -114,10 +114,11 @@ class StoreDeliveryController extends Controller
 			return redirect('ship-request')->with('error-msg', 'Please select item');
 		}
 		$data['store_category'] = $store_category= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
+		$data['agent'] = $delivery_agent = User::where('role_id','10')->where('is_active','Yes')->where('is_deleted','No')->get();
 		if(isset($data['request_type']) && $data['request_type'] == 'ship_to_locker')
 		{
 			$data['supplier'] = Supplier::where('is_active','Yes')->where('is_deleted','No')->get();
-			$data['agent'] = $delivery_agent = User::where('role_id','10')->where('is_active','Yes')->where('is_deleted','No')->get();
+			
 			//t($delivery_agent,1);
 			return view('salesref.store_delivary.create_locker_request',$data);
 		}
@@ -167,6 +168,7 @@ class StoreDeliveryController extends Controller
 	//	t($posted_data ,1);
 		$insert_do['oder_no']='BEAM-DO'.time();
 		$insert_do['store_id']=$posted_data['store'];
+		$insert_do['delivery_agent'] = $data['agent'];
 		$insert_do['status']='assign_for_pickup';
 		$insert_do['type']='store';
 		$insert_do['created_by']=Auth::user()->id;
@@ -221,6 +223,7 @@ class StoreDeliveryController extends Controller
 	{
 			$data = $request->all();
 			$update_store['store_id'] =$data['store'];
+			$update_store['delivery_agent'] = $data['agent'];
 			$update_store['updated_by'] =Auth::user()->id;
 			Delivery_order::where('id',$data['do_id'])->update($update_store);
 			return redirect('ship-request-list')->with('success-msg', 'Store successfully updated');
@@ -232,6 +235,7 @@ class StoreDeliveryController extends Controller
 		//t($do,1);
 		$data['store_category'] = $store_category= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
 		$data['store'] = $store= Store::where('is_active','Yes')->where('is_deleted','No')->get();
+		$data['agent'] = $delivery_agent = User::where('role_id','10')->where('is_active','Yes')->where('is_deleted','No')->get();
 		return view('salesref.store_delivary.edit_create_store_request',$data);
 	}
 	public function ship_request_list(Request $request)

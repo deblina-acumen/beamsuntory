@@ -85,12 +85,17 @@
 			  </p>
               <a href="{{URL('view-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-dark btn-lg mt-5">View Item</a>
 			  &nbsp;
+			  <?php if(Auth::user()->id = $doinfo->created_by){ ?>
+			  
 			   <a href="{{URL('edit-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-warning btn-lg mt-5">Edit Item</a>
 			   <?php if($doinfo->suppler_id==''){ ?>
 			   <a href="{{URL('edit-store-info/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Store</a>
 			   <?php }else{ ?>
 			   <a href="{{URL('edit-supplier-info/'.base64_encode($doinfo->id))}}" class="btn btn-info btn-lg mt-5">Edit Supplier</a>
 			   <?php }?>
+			   
+			   <?php } ?>
+			   
 			  </div>
 			  <div class="input-group my-10">
                		   

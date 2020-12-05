@@ -365,7 +365,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('save-packing-info', 'currior\PickupController@save_packing_info');
 		Route::any('packing-box-info/{id}', 'currior\PickupController@packing_box_info');
 		Route::post('save-box-info', 'currior\PickupController@save_box_info');
-		
+		//delivery order
+		Route::any('delivery-order-list', 'currior\DeliveryController@do_list');
+		Route::any('do-details/{id}', 'currior\DeliveryController@do_details');
+		Route::any('confirm-do-pickup/{id}', 'currior\DeliveryController@confirm_do_pickup');
 		
 		/////////////// sales representative /////////////
   
