@@ -128,7 +128,8 @@ return view('salesref.assignownership.add_allocation',$data);
 	
 	public function submit_assign_allocation(Request $request)
 	{
-		$data=$request->all(); //t($data);
+		$data=$request->all(); t($data);
+		//exit();
 		 
 		 $userrole2=[];
 		 $userrole5=[];
@@ -137,6 +138,9 @@ return view('salesref.assignownership.add_allocation',$data);
 		 $count_row = $data['countrow'];
 		 $total_po_quantity = $data['total_quantity'];
 		 $total_quantity = 0 ;
+		 $stock_details = Stock::where('id',$data['stockid'])->get();
+		 $warehouse_id = $stock_details[0]->warehouse_id ;
+		 $type = $stock_details[0]->type ;
 		 for($sum_count=0;$sum_count<$count_row;$sum_count++)
 		 {
 			 if($data['userrole1_'.$sum_count]==20)
@@ -259,7 +263,7 @@ return view('salesref.assignownership.add_allocation',$data);
 		
 		 if($total_quantity>$total_po_quantity)
 		 {
-			 //return redirect('add-po-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['puchaseOrderDetailsId']).'/'.base64_encode($data['poid']))->with('error-msg', 'Allcation Quantity Not Sufficient');
+			 return redirect('add-assign-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['itemSkuCode']).'/'.base64_encode($data['stockid']).'/'.base64_encode($data['allocationid']))->with('error-msg', 'Allcation Quantity Not Sufficient');
 		 }
 		 else{
 			 
@@ -267,42 +271,77 @@ return view('salesref.assignownership.add_allocation',$data);
 			  for($i=0;$i<$count_row;$i++)
 		 {
 			 //t($data['userrole1_'.$i]);
-			$insertdata['item_id'] = isset($data['itemid'])?$data['itemid']:0 ;
-			$insertdata['po_id'] = isset($data['poid'])?$data['poid']:0 ;
-			$insertdata['podetails_id'] = isset($data['puchaseOrderDetailsId'])?$data['puchaseOrderDetailsId']:0 ;
-			$insertdata['item_sku'] = isset($data['itemSkuCode'])?$data['itemSkuCode']:0 ;
+			
 			
 			
 			
 			  if($data['userrole1_'.$i]==20)
 			 {
-				 $insertdata['role_id'] = $data['userrole1_'.$i];
-				  $insertdata['region_id']= '';
-				  $insertdata['country_id']= '';
-				   $insertdata['brand_id']= '';
+				 $insertdata20['item_id'] = isset($data['itemid'])?$data['itemid']:0 ;
+			
+			    $insertdata20['item_sku'] = isset($data['itemSkuCode'])?$data['itemSkuCode']:0 ;
+				 $insertdata20['role_id'] = $data['userrole1_'.$i];
+				  $insertdata20['region_id']= '';
+				  $insertdata20['country_id']= '';
+				   $insertdata20['brand_id']= '';
 				 $userrole2['roleuser1']= (isset($data['userrole2_'.$i])&&$data['userrole2_'.$i]!='')?implode(',',$data['userrole2_'.$i]):'';
 				 $userrole2['roleuser2']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
-				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+				 $insertdata20['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
-					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
-					 $insertdata['share_user'] = '' ;
-					  $insertdata['store_locker'] ='';
+					 $insertdata20['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata20['share_user'] = '' ;
+					  $insertdata20['store_locker'] ='';
 				 }
 				 else{
-					 $insertdata['each_user'] = '';
-					 $insertdata['share_user'] = "shared" ;
-					  $insertdata['store_locker'] ='';
+					 $insertdata20['each_user'] = '';
+					 $insertdata20['share_user'] = "shared" ;
+					  $insertdata20['store_locker'] ='';
 				 }
-				 $insertdata['user'] = json_encode($userrole2); 
+				 $insertdata20['user'] = json_encode($userrole2); 
+				 $id20 =POAllocation::insertGetId($insertdata20);
+				// echo $id20 ;
+				 
+				 /////////// stock table entry //////
+				 
+				  if(isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')
+				 {
+					 $mixit_user = $data['userrole3_'.$i];
+				 }else{
+					  $mixit_user = $data['userrole2_'.$i];
+				 }
+				 foreach($mixit_user as $mixit_user_val)
+				 {
+					 $insMixitStock['warehouse_id']=$warehouse_id ;
+					 $insMixitStock['user_id']=$mixit_user_val ;
+					 $insMixitStock['item_id']=$data['itemid'] ;
+					 $insMixitStock['sku_code']=$data['itemSkuCode'] ;
+					 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+					{
+					 $insMixitStock['type']='each' ;
+					}
+					else{
+						$insMixitStock['type']='shared' ;
+					}
+					 $insMixitStock['stock_type']='in' ;
+					 $insMixitStock['allocation_id']=$id20 ;
+					 $insMixitStock['quantity']=isset($data['quantity_'.$i])?$data['quantity_'.$i]:0;
+					Stock::insert($insMixitStock); 
+				 }
+				 
+				/////////// stock table entry ////// 
+				 
 			 }
 			 if($data['userrole1_'.$i]==5)
 			 {
-				 $insertdata['role_id'] = $data['userrole1_'.$i];
-				 $insertdata['brand_id']= implode(',',$data['userrole2_'.$i]);
+				 $insertdata5['item_id'] = isset($data['itemid'])?$data['itemid']:0 ;
+			
+			    $insertdata5['item_sku'] = isset($data['itemSkuCode'])?$data['itemSkuCode']:0 ;
+				 $insertdata5['role_id'] = $data['userrole1_'.$i];
+				 $insertdata5['brand_id']= implode(',',$data['userrole2_'.$i]);
 				 
-				  $insertdata['region_id']= '';
-				  $insertdata['country_id']= '';
+				  $insertdata5['region_id']= '';
+				  $insertdata5['country_id']= '';
 				   
 				 
 				  $userrole5['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
@@ -312,92 +351,213 @@ return view('salesref.assignownership.add_allocation',$data);
 					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
 					 {
 					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					
+					$marketing_user[$j]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?$data['userrole4_'.$j.'_'.$i]:array();
+					
 					 }
 				 }
 				
-				/*  $userrole['roleuser2']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
-				 $userrole['roleuser3']= isset($data['userrole4_2_'.$i])?implode(',',$data['userrole4_2_'.$i]):'';
-				 $userrole['roleuser4']= isset($data['userrole4_3_'.$i])?implode(',',$data['userrole4_3_'.$i]):'';
-				 $userrole['roleuser5']= isset($data['userrole4_4_'.$i])?implode(',',$data['userrole4_4_'.$i]):''; */
-				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+			
+				 $insertdata5['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
-					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
-					 $insertdata['share_user'] ='' ;
-					  $insertdata['store_locker'] ='';
+					 $insertdata5['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata5['share_user'] ='' ;
+					  $insertdata5['store_locker'] ='';
 				 }
 				 else{
-					  $insertdata['store_locker'] ='';
-					 $insertdata['each_user'] = '' ;
-					 $insertdata['share_user'] = "shared" ;
+					  $insertdata5['store_locker'] ='';
+					 $insertdata5['each_user'] = '' ;
+					 $insertdata5['share_user'] = "shared" ;
 				 }
-				 $insertdata['user'] = json_encode($userrole5); 
+				 $insertdata5['user'] = json_encode($userrole5); 
+				 $id5 = POAllocation::insertGetId($insertdata5);
+				 //echo $id5;
+				 ////////////////// stock table entry //////////
+				 $count_marketing_user = count(end($marketing_user));
+				 if($count_marketing_user > 0)
+				 {
+					 $brand_markting_user = end($marketing_user) ;
+				 }
+				 else{
+					 $brand_markting_user = isset($data['userrole3_'.$i])?$data['userrole3_'.$i]:array();
+				 }
+				 
+				 foreach($brand_markting_user as $brand_markting_user_val)
+				 {
+					  $insmarketingStock['warehouse_id']=$warehouse_id ;
+					 $insmarketingStock['user_id']=$brand_markting_user_val ;
+					 $insmarketingStock['item_id']=$data['itemid'] ;
+					 $insmarketingStock['sku_code']=$data['itemSkuCode'] ;
+					 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+					{
+					 $insmarketingStock['type']='each' ;
+					}
+					else{
+						$insmarketingStock['type']='shared' ;
+					}
+					 $insmarketingStock['stock_type']='in' ;
+					 $insmarketingStock['allocation_id']=$id5 ;
+					 $insmarketingStock['quantity']=isset($data['quantity_'.$i])?$data['quantity_'.$i]:0;
+					Stock::insert($insmarketingStock); 
+				 }
+				 
 			 } 
 			  if($data['userrole1_'.$i]==15)
 			 {
-				 $insertdata['role_id'] = $data['userrole1_'.$i];
-				 $insertdata['country_id']= implode(',',$data['userrole2_'.$i]);
-				  $insertdata['region_id']= '';
+				 $insertdata15['item_id'] = isset($data['itemid'])?$data['itemid']:0 ;
+			
+			    $insertdata15['item_sku'] = isset($data['itemSkuCode'])?$data['itemSkuCode']:0 ;
+				 $insertdata15['role_id'] = $data['userrole1_'.$i];
+				 $insertdata15['country_id']= implode(',',$data['userrole2_'.$i]);
+				  $insertdata15['region_id']= '';
 				 
-				   $insertdata['brand_id']= '';
-				 $insertdata['region_id']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
+				   $insertdata15['brand_id']= '';
+				 $insertdata15['region_id']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
 				 
 				  for($j=1;$j<=$data['dynamoselectcount_'.$i];$j++)
 				 {
 					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
 					{
 					$userrole9['roleuser'.$j]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					
+					$field_market_user[$j]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?$data['userrole4_'.$j.'_'.$i]:array(); 
 					}
 				 }
 				 
-				/*  $userrole['roleuser1']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
-				 $userrole['roleuser2']= isset($data['userrole4_2_'.$i])?implode(',',$data['userrole4_2_'.$i]):'';
-				 $userrole['roleuser3']= isset($data['userrole4_3_'.$i])?implode(',',$data['userrole4_3_'.$i]):'';
-				 $userrole['roleuser4']= isset($data['userrole4_4_'.$i])?implode(',',$data['userrole4_4_'.$i]):'';
-				 $userrole['roleuser5']= isset($data['userrole4_5_'.$i])?implode(',',$data['userrole4_5_'.$i]):''; */
-				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+				
+				 $insertdata15['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				 
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
-					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
-					 $insertdata['share_user'] = '' ;
-					  $insertdata['store_locker'] ='';
+					 $insertdata15['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata15['share_user'] = '' ;
+					  $insertdata15['store_locker'] ='';
 				 }
 				 else{
-					  $insertdata['store_locker'] ='';
-					 $insertdata['share_user'] = "shared" ;
-					 $insertdata['each_user'] = '' ;
+					  $insertdata15['store_locker'] ='';
+					 $insertdata15['share_user'] = "shared" ;
+					 $insertdata15['each_user'] = '' ;
 				 }
-				 $insertdata['user'] = json_encode($userrole9); 
+				 $insertdata15['user'] = json_encode($userrole9);
+				 $id15 =POAllocation::insertGetId($insertdata15);
+				 //echo $id15;
+				 $field_marketing_user = end($field_market_user) ;
+				 foreach($field_marketing_user as $field_marketing_user_val)
+				 {
+					  $insfmarketingStock['warehouse_id']=$warehouse_id ;
+					 $insfmarketingStock['user_id']=$field_marketing_user_val ;
+					 $insfmarketingStock['item_id']=$data['itemid'] ;
+					 $insfmarketingStock['sku_code']=$data['itemSkuCode'] ;
+					 if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+					{
+					 $insfmarketingStock['type']='each' ;
+					}
+					else{
+						$insfmarketingStock['type']='shared' ;
+					}
+					 $insfmarketingStock['stock_type']='in' ;
+					 $insfmarketingStock['allocation_id']=$id15 ;
+					 $insfmarketingStock['quantity']=isset($data['quantity_'.$i])?$data['quantity_'.$i]:0;
+					Stock::insert($insfmarketingStock); 
+				 }
+				 
 			 } 
 			  if($data['userrole1_'.$i]==11)
 			 {
+				 $insertdata11['item_id'] = isset($data['itemid'])?$data['itemid']:0 ;
+			
+			    $insertdata11['item_sku'] = isset($data['itemSkuCode'])?$data['itemSkuCode']:0 ;
 				 //t($data['userrole3_'.$i]);
-				 $insertdata['role_id'] = $data['userrole1_'.$i];
-				 $insertdata['region_id']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
-				  $insertdata['country_id']= '';
-				   $insertdata['brand_id']= '';
+				 $insertdata11['role_id'] = $data['userrole1_'.$i];
+				 $insertdata11['region_id']= isset($data['userrole2_'.$i])?implode(',',$data['userrole2_'.$i]):'';
+				  $insertdata11['country_id']= '';
+				   $insertdata11['brand_id']= '';
 				 $userrole11['roleuser1']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
-				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
+				 $insertdata11['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
 				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
-					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
-					 $insertdata['share_user'] ='';
+					 $insertdata11['each_user'] = $data['eachselectbox_'.$i]  ;
+					 $insertdata11['share_user'] ='';
 				 }
 				  if(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store')
 				 {
-					 $insertdata['store_locker'] = $data['storelocator_'.$i]  ;
-					 $insertdata['share_user']='';
+					 $insertdata11['store_locker'] = $data['storelocator_'.$i]  ;
+					 $insertdata11['share_user']='';
 				 }
 				 if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') ||(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
 				 {
 				 }
 				 else{
-					 $insertdata['each_user'] ='';
-					 $insertdata['store_locker'] ='';
-					 $insertdata['share_user'] = "shared" ;
+					 $insertdata11['each_user'] ='';
+					 $insertdata11['store_locker'] ='';
+					 $insertdata11['share_user'] = "shared" ;
 				 }
-				 $insertdata['user'] = json_encode($userrole11); 
+				 $insertdata11['user'] = json_encode($userrole11);
+				$id11 = POAllocation::insertGetId($insertdata11);
+				//echo $id11 ;
+				////////// store to stock table ///////////
+				$sales_ref = (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?$data['userrole3_'.$i]:array();
+				
+				if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+				 {
+						 foreach($sales_ref as $sales_ref_val)
+							 {
+								  $inssalesrefStock['warehouse_id']=$warehouse_id ;
+								 $inssalesrefStock['user_id']=$sales_ref_val ;
+								 $inssalesrefStock['item_id']=$data['itemid'] ;
+								 $inssalesrefStock['sku_code']=$data['itemSkuCode'] ;
+								
+								 $inssalesrefStock['type']='each' ;
+								
+									
+								
+								 $inssalesrefStock['stock_type']='in' ;
+								 $inssalesrefStock['allocation_id']=$id11 ;
+								 $inssalesrefStock['quantity']=isset($data['quantity_'.$i])?$data['quantity_'.$i]:0;
+								Stock::insert($inssalesrefStock); 
+							 }
+				 }
+				  if(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store')
+				 {
+					    foreach($sales_ref as $sales_ref_val1)
+						 {
+							  $inssalesrefStock['warehouse_id']=$warehouse_id ;
+							 $inssalesrefStock['user_id']=$sales_ref_val1 ;
+							 $inssalesrefStock['item_id']=$data['itemid'] ;
+							 $inssalesrefStock['sku_code']=$data['itemSkuCode'] ;
+							
+							 
+							
+								$inssalesrefStock['type']='store' ;
+							
+							 $inssalesrefStock['stock_type']='in' ;
+							 $inssalesrefStock['allocation_id']=$id11 ;
+							 $inssalesrefStock['quantity']=isset($data['quantity_'.$i])?$data['quantity_'.$i]:0;
+							Stock::insert($inssalesrefStock); 
+						 }
+				 }
+				 if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') ||(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
+				 {
+				 }
+				 else{
+					  foreach($sales_ref as $sales_ref_val1)
+						 {
+							  $inssalesrefStock['warehouse_id']=$warehouse_id ;
+							 $inssalesrefStock['user_id']=$sales_ref_val1 ;
+							 $inssalesrefStock['item_id']=$data['itemid'] ;
+							 $inssalesrefStock['sku_code']=$data['itemSkuCode'] ;
+							$inssalesrefStock['type']='shared' ;
+							 $inssalesrefStock['stock_type']='in' ;
+							 $inssalesrefStock['allocation_id']=$id11 ;
+							 $inssalesrefStock['quantity']=isset($data['quantity_'.$i])?$data['quantity_'.$i]:0;
+							Stock::insert($inssalesrefStock); 
+						 }
+				 }
+				
+				
+				
+				 
 			 }
 			// t(json_encode($userrole));
 			 
@@ -405,8 +565,47 @@ return view('salesref.assignownership.add_allocation',$data);
 			// exit() ;
 			 
 		 }
-			 
-			 
+		 
+		//////// update data/////////////
+			if($stock_details[0]->type == 'each')
+			{
+				$updateStock['warehouse_id']=$warehouse_id ;
+				 $updateStock['user_id']=$stock_details[0]->user_id ;
+				 $updateStock['item_id']=$data['itemid'] ;
+				 $updateStock['sku_code']=$data['itemSkuCode'] ;
+				$updateStock['type']='each' ;
+				 $updateStock['stock_type']='out' ;
+				 $updateStock['allocation_id']=$stock_details[0]->allocation_id ;
+				 $updateStock['quantity']= $total_quantity;
+				 $updateStock['stock_id']= $stock_details[0]->id;
+				Stock::insert($updateStock); 
+			}
+			else if($stock_details[0]->type == 'shared')
+			{
+				$stock_user = [] ;
+				$share_stock_list = Stock::where('allocation_id',$stock_details[0]->allocation_id)->get();
+				foreach($share_stock_list as $share_stock_list_val)
+				{
+					array_push($stock_user,$share_stock_list_val->user_id);
+				}
+				foreach($stock_user as $stock_user_ids)
+				{
+					$updateStock['warehouse_id']=$warehouse_id ;
+				 $updateStock['user_id']=$stock_user_ids ;
+				 $updateStock['item_id']=$data['itemid'] ;
+				 $updateStock['sku_code']=$data['itemSkuCode'] ;
+				$updateStock['type']='shared' ;
+				 $updateStock['stock_type']='out' ;
+				 $updateStock['allocation_id']=$stock_details[0]->allocation_id ;
+				 $updateStock['quantity']= $total_quantity;
+				 $updateStock['stock_id']= $stock_details[0]->id;
+				Stock::insert($updateStock); 
+				}
+			}
+			else{
+			}
+		///////	 update data /////////// 
+			  return redirect('assign-ownership/item-list')->with('success-msg', 'Allocation Added Successfully');
 		 }
 	}
 }

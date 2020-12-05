@@ -22,7 +22,7 @@
             <small class="pull-right"><span class="text-blue">Available Qty: {{$quantity}}</span></small>
               </div>
             </div>
-			<input type="hidden" value="{{$quantity}}" id="total_quantity" name="total_quantity" class="total_quantity">
+			<input type="hidden" value="{{get_product_quantity_by_stock_id($stockid,Auth::user()->id)}}" id="total_quantity" name="total_quantity" class="total_quantity">
 			<input type="hidden" name="itemid" value="{{$itemId}}">
 			
 			

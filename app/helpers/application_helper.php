@@ -318,6 +318,29 @@ function get_product_privacy($userId,$item_id,$skucode)
 	return isset($item_privacy[0]->privacy_type)?$item_privacy[0]->privacy_type:'';
 }
 
+function get_product_quantity_by_stock_id($stockId,$userid)
+{
+	$instock = Stock::where('id',$stockId)->where('user_id',$userid)->where('stock_type','in')->get();
+	if(!empty($instock)&& count($instock)>0)
+	{
+	$inquantity = isset($instock[0]->quantity)?$instock[0]->quantity:0 ;
+	}
+	else{
+		$inquantity = 0 ;
+	}
+	
+	$outStock = Stock::where('stock_id',$stockId)->where('user_id',$userid)->where('stock_type','out')->get();
+	if(!empty($outStock)&& count($outStock)>0)
+	{
+	$outquantity = isset($outStock[0]->quantity)?$outStock[0]->quantity:0 ;
+	}
+	else{
+		$outquantity = 0 ;
+	}
+	
+	return $inquantity-$outquantity ;
+}
+
 
 
 
