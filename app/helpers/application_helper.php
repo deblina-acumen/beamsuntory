@@ -33,6 +33,11 @@ function get_total_purchase_item($po_id){
 	return isset($total_item[0]->total_item)?$total_item[0]->total_item:0;
 }
 
+function get_product_name_by_id($id)
+{
+	$item = Product::where('id',$id)->get();
+	return isset($item[0]->name)?$item[0]->name:'';
+}
 function get_product_list_type_wise($type)
 {
 	$product_list = Product::where('is_deleted','No')->where('product_type',$type)->where('is_active','Yes')->where('product_type',$type)->orderBy('name','asc')->get();
@@ -313,12 +318,38 @@ function get_product_privacy($userId,$item_id,$skucode)
 	return isset($item_privacy[0]->privacy_type)?$item_privacy[0]->privacy_type:'';
 }
 
+
 function get_supplier_name($id)
 {
 	
 	$Supplier = Supplier::where('id',$id)->get();
 	return isset($Supplier[0]->supplier_name)?$Supplier[0]->supplier_name:'';
 }
+
+function get_product_quantity_by_stock_id($stockId,$userid)
+{
+	$instock = Stock::where('id',$stockId)->where('user_id',$userid)->where('stock_type','in')->get();
+	if(!empty($instock)&& count($instock)>0)
+	{
+	$inquantity = isset($instock[0]->quantity)?$instock[0]->quantity:0 ;
+	}
+	else{
+		$inquantity = 0 ;
+	}
+	
+	$outStock = Stock::where('stock_id',$stockId)->where('user_id',$userid)->where('stock_type','out')->get();
+	if(!empty($outStock)&& count($outStock)>0)
+	{
+	$outquantity = isset($outStock[0]->quantity)?$outStock[0]->quantity:0 ;
+	}
+	else{
+		$outquantity = 0 ;
+	}
+	
+	return $inquantity-$outquantity ;
+}
+
+
 
 function get_delivery_agent($id)
 {

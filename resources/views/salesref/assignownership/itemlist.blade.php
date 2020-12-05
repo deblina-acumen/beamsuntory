@@ -69,25 +69,25 @@
 			  
               <div class="pull-right ml-10">
                 
-				  
-				  
-				  <a href="{{URL('add-assign-allocation/'.base64_encode($product_list_val->stock_item_id).'/'.base64_encode($product_list_val->sku_code))}}" class="btn bg-warning btn-sm"><small class="badge bg-warning">Allocate</small></a>
-				  
-				 
+				  <a href="{{URL('add-assign-allocation/'.base64_encode($product_list_val->stock_item_id).'/'.base64_encode($product_list_val->sku_code).'/'.base64_encode($product_list_val->stock_id).'/'.base64_encode($product_list_val->allocation_id))}}" class="btn bg-warning btn-sm"><small class="badge bg-warning">Allocate</small></a>
 				  
               </div>
 			  
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
-              <p>Qty: <span class="text-bold">{{get_item_quantity_by_id_sku('',Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}</span></p>
+              <p>Available Qty: <span class="text-bold">{{get_product_quantity_by_stock_id($product_list_val->stock_id,Auth::user()->id)}} {{$product_list_val->stock_id}}</span></p>
 			  
 			  <p>Batch No: <span class="text-bold">{{(isset($product_list_val->batch_no) && $product_list_val->batch_no!='')?$product_list_val->batch_no:''}}</span></p>
-             
+             <p>
+			 <span>
+				  Product Type: <small class="text-bold">{{(isset($product_list_val->type) && $product_list_val->type!='')?ucwords($product_list_val->type):''}}</small>
+				  </span>
+			 </p>
               </div>
 			  
             </div>
 			<?php
-			$sum = $sum + get_item_quantity_by_id_sku('',Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code) ;
+			$sum = $sum + $product_list_val->quantity ;
 			?>
 			@endforeach
 			@endif
