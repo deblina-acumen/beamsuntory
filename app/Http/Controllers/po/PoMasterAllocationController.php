@@ -721,10 +721,10 @@ return view('poallocation.add_allocation',$data);
 			 {
 				 for($j=1;$j<$data['dynamoselectcount_'.$sum_count];$j++)
 				 {
-					 
-					 if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
+					 $j1 = $j+1 ;
+					 if(isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')
 					 {
-					$marketing_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array(); 
+					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')?$data['userrole4_'.$j1.'_'.$sum_count]:array(); 
 					 }
 				 }
 				 
@@ -796,9 +796,9 @@ return view('poallocation.add_allocation',$data);
 				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
-					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
+					if(isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')
 					 {
-					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')?implode(',',$data['userrole4_'.$j1.'_'.$i]):''; 
 					 }
 				 }
 				
@@ -1062,10 +1062,11 @@ return view('poallocation.add_allocation',$data);
 				 
 				 for($j=1;$j<$data['dynamoselectcount_'.$sum_count];$j++)
 				 {
-					 
-					 if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
+					 $j1 = $j+1 ;
+					 if(isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')
 					 {
-					$marketing_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array(); 
+						 
+					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')?$data['userrole4_'.$j1.'_'.$sum_count]:array(); 
 					 }
 				 }
 				 
@@ -1157,9 +1158,9 @@ return view('poallocation.add_allocation',$data);
 				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
-					 if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
+					 if(isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')
 					 {
-					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')?implode(',',$data['userrole4_'.$j1.'_'.$i]):''; 
 					 }
 				 }
 				
