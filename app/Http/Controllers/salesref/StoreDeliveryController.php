@@ -303,7 +303,6 @@ class StoreDeliveryController extends Controller
 		
 		$data['do_list'] = $do_list = Delivery_orderItem::select('delivery_order_item.*','item.name as item_name','item.product_type','item.regular_price','item.batch_no','item.expire_date','item.retail_price','item.image')->join('item','delivery_order_item.item_id','=','item.id','left')->where('delivery_order_item.is_active','Yes')->where('delivery_order_item.is_deleted','No')->get();
 	
-
 		return view('salesref.store_delivary.view_delivery_item',$data);
 	}
 		
