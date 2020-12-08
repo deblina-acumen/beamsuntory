@@ -218,10 +218,12 @@ return view('salesref.assignownership.add_allocation',$data);
 				    	$field_market_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array();; 
 					}
 				 }
-				 
+				// t(end($field_market_user));
+				// t(count(end($field_market_user)));
 				 
 				// $field_market_user = (isset($data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count])&&$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]!='')?$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]:array(); 
 				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+				// t($quantity);
 				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
 				 {
 					$count_field_market_user = count(end($field_market_user));
@@ -231,19 +233,22 @@ return view('salesref.assignownership.add_allocation',$data);
 					 $sum_amount =  $quantity ;
 				 }
 				 
-				$total_quantity = $total_quantity+ $sum_amount ; 
+				$total_quantity = $total_quantity + $sum_amount ; 
+				//t($sum_amount) ;
 			 }
 			 
 			  if($data['userrole1_'.$sum_count]==5)
 			 {
 				 for($j=1;$j<$data['dynamoselectcount_'.$sum_count];$j++)
 				 {
-					 
-					 if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
+					 $j1 = $j+1 ;
+					 if(isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')
 					 {
-					$marketing_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array(); 
+					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')?$data['userrole4_'.$j1.'_'.$sum_count]:array(); 
 					 }
 				 }
+				
+				// t(end($marketing_user));
 				 
 				 //$marketing_user = (isset($data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count])&&$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]!='')?$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]:array(); 
 				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
@@ -260,6 +265,9 @@ return view('salesref.assignownership.add_allocation',$data);
 			 }
 			 
 		 }
+		// t($total_quantity);
+		 
+		// exit();
 		
 		 if($total_quantity>$total_po_quantity)
 		 {
@@ -348,11 +356,11 @@ return view('salesref.assignownership.add_allocation',$data);
 				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
-					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
+					if(isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')
 					 {
-					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
+					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')?implode(',',$data['userrole4_'.$j1.'_'.$i]):''; 
 					
-					$marketing_user[$j]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?$data['userrole4_'.$j.'_'.$i]:array();
+					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')?$data['userrole4_'.$j1.'_'.$i]:array();
 					
 					 }
 				 }
@@ -567,7 +575,7 @@ return view('salesref.assignownership.add_allocation',$data);
 		 }
 		 
 		//////// update data/////////////
-			if($stock_details[0]->type == 'each')
+		 if($stock_details[0]->type == 'each')
 			{
 				$updateStock['warehouse_id']=$warehouse_id ;
 				 $updateStock['user_id']=$stock_details[0]->user_id ;
@@ -578,32 +586,34 @@ return view('salesref.assignownership.add_allocation',$data);
 				 $updateStock['allocation_id']=$stock_details[0]->allocation_id ;
 				 $updateStock['quantity']= $total_quantity;
 				 $updateStock['stock_id']= $stock_details[0]->id;
+				 
 				Stock::insert($updateStock); 
 			}
 			else if($stock_details[0]->type == 'shared')
 			{
 				$stock_user = [] ;
-				$share_stock_list = Stock::where('allocation_id',$stock_details[0]->allocation_id)->get();
+				$share_stock_list = Stock::where('allocation_id',$stock_details[0]->allocation_id)->where('stock_type','in')->get();
+				
 				foreach($share_stock_list as $share_stock_list_val)
 				{
-					array_push($stock_user,$share_stock_list_val->user_id);
-				}
-				foreach($stock_user as $stock_user_ids)
-				{
-					$updateStock['warehouse_id']=$warehouse_id ;
-				 $updateStock['user_id']=$stock_user_ids ;
+				
+					$updateStock['warehouse_id']=$share_stock_list_val->warehouse_id ;
+				 $updateStock['user_id']=$share_stock_list_val->user_id ;
 				 $updateStock['item_id']=$data['itemid'] ;
 				 $updateStock['sku_code']=$data['itemSkuCode'] ;
 				$updateStock['type']='shared' ;
 				 $updateStock['stock_type']='out' ;
-				 $updateStock['allocation_id']=$stock_details[0]->allocation_id ;
+				 $updateStock['allocation_id']=$share_stock_list_val->allocation_id ;
 				 $updateStock['quantity']= $total_quantity;
-				 $updateStock['stock_id']= $stock_details[0]->id;
+				 $updateStock['stock_id']= $share_stock_list_val->id;
 				Stock::insert($updateStock); 
+				
 				}
+				
 			}
 			else{
 			}
+		 
 		///////	 update data /////////// 
 			  return redirect('assign-ownership/item-list')->with('success-msg', 'Allocation Added Successfully');
 		 }

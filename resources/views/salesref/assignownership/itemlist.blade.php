@@ -61,6 +61,7 @@
 			@if(!empty($product_list)&& count($product_list)>0)	
 			<input type="hidden" name="row_count" value="{{count($product_list)}}">
 			@foreach($product_list as $k=>$product_list_val)
+			<?php if(get_product_quantity_by_stock_id($product_list_val->stock_id,Auth::user()->id) > 0){ ?>
             <div class="media media-single m-media">
               <div class="media-body">
               <div class="pull-left">
@@ -75,8 +76,8 @@
 			  
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
-              <p>Available Qty: <span class="text-bold">{{get_product_quantity_by_stock_id($product_list_val->stock_id,Auth::user()->id)}} {{$product_list_val->stock_id}}</span></p>
-			  
+              <p>Available Qty: <span class="text-bold">{{get_product_quantity_by_stock_id($product_list_val->stock_id,Auth::user()->id)}} </span></p>
+				  
 			  <p>Batch No: <span class="text-bold">{{(isset($product_list_val->batch_no) && $product_list_val->batch_no!='')?$product_list_val->batch_no:''}}</span></p>
              <p>
 			 <span>
@@ -88,6 +89,7 @@
             </div>
 			<?php
 			$sum = $sum + $product_list_val->quantity ;
+			}
 			?>
 			@endforeach
 			@endif
