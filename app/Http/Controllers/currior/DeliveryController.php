@@ -12,11 +12,20 @@ use DB;
 class DeliveryController extends Controller
 {
 	
-	function do_list()
+	function do_list(Request $request)
 	{
+		$posted = $request->all(); 
 		$user_id = Auth::user()->id;
-		$data['do_list'] = Delivery_order::where('delivery_agent',$user_id)->where("is_active","Yes")->where("is_deleted",'No')->get();
-		//t($do_list);
+		$where = "";
+		if(isset($posted['search']) && $posted['search']!='')
+		{
+		$search = $data['search'] = $posted['search'];
+		$data['do_list'] = Delivery_order::where('delivery_agent',$user_id)->where("is_active","Yes")->where("is_deleted",'No')->where('delivery_order.oder_no', 'like',$search)->get();
+		}
+		else
+		{
+			$data['do_list'] = Delivery_order::where('delivery_agent',$user_id)->where("is_active","Yes")->where("is_deleted",'No')->get();
+		}
 		return view('currior.do_list',$data);
 	}
 	
