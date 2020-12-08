@@ -85,7 +85,7 @@
 			  </p>
               <a href="{{URL('view-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-dark btn-lg mt-5">View Item</a>
 			  &nbsp;
-			  <?php if(Auth::user()->id = $doinfo->created_by){ ?>
+			  <?php if(Auth::user()->id = $doinfo->created_by && $doinfo->status=="assign_for_pickup"){ ?>
 			  
 			   <a href="{{URL('edit-ship-request/'.base64_encode($doinfo->id))}}" class="btn btn-warning btn-lg mt-5">Edit Item</a>
 			   <?php if($doinfo->suppler_id==''){ ?>

@@ -80,9 +80,11 @@
               </div>
 			  
             </div>
-			<input type="hidden" name="sku_code" value="<?=isset($sku_code)?implode(',',$sku_code):''?>" >
-			<input type="hidden" name="quantuty" value="<?=isset($request_quantity)?implode(',',$request_quantity):''?>" >
-			<input type="hidden" name="item_id" value="<?=isset($item_id)?implode(',',$item_id):''?>" >
+			@foreach($sku_code as $sku_cd)
+			<input type="hidden" name="sku_code[]" value="<?php echo $sku_cd; ?>" >
+			<input type="hidden" name="quantuty[<?=$sku_cd?>]" value="<?php echo $request_quantity[$sku_cd] ?>" >
+			<input type="hidden" name="item_id[<?=$sku_cd?>]" value="<?php echo $item_id[$sku_cd] ?>" >
+			@endforeach
             <div class="media media-single bg-light text-center">
               <div class="media-body">
                
