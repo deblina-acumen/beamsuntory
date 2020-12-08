@@ -89,7 +89,9 @@
 			  <div class="input-group my-10">
                	<a href="{{URL('do-details/'.base64_encode($doinfo->id))}}" class="btn btn-dark btn-lg mt-5">View Details</a>
 			  &nbsp;
-			  <a href="{{URL('confirm-do-pickup/'.base64_encode($doinfo->id))}}" class="btn btn-warning btn-lg mt-5">Confirm Order</a> 
+			  <?php if($doinfo->status =="assign_for_pickup"){ ?>
+			  <a href="{{URL('confirm-do-pickup/'.base64_encode($doinfo->id))}}" class="btn btn-warning btn-lg mt-5">Confirm Order</a>
+			  <?php } ?>			  
 				</div>
               </div>
 			 </div>

@@ -239,7 +239,7 @@ return view('salesref.assignownership.add_allocation',$data);
 			 
 			  if($data['userrole1_'.$sum_count]==5)
 			 {
-				 for($j=1;$j<$data['dynamoselectcount_'.$sum_count];$j++)
+				 for($j=0;$j<$data['dynamoselectcount_'.$sum_count];$j++)
 				 {
 					 $j1 = $j+1 ;
 					 if(isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')
@@ -247,25 +247,40 @@ return view('salesref.assignownership.add_allocation',$data);
 					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')?$data['userrole4_'.$j1.'_'.$sum_count]:array(); 
 					 }
 				 }
-				
-				// t(end($marketing_user));
-				 
-				 //$marketing_user = (isset($data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count])&&$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]!='')?$data['userrole4_'.$data['dynamoselectcount_'.$sum_count].'_'.$sum_count]:array(); 
-				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
-				if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+				 $brand_m_manager = (isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')?$data['userrole3_'.$sum_count]:array();
+				 //t($brand_m_manager);
+				// t($marketing_user);
+				 if(isset($marketing_user)&& $marketing_user!='')
 				 {
-					$count_marketing_user = count(end($marketing_user));
-					$sum_amount = $count_marketing_user * $quantity ;
+					 
+						$quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+						if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+						 {
+							$count_marketing_user = count(end($marketing_user));
+							$sum_amount = $count_marketing_user * $quantity ;
+						 }
+						 else{
+							 $sum_amount =  $quantity ;
+						 }
+					 
 				 }
 				 else{
-					 $sum_amount =  $quantity ;
+					 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
+						if(isset($data['eachselectbox_'.$sum_count])&&$data['eachselectbox_'.$sum_count]== 'each')
+						 {
+							$count_marketing_user = count($brand_m_manager);
+							$sum_amount = $count_marketing_user * $quantity ;
+						 }
+						 else{
+							 $sum_amount =  $quantity ;
+						 }
 				 }
-				 
+				
 				$total_quantity = $total_quantity+ $sum_amount ; 
 			 }
 			 
 		 }
-		// t($total_quantity);
+		 //t($total_quantity);
 		 
 		// exit();
 		
@@ -353,7 +368,7 @@ return view('salesref.assignownership.add_allocation',$data);
 				   
 				 
 				  $userrole5['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
-				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
+				 for($j=0;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
 					if(isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')
@@ -382,14 +397,16 @@ return view('salesref.assignownership.add_allocation',$data);
 				 $id5 = POAllocation::insertGetId($insertdata5);
 				 //echo $id5;
 				 ////////////////// stock table entry //////////
-				 $count_marketing_user = count(end($marketing_user));
-				 if($count_marketing_user > 0)
+				// $count_marketing_user = count(end($marketing_user));
+				 
+				 if(isset($marketing_user)&& $marketing_user!='')
 				 {
 					 $brand_markting_user = end($marketing_user) ;
 				 }
 				 else{
 					 $brand_markting_user = isset($data['userrole3_'.$i])?$data['userrole3_'.$i]:array();
 				 }
+				
 				 
 				 foreach($brand_markting_user as $brand_markting_user_val)
 				 {
