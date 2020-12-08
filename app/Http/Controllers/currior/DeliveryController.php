@@ -175,6 +175,8 @@ class DeliveryController extends Controller
 			}
 		}
 		}
+		$update['status'] = 'delivered';
+		Delivery_order::where('delivery_order.id',$do_id)->update($update);
 		return redirect('delivery-order-list')->with('success-msg', 'Succssfully picked up');
 		
 	}
