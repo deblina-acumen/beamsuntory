@@ -130,7 +130,7 @@ class StoreDeliveryController extends Controller
 	function save_locker_request(Request $request)
 	{
 		$posted_data = $request->all();
-	//	t($posted_data ,1);
+	//t($posted_data ,1);
 		$insert_do['oder_no']='BEAM-DO'.time();
 		$insert_do['suppler_id']=$posted_data['supplier'];
 		$insert_do['delivery_agent']=$posted_data['agent'];
@@ -142,14 +142,15 @@ class StoreDeliveryController extends Controller
 		$do_id = Delivery_order::insertGetId($insert_do);
 		if($do_id!='')
 		{
-			$sku = isset($posted_data['sku_code'])?explode(',',$posted_data['sku_code']):array();
-			$quantuty = isset($posted_data['quantuty'])?explode(',',$posted_data['quantuty']):array();
-			$item_id = isset($posted_data['item_id'])?explode(',',$posted_data['item_id']):array();
+			$sku = isset($posted_data['sku_code'])?$posted_data['sku_code']:array();
+			$quantuty = isset($posted_data['quantuty'])?$posted_data['quantuty']:array();
+			$item_id = isset($posted_data['item_id'])?$posted_data['item_id']:array();
+			
 			foreach($sku as $k=>$skucode){
 			$insert_do_item['do_id'] = $do_id;
-			$insert_do_item['item_id'] = isset($item_id[$k])?$item_id[$k]:'';
+			$insert_do_item['item_id'] = isset($item_id[$skucode])?$item_id[$skucode]:'';
 			$insert_do_item['item_sku'] = $skucode;
-			$insert_do_item['quantity'] =isset($quantuty[$k])&&$quantuty[$k]!=''?$quantuty[$k]:0;
+			$insert_do_item['quantity'] =isset($quantuty[$skucode])&&$quantuty[$skucode]!=''?$quantuty[$skucode]:0;
 			$insert_do_item['is_active'] ='Yes';
 			$insert_do_item['is_deleted'] ='No';
 			$insert_do_item['created_by'] = Auth::user()->id;
@@ -168,7 +169,7 @@ class StoreDeliveryController extends Controller
 	//	t($posted_data ,1);
 		$insert_do['oder_no']='BEAM-DO'.time();
 		$insert_do['store_id']=$posted_data['store'];
-		$insert_do['delivery_agent'] = $data['agent'];
+		$insert_do['delivery_agent'] = $posted_data['agent'];
 		$insert_do['status']='assign_for_pickup';
 		$insert_do['type']='store';
 		$insert_do['created_by']=Auth::user()->id;
@@ -177,14 +178,14 @@ class StoreDeliveryController extends Controller
 		$do_id = Delivery_order::insertGetId($insert_do);
 		if($do_id!='')
 		{
-			$sku = isset($posted_data['sku_code'])?explode(',',$posted_data['sku_code']):array();
-			$quantuty = isset($posted_data['quantuty'])?explode(',',$posted_data['quantuty']):array();
-			$item_id = isset($posted_data['item_id'])?explode(',',$posted_data['item_id']):array();
+			$sku = isset($posted_data['sku_code'])?$posted_data['sku_code']:array();
+			$quantuty = isset($posted_data['quantuty'])?$posted_data['quantuty']:array();
+			$item_id = isset($posted_data['item_id'])?$posted_data['item_id']:array();
 			foreach($sku as $k=>$skucode){
 			$insert_do_item['do_id'] = $do_id;
-			$insert_do_item['item_id'] = isset($item_id[$k])?$item_id[$k]:'';
+			$insert_do_item['item_id'] = isset($item_id[$skucode])?$item_id[$skucode]:'';
 			$insert_do_item['item_sku'] = $skucode;
-			$insert_do_item['quantity'] =isset($quantuty[$k])&&$quantuty[$k]!=''?$quantuty[$k]:0;
+			$insert_do_item['quantity'] =isset($quantuty[$skucode])&&$quantuty[$skucode]!=''?$quantuty[$skucode]:0;
 			$insert_do_item['is_active'] ='Yes';
 			$insert_do_item['is_deleted'] ='No';
 			$insert_do_item['created_by'] = Auth::user()->id;
