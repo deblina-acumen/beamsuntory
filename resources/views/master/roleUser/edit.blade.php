@@ -106,4 +106,67 @@ function generate_password()
         });
     });
 </script>
+<script>
+	function get_province(obj)
+{
+	var country = $(obj).val(); 
+
+ $.ajax({
+		url:'<?php echo URL("get-province-by-country-id"); ?>',
+		method:"POST",
+		dataType: 'json',
+		data: {
+		"country_id": country,
+        "_token": "{{ csrf_token() }}",
+        
+        },
+		success:function(data)
+		{
+			$('#province_id').html('');
+			var html = '<option value="">select </option>';
+			if(data.length > 0)
+			{
+				for(i =0;i < data.length; i++)
+				{
+					html = html + '<option value="'+data[i]['id']+'">'+data[i]['name'] +'</option>';
+					
+				}
+			}
+			$('#province_id').html(html);
+		}
+		
+	   });
+}
+	function get_store_locator_province(obj)
+{
+	var country = $(obj).val(); 
+
+ $.ajax({
+		url:'<?php echo URL("get-province-by-country-id"); ?>',
+		method:"POST",
+		dataType: 'json',
+		data: {
+		"country_id": country,
+        "_token": "{{ csrf_token() }}",
+        
+        },
+		success:function(data)
+		{
+			$('#store_locator_province_id').html('');
+			var html = '<option value="">select </option>';
+			if(data.length > 0)
+			{
+				for(i =0;i < data.length; i++)
+				{
+					html = html + '<option value="'+data[i]['id']+'">'+data[i]['name'] +'</option>';
+					
+				}
+			}
+			$('#store_locator_province_id').html(html);
+		}
+		
+	   });
+}
+
+</script>
 @stop

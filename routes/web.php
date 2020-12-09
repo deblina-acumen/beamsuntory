@@ -334,6 +334,11 @@ Route::group(['middleware' => 'auth'], function () {
 		'as' => 'update-warehouse',
 		'uses' => 'Master\WarehouseController@update_warehouse_data'
 	]);
+	// get country 
+	Route::post('get-warehouse-province-by-country-id', [
+			'as' => 'get-warehouse-province-by-country-id',
+			'uses' => 'Master\WarehouseController@get_warehouse_province_list_by_country'
+		]);
 	Route::any('warehouse-active/{id?}/{value?}', 'Master\WarehouseController@changeStatus');
 	Route::get('delete-warehouse/{id}', 'Master\WarehouseController@delete_warehouse');
 	//warehouse dasbord 

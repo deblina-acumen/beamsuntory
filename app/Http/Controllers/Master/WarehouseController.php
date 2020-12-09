@@ -218,4 +218,18 @@ class WarehouseController extends Controller
     {
         return view('master.user.test_mail');
     }
+	public function get_warehouse_province_list_by_country(Request $Request)
+	{
+		$data = $Request->all();
+		//t($data,1);
+		$country_id = $data['country_id'];
+		if($country_id == "")
+		{
+			$province_list = Region::where('is_deleted','No')->orderBy('name','asc')->get();
+		}
+		else if($country_id != "")
+		 	$province_list = Region::where('country_id',$country_id)->orderBy('name','asc')->get();
+		echo json_encode($province_list);
+	}
+	
 }
