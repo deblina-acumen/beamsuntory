@@ -94,7 +94,6 @@
 					</div>
 				</div>
 			</div>
-
           <!-- /.box-body -->
           <div class="box-footer">
 		  <input type="hidden" name="id" value="{{isset($info[0]->id)?$info[0]->id:''}}" >
