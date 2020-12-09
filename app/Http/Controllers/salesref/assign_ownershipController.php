@@ -368,14 +368,15 @@ return view('salesref.assignownership.add_allocation',$data);
 				   
 				 
 				  $userrole5['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
-				 for($j=0;$j<$data['dynamoselectcount_'.$i];$j++)
+				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
-					if(isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')
+					 $j2 = $j-1 ;
+					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
 					 {
-					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')?implode(',',$data['userrole4_'.$j1.'_'.$i]):''; 
+					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
 					
-					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$i])&&$data['userrole4_'.$j1.'_'.$i]!='')?$data['userrole4_'.$j1.'_'.$i]:array();
+					$marketing_user[$j2]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?$data['userrole4_'.$j.'_'.$i]:array();
 					
 					 }
 				 }
