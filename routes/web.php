@@ -337,7 +337,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::any('warehouse-active/{id?}/{value?}', 'Master\WarehouseController@changeStatus');
 	Route::get('delete-warehouse/{id}', 'Master\WarehouseController@delete_warehouse');
 	//warehouse dasbord 
-	Route::get('wh-incomming-stock', 'Warehouse\WarehouseMainController@incomming_stock_list');
+	Route::any('wh-incomming-stock', 'Warehouse\WarehouseMainController@incomming_stock_list');
 	Route::any('wh-order-confirmation/{id}', 'Warehouse\WarehouseMainController@purchase_order_confirmation');
 	Route::any('wh-confirm-box/{id}', 'Warehouse\WarehouseMainController@confirm_box');
 	Route::post('accept-box-details', 'Warehouse\WarehouseMainController@accpt_box_info');

@@ -79,7 +79,10 @@ class WarehouseMainController extends Controller
 	{
 		DB::beginTransaction();
 		$data = $request->all();
-		//t($data,1);
+		$po_details = PO::where('id',$data['po_id'])->get();
+		//t($data);t($po_details );exit;
+		$active_date = isset($po_details[0]->active_date)&& $po_details[0]->active_date!=''?date('Y-m-d',strtotime($po_details[0]->active_date)):'';
+		$active_time = isset($po_details[0]->active_time)&& $po_details[0]->active_time!=''?date('Y-m-d',strtotime($po_details[0]->active_time)):'';
 		$total_quantity =0;
 		$item_matched = true;
 		
@@ -111,7 +114,14 @@ class WarehouseMainController extends Controller
 							$stock_data['order_type_id'] = $data['po_id'];
 							$stock_data['allocation_id'] = $alocation->id;
 							$stock_data['quantity'] = $alocation->quantity;
-							
+							if($active_date!='')
+							{
+								$stock_data['active_date'] = $active_date;
+							}
+							if($active_time!='')
+							{
+								$stock_data['active_time'] = $active_time;
+							}
 							 if($alocation->each_user =="each")
 							{
 							 $stock_data['type'] = 'each';

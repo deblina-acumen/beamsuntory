@@ -36,7 +36,7 @@
           </span>
           <div class="mt-20">
             <h6 class="text-uppercase fw-500">Inventory</h6>
-            <p>110 items</p>
+            
           </div>
       </div>
       </div>
@@ -48,7 +48,7 @@
           </span>
           <div class="mt-20">
             <h6 class="text-uppercase fw-500">Incomming Stock</h6>
-            <p>110 items</p>
+            
           </div>
 		  </a>
       </div>
@@ -60,7 +60,7 @@
           </span>
           <div class="mt-20">
             <h6 class="text-uppercase fw-500">Outgoing Stock</h6>
-            <p>110 items</p>
+            
           </div>
       </div>
       </div>

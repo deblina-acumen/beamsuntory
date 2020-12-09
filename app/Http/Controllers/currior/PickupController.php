@@ -78,6 +78,8 @@ class PickupController extends Controller
 		DB::beginTransaction();
 		$data = $request->all();
 		$po_details = PO::where('id',$data['po_id'])->get();
+		$active_date = isset($po_details[0]->active_date)&& $po_details[0]->active_date!=''?date('Y-m-d',strtotime($po_details[0]->active_date)):'';
+		$active_time = isset($po_details[0]->active_time)&& $po_details[0]->active_time!=''?date('Y-m-d',strtotime($po_details[0]->active_time)):'';
 		if($po_details[0]->status != 'assigned_for_pickup')
 		{
 			return redirect('pickup-order-list')->with('error-msg', 'You dont have permisstion,please contact with admin');
@@ -141,7 +143,14 @@ class PickupController extends Controller
 							$stock_data['order_type_id'] = $data['po_id'];
 							$stock_data['allocation_id'] = $alocation->id;
 							$stock_data['quantity'] = $alocation->quantity;
-							
+							if($active_date!='')
+							{
+								$stock_data['active_date'] = $active_date;
+							}
+							if($active_time!='')
+							{
+								$stock_data['active_time'] = $active_time;
+							}
 							 if($alocation->store_locker =="store")
 							{
 							 $stock_data['type'] = 'store';
