@@ -167,5 +167,6 @@ function generate_password()
 		
 	   });
 }
+
 </script>
 @stop
