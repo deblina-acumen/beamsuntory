@@ -6,7 +6,7 @@
 <!-- Bootstrap 4.1-->
 <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
 
-<!-- Bootstrap extend-->
+<!-- Bootstrap extend--> 
 <link rel="stylesheet" href="{{asset('assets/main/css/bootstrap-extend.css')}}">
 
 <!-- daterange picker -->
