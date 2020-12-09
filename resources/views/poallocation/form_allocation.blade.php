@@ -770,7 +770,7 @@
               <i class="fa fa-angle-double-left" aria-hidden="true"></i> &nbsp; Previous Step
            </a>
                       <button   class="btn btn-dark">
-              Save & Finish &nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>
+              Save  &nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>
             </button>
           </div> 
                

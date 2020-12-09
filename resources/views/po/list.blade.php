@@ -87,7 +87,7 @@
 							<td>{{str_replace('_',' ',ucfirst($list->status))}}</td>
 							<td>{{$list->supplier_name}}</td>
 							<td>{{$list->warehouse_name}}</td>
-							<td>{{ucfirst($list->status)}}</td>    
+							<td>{{ucfirst(str_replace('_',' ',$list->status))}}</td>    
 							<td>
 						  	<?php 
 							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
@@ -101,9 +101,10 @@
 							<td><div class="custom_btn_group btn-group">
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
-										
+										<?php if($list->status =='draft' || $list->status =='assigned_for_pickup'){ ?>
 										<a class="dropdown-item" href="{{URL('add-po-step1/'.base64_encode($list->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-purchase/'.base64_encode($list->id))}}">Delete</a>
+										<?php } ?>
 										<a class="dropdown-item" 
 										href="{{URL('purchase-order-details-example/'.base64_encode($list->id))}}">View
 										</a>
