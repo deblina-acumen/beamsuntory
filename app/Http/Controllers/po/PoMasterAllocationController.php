@@ -1088,7 +1088,7 @@ return view('poallocation.add_allocation',$data);
 		//exit();
 		 if($total_quantity>$total_po_quantity)
 		 {
-			 return redirect('edit-po-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['puchaseOrderDetailsId']).'/'.base64_encode($data['poid']))->with('error-msg', 'Allcation Not Sufficient');
+			 return redirect('edit-po-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['puchaseOrderDetailsId']).'/'.base64_encode($data['poid']))->with('error-msg', 'Please Provide Valid Allcation Quantity');
 		 }
 		 else{
 			 

@@ -24,7 +24,7 @@
                     <i class="fa fa-calendar"></i>
                   </div>
 				  
-                  <input type="text" value="{{isset($poinfo[0]->active_date)&& $poinfo[0]->active_date!=''?date('d/m/Y',strtotime($poinfo[0]->active_date)):''}}" class="form-control pull-right" id="">
+                  <input type="text" value="{{isset($poinfo[0]->active_date)&& $poinfo[0]->active_date!=''?date('d/m/Y',strtotime($poinfo[0]->active_date)):''}}" class="form-control pull-right" id="" readonly>
                 </div>
                 <!-- /.input group -->
               </div>
@@ -34,7 +34,7 @@
                   <label>Active Time:</label>
 
                   <div class="input-group">
-                    <input type="text" value="{{isset($poinfo[0]->	active_time)&& $poinfo[0]->	active_time!=''?date('g:i a',strtotime($poinfo[0]->	active_time)):''}}"  class="form-control timepicker">
+                    <input type="text" value="{{isset($poinfo[0]->	active_time)&& $poinfo[0]->	active_time!=''?date('g:i a',strtotime($poinfo[0]->	active_time)):''}}"  class="form-control timepicker" readonly>
 
                     <div class="input-group-addon">
                       <i class="fa fa-clock-o"></i>
@@ -46,7 +46,7 @@
                             <div class="col-md-2">
                 <label>Wirehouse</label>
                 <div class="input-group">
-                <select name="" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="" aria-controls="project-table" class="form-control form-control-sm" readonly>
                 <option value="">Select</option>
 				@foreach($warehouse as $warehouses)
 				<option value="<?= $warehouses->id?>" <?php if(isset($poinfo[0]->warehouse_id)&& $poinfo[0]->warehouse_id == $warehouses->id ){ echo "selected" ;} ?> ><?= $warehouses->name?></option>
@@ -57,8 +57,9 @@
               <div class="col-md-2">
                 <label>Status</label>
                 <div class="input-group">
-                <select name="" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="" aria-controls="project-table" class="form-control form-control-sm" readonly>
                 <option value="draft" <?php if(isset($poinfo[0]->status)&& $poinfo[0]->status == 'draft' ){ echo "selected" ;} ?>>Draft</option>
+				 <option value="assigned_for_pickup" <?php if(isset($poinfo[0]->status) && $poinfo[0]->status=="assigned_for_pickup"){echo"selected";} ?>>Assigned for pickup</option>
                   <option value="delivered" <?php if(isset($poinfo[0]->status)&& $poinfo[0]->status == 'delivered'){ echo "selected" ;} ?>>Delivered</option>
                   <option value="in-transit" <?php if(isset($poinfo[0]->status)&& $poinfo[0]->status =='in-transit'){ echo "selected" ;} ?>>In-Transit</option>
                 </select>
@@ -67,7 +68,7 @@
               <div class="col-md-2">
                 <label>Ownership Type</label>
                 <div class="input-group">
-                <select name="" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="" aria-controls="project-table" class="form-control form-control-sm" readonly>
                     <option value="not_defined" <?php if(isset($poinfo[0]->ownership_type)&& $poinfo[0]->ownership_type == 'not_defined' ){ echo "selected" ;} ?>>Not Defined</option>
                   <option value="owner" <?php if(isset($poinfo[0]->ownership_type)&& $poinfo[0]->ownership_type == 'owner' ){ echo "selected" ;} ?>>Owner</option>
                   <option value="other_role" <?php if(isset($poinfo[0]->ownership_type)&& $poinfo[0]->ownership_type == 'other_role' ){ echo "selected" ;} ?>>Other Role</option>
@@ -80,7 +81,7 @@
               <div class="col-md-4">
                 <label>Supplier</label>
                 <div class="input-group">
-                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="project-table_length" aria-controls="project-table" class="form-control form-control-sm" readonly>
                   @foreach($supplier as $supplier_val)
 				<option value="<?= $supplier_val->id?>" <?php if(isset($poinfo[0]->supplier_id)&& $poinfo[0]->supplier_id == $supplier_val->id ){ echo "selected" ;} ?> ><?= $supplier_val->supplier_name?></option>
 				@endforeach
@@ -133,12 +134,13 @@
               <td>$<?php echo $po_details_val->quantity * $po_details_val->regular_price ; ?></td>
               <td>
 			  <?php if(check_allocation_present($po_details_val->itemid,$po_details_val->puchase_order_details_id,$po_details_val->po_id) == true) { ?>
-			  <a href="{{URL('edit-po-allocation/'.base64_encode($po_details_val->itemid).'/'.base64_encode($po_details_val->puchase_order_details_id).'/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+			  <a href="{{URL('edit-po-allocation/'.base64_encode($po_details_val->itemid).'/'.base64_encode($po_details_val->puchase_order_details_id).'/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark btn-sm"> Edit Allocation Edit</a>
 			 
 			  <?php } else { ?>
 			  <a href="{{URL('add-po-allocation/'.base64_encode($po_details_val->itemid).'/'.base64_encode($po_details_val->puchase_order_details_id).'/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark btn-sm">Allocate</a>
-			  <?php } ?>
 			  
+			  <?php } ?>
+			 <br>
               </td>
             </tr>
            

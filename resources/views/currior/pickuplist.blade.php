@@ -70,6 +70,10 @@
  						  <div class="media-right">
 							<small>Delivered on<br/><?= date('d-M-Y',strtotime($list->delivery_date))?></small>
 						  </div>
+					@elseif($list->status =='pending_for_verification')
+						<small class="badge bg-danger">{{str_replace('_',' ',ucfirst($list->status))}}</small>
+						</div>
+ 						  
 						@else
 						<small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 						</div>

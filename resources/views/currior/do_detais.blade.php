@@ -28,71 +28,85 @@
           <!---- List Item ------>
           <div class="box">	
 			<div class="box-body p-0">
+						<div class="row">
+					<div class="col-md-6">
+						<table class="table">
+							<tbody>
+							<tr>
+								<td class="td-heading">Order Id:</td>
+								<td class="td-description"><?= isset($do_details[0]->oder_no)?$do_details[0]->oder_no:''?></td>
+							</tr>
+							<tr>
+								<td class="td-heading">Requested By:</td>
+								<td class="td-description"><?= isset($do_details[0]->created_by)?get_delivery_agent($do_details[0]->created_by):''?></td>
+							</tr>
+							<tr>
+								<td class="td-heading">Dated:</td>
+								<td class="td-description"><?= isset($do_details[0]->created_at)?date('d-m-Y',strtotime($do_details[0]->created_at)):''?></td>
+							</tr>
+							
+						</tbody></table>
+					</div>
+					<div class="col-md-6">
+						<table class="table">
+							<tr>
+								<td class="td-heading">Delivery Address:</td>
+								<td class="td-description"><?php
+								 $details = get_user_details($do_details[0]->created_id);
+								 if($do_details[0]->type == "locker"){
+									
+										echo isset($do_details[0]->address)?$do_details[0]->address:'';
+									 }
+								 else
+								 {
+									echo isset($store[0]->address)?$store[0]->address:'';
+								 }				 
+								  ?>
+								</td>
+							</tr>
+							<tr>
+								<td class="td-heading">Phone:</td>
+								<td class="td-description">
+								<?php echo isset($do_details[0]->phone)?$do_details[0]->phone:''; ?>
+								</td>
+							</tr>						
+							<tbody>
+						</tbody></table>
+					</div>
+					</div>
 			<div class="media-list media-list-hover media-list-divided">
-			
-		
             <div class="media media-single m-media">
               <div class="media-body">
-			  <div>
-			  <table style="width:100%;height:150px">
-			  <tr>
-			  <th>Order Id:</th> 
-			  <td><?= isset($do_details[0]->oder_no)?$do_details[0]->oder_no:''?></td>
-			  </tr>
-			  
-			  <tr>
-			  <th>Requested By:</th> 
-			  <td><?= isset($do_details[0]->created_by)?get_delivery_agent($do_details[0]->created_by):''?></td>
-			  </tr>
-			  <tr>
-			  <th>Dated:</th> 
-			  <td><?= isset($do_details[0]->created_at)?date('d-m-Y',strtotime($do_details[0]->created_at)):''?></td>
-			  </tr>
-			  <tr>
-			  <th>Delivery Address:</th> 
-			  <td>
-			 <?php
-			 $details = get_user_details($do_details[0]->created_id);
-			 if($do_details[0]->type == "locker"){
-				
-					echo isset($do_details[0]->address)?$do_details[0]->address:'';
-				 }
-			 else
-			 {
-				echo isset($store[0]->address)?$store[0]->address:'';
-			 }				 
-			  ?>
-			  </td>
-			  </tr>
-			  <tr>
-			  <th>Phone:</th> 
-			  <td>
-			  <?php echo isset($do_details[0]->phone)?$do_details[0]->phone:''; ?>
-			  </td>
-			  </tr>
-              </table>
-			  <table style="width:100%;">
-			  <tr>
-			  <th>Item Name</th>
-			  <th>Sku Code</th>
-			  <th>Quantity</th>
-			  </tr>
-			  @foreach($do_details as $do_dtls)
-			  <tr>
-			  <td><?=$do_dtls->item_id?></td>
-			  <td><?=$do_dtls->item_sku?></td>
-			  <td><?=$do_dtls->quantity?></td>
-			  </tr>
-			  @endforeach
-			  </table>
-			  </div>
-			  
+				  <table id="khata_table" class="table table-bordered table-separated">
+					<thead>
+						<tr>
+							<th>Item</th>
+							<th>SKU</th>
+							<th>Qty</th>
+						</tr>
+					</thead>
+					<tbody>
+					@if(!empty($do_details)&& count($do_details)>0)	
+					@foreach($do_details as $do_dtls)
+						<tr>
+						  <td><?=get_product_name_by_id($do_dtls->item_id)?></td>
+						   <td><?=$do_dtls->item_sku?></td>
+						  <td><?=$do_dtls->quantity?></td>
+						</tr>
+					@endforeach
+					@endif
+					
+					</tbody>
+				  </table>
+	
               </div>
 			 </div>
-			</div>
+    
+				</div>
+
 			</div>
 			
-			</form>
+			<!--</form>-->
     </section>
     <!-- /.content -->
 </div>
