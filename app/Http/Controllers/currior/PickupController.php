@@ -95,6 +95,7 @@ class PickupController extends Controller
 		{
 			$update_status['status'] = 'pending_for_verification';
 			PO::where('id',$data['po_id'])->update($update_status);
+			DB::commit();
 			foreach($data['po_item_id'] as $k=>$po_item_id)
 			{
 				$update_po_item['regular_price'] = $data['regular_price'][$k];

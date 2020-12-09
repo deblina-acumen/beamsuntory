@@ -101,7 +101,7 @@
 							<td><div class="custom_btn_group btn-group">
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
-										<?php if($list->status =='draft' || $list->status =='assigned_for_pickup'){ ?>
+										<?php if($list->status =='draft' || $list->status =='assigned_for_pickup'|| $list->status =='pending_for_verification'){ ?>
 										<a class="dropdown-item" href="{{URL('add-po-step1/'.base64_encode($list->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-purchase/'.base64_encode($list->id))}}">Delete</a>
 										<?php } ?>
