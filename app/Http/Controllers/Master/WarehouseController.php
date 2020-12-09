@@ -231,4 +231,5 @@ class WarehouseController extends Controller
 		 	$province_list = Region::where('country_id',$country_id)->orderBy('name','asc')->get();
 		echo json_encode($province_list);
 	}
+	
 }
