@@ -102,6 +102,7 @@ class StockController extends Controller
 	public function item_list(Request $request,$type='',$role_id='',$cate_id='')
 	{
 		DB::enableQueryLog();
+		
 		$data['title'] = 'Stock List';
 		$data['type'] = $type ;
 		$data['role_id'] = $role_id =  base64_decode($role_id) ;
