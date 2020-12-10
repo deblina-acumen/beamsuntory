@@ -47,7 +47,7 @@
                   <label>Active Time:</label>
 
                   <div class="input-group">
-                    <input type="text" class="form-control timepicker" id="datetimepicker3" name="active_time" value="<?=isset($po[0]->active_time)&& $po[0]->active_time!=''?date('m/d/Y',strtotime($po[0]->active_time)):''?>">
+                    <input type="text" class="form-control timepicker" id="datetimepicker3" name="active_time" value="<?=isset($po[0]->active_time)&& $po[0]->active_time!=''?date('H:i:s',strtotime($po[0]->active_time)):''?>">
 
                     <div class="input-group-addon">
                       <i class="fa fa-clock-o"></i>
