@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('header_styles')
-
+<!-- Select2 -->
+<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/select2/dist/css/select2.min.css')}}">
 
 @stop
 @section('content')
@@ -47,8 +48,10 @@
     <!-- /.content -->
   </div>
 
-@stopsss
+@stop
 @section('footer_scripts')
+<!-- Select2 -->
+<script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
 <script>
 (function() {
     'use strict';
@@ -67,5 +70,72 @@
         });
     }, false);
 })();
+</script>
+<script>
+$('.select2').select2({ width: 'resolve' });
+(function() {
+	$('#Attributes').css('display','none');
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+
+	function get_province(obj)
+{
+	var country = $(obj).val(); 
+	
+ $.ajax({
+		url:'<?php echo URL("get-store-province-by-country-id"); ?>',
+		method:"POST",
+		dataType: 'json',
+		data: {
+		"country_id": country,
+        "_token": "{{ csrf_token() }}",
+        
+        },
+		success:function(data)
+		{
+			$('#province_id').html('');
+			var html = '<option value="">Select </option>';
+			if(data.length > 0)
+			{
+				for(i =0;i < data.length; i++)
+				{
+					html = html + '<option value="'+data[i]['id']+'">'+data[i]['name'] +'</option>';
+					
+				}
+			}
+			$('#state').html(html);
+		}
+		
+	   });
+}
+function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#dvPreview')
+                        .attr('src', e.target.result)
+                        .width(110)
+                        .height(110);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
 </script>
 @stop
