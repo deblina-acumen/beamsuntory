@@ -24,8 +24,10 @@ class StoreController extends Controller
     {
         $data['title']="Add Store";
 		$data['store_category']= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
-		$data['country']= Country::where('is_active','Yes')->where('is_deleted','No')->where('id',1)->get();
-		$data['Provinces']= Provinces::where('is_active','Yes')->where('is_deleted','No')->where('country_id',1)->get();
+		//$data['country']= Country::where('is_active','Yes')->where('is_deleted','No')->where('id',1)->get();
+		$data['country']= Country::where('is_active','Yes')->where('is_deleted','No')->get();
+		//$data['Provinces']= Provinces::where('is_active','Yes')->where('is_deleted','No')->where('country_id',1)->get();
+		$data['Provinces']= Provinces::where('is_active','Yes')->where('is_deleted','No')->get();
         return view('master.store.add',$data);
     }
 
@@ -64,11 +66,15 @@ class StoreController extends Controller
        if (base64_decode($storeId, true)) 
        {
             $id=base64_decode($storeId);
+			//t($id,1);
             $data["title"]="Store";
 			$data['store_category']= StoreCategory::where('is_active','Yes')->where('is_deleted','No')->get();
-		$data['country']= Country::where('is_active','Yes')->where('is_deleted','No')->where('id',1)->get();
-		$data['Provinces']= Provinces::where('is_active','Yes')->where('is_deleted','No')->where('country_id',1)->get();
-            $data["info"]=Store::where('id',$id)->get();
+		//$data['country']= Country::where('is_active','Yes')->where('is_deleted','No')->where('id',1)->get();
+		$data['country']= Country::where('is_active','Yes')->where('is_deleted','No')->get();
+		//$data['Provinces']= Provinces::where('is_active','Yes')->where('is_deleted','No')->where('country_id',1)->get();
+		$data['Provinces']= Provinces::where('is_active','Yes')->where('is_deleted','No')->get();
+            $data["info"]= $info = Store::where('id',$id)->get();
+			//t($info,1);
             return view('master.store.edit',$data);
        }
        else
@@ -126,6 +132,19 @@ class StoreController extends Controller
         {
             return redirect('store-list')->with('error-msg', 'Please try after some time');    
         }
+	}
+	public function get_store_province_list_by_country(Request $Request)
+	{
+		$data = $Request->all();
+		//t($data,1);
+		$country_id = $data['country_id'];
+		if($country_id == "")
+		{
+			$province_list = Region::where('is_deleted','No')->orderBy('name','asc')->get();
+		}
+		else if($country_id != "")
+		 	$province_list = Region::where('country_id',$country_id)->orderBy('name','asc')->get();
+		echo json_encode($province_list);
 	}
 }
 ?>
