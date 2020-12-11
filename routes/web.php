@@ -241,6 +241,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('update-store', 'Master\StoreController@update_store');
 	Route::any('store-active/{id?}/{value?}', 'Master\StoreController@changeStatus');
 	Route::get('delete-store/{id}', 'Master\StoreController@delete_store');
+	Route::post('get-store-province-by-country-id', [
+			'as' => 'get-store-province-by-country-id',
+			'uses' => 'Master\StoreController@get_store_province_list_by_country'
+		]);
 	
 	
 	/////////////user management ///////////////
