@@ -82,7 +82,7 @@ class WarehouseMainController extends Controller
 		$po_details = PO::where('id',$data['po_id'])->get();
 		//t($data);t($po_details );exit;
 		$active_date = isset($po_details[0]->active_date)&& $po_details[0]->active_date!=''?date('Y-m-d',strtotime($po_details[0]->active_date)):'';
-		$active_time = isset($po_details[0]->active_time)&& $po_details[0]->active_time!=''?date('Y-m-d',strtotime($po_details[0]->active_time)):'';
+		$active_time = isset($po_details[0]->active_time)&& $po_details[0]->active_time!=''?date('H:i:s',strtotime($po_details[0]->active_time)):'';
 		$total_quantity =0;
 		$item_matched = true;
 		
