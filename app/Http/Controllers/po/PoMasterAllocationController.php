@@ -598,7 +598,7 @@ class PoMasterAllocationController extends Controller
 		
 	$data['quantity'] =	$quantity = isset($po_details_val[0]->quantity)?$po_details_val[0]->quantity:'' ;
 	$data['brandName'] =	$brandName = isset($po_details_val[0]->brand_id)?get_brand_name($po_details_val[0]->brand_id):'';
-	$data['userRole'] =	$userRole = Role::where('type','master')->orWhere('type','division')->orWhere('id',11)->get() ;
+	$data['userRole'] =	$userRole = Role::where('id',15)->orWhere('id',5)->orWhere('id',11)->orWhere('id',20)->get() ;
 		
 	$data['itemId'] =	$itemId = isset($po_details_val[0]->itemid)?$po_details_val[0]->itemid:'';
 	$data['varienceId'] =	$varienceId = isset($po_details_val[0]->varienceid)?$po_details_val[0]->varienceid:'';
@@ -941,7 +941,7 @@ return view('poallocation.add_allocation',$data);
 		
 	$data['quantity'] =	$quantity = isset($po_details_val[0]->quantity)?$po_details_val[0]->quantity:'' ;
 	$data['brandName'] =	$brandName = isset($po_details_val[0]->brand_id)?get_brand_name($po_details_val[0]->brand_id):'';
-	$data['userRole'] =	$userRole = Role::where('type','master')->orWhere('type','division')->orWhere('id',11)->get() ;
+	$data['userRole'] =	$userRole = Role::where('id',15)->orWhere('id',5)->orWhere('id',11)->orWhere('id',20)->get() ;
 		
 	$data['itemId'] =	$itemId = isset($po_details_val[0]->itemid)?$po_details_val[0]->itemid:'';
 	$data['varienceId'] =	$varienceId = isset($po_details_val[0]->varienceid)?$po_details_val[0]->varienceid:'';
