@@ -271,16 +271,21 @@ function get_allocated_product_count_per_user($cateid,$userId,$roleId,$type)
 
 function get_item_quantity_by_id_sku($type,$user_id,$item_id,$sku_code)
 {
+	DB::enableQueryLog();
 	$date= date('Y-m-d') ;
+	$time = date("H:i") ;
 		if($type =='my-locker')
 		{
-			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and `type` = 'store'  and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<'".$date."' or `stock`.`active_date` IS NULL)"));
+			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and `type` = 'store'  and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<='".$date."' or `stock`.`active_date` IS NULL) and (`stock`.`active_time`<='".$time."' or `stock`.`active_time` IS NULL)"));
 			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'out' and `type` = 'store'  and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			$count = $instock_count[0]->sumqty  - $outstock_count[0]->sumqty ; 
+			
+			//$query = DB::getQueryLog();
+		//t($query);
 		}
 		else if($type =='own-by-me')
 		{
-			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and (`type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<'".$date."' or `stock`.`active_date` IS NULL)"));
+			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and (`type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<='".$date."' or `stock`.`active_date` IS NULL) and (`stock`.`active_time`<='".$time."' or `stock`.`active_time` IS NULL)"));
 			
 			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'out' and (`type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			
@@ -289,7 +294,7 @@ function get_item_quantity_by_id_sku($type,$user_id,$item_id,$sku_code)
 		else if($type =='not-own-by-me')
 		{
 			
-			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` != $user_id and `stock`.`stock_type` = 'in' and (`type` = 'store' or `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<'".$date."' or `stock`.`active_date` IS NULL)"));
+			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` != $user_id and `stock`.`stock_type` = 'in' and (`type` = 'store' or `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<='".$date."' or `stock`.`active_date` IS NULL) and (`stock`.`active_time`<='".$time."' or `stock`.`active_time` IS NULL)"));
 			
 			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` != $user_id and `stock`.`stock_type` = 'out' and (`type` = 'store' or `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			
@@ -302,8 +307,9 @@ function get_item_quantity_by_id_sku($type,$user_id,$item_id,$sku_code)
 			$count = $instock_count[0]->sumqty  - $outstock_count[0]->sumqty - $private_product[0]->quantity ; 
 		}
 		else{
-			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and ( `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<'".$date."' or `stock`.`active_date` IS NULL)"));
-			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'out' and (`type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<'".$date."' or `stock`.`active_date` IS NULL)"));
+			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and ( `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<='".$date."' or `stock`.`active_date` IS NULL) and (`stock`.`active_time`<='".$time."' or `stock`.`active_time` IS NULL)"));
+			
+			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'out' and (`type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			$count = $instock_count[0]->sumqty  - $outstock_count[0]->sumqty ;
 			
 		}
