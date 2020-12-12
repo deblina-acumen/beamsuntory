@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stock extends Model
 {
-	  protected $table='Stock';
+	  protected $table='stock';
       protected $fillable = [];
 	  public function getDateFormat()
     {
