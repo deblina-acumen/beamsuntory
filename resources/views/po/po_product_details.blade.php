@@ -48,10 +48,6 @@
 								<td class="td-heading">Ownership Type :</td>
 								<td class="td-description">{{isset($poinfo[0]->ownership_type)?$poinfo[0]->ownership_type:''}}</td>
 							</tr>
-							<tr>
-								<td class="td-heading">Ownership Details :</td>
-								<td class="td-description">Not Available</td>
-							</tr>
 							
 						</tbody></table>
 					</div>
@@ -77,10 +73,6 @@
 								<td class="td-heading">Delivery Agent:</td>
 								<td class="td-description">{{isset($delivery_agent[0]->name)?$delivery_agent[0]->name:''}} 
 								{{isset($delivery_agent[0]->lastname) ?$delivery_agent[0]->lastname:0}}</td>
-							</tr>
-							<tr>
-								<td class="td-heading">Item Kitting :</td>
-								<td class="td-description">#Item (50) <br/>Oversized Item (5)								</td>
 							</tr>
 						</tbody></table>
 					</div>
