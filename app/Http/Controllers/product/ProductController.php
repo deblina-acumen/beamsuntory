@@ -193,6 +193,7 @@ class ProductController extends Controller
 	}
     public function save_produt(Request $request)
     {
+		DB::beginTransaction();
         $data=$request->all(); //t($data,1);
 		$have_product = Product::where('name',$data['product_name'])->where('is_deleted','No')->get();
 		if(!empty($have_product) && count($have_product)>0)
@@ -251,7 +252,7 @@ class ProductController extends Controller
 			$insert_variation['created_by'] = Auth::user()->id;
 			ProductVariations::insertGetId($insert_variation);
 		}
-		
+		DB::commit();
         if($id!='')
         {
 			
