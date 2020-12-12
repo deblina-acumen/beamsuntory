@@ -73,7 +73,7 @@
 								<td class="td-heading">Delivery Agent:</td>
 								<td class="td-description">{{isset($delivery_agent[0]->name)?$delivery_agent[0]->name:''}} 
 								{{isset($delivery_agent[0]->lastname) ?$delivery_agent[0]->lastname:0}}</td>
-							</tr>
+							</tr> 
 						</tbody></table>
 					</div>
 					<div class="col-md-12">
