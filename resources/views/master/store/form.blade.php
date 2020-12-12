@@ -56,13 +56,15 @@
 			  <div class="col-md-6">
               <div class="form-group">
                 <label>Country *</label>
-                <select class="form-control" name="country">
-                
+				<?php //t($country,1); ?>
+                <select class="form-control select2" name="country" onchange="get_province(this)" id="country">
+                <option  value="">Select</option>
                 <?php if(isset($country)&&!empty($country)&&count($country)>0){
-					foreach($country as $country)
+					foreach($country as $countries)
 					{					
 					?>
-					<option value="{{$country->id}}">{{$country->country_name}}</option>
+					<option value="{{isset($countries->id)?$countries->id :''}}" <?php if(isset( $info[0]->country) && ($countries->id == $info[0]->country)){echo "selected";}?>>{{isset($countries->country_name)?$countries->country_name :''}}</option>
+					
 				<?php }} ?>
                 </select>
               </div>
@@ -71,7 +73,7 @@
 			  <div class="col-md-6">
               <div class="form-group">
                 <label>State/Province*</label>
-                <select class="form-control" name="state">
+                <select class="form-control select2" name="state" id="state">
                 <option>Select</option>
                 <?php if(isset($Provinces)&&!empty($Provinces)&&count($Provinces)>0){
 					foreach($Provinces as $Provinces)

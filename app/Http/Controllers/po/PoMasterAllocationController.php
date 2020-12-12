@@ -598,7 +598,7 @@ class PoMasterAllocationController extends Controller
 		
 	$data['quantity'] =	$quantity = isset($po_details_val[0]->quantity)?$po_details_val[0]->quantity:'' ;
 	$data['brandName'] =	$brandName = isset($po_details_val[0]->brand_id)?get_brand_name($po_details_val[0]->brand_id):'';
-	$data['userRole'] =	$userRole = Role::where('type','master')->orWhere('type','division')->orWhere('id',11)->get() ;
+	$data['userRole'] =	$userRole = Role::where('id',15)->orWhere('id',5)->orWhere('id',11)->orWhere('id',20)->get() ;
 		
 	$data['itemId'] =	$itemId = isset($po_details_val[0]->itemid)?$po_details_val[0]->itemid:'';
 	$data['varienceId'] =	$varienceId = isset($po_details_val[0]->varienceid)?$po_details_val[0]->varienceid:'';
@@ -615,7 +615,7 @@ return view('poallocation.add_allocation',$data);
 	
 	public function save_po_step2(Request $request)
 	{
-		 $data=$request->all(); //t($data); exit();
+		 $data=$request->all(); //t($data); //exit();
 		 
 		 $userrole2=[];
 		 $userrole5=[];
@@ -761,7 +761,8 @@ return view('poallocation.add_allocation',$data);
 			 }
 			 
 		 }
-		
+		//t($total_quantity);
+		//exit();
 		 if($total_quantity>$total_po_quantity)
 		 {
 			 return redirect('add-po-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['puchaseOrderDetailsId']).'/'.base64_encode($data['poid']))->with('error-msg', 'Allcation Quantity Not Sufficient');
@@ -811,14 +812,18 @@ return view('poallocation.add_allocation',$data);
 				   
 				 
 				  $userrole5['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
-				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
+				  
+				 for($j=1;$j<=$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
+					
+					
 					if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
 					 {
 					$userrole5['roleuser'. $j1]= (isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')?implode(',',$data['userrole4_'.$j.'_'.$i]):''; 
 					 }
 				 }
+				 
 				
 				/*  $userrole['roleuser2']= isset($data['userrole4_1_'.$i])?implode(',',$data['userrole4_1_'.$i]):'';
 				 $userrole['roleuser3']= isset($data['userrole4_2_'.$i])?implode(',',$data['userrole4_2_'.$i]):'';
@@ -907,8 +912,8 @@ return view('poallocation.add_allocation',$data);
 			// t(json_encode($userrole));
 			 
 		 //t($insertdata);
-			// exit() ;
-			 POAllocation::insert($insertdata);
+			 //exit() ;
+			POAllocation::insert($insertdata);
 		 }
 		 //$insertdata['user'] =json_encode($userrole); 
 		 
@@ -936,7 +941,7 @@ return view('poallocation.add_allocation',$data);
 		
 	$data['quantity'] =	$quantity = isset($po_details_val[0]->quantity)?$po_details_val[0]->quantity:'' ;
 	$data['brandName'] =	$brandName = isset($po_details_val[0]->brand_id)?get_brand_name($po_details_val[0]->brand_id):'';
-	$data['userRole'] =	$userRole = Role::where('type','master')->orWhere('type','division')->orWhere('id',11)->get() ;
+	$data['userRole'] =	$userRole = Role::where('id',15)->orWhere('id',5)->orWhere('id',11)->orWhere('id',20)->get() ;
 		
 	$data['itemId'] =	$itemId = isset($po_details_val[0]->itemid)?$po_details_val[0]->itemid:'';
 	$data['varienceId'] =	$varienceId = isset($po_details_val[0]->varienceid)?$po_details_val[0]->varienceid:'';
@@ -1192,7 +1197,7 @@ return view('poallocation.add_allocation',$data);
 				   
 				 
 				  $userrole5['roleuser1']= isset($data['userrole3_'.$i])?implode(',',$data['userrole3_'.$i]):'';
-				 for($j=1;$j<$data['dynamoselectcount_'.$i];$j++)
+				 for($j=1;$j<=$data['dynamoselectcount_'.$i];$j++)
 				 {
 					 $j1 = $j+1 ;
 					 if(isset($data['userrole4_'.$j.'_'.$i])&&$data['userrole4_'.$j.'_'.$i]!='')
