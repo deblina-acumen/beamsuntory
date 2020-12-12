@@ -119,7 +119,7 @@ class assign_ownershipController extends Controller
 	$data['itemSkuCode'] =	$itemSkuCode = isset($skuCode)?$skuCode:'';
 	$data['puchaseOrderDetailsId'] =	$puchaseOrderDetailsId = isset($po_details_val[0]->puchase_order_details_id)?$po_details_val[0]->puchase_order_details_id:'';
 	
-	$data['userRole'] =	$userRole = Role::where('type','master')->orWhere('type','division')->orWhere('id',11)->get() ;
+	$data['userRole'] =	$userRole = Role::where('id',15)->orWhere('id',5)->orWhere('id',11)->orWhere('id',20)->get() ;
 	
 	
 return view('salesref.assignownership.add_allocation',$data);
