@@ -79,7 +79,7 @@ class PickupController extends Controller
 		$data = $request->all();
 		$po_details = PO::where('id',$data['po_id'])->get();
 		$active_date = isset($po_details[0]->active_date)&& $po_details[0]->active_date!=''?date('Y-m-d',strtotime($po_details[0]->active_date)):'';
-		$active_time = isset($po_details[0]->active_time)&& $po_details[0]->active_time!=''?date('Y-m-d',strtotime($po_details[0]->active_time)):'';
+		$active_time = isset($po_details[0]->active_time)&& $po_details[0]->active_time!=''?date('H:i:s',strtotime($po_details[0]->active_time)):'';
 		if($po_details[0]->status != 'assigned_for_pickup')
 		{
 			return redirect('pickup-order-list')->with('error-msg', 'You dont have permisstion,please contact with admin');
