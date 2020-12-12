@@ -8,7 +8,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-       Incooming Stock List
+       Incomming Stock List
       </h1>
     </section>
 
