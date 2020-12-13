@@ -13,7 +13,7 @@
 						<label>Manager *</label>
 						<?php //t($warehouse_manager,1); ?>
 						<select name="manager_id" class="form-control" >
-						<option  value="">Select</option>
+						<option  value="">Select</option> 
 						<?php 
 						if(isset($warehouse_manager)&&!empty($warehouse_manager)&&count($warehouse_manager)>0)
 						{
