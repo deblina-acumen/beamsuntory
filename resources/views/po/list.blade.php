@@ -72,6 +72,7 @@
 							<th>Purchase order Status</th>
 							<th>Supplier Name</th>
 							<th>Warehose Name</th>
+							<th>Delivery agent</th>
 							<th>Status</th>
 							<th>Active Status</th>
 							<th>Action</th>
@@ -87,6 +88,7 @@
 							<td>{{str_replace('_',' ',ucfirst($list->status))}}</td>
 							<td>{{$list->supplier_name}}</td>
 							<td>{{$list->warehouse_name}}</td>
+							<td>{{$list->delivery_agent_name}}</td>
 							<td>{{ucfirst(str_replace('_',' ',$list->status))}}</td>    
 							<td>
 						  	<?php 
