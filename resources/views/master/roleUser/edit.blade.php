@@ -164,7 +164,7 @@ function generate_password()
 	function get_store_locator_province(obj)
 {
 	var country = $(obj).val(); 
-
+//alert(country);
  $.ajax({
 		url:'<?php echo URL("get-province-by-country-id"); ?>',
 		method:"POST",
