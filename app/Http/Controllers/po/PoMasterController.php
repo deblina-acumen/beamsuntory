@@ -254,7 +254,11 @@ class PoMasterController extends Controller
 		}
 		
 		
-		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
+		/* $data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get(); */
+		
+		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name','users.name as delivery_agent_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->join('users','purchase_order.delivery_agent_id','=','users.id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
+		
+		
 		
 		
 		//$query = DB::getQueryLog();
