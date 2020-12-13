@@ -95,10 +95,10 @@ class WarehouseMainController extends Controller
 			foreach($allocation_detials as $k=>$alocation)
 			{
 				
-					$user = json_decode($alocation->user); 
-					foreach($user as $usr)
-					{
-						$user_ids = explode(',',$usr);
+					$user = json_decode($alocation->user);
+					$user = end($user);
+					
+						$user_ids = explode(',',$user);
 						foreach($user_ids as $usrinfo)
 						{
 							$item_details = product($alocation->item_id);
@@ -134,7 +134,7 @@ class WarehouseMainController extends Controller
 							}
 							 
 						}
-					}
+					
 				
 				
 			}

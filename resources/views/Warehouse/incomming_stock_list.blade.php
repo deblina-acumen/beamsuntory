@@ -46,7 +46,7 @@
 						<div class="media media-single">
 						  <div class="media-body">
 							<h6><a href="#">Order ID: {{$list->order_no}}</a> &nbsp; (<?= get_total_purchase_item($list->id)?>)</h6>
-							@if($list->status == "draft")
+							@if($list->status == "pending_for_verification")
 							<small class="badge bg-gray">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 						</div>
 						<div class="media-right">
