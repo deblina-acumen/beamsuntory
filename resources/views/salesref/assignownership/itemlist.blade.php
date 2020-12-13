@@ -106,10 +106,7 @@
                   <small>Total Items</small>
                   <h6 class="mb-0 text-bold">{{$sum}}</h6>
                   </li>
-                  <li class="px-10">
-                  <small>Total Boxes</small>
-                  <h6 class="mb-0 text-bold">10</h6>
-                  </li>
+               
                 </ul>
 				
                 <div class="flexbox flex-justified ">
