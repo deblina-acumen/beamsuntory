@@ -455,7 +455,7 @@ class PoMasterAllocationController extends Controller
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
 				
-				$html1='<option value="all">All ('.count($userlist).')</option>';
+				$html1='<option value="'.$dropdownarr_val.'">All ('.count($userlist).')</option>';
 				}
 				$html3 .='</select></div>';
 				$html4 = $html2 . $html1 . $html3 ;
