@@ -45,13 +45,13 @@ class RoleUserController extends Controller
 		select('country.*')
 		->where('country.is_deleted','=','No')
 		->where('country.is_active','=','Yes')
-		->orderBy('country.id','desc')
+		->orderBy('country.country_name','asc')
 		->get();
 		$data['province'] = Region::
 		select('provinces.*')
 		->where('provinces.is_deleted','=','No')
 		->where('provinces.is_active','=','Yes')
-		->orderBy('provinces.id','desc')
+		->orderBy('provinces.name','asc')
 		->get();
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
         return view('master.roleUser.add',$data);
@@ -182,13 +182,13 @@ class RoleUserController extends Controller
 			select('country.*')
 			->where('country.is_deleted','=','No')
 			->where('country.is_active','=','Yes')
-			->orderBy('country.id','desc')
+			->orderBy('country.country_name','asc')
 			->get();
 			$data['province'] = Region::
 			select('provinces.*')
 			->where('provinces.is_deleted','=','No')
 			->where('provinces.is_active','=','Yes')
-			->orderBy('provinces.id','desc')
+			->orderBy('provinces.name','asc')
 			->get();
 			$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 			

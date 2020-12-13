@@ -44,13 +44,13 @@ class WarehouseController extends Controller
 		select('country.*')
 		->where('country.is_deleted','=','No')
 		->where('country.is_active','=','Yes')
-		->orderBy('country.id','desc')
+		->orderBy('country.country_name','asc')
 		->get();
 		$data['province'] = Region::
 		select('provinces.*')
 		->where('provinces.is_deleted','=','No')
 		->where('provinces.is_active','=','Yes')
-		->orderBy('provinces.id','desc')
+		->orderBy('provinces.name','asc')
 		->get();
 		$data['warehouse_manager'] = DB::table('users')
 		->select('users.name as first_name','users.lastname as last_name','users.useId','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid')
@@ -115,9 +115,13 @@ class WarehouseController extends Controller
 			$data['country'] = Country::
 			select('country.*')
 			->where('country.is_deleted','=','No')
+			->orderBy('country.country_name','asc')
 			->get();
 			$data['province'] = Region::
 			select('provinces.*')
+			->where('provinces.is_deleted','=','No')
+			->where('provinces.is_active','=','Yes')
+			->orderBy('provinces.name','asc')
 			->get();
 			$data['warehouse_manager'] = DB::table('users')
 			->select('users.id as userid','users.name as first_name','users.lastname as last_name')

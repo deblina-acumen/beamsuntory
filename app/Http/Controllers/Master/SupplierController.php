@@ -39,13 +39,13 @@ class SupplierController extends Controller
 		select('country.*')
 		->where('country.is_deleted','=','No')
 		->where('country.is_active','=','Yes')
-		->orderBy('country.id','desc')
+		->orderBy('country.country_name','asc')
 		->get();
 		$data['province'] = Region::
 		select('provinces.*')
 		->where('provinces.is_deleted','=','No')
 		->where('provinces.is_active','=','Yes')
-		->orderBy('provinces.id','desc')
+		->orderBy('provinces.name','asc')
 		->get();
         return view('master.supplier.add', $data);
     }
@@ -122,9 +122,13 @@ class SupplierController extends Controller
 		$data['country'] = Country::
 		select('country.*')
 		->where('country.is_deleted','=','No')
+		->orderBy('country.country_name','asc')
 		->get();
 		$data['province'] = Region::
 		select('provinces.*')
+		->where('provinces.is_deleted','=','No')
+		->where('provinces.is_active','=','Yes')
+		->orderBy('provinces.name','asc')
 		->get();
 		
 		
