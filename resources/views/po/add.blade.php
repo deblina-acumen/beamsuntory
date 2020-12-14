@@ -42,7 +42,7 @@
     <div class="col-lg-12 col-12">
         <div class="box box-solid bg-gray">
         <div class="box-header with-border">
-          <h4 class="box-title">Add PO </h4>      
+          <h4 class="box-title">Order Details </h4>      
           <ul class="box-controls pull-right">
             <li><a class="box-btn-fullscreen" href="#"></a></li>
           </ul>
