@@ -134,7 +134,7 @@
               <td>$<?php echo $po_details_val->quantity * $po_details_val->regular_price ; ?></td>
               <td>
 			  <?php if(check_allocation_present($po_details_val->itemid,$po_details_val->puchase_order_details_id,$po_details_val->po_id) == true) { ?>
-			  <a href="{{URL('edit-po-allocation/'.base64_encode($po_details_val->itemid).'/'.base64_encode($po_details_val->puchase_order_details_id).'/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark btn-sm"> Edit Allocation Edit</a>
+			  <a href="{{URL('edit-po-allocation/'.base64_encode($po_details_val->itemid).'/'.base64_encode($po_details_val->puchase_order_details_id).'/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark btn-sm"> Edit Allocation </a>
 			 
 			  <?php } else { ?>
 			  <a href="{{URL('add-po-allocation/'.base64_encode($po_details_val->itemid).'/'.base64_encode($po_details_val->puchase_order_details_id).'/'.base64_encode($po_details_val->po_id))}}" class="btn btn-dark btn-sm">Allocate</a>
