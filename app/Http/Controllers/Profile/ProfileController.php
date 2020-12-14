@@ -17,7 +17,7 @@ class ProfileController extends Controller
      {
         if (base64_decode($id, true)) 
         {
-			$no_image_path = URL("assets/images/avatar/user.jpg");
+			$no_image_path = URL("assets/images/avatar/no_image.jpg");
 		$profile_pic_rel_path = 'public/profile_pic';
 		
 			
