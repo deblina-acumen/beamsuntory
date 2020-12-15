@@ -14,16 +14,26 @@
 					  </div>
 					  @endif
             <div class="row">
-			<div class="col-md-12"><h3>Order Title</h3></div>
+			
+			<div class="col-md-3">
+              <!-- Date -->
+              <div class="form-group">
+                <label>Order Title:</label>
+
+                <div class="input-group date">
+                  
+                  <input type="text" class="form-control pull-right"  name="order_title" value="<?=isset($po[0]->order_title)&& $po[0]->order_title!=''?$po[0]->order_title:''?>" required>
+                </div>
+                <!-- /.input group -->
+              </div>
+              </div>
 			<div class="col-md-3">
               <!-- Date -->
               <div class="form-group">
                 <label>Order Id:</label>
 
                 <div class="input-group date">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
+                  
                   <input type="text" class="form-control pull-right"  name="order_no" value="<?=isset($po[0]->order_no)&& $po[0]->order_no!=''?$po[0]->order_no:'PO-BEAM-'.rand(0,1500).'-'.rand(5,500)?>" required>
                 </div>
                 <!-- /.input group -->

@@ -14,7 +14,30 @@
 					  </div>
 					  @endif
             <div class="row">
-			<div class="col-md-12"><h3>Order Title</h3></div>
+			  <div class="col-md-3">
+              <!-- Date -->
+              <div class="form-group">
+                <label>Order Title:</label>
+
+                <div class="input-group date">
+                  
+                  <input type="text" class="form-control pull-right"  name="order_title" value="<?=isset($poinfo[0]->order_title)&& $poinfo[0]->order_title!=''?$poinfo[0]->order_title:''?>" readonly>
+                </div>
+                <!-- /.input group -->
+              </div>
+              </div>
+			<div class="col-md-3">
+              <!-- Date -->
+              <div class="form-group">
+                <label>Order Id:</label>
+
+                <div class="input-group date">
+                  
+                  <input type="text" class="form-control pull-right"  name="order_no" value="<?=isset($poinfo[0]->order_no)&& $poinfo[0]->order_no!=''?$poinfo[0]->order_no:''?>" readonly>
+                </div>
+                <!-- /.input group -->
+              </div>
+              </div>
               <div class="col-md-3">
               <!-- Date -->
               <div class="form-group">

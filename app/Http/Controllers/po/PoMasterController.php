@@ -49,7 +49,7 @@ class PoMasterController extends Controller
 	public function save_po_step1(Request $request)
     {
         $data=$request->all(); //t($data,1);
-		
+		$insert_data['order_title']=isset($data['order_title'])?$data['order_title']:'';
         $insert_data['order_no']=$data['order_no'];
 		$insert_data['ownership_type']=$data['ownership_type'];
 		$insert_data['status']=$data['status'];
@@ -90,6 +90,7 @@ class PoMasterController extends Controller
 	{
 		$data = $request->all();
 		//t($data,1);
+		$update_data['order_title']=isset($data['order_title'])?$data['order_title']:'';
 		$update_data['order_no']=$data['order_no'];
 		$update_data['ownership_type']=$data['ownership_type'];
 		$update_data['status']=$data['status'];
