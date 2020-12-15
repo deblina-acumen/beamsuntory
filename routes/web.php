@@ -130,7 +130,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('save-po-steop1', 'po\PoMasterController@save_po_step1');
 	Route::post('update-po-steop1', 'po\PoMasterController@update_po_steop1');
 	Route::any('purchase-order-details/{id?}', 'po\PoMasterController@purchase_order_details');
-	
+	Route::any('delete-purchase/{id?}/{value?}', 'po\PoMasterController@delete_purchase');
 	/////////// datatlbe plus icon example///////////
 	Route::any('purchase-order-details-example/{id?}', 'po\PoMasterController@po_products_details');  
 	Route::any('get-allocation-details-per-po-details', 'po\PoMasterController@get_allocation_details_per_po_details');
