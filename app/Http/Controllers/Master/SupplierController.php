@@ -325,7 +325,7 @@ class SupplierController extends Controller
 			$province_list = Region::where('is_deleted','No')->orderBy('name','asc')->get();
 		}
 		else if($country_id != "")
-		 	$province_list = Region::where('country_id',$country_id)->orderBy('name','asc')->get();
+		 	$province_list = Region::where('country_id',$country_id)->where('is_deleted','No')->orderBy('name','asc')->get();
 		echo json_encode($province_list);
 	}
 }
