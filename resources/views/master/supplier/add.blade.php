@@ -284,7 +284,7 @@ $('#approved_datepicker1').datepicker({
     }, false);
 })();
 
-/* $('#add_development_plan').submit(function(e){
+ $('#add_development_plan').submit(function(e){
 	//validate phone
 var phone = $('input[name="phone"]').val();
     intRegex =/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
@@ -306,7 +306,7 @@ else
 }
 
 
-}); */
+}); 
 
 
 </script>
