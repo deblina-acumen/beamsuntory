@@ -418,7 +418,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('get-store-list', 'salesref\StoreDeliveryController@get_store_list');
 		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');
 
-		
+		Route::get('view-stock', 'admin_stock\StockController@item_list');
 		
 		
 });

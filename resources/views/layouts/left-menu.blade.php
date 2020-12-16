@@ -122,8 +122,22 @@
             <li><a href="{{URL('delivery-agent-list')}}"><i class="fa fa-circle-thin"></i>All Delivery Agents</a></li>
             <li><a href="{{URL('add-delivery-agent')}}"><i class="fa fa-circle-thin"></i>Add New Delivery Agent</a></li>
           </ul>
-        </li>		
+        </li>	
+		
+		<li class="treeview">
+         
+         
+            <li><a href="{{URL('view-stock')}}"><i class="fa fa-circle-thin"></i>View Stock</a></li>
+            
+         
+        </li>
+	  
+
+
+		
       </ul>
+	    
+	  
 	  @elseif(Auth::user()->role_id == 10)
 		   <ul class="sidebar-menu" data-widget="tree">
         <li class="header nav-small-cap">JIMBEAM Delivery Agent</li>
