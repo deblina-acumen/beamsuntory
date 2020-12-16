@@ -75,13 +75,12 @@
 						<tr>
 							<th>SL No</th>
 							
-							<th>Order No.</th>
-							<th>Purchase order Status</th>
-							<th>Supplier Name</th>
-							<th>Warehose Name</th>
-							<th>Delivery agent</th>
+							<th>Order ID.</th>
+							<th>Order Title</th>
+							<th>Date</th>
 							<th>Status</th>
-							<th>Active Status</th>
+							<th>Boxes</th>
+							<th>Total</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -92,12 +91,17 @@
 							<td><?=$k+1?></td>
 							
 							<td>{{$list->order_no}}</td>
+							<td>{{$list->order_title}}</td>
+							<td>{{isset($list->created_at)&& $list->created_at!=''?date('d-m-Y',strtotime($list->created_at)):''}}</td>
 							<td>{{str_replace('_',' ',ucfirst($list->status))}}</td>
-							<td>{{$list->supplier_name}}</td>
-							<td>{{$list->warehouse_name}}</td>
-							<td>{{$list->delivery_agent_name}}</td>
-							<td>{{ucfirst(str_replace('_',' ',$list->status))}}</td>    
-							<td>
+							
+							<td><?php echo $po = get_po_box_count($list->id);?></td>    
+							<td><?php 
+							echo $item_cost = po_item_cost($list->id);
+							
+							
+							?></td>    
+							<!--<td>
 						  	<?php 
 							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
 							href="{{URL('purchase-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a> 
@@ -106,7 +110,7 @@
 							<?php } ?>
 											
 											
-						  </td>
+						  </td>-->
 							<td><div class="custom_btn_group btn-group">
 									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
