@@ -116,14 +116,7 @@
                 <label>Supplier Details</label>
                 <p class="box-title text-dark">Address: {{isset($supplier[0]->address)?$supplier[0]->address:''}} <br/>Ph: {{isset($supplier[0]->supplier_phone)?$supplier[0]->supplier_phone:''}} <br/>Email: {{isset($supplier[0]->supplier_email)?$supplier[0]->supplier_email:''}} </p>
               </div>
-              <div class="col-md-2">
-                <label>Item Kitting</label>
-                <p class="box-title text-dark">#Item (50) <br/>Oversized Item (5)</p>
-              </div>
-              <div class="col-md-3">
-                <label>Ownership Details</label>
-                <p class="box-title text-dark">Not Available</p>
-              </div>
+             
 
             </div>
             
