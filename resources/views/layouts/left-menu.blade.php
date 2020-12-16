@@ -127,24 +127,10 @@
 	  @elseif(Auth::user()->role_id == 10)
 		   <ul class="sidebar-menu" data-widget="tree">
         <li class="header nav-small-cap">JIMBEAM Delivery Agent</li>
-		<li class="treeview">
-          <a href="{{URL('pickup-order-list')}}">
-             <i class="align-sub fa fa-truck"></i> <span>Pickup Order</span>
-            <span class="pull-right-container">
-              
-            </span>
-          </a>
-          
-        </li>
-		<li class="treeview">
-          <a href="#">
-            <i class="fa fa-ambulance" aria-hidden="true"></i> <span>Delivery Order</span>
-            <span class="pull-right-container">
-              
-            </span>
-          </a>
-          
-        </li>
+		
+		 <li><a href="{{URL('pickup-order-list')}}"><i class="align-sub fa fa-truck"></i>Pickup Order</a></li>
+            <li><a href="<?=URL('delivery-order-list')?>"><i class="align-sub fa fa-truck"></i>Delivery Order</a></li>
+		
 		</ul>
 	  @endif
     </section>
