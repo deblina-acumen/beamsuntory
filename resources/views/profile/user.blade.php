@@ -260,7 +260,7 @@
                         <div class="col-md-4">
                             <div class="image-upload" >
 								  <label for="file-input">
-									<img src="{{$profile_pic}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+									<img src="{{isset($profile_pic)&& $profile_pic!=''?$profile_pic:asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
 								  </label>
 
 								  <input id="file-input" type="file" name="profile_pic" onchange="readURL(this);"/>
