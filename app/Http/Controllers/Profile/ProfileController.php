@@ -61,7 +61,7 @@ class ProfileController extends Controller
 		$update_data['lastname'] = isset($posted['info']['lastname'])?$posted['info']['lastname']:'';
 		$update_data['email'] = isset($posted['info']['email'])?$posted['info']['email']:'';
 		//$update_data['description'] = isset($posted['info']['description'])?$posted['info']['description']:'';
-		//$update_data['phone'] = isset($posted['info']['phone_number'])?$posted['info']['phone_number']:'';
+		$update_data['phone'] = isset($posted['info']['phone'])?$posted['info']['phone']:'';
 		//$update_data['address'] = isset($posted['info']['address'])?$posted['info']['address']:'';
 		$update_data['useId'] = isset($posted['info']['userId'])?$posted['info']['userId']:'';
 		if(isset($posted['password']) && $posted['password']!='')

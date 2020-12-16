@@ -336,6 +336,21 @@
                                     </div>
                                 </div>
                             </div>
+							
+							<div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <div class="controls">
+                                            <div class="add_delete_section">
+                                                <div class="add_delete_section_left">
+                                                    <input type="number" name="info[phone]"  id="phone" class="form-control" value="{{isset($info[0]->phone)?$info[0]->phone:''}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                            
 							 
