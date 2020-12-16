@@ -206,6 +206,7 @@ class ProductController extends Controller
 		$insert_data['product_type']=isset($data['product_type'])?$data['product_type']:'';
 		$insert_data['category_id']=$data['category'];
 		$insert_data['supplier_id']=$data['vendor'];
+		$insert_data['price_currency']=isset($data['price_currency'])?$data['price_currency']:'USD';
 		$insert_data['regular_price']=$data['regular_price'];
 		$insert_data['retail_price']=$data['retail_price'];
 		$insert_data['sku']=$data['sku'];
@@ -300,6 +301,7 @@ class ProductController extends Controller
 		$insert_data['product_type']=isset($data['product_type'])?$data['product_type']:'';
 		$insert_data['category_id']=$data['category'];
 		$insert_data['supplier_id']=$data['vendor'];
+		$insert_data['price_currency']=isset($data['price_currency'])?$data['price_currency']:'USD';
 		$insert_data['regular_price']=$data['regular_price'];
 		$insert_data['retail_price']=$data['retail_price'];
 		$insert_data['sku']=$data['sku'];
@@ -439,6 +441,10 @@ class ProductController extends Controller
 			$brand_name = isset($info[0]->brand_name) ? $info[0]->brand_name : '' ;
 			$cat_name = isset($info[0]->cat_name) ? $info[0]->cat_name : '' ;
 			$supplier_name = isset($info[0]->supplier_name) ? $info[0]->supplier_name : '' ;
+			
+			
+			$price_currency = isset($info[0]->price_currency) ? $info[0]->price_currency : '' ;
+			
 			$regular_price = isset($info[0]->regular_price) ? $info[0]->regular_price : '' ;
 			$retail_price = isset($info[0]->retail_price) ? $info[0]->retail_price : '' ;
 			$sku = isset($info[0]->sku) ? $info[0]->sku : '' ;
@@ -493,12 +499,12 @@ class ProductController extends Controller
 						  <td>'.$supplier_name.'</td>
 						</tr>
 						<tr>
-						  <th scope="row">  Price:</th>
-						   <td>'.$regular_price.'</td>
+						  <th scope="row">  Regular Price:</th>
+						   <td>'.$regular_price.'  '.$price_currency.'</td>
 						</tr>
 						<tr>
 						  <th scope="row">  Retail Price:</th>
-						   <td>'.$retail_price.'</td>
+						   <td>'.$retail_price.'  '.$price_currency.'</td>
 						</tr>
 						<tr>
 						  <th scope="row">  SKU:</th>

@@ -101,8 +101,8 @@
 								Uncategorised
 							@endif
 							</td>
-							<td>{{$list->regular_price}}</td>
-							<td>{{$list->retail_price}}</td>
+							<td>{{$list->regular_price}} {{$list->price_currency}}</td>
+							<td>{{$list->retail_price}} {{$list->price_currency}}</td>
 							<td>
 						  	<?php 
 							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 

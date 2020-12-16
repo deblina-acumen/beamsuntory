@@ -80,18 +80,33 @@
               </div>
             </div>
           <div class="row">
-              <div class="col-md-6">
+		  
+		   <div class="col-md-2">
+          <div class="form-group">
+          <label>Currency</label>
+          <select class="form-control select2" data-placeholder="Currency" style="width: 100%;" name="price_currency">
+			   <option value="">Select</option>
+				<option value="CAD" <?php if(isset($info[0]->price_currency)&& $info[0]->price_currency == 'CAD' ){ echo "selected" ;} ?> >CAD</option>
+				<option value="USD" <?php if(isset($info[0]->price_currency)&& $info[0]->price_currency == 'USD' ){ echo "selected" ;} ?> >USD</option>
+				
+          </select>
+          </div>
+              </div>
+              <div class="col-md-5">
               <div class="form-group">
                 <label>Regular Price</label>
                 <input type="number" class="form-control" min="0" value= "{{isset($info[0]->regular_price)?$info[0]->regular_price:''}}" step="0.005" placeholder="" name="regular_price">
               </div>
               </div>
-              <div class="col-md-6">
+			 
+              <div class="col-md-5">
               <div class="form-group">
                 <label>Retail Price</label>
                 <input type="number" class="form-control" min="0" value= "{{isset($info[0]->retail_price)?$info[0]->retail_price:''}}" step="0.005" placeholder="" name="retail_price">
               </div>
               </div>
+			  
+			  
 			 
             </div>
             <div class="row"> 
