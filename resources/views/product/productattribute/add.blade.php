@@ -36,12 +36,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Add Produt-Attribute   &nbsp;<a href="{{URL('Produt-attribute-list')}}" type="button" class="btn btn-dark btn-sm"> Produt-Attribute </a>
+        Add Product-Attribute   &nbsp;<a href="{{URL('Produt-attribute-list')}}" type="button" class="btn btn-dark btn-sm"> Product-Attribute </a>
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        <li class="breadcrumb-item active"><a href="#">Produt-Attribute </a></li>
+        <li class="breadcrumb-item active"><a href="#">Product-Attribute </a></li>
         
       </ol>
     </section>
@@ -52,7 +52,7 @@
 			<div class="box box-solid bg-gray">
 			
 				<div class="box-header with-border">
-				  <h4 class="box-title">Add New Produt-Attribute </h4>      
+				  <h4 class="box-title">Add New Product-Attribute </h4>      
 				  <ul class="box-controls pull-right">
 					<li><a class="box-btn-fullscreen" href="#"></a></li>
 				  </ul>

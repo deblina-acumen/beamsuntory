@@ -19,13 +19,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Produt-Attribute List  &nbsp;<a href="{{URL('add-Produt-attribute-value')}}" type="button" class="btn btn-dark btn-sm"> Add New</a>
+        Product-Attribute List  &nbsp;<a href="{{URL('add-Produt-attribute-value')}}" type="button" class="btn btn-dark btn-sm"> Add New Attribute</a>
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
         
-        <li class="breadcrumb-item active">Produt-Attribute List</li>
+        <li class="breadcrumb-item active">Product-Attribute List</li>
       </ol>
     </section>
 

@@ -8,12 +8,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Edit Produt-Category   &nbsp;<a href="{{URL('product-category-list')}}" type="button" class="btn btn-dark btn-sm"> Produt-Category </a>
+        Edit Product-Category   &nbsp;<a href="{{URL('product-category-list')}}" type="button" class="btn btn-dark btn-sm"> Product-Category </a>
       </h1>
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        <li class="breadcrumb-item active"><a href="#">Produt-Category </a></li>
+        <li class="breadcrumb-item active"><a href="#">Product-Category </a></li>
         
       </ol>
     </section>
@@ -24,7 +24,7 @@
 			<div class="box box-solid bg-gray">
 			
 				<div class="box-header with-border">
-				  <h4 class="box-title">Edit Produt-Category </h4>      
+				  <h4 class="box-title">Edit Product-Category </h4>      
 				  <ul class="box-controls pull-right">
 					<li><a class="box-btn-fullscreen" href="#"></a></li>
 				  </ul>
