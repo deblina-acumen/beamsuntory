@@ -10,7 +10,8 @@ use App\Model\Brand;
 use App\Model\Region;
 use App\Model\Product;
 use App\Model\ProductVariations;
-use App\Model\POItem;;
+use App\Model\POItem;
+use App\Model\PoBox;
 use  App\Model\POAllocation;
 use  App\Model\Warehouse;
 use App\Model\Stock;
@@ -378,4 +379,24 @@ function get_store_details($id)
 {
 	$store = Store::where('id',$id)->get();
 	return isset($store)?$store:'';
+}
+function get_po_box_count($poid)
+{
+	$po_box_details = PoBox::selectRaw('sum(box) as total_box')->where('po_id',$poid)->get();
+	return isset($po_box_details[0]->total_box)?$po_box_details[0]->total_box:0;
+}
+function po_item_cost($poid)
+{
+	
+	$po_item = POItem::join('item','item.id','=','purchase_order_details.item_id','left')->where('purchase_order_details.po_id',$poid)->get();
+	$total_count =0;
+	//t($po_item);
+	foreach($po_item as $po_data)
+	{
+		$quantity = isset($po_data->quantity) && $po_data->quantity!=''?$po_data->quantity:0;
+		$price = isset($po_data->regular_price) && $po_data->regular_price!=''?$po_data->regular_price:0;
+		 $po_cost = $quantity *$price;
+		$total_count =$total_count + $po_cost;
+	}
+	return $total_count; 
 }
