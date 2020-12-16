@@ -515,21 +515,21 @@ class ProductController extends Controller
 						</tr>
 						<tr>
 						  <th scope="row">  Weight:</th>
-						   <td>'.$weight.'</td>
+						   <td>'.$weight.' gm </td>
 						</tr>
 						<tr>
 						  <th scope="row">  Length:</th>
-						   <td>'.$length.'</td>
+						   <td>'.$length.' cm</td>
 						   
 						</tr>
 						<tr>
 						  <th scope="row">  Width:</th>
-						   <td>'.$width.'</td>
+						   <td>'.$width.' cm</td>
 						   
 						</tr>
 						<tr>
 						  <th scope="row">  Height:</th>
-						   <td>'.$height.'</td>
+						   <td>'.$height.' cm</td>
 						   
 						</tr>
 						<tr>

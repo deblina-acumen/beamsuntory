@@ -157,25 +157,25 @@
             <div class="row">
               <div class="col-md-3">
               <div class="form-group">
-                <label>Weight</label>
+                <label>Weight (in gm)</label>
                 <input type="text" class="form-control" value= "{{isset($info[0]->weight)?$info[0]->weight:''}}" name="weight">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
-                <label>Length</label>
+                <label>Length (in cm)</label>
                 <input type="text" class="form-control" value= "{{isset($info[0]->length)?$info[0]->length:''}}" name="length">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
-                <label>Width</label>
+                <label>Width (in cm)</label>
                 <input type="text" class="form-control" value= "{{isset($info[0]->width)?$info[0]->width:''}}" name="Width">
               </div>
               </div>
               <div class="col-md-3">
               <div class="form-group">
-                <label>Height</label>
+                <label>Height (in cm)</label>
                 <input type="text" class="form-control" value= "{{isset($info[0]->height)?$info[0]->height:''}}"  name="Height">
               </div>
               </div>
