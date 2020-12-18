@@ -68,7 +68,7 @@
             <!-- /.box-header -->
             <div class="box-body">
 				<div class="table-responsive">
-				  <table id="example1" class="table table-bordered table-separated">
+				  <table id="examplelist" class="table table-bordered table-separated">
 					<thead>
 						<tr>
 							<th>SL No</th>
@@ -126,10 +126,13 @@
 								</div></td>
 						</tr>
 						 @endforeach
+						 
 					@endif
 					</tbody>
 				  </table>
+				  
 				</div>
+				{{$product_list->links()}}
             </div>
             <!-- /.box-body -->
           </div>
@@ -242,6 +245,13 @@ $('.select2').select2({ width: 'resolve' });
         });
     }, false);
 })();
-
+ $('#examplelist').DataTable({
+      'paging'      : false,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    });
 </script>
 @stop
