@@ -71,7 +71,7 @@
 			
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
-              <p>Available Qty: <span class="text-bold">{{get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}</span></p>
+              <p>Available Qty: <span class="text-bold">{{get_item_quantity_by_id_sku('admin',Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}</span></p>
 			  
 			  <p>Batch No: <span class="text-bold">{{(isset($product_list_val->batch_no) && $product_list_val->batch_no!='')?$product_list_val->batch_no:''}}</span></p>
              
