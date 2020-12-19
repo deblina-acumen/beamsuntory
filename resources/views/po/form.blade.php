@@ -68,7 +68,13 @@
                 </div>
               </div>
 			  
-			  <div class="col-md-3">
+			  
+            </div>
+
+
+            
+          <div class="row">
+		  <div class="col-md-3">
               	<label>Select Supplier</label>
                 <div class="input-group">
                 <select name="supplier" aria-controls="project-table" class="form-control form-control-sm" required>
@@ -79,11 +85,6 @@
                 </select>
               </div>
               </div>
-            </div>
-
-
-            
-          <div class="row">
               <div class="col-md-3">
               	<label>Select Delivery Agent/Currior</label>
                 <div class="input-group">
@@ -117,7 +118,10 @@
                 </select>
               </div>
               </div>
-              <div class="col-md-3">
+              
+            </div><br/>
+			<div class="row">
+			<div class="col-md-3">
               	<label>Ownership Type</label>
                 <div class="input-group">
                 <select name="ownership_type" aria-controls="project-table" class="form-control form-control-sm">
@@ -128,7 +132,7 @@
 				<input type="hidden" name="po_id" value="<?= isset($po[0]->id)?$po[0]->id:''?>">
               </div>
               </div>
-            </div>
+			</div>
             <br/>
            
 
