@@ -34,14 +34,20 @@ use App\Model\Store;
 class CustomerStoreController extends Controller
 {
 	
-	public function customer_store_list()
+	public function customer_store_list(Request $request)
 	{
 		DB::enableQueryLog();
 		$data['title'] = 'Customers/Stores';
-		
+		$posted_data = $request->all();
+		$store_name = isset($posted_data['search_category'])?$posted_data['search_category']:'';
+		$data['search_category'] =$store_name;
+		$where=" 1=1 ";
+		if($store_name !='')
+		{
+			$where .= " and `store`.`store_name` like '%$store_name%'";
+		}
 		$user_id = Auth::user()->id;
 		$user_info = User::where('id',$user_id)->where('is_deleted','No')->get();
-		
 		$country_id = isset($user_info[0]->country_id)?$user_info[0]->country_id:0 ;
 		$data['country'] = Country::
 		select('country.*')
@@ -50,8 +56,8 @@ class CustomerStoreController extends Controller
 		->get();
 
 		
-		$data['info']=Store::select('store.*','store_category.name as category','country.country_name','provinces.name as province')->leftjoin('store_category','store.store_category','=','store_category.id')->leftjoin('provinces','store.state','=','provinces.id')->leftjoin('country','store.country','=','country.id')->where('store.country',$country_id)->where('store.is_deleted','No')->get();
-		//$query = DB::getQueryLog();
+		$data['info']=Store::select('store.*','store_category.name as category','country.country_name','provinces.name as province')->leftjoin('store_category','store.store_category','=','store_category.id')->leftjoin('provinces','store.state','=','provinces.id')->leftjoin('country','store.country','=','country.id')->whereRaw("$where")->where('store.country',$country_id)->where('store.is_deleted','No')->get();
+		$query = DB::getQueryLog();
 	    //t($query,1);
 		return view('salesref.customer_store.customer_store_list',$data);
 	}

@@ -40,10 +40,27 @@
 					  @endif
 		
           <!---- List Item ------>
-          <div class="box">				
+          <div class="box">		
+		<div class="box-header no-border bg-dark">
+             <h6 class="pull-left">Store List</h6>
+             <div class="pull-right">
+              <a href="#"><i class="fa fa-filter font-size-20 text-secondary" aria-hidden="true"></i></a>
+             </div>
+			 <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+			   @csrf
+             <div class="input-group">
+                <input type="search" name="search_category" value="{{isset($search_category)?$search_category:''}}" class="form-control form-control-sm" placeholder="Store Name" aria-controls="project-table">
+               &nbsp;<button type="submit" class="btn btn-blue btn-sm">Search</button>
+            </div>
+			</form>
+            </div>
 				<div class="box-body p-0">
-				<p>country Name : {{isset($country[0]->country_name)?$country[0]->country_name:''}}</p>
-				<a href="{{URL('add-customer-store')}}"><button type="button" class="btn btn-dark btn-lg mt-10">Add Store</button></a>
+				<span style="padding: 11px;font-size: 18px;">country Name : {{isset($country[0]->country_name)?$country[0]->country_name:''}}
+								
+				</span>
+				<a style="float: right;" class="btn btn-dark btn-lg mt-10" href="{{URL('add-customer-store')}}">Add Store</a>
+				</div>
+				<div class="box-body p-0">
 				<form id="add_development_plan" action="<?= URL('remove-store')?>" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 				@csrf
 				<div class="media-list media-list-hover media-list-divided">

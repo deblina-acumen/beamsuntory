@@ -395,7 +395,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('ship-request-list', 'salesref\StoreDeliveryController@ship_request_list');
 		Route::any('view-ship-request/{id}', 'salesref\StoreDeliveryController@view_ship_request');
 		
-		Route::get('customer-store-list', 'salesref\customer_store\CustomerStoreController@customer_store_list');
+		Route::any('customer-store-list', 'salesref\customer_store\CustomerStoreController@customer_store_list');
 		Route::post('remove-store', 'salesref\customer_store\CustomerStoreController@remove_store');
 		Route::get('add-customer-store', 'salesref\customer_store\CustomerStoreController@add_customer_store');
 		Route::post('submit-customer-store', 'salesref\customer_store\CustomerStoreController@save_customer_store');
