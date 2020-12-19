@@ -52,7 +52,7 @@ class DeliveryController extends Controller
 			{
 			if($allstock->type == 'each' && $stock_quantity<=$allstock->available_qtn)
 			{
-				
+				$inset_stock['warehouse_id'] =$allstock->warehouse_id;
 				$inset_stock['stock_id'] =$allstock->id;
 				$inset_stock['user_id'] = $allstock->user_id;
 				$inset_stock['item_id'] = $do->item_id;
@@ -83,7 +83,7 @@ class DeliveryController extends Controller
 			else if($allstock->type == 'each' && $stock_quantity > $allstock->available_qtn)
 				
 			{
-				
+				$inset_stock['warehouse_id'] =$allstock->warehouse_id;
 				$inset_stock['stock_id'] =$allstock->id;
 				$inset_stock['user_id'] = $allstock->user_id;
 				$inset_stock['item_id'] = $do->item_id;
@@ -116,7 +116,7 @@ class DeliveryController extends Controller
 			    foreach($another_stock_othruser as $shredstock)
 				{
 				
-				
+				$inset_stock['warehouse_id'] =$shredstock->warehouse_id;
 				$inset_stock['stock_id'] =$shredstock->id;
 				$inset_stock['user_id'] = $shredstock->user_id;
 				$inset_stock['item_id'] = $do->item_id;
@@ -151,6 +151,7 @@ class DeliveryController extends Controller
 				$another_stock_othruser = Stock::where('allocation_id',$allstock->allocation_id)->where('type','shared')->get();
 			    foreach($another_stock_othruser as $shredstock)
 				{
+				$inset_stock['warehouse_id'] =$shredstock->warehouse_id;
 				$inset_stock['stock_id'] =$shredstock->id;
 				$inset_stock['user_id'] = $shredstock->user_id;
 				$inset_stock['item_id'] = $do->item_id;
