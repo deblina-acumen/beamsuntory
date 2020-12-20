@@ -216,6 +216,18 @@ function get_chiled_role_for_fmm($id)
 	$chiledRole =  Role::where('parent_id',$id)->get();
 	return isset($chiledRole[0]->id)?$chiledRole[0]->id:'';
 }
+
+function get_chiled_role_name($id)
+{
+	$role_name = [] ;
+	$chiledRole =  Role::where('parent_id',$id)->get();
+	foreach($chiledRole as $chiledRole_val)
+	{
+		array_push($role_name,$chiledRole_val->name);
+	}
+	return (isset($role_name)&&count($role_name)>0)?implode(',',$role_name):'';
+}
+
 function get_chiled_user_field_marketing($country,$chiledrole)
 {
 	$details = User::whereIn('province_id',$country)->where('role_id',$chiledrole)->get();
@@ -312,6 +324,13 @@ function get_item_quantity_by_id_sku($type,$user_id,$item_id,$sku_code)
 			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id  and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			
 			$count = $instock_count[0]->sumqty ;
+		}
+		else if($type =='warehouse')
+		{
+			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`warehouse_id` = $user_id and `stock`.`stock_type` = 'in' and ( `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<='".$date."' or `stock`.`active_date` IS NULL) and (`stock`.`active_time`<='".$time."' or `stock`.`active_time` IS NULL)"));
+			
+			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`warehouse_id` = $user_id and `stock`.`stock_type` = 'out' and (`type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
+			$count = $instock_count[0]->sumqty  - $outstock_count[0]->sumqty ;
 		}
 		else{
 			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and ( `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."' and (`stock`.`active_date`<='".$date."' or `stock`.`active_date` IS NULL) and (`stock`.`active_time`<='".$time."' or `stock`.`active_time` IS NULL)"));

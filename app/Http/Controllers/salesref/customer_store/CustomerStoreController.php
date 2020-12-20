@@ -56,7 +56,7 @@ class CustomerStoreController extends Controller
 		->get();
 
 		
-		$data['info']=Store::select('store.*','store_category.name as category','country.country_name','provinces.name as province')->leftjoin('store_category','store.store_category','=','store_category.id')->leftjoin('provinces','store.state','=','provinces.id')->leftjoin('country','store.country','=','country.id')->whereRaw("$where")->where('store.country',$country_id)->where('store.is_deleted','No')->get();
+		$data['info']=Store::select('store.*','store_category.name as category','country.country_name','provinces.name as province')->leftjoin('store_category','store.store_category','=','store_category.id')->leftjoin('provinces','store.state','=','provinces.id')->leftjoin('country','store.country','=','country.id')->whereRaw("$where")->where('store.created_by',$user_id)->where('store.is_deleted','No')->get();
 		$query = DB::getQueryLog();
 	    //t($query,1);
 		return view('salesref.customer_store.customer_store_list',$data);

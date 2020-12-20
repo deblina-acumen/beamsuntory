@@ -418,7 +418,19 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('get-store-list', 'salesref\StoreDeliveryController@get_store_list');
 		Route::get('store-delivery', 'salesref\StoreDeliveryController@item_list');
 
-		Route::get('view-stock', 'admin_stock\StockController@item_list');
+		Route::any('view-stock', 'admin_stock\StockController@item_list');
+		
+		Route::any('wh-inventory', 'Warehouse\WarehouseStockController@item_list');
+		
+		//  customar user add ///
+		
+		Route::any('customer-user-list', 'salesref\user\CustomerUserController@customer_user_list');
+		Route::post('remove-user', 'salesref\user\CustomerUserController@remove_user');
+		Route::get('add-customer-user', 'salesref\user\CustomerUserController@add_customer_user');
+		Route::post('submit-customer-user', 'salesref\user\CustomerUserController@save_customer_user');
+		Route::get('edit-customer-user/{Id}', 'salesref\user\CustomerUserController@edit_customer_user');
+		Route::post('update-customer-user', 'salesref\user\CustomerUserController@update_customer_user');
+		
 		
 		
 });

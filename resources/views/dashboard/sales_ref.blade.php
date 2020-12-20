@@ -107,7 +107,9 @@
 		<?php } else {?>
 		<div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
           <span class="avatar avatar-xxl bg-blue opacity-60 mx-auto">
+		  <a href="{{URL('customer-user-list')}}" class="text-center">
           <i class="align-sub fa fa-file-archive-o font-size-40" aria-hidden="true"></i>
+		  </a>
           </span>
           <div class="mt-20">
             <h4 class="text-uppercase fw-500">CREATE UESRS</h4>

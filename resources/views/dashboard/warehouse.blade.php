@@ -31,13 +31,15 @@
 
       <div class="col-6">
       <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
+	   
           <span class="avatar avatar-xl bg-purple opacity-60 mx-auto">
           <i class="align-sub ti-crown font-size-30"></i>
-          </span>
+          </span><a href="{{URL('wh-inventory')}}">
           <div class="mt-20">
             <h6 class="text-uppercase fw-500">Inventory</h6>
-            
+            </a>
           </div>
+		  
       </div>
       </div>
       <div class="col-6">
