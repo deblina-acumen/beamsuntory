@@ -18,7 +18,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Item List
+        Item List <?php $page = isset($_REQUEST['page'])?$_REQUEST['page']:0; 
+		 echo $page ;
+		?>
       </h1>
     </section>
 
@@ -71,7 +73,7 @@
 			  
 			   <div class="pull-right ml-10">
                 
-				 <a href="{{URL('admin-assign-allocation/'.base64_encode($product_list_val->stock_item_id).'/'.base64_encode($product_list_val->sku_code).'/'.base64_encode($product_list_val->stock_id))}}" class="btn bg-warning btn-sm"><small class="badge bg-warning">Allocate</small></a>
+				 <a href="{{URL('admin-assign-allocation/'.base64_encode($product_list_val->stock_item_id).'/'.base64_encode($product_list_val->sku_code).'/'.base64_encode($product_list_val->stock_id).'/'.base64_encode($page))}}" class="btn bg-warning btn-sm"><small class="badge bg-warning">Allocate</small></a>
 				  
               </div>
 			

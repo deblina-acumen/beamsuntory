@@ -100,12 +100,12 @@ class assign_ownershipController extends Controller
 		
 	}
 	
-	public function add_allocation($itemid,$skucode,$stockid)
+	public function add_allocation($itemid,$skucode,$stockid,$page)
 	{
 		$data['item_id'] = $itemId = base64_decode($itemid);
 		$data['sku_id'] = $skuCode = base64_decode($skucode);
 		$data['stockid'] = $stockid = base64_decode($stockid);
-		
+		$data['page'] = $page = base64_decode($page);
 		
 	$data['product_name'] = $product_name = isset($itemId)?get_product_name_by_id($itemId):'' ;
 		
@@ -130,7 +130,7 @@ return view('admin_stock.add_allocation',$data);
 	{
 		$data=$request->all(); //t($data);
 		//exit();
-		 
+		 $page = $data['page'];
 		 $userrole2=[];
 		 $userrole5=[];
 		 $userrole9=[];
@@ -286,7 +286,7 @@ return view('admin_stock.add_allocation',$data);
 		
 		 if($total_quantity>$total_po_quantity)
 		 {
-			 return redirect('admin-assign-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['itemSkuCode']).'/'.base64_encode($data['stockid']))->with('error-msg', 'Allcation Quantity Not Sufficient');
+			 return redirect('admin-assign-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['itemSkuCode']).'/'.base64_encode($data['stockid']).'/'.base64_encode($page))->with('error-msg', 'Allcation Quantity Not Sufficient');
 		 }
 		 else{
 			 
@@ -606,9 +606,15 @@ return view('admin_stock.add_allocation',$data);
 				 
 				Stock::insert($updateStock); 
 			
-		 
+		 if($page==0)
+		 {
+			 return redirect('view-stock')->with('success-msg', 'Allocation Added Successfully');
+		 }
+		 else{
+			 return redirect('view-stock?page='.$page)->with('success-msg', 'Allocation Added Successfully');
+		 }
 		///////	 update data /////////// 
-			  return redirect('view-stock')->with('success-msg', 'Allocation Added Successfully');
+			  
 		 }
 	}
 }

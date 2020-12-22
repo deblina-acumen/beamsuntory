@@ -28,7 +28,7 @@
 			
 			<input type="hidden" name="itemSkuCode" value="{{$itemSkuCode}}">
 			<input type="hidden" name="stockid" value="{{$stockid}}">
-			
+			<input type="hidden" name="page" value="{{$page}}">
 			
 			<input type="hidden" name="countrow" id="countrow" value="1">
 
