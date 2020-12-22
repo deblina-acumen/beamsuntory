@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\salesref;
+namespace App\Http\Controllers\admin_stock;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -100,12 +100,12 @@ class assign_ownershipController extends Controller
 		
 	}
 	
-	public function add_allocation($itemid,$skucode,$stockid,$allocationid)
+	public function add_allocation($itemid,$skucode,$stockid)
 	{
 		$data['item_id'] = $itemId = base64_decode($itemid);
 		$data['sku_id'] = $skuCode = base64_decode($skucode);
 		$data['stockid'] = $stockid = base64_decode($stockid);
-		$data['allocationid'] = $allocationid = base64_decode($allocationid);
+		
 		
 	$data['product_name'] = $product_name = isset($itemId)?get_product_name_by_id($itemId):'' ;
 		
@@ -117,18 +117,18 @@ class assign_ownershipController extends Controller
 	$data['stock_info'] = $stock_info = Stock::where('id',$stockid)->get();
 	$data['quantity'] =	$quantity = $stock_info[0]->quantity ;
 	$data['itemSkuCode'] =	$itemSkuCode = isset($skuCode)?$skuCode:'';
-	$data['puchaseOrderDetailsId'] =	$puchaseOrderDetailsId = isset($po_details_val[0]->puchase_order_details_id)?$po_details_val[0]->puchase_order_details_id:'';
+	
 	
 	$data['userRole'] =	$userRole = Role::where('id',15)->orWhere('id',5)->orWhere('id',11)->orWhere('id',20)->get() ;
 	
 	
-return view('salesref.assignownership.add_allocation',$data);
+return view('admin_stock.add_allocation',$data);
 		
 	}
 	
 	public function submit_assign_allocation(Request $request)
 	{
-		$data=$request->all(); t($data);
+		$data=$request->all(); //t($data);
 		//exit();
 		 
 		 $userrole2=[];
@@ -280,13 +280,13 @@ return view('salesref.assignownership.add_allocation',$data);
 			 }
 			 
 		 }
-		 //t($total_quantity);
+		// t($total_quantity);
 		 
 		// exit();
 		
 		 if($total_quantity>$total_po_quantity)
 		 {
-			 return redirect('add-assign-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['itemSkuCode']).'/'.base64_encode($data['stockid']).'/'.base64_encode($data['allocationid']))->with('error-msg', 'Allcation Quantity Not Sufficient');
+			 return redirect('admin-assign-allocation/'.base64_encode($data['itemid']).'/'.base64_encode($data['itemSkuCode']).'/'.base64_encode($data['stockid']))->with('error-msg', 'Allcation Quantity Not Sufficient');
 		 }
 		 else{
 			 
@@ -593,47 +593,22 @@ return view('salesref.assignownership.add_allocation',$data);
 		 }
 		 
 		//////// update data/////////////
-		 if($stock_details[0]->type == 'each')
-			{
+		
 				$updateStock['warehouse_id']=$warehouse_id ;
 				 $updateStock['user_id']=$stock_details[0]->user_id ;
 				 $updateStock['item_id']=$data['itemid'] ;
 				 $updateStock['sku_code']=$data['itemSkuCode'] ;
-				$updateStock['type']='each' ;
+				$updateStock['type']='' ;
 				 $updateStock['stock_type']='out' ;
-				 $updateStock['allocation_id']=$stock_details[0]->allocation_id ;
+				 $updateStock['allocation_id']='' ;
 				 $updateStock['quantity']= $total_quantity;
 				 $updateStock['stock_id']= $stock_details[0]->id;
 				 
 				Stock::insert($updateStock); 
-			}
-			else if($stock_details[0]->type == 'shared')
-			{
-				$stock_user = [] ;
-				$share_stock_list = Stock::where('allocation_id',$stock_details[0]->allocation_id)->where('stock_type','in')->get();
-				
-				foreach($share_stock_list as $share_stock_list_val)
-				{
-				
-					$updateStock['warehouse_id']=$share_stock_list_val->warehouse_id ;
-				 $updateStock['user_id']=$share_stock_list_val->user_id ;
-				 $updateStock['item_id']=$data['itemid'] ;
-				 $updateStock['sku_code']=$data['itemSkuCode'] ;
-				$updateStock['type']='shared' ;
-				 $updateStock['stock_type']='out' ;
-				 $updateStock['allocation_id']=$share_stock_list_val->allocation_id ;
-				 $updateStock['quantity']= $total_quantity;
-				 $updateStock['stock_id']= $share_stock_list_val->id;
-				Stock::insert($updateStock); 
-				
-				}
-				
-			}
-			else{
-			}
+			
 		 
 		///////	 update data /////////// 
-			  return redirect('assign-ownership/item-list')->with('success-msg', 'Allocation Added Successfully');
+			  return redirect('view-stock')->with('success-msg', 'Allocation Added Successfully');
 		 }
 	}
 }

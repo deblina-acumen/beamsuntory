@@ -68,6 +68,12 @@
               <div class="pull-left">
                   <img src="{{isset($product_list_val->image) && $product_list_val->image!=''?URL('public/product/'.$product_list_val->image):asset('assets/images/150x100.png')}}" class="rounded-circle m-td-pic">
               </div>
+			  
+			   <div class="pull-right ml-10">
+                
+				 <a href="{{URL('admin-assign-allocation/'.base64_encode($product_list_val->stock_item_id).'/'.base64_encode($product_list_val->sku_code).'/'.base64_encode($product_list_val->stock_id))}}" class="btn bg-warning btn-sm"><small class="badge bg-warning">Allocate</small></a>
+				  
+              </div>
 			
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>

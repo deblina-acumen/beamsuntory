@@ -321,9 +321,11 @@ function get_item_quantity_by_id_sku($type,$user_id,$item_id,$sku_code)
 		}
 		else if($type =='admin')
 		{
-			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id  and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
+			$instock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'in' and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			
-			$count = $instock_count[0]->sumqty ;
+			$outstock_count =   DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'out' and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
+			
+			$count = $instock_count[0]->sumqty - $outstock_count[0]->sumqty;
 		}
 		else if($type =='warehouse')
 		{
