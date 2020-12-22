@@ -107,6 +107,7 @@
                 </ul>
 				
             </div>
+			{{$product_list->links()}}
 					</div>
 				</div>
 				</form>
