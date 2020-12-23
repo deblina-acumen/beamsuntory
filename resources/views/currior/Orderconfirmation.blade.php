@@ -32,7 +32,7 @@
           <!---- List Item ------>
           <div class="box">
 		  <div class="box-header no-border bg-dark">
-             <h6 class="pull-left">Stock receive (#101)</h6>
+             <h6 class="pull-left">Stock receive</h6>
              
             </div>	
              	<form id="add_development_plan" action="<?= URL('save-packing-info')?>"
@@ -42,8 +42,10 @@
 					<div class="media-list media-list-hover media-list-divided">
 					<?php $total_quantity=0; ?>
 					@foreach($po_details as $poDetails)
-					<?php
-					$total_quantity = $total_quantity+$poDetails->quantity;
+					<?php 
+						$allocation_qtn = get_po_allocation_quantity($poDetails->id,$poDetails->item_sku);
+						$po_qtn = $poDetails->quantity;
+						$total_quantity = $total_quantity+$allocation_qtn;
 					?>
 					
 					 <div class="media media-single">
@@ -51,7 +53,8 @@
               <div class="pull-left"><img src="{{URL('public/product/'.$poDetails->image)}}" class="rounded-circle m-td-pic"></div>
               <h6><?= $poDetails->name?></h6>
               <small>SKU : <?=$poDetails->item_sku?></small>
-              <p>Qty. Ordered: <span class="text-bold"><?=$poDetails->quantity?></span></p>
+			  
+              <p>Qty. Ordered: <span class="text-bold"><?=$allocation_qtn?></span></p>
                 <ul class="flexbox flex-justified my-10">
                   <li>
                     <div class="form-group">
@@ -60,7 +63,8 @@
 								<input type="hidden" name="item_sku[]" value="<?=$poDetails->item_sku?>" >
 								<input type="hidden" name="po_item_id[]" value="<?=$poDetails->po_item_id?>" >
 								<input type="hidden" name="item_id[]" value="<?=$poDetails->item_id?>" >
-								<input type="hidden" name="item_orderd[]" value="<?=$poDetails->quantity?>" >
+								<input type="hidden" name="item_orderd[]" value="<?=$allocation_qtn?>" >
+								<input type="hidden" name="po_qtn[]" value="<?=$po_qtn?>" >
                   </div>
                   </li>
                   <li>

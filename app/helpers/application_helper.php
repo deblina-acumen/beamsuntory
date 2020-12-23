@@ -427,3 +427,21 @@ function po_item_cost($poid)
 	}
 	return $total_count; 
 }
+function get_po_allocation_quantity($po_id,$sku)
+{
+	$allocation_detials = POAllocation::where('po_id',$po_id)->where('item_sku',$sku)->get();
+	$qtn =0;
+	foreach($allocation_detials as $k=>$alocation)
+			{
+				
+					$user = json_decode($alocation->user);
+					$user = end($user);
+					
+						$user_ids = explode(',',$user);
+						foreach($user_ids as $usrinfo)
+						{
+							$qtn = $qtn+$alocation->quantity;
+						}
+			}
+	return $qtn ; 
+}
