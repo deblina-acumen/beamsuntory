@@ -127,7 +127,7 @@ class PickupController extends Controller
 			$stock_data['user_id'] = 1;
 			$stock_data['item_id'] = $po_item_id;
 			$stock_data['sku_code'] = $data['item_sku'][$k1];
-			
+			$stock_data['warehouse_id'] = $po_details[0]->warehouse_id;
 			$stock_data['stock_type'] = 'in';
 			$stock_data['order_type'] = 'po';
 			$stock_data['order_type_id'] = $data['po_id'];
