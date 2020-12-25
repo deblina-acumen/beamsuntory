@@ -43,7 +43,7 @@
 			  <div class="col-md-6">
                             <div class="form-group">
                                 <label>Password*</label>
-								 <input type="text" name="password" class="form-control" value="" id="password" <?php if(isset($info[0]->id)&& $info[0]->id!=''){ ?> <?php } else { ?>required <?php }?> >
+								 <input type="password" name="password" class="form-control" value="" id="password" <?php if(isset($info[0]->id)&& $info[0]->id!=''){ ?> <?php } else { ?>required <?php }?> >
                                         
                             </div>
                         </div> 						
