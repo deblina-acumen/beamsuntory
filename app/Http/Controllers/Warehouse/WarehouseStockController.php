@@ -35,6 +35,9 @@ class WarehouseStockController extends Controller
 	
 	public function item_list(Request $request)
 	{
+		$posteddata = $request->all();
+		//t($posteddata);
+		//exit();
 		DB::enableQueryLog();
 		
 		$data['title'] = 'Stock List';
@@ -49,8 +52,9 @@ class WarehouseStockController extends Controller
 		
 		//t($wh_id);
 		//exit();
-		$posteddata = $request->all();
+		
 		$data['search_category'] = $search_category = isset($posteddata['search_category']) ? $posteddata['search_category'] : '';
+		//t($search_category);
 		$where = '1=1' ;
 		
 		$cat_id_arr = [] ;
@@ -60,7 +64,7 @@ class WarehouseStockController extends Controller
 			if($search_category!='')
 			{
 				$category_name = ProductCategory::where('name', 'LIKE', "%$search_category%")->get();
-				if(!empty($category_name)&& count($category_name)>0)
+				/* if(!empty($category_name)&& count($category_name)>0)
 				{
 					foreach($category_name as $category_name_val)
 					{
@@ -79,21 +83,22 @@ class WarehouseStockController extends Controller
 								 }
 								 $item_id_val = implode(',',$product_id_arr);
 				$where .= ' and stock.item_id in('.$item_id_val.')';
-				}
-				else{
+				} */
+				//else{
 					
 					$item_search = strtolower($search_category);
 			$where .=" and (lower(item.name) like '%$item_search%' or lower(stock.sku_code) like '%$item_search%')";
 					
 								 
-				}
+			//	}
 				
 				
 			}
 		}
 		
-			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.warehouse_id','stock.quantity')->join('stock','item.id','=',"stock.item_id")->whereIn('stock.warehouse_id',$wh_id)->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
-		
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.warehouse_id','stock.quantity')->join('stock','item.id','=',"stock.item_id")->whereIn('stock.warehouse_id',$wh_id)->whereRaw($where)->groupBy('stock.item_id','stock.sku_code')->paginate(10);
+		//t($product_list);
+		//exit();
 		
 		$query = DB::getQueryLog();
 		$data['product_list'] = $product_list ;

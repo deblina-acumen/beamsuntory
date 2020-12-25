@@ -27,6 +27,7 @@ class ProductController extends Controller
 		$data['product_type'] = $product_type = isset($posteddata['product_type']) ? $posteddata['product_type'] : '';
 		$data['product_sku'] = $product_sku = isset($posteddata['product_sku']) ? $posteddata['product_sku'] : '';
 		
+		
 		$where = '1=1';
 		if ($posteddata) {
 			

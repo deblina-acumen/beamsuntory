@@ -127,7 +127,7 @@
 		<li class="treeview">
          
          
-            <li><a href="{{URL('view-stock')}}"><i class="fa fa-circle-thin"></i>View Stock</a></li>
+            <li><a href="{{URL('view-stock')}}"><i class="fa fa-circle-thin"></i>JimBim Stock</a></li>
             
          
         </li>
