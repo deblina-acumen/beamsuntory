@@ -89,10 +89,9 @@
 					  @foreach($product_list as $k=>$list)
 						<tr>
 							<td><?=$k+1?></td>
-							<td>
 							
 							<td> <label for="file-input">
-							<img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+							<img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:150px;width:100px"/>
 						  </label></td>
 							
 							<td><span class="td-pic-text">{{ $list->name }}</span></td>
