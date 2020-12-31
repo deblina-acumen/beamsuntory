@@ -20,7 +20,7 @@ class WarehouseManagerController extends Controller
         $data['title']="Warehouse Manager Management";
 
         $data['info'] = DB::table('users')
-		->select('users.name as first_name','users.lastname as last_name','users.useId','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid')
+		->select('users.name as first_name','users.lastname','users.useId','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid')
 		->where('users.is_deleted','No')
 		->where('users.role_id',2)
 		->orderBy('users.id','desc')
