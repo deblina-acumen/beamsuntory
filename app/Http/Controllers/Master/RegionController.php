@@ -55,7 +55,7 @@ class RegionController extends Controller
 		select('country.*')
 		->where('country.is_deleted','=','No')
 		->where('country.is_active','=','Yes')
-		->orderBy('country.name','asc')
+		->orderBy('country.id','asc')
 		->get();
 		$data['province'] = Region::
 		select('provinces.*')
@@ -107,10 +107,7 @@ class RegionController extends Controller
 		$data["title"] = "Region Master";
 		$data['info']=$regionInfo = Region::where('id',$id)->where('is_deleted','No')->orderBy('name', 'ASC')->get();
 
-		$data['country'] = Country::
-		select('country.*')
-		->where('country.is_deleted','=','No')
-		->get();
+		$data['country'] = Country::select('country.*')->where('country.is_deleted','=','No')->get();
        
         return view('master.region.edit', $data);
 	}
