@@ -133,7 +133,7 @@ class PoMasterAllocationController extends Controller
  				 
 				foreach($userlist as $userlistval)
 				{
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -189,7 +189,7 @@ class PoMasterAllocationController extends Controller
 				
 				foreach($userlist as $userlistval)
 				{
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -256,7 +256,7 @@ class PoMasterAllocationController extends Controller
 				foreach($userlist as $userlistval)
 				{
 					 
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				
@@ -288,7 +288,7 @@ class PoMasterAllocationController extends Controller
 				foreach($userlist as $userlistval)
 				{
 					 
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -383,7 +383,7 @@ class PoMasterAllocationController extends Controller
 				foreach($userlist as $userlistval)
 				{
 					 
-				$html3 .='<option value="'.$userlistval->id.'">'.$userlistval->name.'</option>';
+				$html3 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
