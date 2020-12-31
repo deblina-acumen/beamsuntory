@@ -55,8 +55,7 @@
 			</form>
             </div>				
 				<div class="box-body p-0">
-	<form id="item_list" method="post" action="<?= URL('item-list-change-privacystatus')?>" class="needs-validation" novalidate enctype="multipart/form-data">
-			   @csrf	
+	
 		<div class="media-list media-list-hover media-list-divided">
 			<?php $sum = 0 ; ?>
 			@if(!empty($product_list)&& count($product_list)>0)	
@@ -101,9 +100,9 @@
                 </ul>
 				
             </div>
-					</div>
+		</div>
 				</div>
-				</form>
+				{{$product_list->appends(['search_category' => $search_category])->links()}}
 			</div>
       
     </section>

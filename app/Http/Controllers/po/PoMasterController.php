@@ -204,7 +204,7 @@ class PoMasterController extends Controller
 		//$query = DB::getQueryLog();
 		//t($query);
 		///exit();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		//t($data,1);
         return view('product.ProductMaster.list',$data);

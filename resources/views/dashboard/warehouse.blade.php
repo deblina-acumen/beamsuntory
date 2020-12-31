@@ -39,7 +39,6 @@
             <h6 class="text-uppercase fw-500">Inventory</h6>
             </a>
           </div>
-		  
       </div>
       </div>
       <div class="col-6">

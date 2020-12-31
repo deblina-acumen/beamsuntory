@@ -77,7 +77,7 @@ class PoMasterAllocationController extends Controller
 			////// markting ///////
 		else if($id == 5)
 		{
-			$brand_list = Brand::where('brand.is_deleted','=','No')->where('brand.is_active','=','Yes')->orderBy('brand.id','desc')->get();
+			$brand_list = Brand::where('brand.is_deleted','=','No')->where('brand.is_active','=','Yes')->orderBy('brand.name','asc')->get();
 			$html2 ='';
 			$html1 ='<option value="">Select Brand</option>';
 			
@@ -207,7 +207,7 @@ class PoMasterAllocationController extends Controller
 		}
 		else if($roletype == 'field_marking'){
 			
-				$userprovince = Region::whereIn('country_id',$useridarray)->where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->get() ;
+				$userprovince = Region::whereIn('country_id',$useridarray)->where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->orderBy('name', 'ASC')->get() ;
 				//t($userprovince);
 				//exit();
 				
@@ -953,8 +953,8 @@ return view('poallocation.add_allocation',$data);
 	$data['info'] = $info = POAllocation::where('item_id',$itemid)->where('po_id',$poId)->where('podetails_id',$podetailsId)->get();
 	$data['count_allocation'] = count($info);
 	
-	$data['province_list'] =$province_list = Region::where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->orderBy('provinces.id','desc')->get();
-	$data['brand_list'] = $brand_list = Brand::where('brand.is_deleted','=','No')->where('brand.is_active','=','Yes')->orderBy('brand.id','desc')->get();
+	$data['province_list'] =$province_list = Region::where('provinces.is_deleted','=','No')->where('provinces.is_active','=','Yes')->orderBy('provinces.name','asc')->get();
+	$data['brand_list'] = $brand_list = Brand::where('brand.is_deleted','=','No')->where('brand.is_active','=','Yes')->orderBy('brand.name','asc')->get();
 	
 	$data['country_list'] = $country_list = Country::where('is_deleted','=','No')->where('is_active','=','Yes')->orderBy('country_name','asc')->get();
 	$mix_manager_role = Role::where('parent_id',20)->get() ;

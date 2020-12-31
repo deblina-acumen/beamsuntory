@@ -76,7 +76,7 @@ class PickupController extends Controller
 	public function save_packing_info(Request $request)
 	{
 		DB::beginTransaction();
-		$data = $request->all();
+		$data = $request->all(); //t($data,1);
 		$po_details = PO::where('id',$data['po_id'])->get();
 		$active_date = isset($po_details[0]->active_date)&& $po_details[0]->active_date!=''?date('Y-m-d',strtotime($po_details[0]->active_date)):'';
 		$active_time = isset($po_details[0]->active_time)&& $po_details[0]->active_time!=''?date('H:i:s',strtotime($po_details[0]->active_time)):'';
@@ -117,17 +117,41 @@ class PickupController extends Controller
 			PO::where('id',$data['po_id'])->update($update_status); 
 			foreach($data['po_item_id'] as $k1=>$po_item_id)
 			{
-				$allocation_detials = POAllocation::where('po_id',$data['po_id'])->where('podetails_id',$po_item_id)->where('is_deleted','No')->get();
+			$allocation_detials = POAllocation::where('po_id',$data['po_id'])->where('podetails_id',$po_item_id)->where('is_deleted','No')->get();
 			//t($allocation_detials);
 			//$usr_arr=array();
+			//stock assign to admin
+			$remaing_stock = $data['po_qtn'][$k1] -  $data['quantity'][$k1];
+			if($remaing_stock >0)
+			{
+			$stock_data['user_id'] = 1;
+			$stock_data['item_id'] = $po_item_id;
+			$stock_data['sku_code'] = $data['item_sku'][$k1];
+			$stock_data['warehouse_id'] = $po_details[0]->warehouse_id;
+			$stock_data['stock_type'] = 'in';
+			$stock_data['order_type'] = 'po';
+			$stock_data['order_type_id'] = $data['po_id'];
+			$stock_data['quantity'] = $remaing_stock;
+			if($active_date!='')
+			{
+				$stock_data['active_date'] = $active_date;
+			}
+			if($active_time!='')
+			{
+				$stock_data['active_time'] = $active_time;
+			}
+			$stock_data['type'] = 'each';
+			Stock::insert($stock_data);
+			}
 			foreach($allocation_detials as $k=>$alocation)
 			{
 				if($alocation->store_locker == 'store')
 				{
-					$user = json_decode($alocation->user); 
-					foreach($user as $usr)
-					{
-						$user_ids = explode(',',$usr);
+					$user = json_decode($alocation->user);
+					$user = end($user);
+					$user_ids = explode(',',$user);
+					
+						//$user_ids = explode(',',$usr);
 						foreach($user_ids as $usrinfo)
 						{
 							$item_details = product($data['item_id'][$k1]);
@@ -158,8 +182,9 @@ class PickupController extends Controller
 							}
 							 
 						}
-					}
+					
 				}
+				
 				
 			}
 		//t($allocation_detials,1);

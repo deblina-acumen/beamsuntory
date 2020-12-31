@@ -420,6 +420,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::any('view-stock', 'admin_stock\StockController@item_list');
 		
+		Route::any('admin-assign-allocation/{item_id}/{sku_code}/{stockId}/{page}', 'admin_stock\assign_ownershipController@add_allocation');
+		Route::any('admin-submit-assign-ownership', 'admin_stock\assign_ownershipController@submit_assign_allocation');
+		
 		Route::any('wh-inventory', 'Warehouse\WarehouseStockController@item_list');
 		
 		//  customar user add ///

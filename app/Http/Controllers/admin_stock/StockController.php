@@ -83,7 +83,7 @@ class StockController extends Controller
 			}
 		}
 		
-			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
+			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.warehouse_id','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->whereRaw($where)->groupBy('stock.item_id','stock.sku_code')->paginate(10);
 		
 		
 		$query = DB::getQueryLog();

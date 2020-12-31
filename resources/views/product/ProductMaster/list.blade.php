@@ -89,7 +89,11 @@
 					  @foreach($product_list as $k=>$list)
 						<tr>
 							<td><?=$k+1?></td>
-							<td><div class="pull-left"><img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/></div> &nbsp;&nbsp; </td>
+							
+							<td> <label for="file-input">
+							<img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:150px;width:100px"/>
+						  </label></td>
+							
 							<td><span class="td-pic-text">{{ $list->name }}</span></td>
 							<td>{{$list->batch_no}}</td>
 							<td>{{$list->sku}}</td>
@@ -132,7 +136,7 @@
 				  </table>
 				  
 				</div>
-				{{$product_list->links()}}
+				{{$product_list->appends(['product_category_val' =>$product_category_val,'product_type' => $product_type,'product_brand' =>$product_brand,'product_sku' =>$product_sku])->links()}}
             </div>
             <!-- /.box-body -->
           </div>
