@@ -69,7 +69,7 @@
 									@foreach($info as $k=>$tlist)
                                         <tr>
 											<td>{{isset($tlist->first_name)?$tlist->first_name:''}}</td>
-											<td>{{isset($tlist->last_name)?$tlist->last_name:''}}</td>
+											<td>{{isset($tlist->lastname)?$tlist->lastname:''}}</td>
 											<td>{{isset($tlist->useId)?$tlist->useId:''}}</td>											
 											<td>{{isset($tlist->email)?$tlist->email:''}}</td>
 											

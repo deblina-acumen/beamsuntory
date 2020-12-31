@@ -53,7 +53,7 @@ class RoleUserController extends Controller
 		->where('provinces.is_active','=','Yes')
 		->orderBy('provinces.name','asc')
 		->get();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
         return view('master.roleUser.add',$data);
     }
 
@@ -190,7 +190,7 @@ class RoleUserController extends Controller
 			->where('provinces.is_active','=','Yes')
 			->orderBy('provinces.name','asc')
 			->get();
-			$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+			$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 			
             $data['info']=User::where('id',$id)->get(); 
             return view('master.roleUser.edit',$data);
