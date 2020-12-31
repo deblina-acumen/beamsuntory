@@ -35,7 +35,7 @@
 		<div class="col-12">
           <div class="box box-solid bg-gray">
             <div class="box-header with-border">
-              <h4 class="box-title">All User</h4>
+              <h4 class="box-title">All Users</h4>
             </div>
             <!-- /.box-header -->
             <div class="box-body">

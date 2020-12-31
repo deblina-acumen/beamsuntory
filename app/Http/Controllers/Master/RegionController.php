@@ -41,7 +41,7 @@ class RegionController extends Controller
 		->leftjoin('country','provinces.country_id','=','country.id')
 		->whereRaw($where)
 		->where('provinces.is_deleted','=','No')
-		->orderBy('provinces.id','desc')
+		->orderBy('provinces.name','ASC')
 		->get();
 		$data['country']=$list = Country::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 
@@ -55,13 +55,13 @@ class RegionController extends Controller
 		select('country.*')
 		->where('country.is_deleted','=','No')
 		->where('country.is_active','=','Yes')
-		->orderBy('country.id','desc')
+		->orderBy('country.name','asc')
 		->get();
 		$data['province'] = Region::
 		select('provinces.*')
 		->where('provinces.is_deleted','=','No')
 		->where('provinces.is_active','=','Yes')
-		->orderBy('provinces.id','desc')
+		->orderBy('provinces.name','asc')
 		->get();
         return view('master.region.add', $data);
     }
@@ -105,7 +105,7 @@ class RegionController extends Controller
 	{
 		$id = base64_decode($id);
 		$data["title"] = "Region Master";
-		$data['info']=$regionInfo = Region::where('id',$id)->where('is_deleted','No')->get();
+		$data['info']=$regionInfo = Region::where('id',$id)->where('is_deleted','No')->orderBy('name', 'ASC')->get();
 
 		$data['country'] = Country::
 		select('country.*')

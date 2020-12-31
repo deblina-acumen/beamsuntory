@@ -12,7 +12,7 @@ class BrandController extends Controller
     public function Brand_list()
     {
         $data['title']="Brand Management";
-        $data['info']=$list = Brand::where('is_deleted','No')->get();
+        $data['info']=$list = Brand::where('is_deleted','No')->orderBy('name', 'ASC')->get();
 		//t($list,1);
         return view('master.Brand.list',$data);
     }
@@ -21,7 +21,7 @@ class BrandController extends Controller
     {
         $data['title']="Brand";
 		$data["title"]="Brand Management";
-		$data['BrandList'] = Brand::where('is_active','Yes')->where('is_deleted','No')->get();
+		$data['BrandList'] = Brand::where('is_active','Yes')->where('is_deleted','No')->orderBy('name', 'ASC')->get();
         return view('master.Brand.add',$data);
     }
 
@@ -64,7 +64,7 @@ class BrandController extends Controller
        if (base64_decode($id, true)) 
        {
             $id=base64_decode($id);
-			$data['BrandList'] = Brand::where('is_active','Yes')->where('is_deleted','No')->where('id','!=',$id)->get();
+			$data['BrandList'] = Brand::where('is_active','Yes')->where('is_deleted','No')->where('id','!=',$id)->orderBy('name', 'ASC')->get();
             $data["title"]="Brand Management";
             $data["info"]=Brand::where('id',$id)->get();
             return view('master.Brand.edit',$data);
