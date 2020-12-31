@@ -73,6 +73,8 @@
               <p>Available Qty: <span class="text-bold">{{get_item_quantity_by_id_sku('warehouse',$product_list_val->warehouse_id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}</span></p>
 			  
 			  <p>Batch No: <span class="text-bold">{{(isset($product_list_val->batch_no) && $product_list_val->batch_no!='')?$product_list_val->batch_no:''}}</span></p>
+			  
+			  <p>Warehouse: <span class="text-bold">{{(isset($product_list_val->warehouse_id) && $product_list_val->warehouse_id!='')?get_warehouse_by_id($product_list_val->warehouse_id):''}}</span></p>
              
               </div>
 			  
