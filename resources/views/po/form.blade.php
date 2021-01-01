@@ -86,7 +86,7 @@
               </div>
               </div>
               <div class="col-md-3">
-              	<label>Select Delivery Agent/Currior</label>
+              	<label>Select Delivery Agent/Courier</label>
                 <div class="input-group">
                 <select name="delivery_agent" aria-controls="project-table" class="form-control form-control-sm" required>
                    <option value="">Select</option>
@@ -120,19 +120,7 @@
               </div>
               
             </div><br/>
-			<div class="row">
-			<div class="col-md-3">
-              	<label>Ownership Type</label>
-                <div class="input-group">
-                <select name="ownership_type" aria-controls="project-table" class="form-control form-control-sm">
-                  <option value="not_defined" <?php if(isset($po[0]->ownership_type) && $po[0]->ownership_type=="not_defined"){echo"selected";} ?>>Not Defined</option>
-                  <option value="owner" <?php if(isset($po[0]->ownership_type) && $po[0]->ownership_type=="owner"){echo"selected";} ?>>Owner</option>
-                  <option value="other_role" <?php if(isset($po[0]->ownership_type) && $po[0]->ownership_type=="other_role"){echo"selected";} ?>>Other Role</option>
-                </select>
-				<input type="hidden" name="po_id" value="<?= isset($po[0]->id)?$po[0]->id:''?>">
-              </div>
-              </div>
-			</div>
+		
             <br/>
            
 
