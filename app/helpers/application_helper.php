@@ -311,6 +311,11 @@ function get_item_quantity_by_id_sku($type,$user_id,$item_id,$sku_code)
 			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` = $user_id and `stock`.`stock_type` = 'out' and (`type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			
 			$count = $instock_count[0]->sumqty  - $outstock_count[0]->sumqty ; 
+			
+			//echo $count;
+			//$query = DB::getQueryLog();
+		//t($query);
+		//exit();
 		}
 		else if($type =='not-own-by-me')
 		{
@@ -320,12 +325,12 @@ function get_item_quantity_by_id_sku($type,$user_id,$item_id,$sku_code)
 			$outstock_count =  DB::select(DB::raw("select  sum(`stock`.`quantity`) as sumqty from  `stock` where `stock`.`user_id` != $user_id and `stock`.`stock_type` = 'out' and (`type` = 'store' or `type` = 'each' or `type` = 'shared') and `stock`.`item_id`=$item_id and `stock`.`sku_code`='".$sku_code."'"));
 			
 			$private_product = DB::select(DB::raw("SELECT sum(quantity) as quantity from item_privacy where item_id=$item_id and sku_code= '".$sku_code."' and privacy_type='private'"));
-
-
-
-			
 			
 			$count = $instock_count[0]->sumqty  - $outstock_count[0]->sumqty - $private_product[0]->quantity ; 
+			//echo $count;
+			//$query = DB::getQueryLog();
+		//t($query);
+		//exit();
 		}
 		else if($type =='admin')
 		{
@@ -463,4 +468,11 @@ function get_po_allocation_quantity($po_id,$sku)
 						}
 			}
 	return $qtn ; 
+}
+
+function get_role_per_user_id($id)
+{
+	$details = User::where('id',$id)->get();
+	$role_id =  isset($details[0]->role_id)?$details[0]->role_id:'';
+	return get_role_by_id($role_id);
 }
