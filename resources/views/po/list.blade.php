@@ -93,7 +93,20 @@
 							<td>{{$list->order_no}}</td>
 							<td>{{$list->order_title}}</td>
 							<td>{{isset($list->created_at)&& $list->created_at!=''?date('d-m-Y',strtotime($list->created_at)):''}}</td>
-							<td>{{str_replace('_',' ',ucfirst($list->status))}}</td>
+							<td>
+							<?php 
+											
+											
+											if(isset($list->status)&&$list->status=='assigned_for_pickup'){ ?><small class="badge bg-warning">{{str_replace('_',' ',ucfirst($list->status))}}</small><?php } else if(isset($list->status)&&$list->status=='in-transit') { ?> <small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
+											<?php } else if(isset($list->status)&&$list->status=='draft') { ?> <small class="badge bg-dark">{{str_replace('_',' ',ucfirst($list->status))}}</small>
+											<?php }
+											elseif(isset($list->status)&&$list->status=='delivered') { ?> <small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
+											<?php }else { } ?>
+																						
+											
+							
+							
+							</td>
 							
 							<td><?php echo $po = get_po_box_count($list->id);?></td>    
 							<td><?php 

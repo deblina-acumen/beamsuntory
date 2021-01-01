@@ -133,7 +133,7 @@ class PoMasterAllocationController extends Controller
  				 
 				foreach($userlist as $userlistval)
 				{
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'('.get_role_per_user_id($userlistval->id).')</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -189,7 +189,7 @@ class PoMasterAllocationController extends Controller
 				
 				foreach($userlist as $userlistval)
 				{
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'('.get_role_per_user_id($userlistval->id).')</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -256,7 +256,7 @@ class PoMasterAllocationController extends Controller
 				foreach($userlist as $userlistval)
 				{
 					 
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'('.get_role_per_user_id($userlistval->id).')</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				
@@ -288,7 +288,7 @@ class PoMasterAllocationController extends Controller
 				foreach($userlist as $userlistval)
 				{
 					 
-				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
+				$html2 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'('.get_role_per_user_id($userlistval->id).')</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -383,7 +383,7 @@ class PoMasterAllocationController extends Controller
 				foreach($userlist as $userlistval)
 				{
 					 
-				$html3 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'</option>';
+				$html3 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'('.get_role_per_user_id($userlistval->id).')</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -450,7 +450,7 @@ class PoMasterAllocationController extends Controller
 				foreach($userlist as $userlistval)
 				{
 					 
-				$html3 .='<option value="'.$userlistval->id.'">'.$userlistval->name.'</option>';
+				$html3 .='<option value="'.$userlistval->id.'">'.$userlistval->name.' '.$userlistval->lastname.'('.get_role_per_user_id($userlistval->id).')</option>';
 				array_push($dropdownarr,$userlistval->id);
 				}
 				$dropdownarr_val = implode(',',$dropdownarr);
@@ -970,8 +970,8 @@ return view('poallocation.add_allocation',$data);
 	public function update_po_step2(Request $request)
 	{
 		 $data=$request->all(); 
-		// t($data);
-		// exit();
+		 //t($data);
+		 //exit();
 		 $userrole2=[];
 		 $userrole5=[];
 		 $userrole9=[];
@@ -1270,18 +1270,41 @@ return view('poallocation.add_allocation',$data);
 				   $insertdata['brand_id']= '';
 				 $userrole11['roleuser1']= (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?implode(',',$data['userrole3_'.$i]):'';
 				 $insertdata['quantity'] = isset($data['quantity_'.$i])?$data['quantity_'.$i]:'';
-				  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
+				 
+				 
+				 
+				 
+				 /*  if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
 					 $insertdata['share_user']='';
+					// $insertdata['store_locker'] ='';
 					 $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 				 }
 				  if(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store')
 				 {
 					 $insertdata['share_user']='';
+					// $insertdata['each_user'] ='';
 					 $insertdata['store_locker'] = $data['storelocator_'.$i]  ;
-				 }
-				 if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') ||(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
+				 } */
+				 
+				 if(!isset($data['eachselectbox_'.$i]) ||(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
 				 {
+					  $insertdata['share_user']='';
+					 $insertdata['store_locker'] = $data['storelocator_'.$i]  ;
+					  $insertdata['each_user'] = ''  ;
+				 }
+				 else if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') ||!isset($data['storelocator_'.$i]))
+				 {
+					  $insertdata['share_user']='';
+					 $insertdata['store_locker'] = ''  ;
+					  $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
+				 }
+				 
+				 else if((isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each') &&(isset($data['storelocator_'.$i])&&$data['storelocator_'.$i]== 'store'))
+				 {
+					  $insertdata['share_user']='';
+					 $insertdata['store_locker'] = $data['storelocator_'.$i]  ;
+					  $insertdata['each_user'] = $data['eachselectbox_'.$i]  ;
 				 }
 				 else{
 					 $insertdata['each_user'] ='';
@@ -1291,9 +1314,9 @@ return view('poallocation.add_allocation',$data);
 				 $insertdata['user'] = json_encode($userrole11); 
 			 }
 			 
-			 
-		 //t($insertdata);
+			 // t($insertdata);
 			
+		
 			if(isset($data['allocation_id_'.$i])&& $data['allocation_id_'.$i])
 			{
 				POAllocation::where('id',$data['allocation_id_'.$i])->update($insertdata);
@@ -1303,6 +1326,7 @@ return view('poallocation.add_allocation',$data);
 			}
 			 
 		 } 
+		 
 		 //exit() ;
 		 //$insertdata['user'] =json_encode($userrole); 
 		 

@@ -137,8 +137,9 @@ defaultDate: new Date(),
  
  function add_item(obj)
   {
-	  var item_html ='<div class="row"><div class="col-md-4"><label>Item Type</label><div class="input-group"><select name="itemtype[]" aria-controls="project-table" class="form-control form-control-sm" required onchange="get_item(this)"><option value="">Select</option><option value="simple_product">Simple Product</option><option value="variable_product">Variable Product</option></select></div></div><div class="col-md-4"><label>Select Item</label><div class="input-group"><select name="item[]" required aria-controls="project-table" class="form-control form-control-sm" ></select></div></div> <div class="col-md-2"><div class="form-group"><label>Select Qty</label><input type="text" value="" name="quantity[]"  class="form-control form-control-sm"data-bts-button-up-class="btn btn-secondary" required> </div></div><div class="col-md-2"> <div class="pull-right"><label>Action</label><div class="input-group"><button type="button" class="btn btn-danger btn-sm mb-5" onclick="remove_item(this)"><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp;Remove</button></div></div></div> </div>';
+	  var item_html ='<div class="row"><div class="col-md-4"><label>Item Type</label><div class="input-group"><select name="itemtype[]" aria-controls="project-table" class="form-control form-control-sm" required onchange="get_item(this)"><option value="">Select</option><option value="simple_product">Simple Product</option><option value="variable_product">Variable Product</option></select></div></div><div class="col-md-4"><label>Select Item</label><div class="input-group"><select name="item[]" required aria-controls="project-table" class="form-control form-control-sm select2" ></select></div></div> <div class="col-md-2"><div class="form-group"><label>Select Qty</label><input type="number" value="" name="quantity[]"  class="form-control form-control-sm"data-bts-button-up-class="btn btn-secondary" required> </div></div><div class="col-md-2"> <div class="pull-right"><label>Action</label><div class="input-group"><button type="button" class="btn btn-danger btn-sm mb-5" onclick="remove_item(this)"><i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp;Remove</button></div></div></div> </div>';
 	  $('#new_item').append(item_html);
+	  //$('.select2').select2({ width: 'resolve' });
   }
   function remove_item(obj)
   {
@@ -146,6 +147,8 @@ defaultDate: new Date(),
   }
   function get_item(obj)
   {
+	 // $('body').on('change', '.select2', function(){ $(this).select2(); });
+	 // $('.select2').select2({ width: 'resolve' });
 	  $(obj).parent().parent().next().children().children().html('<option value="">Select</option>');
 	  var type = $(obj).val();
 	  $.ajax({
@@ -157,7 +160,12 @@ defaultDate: new Date(),
 				 "_token": "{{ csrf_token() }}",
             },
             success: function(data) {
-                
+				
+                 
+				 
+				 setTimeout(function() { $(".select2").select2();  }, 900)
+				 
+				 
                $(obj).parent().parent().next().children().children().html(data);
                
             }

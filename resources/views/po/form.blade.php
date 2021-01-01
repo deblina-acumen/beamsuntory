@@ -110,7 +110,8 @@
               <div class="col-md-3">
               	<label>Status</label>
                 <div class="input-group">
-                <select name="status" aria-controls="project-table" class="form-control form-control-sm">
+                <select name="status" aria-controls="project-table" class="form-control form-control-sm" required>
+				<option value="">Select</option>
                   <option value="draft" <?php if(isset($po[0]->status) && $po[0]->status=="draft"){echo"selected";} ?>>Draft</option>
 				  <option value="assigned_for_pickup" <?php if(isset($po[0]->status) && $po[0]->status=="assigned_for_pickup"){echo"selected";} ?>>Assigned for pickup</option>
                   <option value="delivered" <?php if(isset($po[0]->status) && $po[0]->status=="delivered"){echo"selected";} ?>>Delivered</option>
@@ -150,7 +151,7 @@
               <div class="col-md-4">
               	<label>Select Item</label>
                 <div class="input-group">
-                <select name="item[]" aria-controls="project-table" class="form-control form-control-sm" required>
+                <select name="item[]" aria-controls="project-table" class="form-control form-control-sm select2" required>
                     <option value="">Select</option>
 					@foreach($item as $k=>$itemss)
 					<option value="<?=$k?>" <?php if($item_sku_code == $k){echo"selected";}?>><?=$itemss?></option>
@@ -161,7 +162,7 @@
               <div class="col-md-2">
 				<div class="form-group">
 				<label>Select Qty..</label>
-				<input  type="text"  name="quantity[]" class="form-control form-control-sm" data-bts-button-up-class="btn btn-secondary" value="<?=isset($items->quantity)?$items->quantity:''?>" required> 
+				<input  type="number"  name="quantity[]" class="form-control form-control-sm" data-bts-button-up-class="btn btn-secondary" value="<?=isset($items->quantity)?$items->quantity:''?>" required> 
 				</div>
               </div>
               <div class="col-md-2">
@@ -195,7 +196,7 @@
               <div class="col-md-4">
               	<label>Select Item</label>
                 <div class="input-group">
-                <select name="item[]" aria-controls="project-table" class="form-control form-control-sm" required>
+                <select name="item[]" aria-controls="project-table" class="form-control form-control-sm select2" required>
                     <option value="">Select</option>
 				
                 </select>
@@ -204,7 +205,7 @@
               <div class="col-md-2">
 				<div class="form-group">
 								<label>Select Qty</label>
-								<input  type="text" value="" name="quantity[]" class="form-control form-control-sm"data-bts-button-up-class="btn btn-secondary" required> </div>
+								<input  type="number" value="" name="quantity[]" class="form-control form-control-sm"data-bts-button-up-class="btn btn-secondary" required> </div>
               </div>
               <div class="col-md-2">
               <div class="pull-right">
@@ -220,6 +221,7 @@
 
           <!-- /.box-body -->
           <div class="box-footer">
+		  <input type="hidden" name="po_id" value="<?=isset($po[0]->id)?$po[0]->id:''?>">
             <button type="submit" class="btn btn-dark">
               Next Step &nbsp; <i class="fa fa-angle-double-right" aria-hidden="true"></i>
             </button>
