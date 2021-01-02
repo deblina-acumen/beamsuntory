@@ -62,7 +62,8 @@ class RoleUserController extends Controller
     {
         
 		$posted = $request->all();
-//t($posted,1);
+		//t($posted,1);
+		$rand= rand(0,1000);
 		if(isset($posted['userId']) && $posted['userId']!='')
 		{
 			$have_user_id = User::where('useId',$posted['userId'])->get();
@@ -81,6 +82,7 @@ class RoleUserController extends Controller
 			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:0;
 			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:0;
 			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:0;
+			$insert_data['encodedid']= $rand ;
 			$address = isset($posted['address'])?$posted['address']:'';
 			$city = isset($posted['city'])?$posted['city']:'';
 			$zip = isset($posted['zip'])?$posted['zip']:'';
