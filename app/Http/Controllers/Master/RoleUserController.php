@@ -62,7 +62,7 @@ class RoleUserController extends Controller
     {
         
 		$posted = $request->all();
-		//t($posted,1);
+//t($posted,1);
 		if(isset($posted['userId']) && $posted['userId']!='')
 		{
 			$have_user_id = User::where('useId',$posted['userId'])->get();
@@ -192,7 +192,8 @@ class RoleUserController extends Controller
 			->get();
 			$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 			
-            $data['info']=User::where('id',$id)->get(); 
+            $data['info']=$info = User::where('id',$id)->get();
+			$data['selected_role_id'] = $info[0]->role_id;			
             return view('master.roleUser.edit',$data);
        }
        else
@@ -213,6 +214,7 @@ class RoleUserController extends Controller
 			$insert_data['lastname'] = isset($posted['lastname'])?$posted['lastname']:'';
 			$insert_data['useId'] = isset($posted['userId'])?$posted['userId']:'';
 			
+			$insert_data['role_id'] = isset($posted['role'])?$posted['role']:0;
 			$insert_data['brand_id'] = isset($posted['brand_id'])?$posted['brand_id']:0;
 			$insert_data['country_id'] =isset($posted['country_id'])?$posted['country_id']:0;
 			$insert_data['province_id'] =isset($posted['province_id'])?$posted['province_id']:0;
