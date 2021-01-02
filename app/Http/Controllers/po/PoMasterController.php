@@ -29,7 +29,7 @@ class PoMasterController extends Controller
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();$data['delivery_agent']=$list = User::where('is_deleted','No')->where('is_active','Yes')->where('role_id','10')->orderBy('id','asc')->get();
-		$data['product']=$list = Product::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
+		//$data['product']=$list = Product::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		//t($data,1);
 		if($id=='')
 		{
@@ -51,7 +51,7 @@ class PoMasterController extends Controller
         $data=$request->all(); //t($data,1);
 		$insert_data['order_title']=isset($data['order_title'])?$data['order_title']:'';
         $insert_data['order_no']=$data['order_no'];
-		$insert_data['ownership_type']=$data['ownership_type'];
+		//$insert_data['ownership_type']=$data['ownership_type'];
 		$insert_data['status']=$data['status'];
 		$insert_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';   
 		$insert_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('H:i:s',strtotime($data['active_time'])):'';
@@ -92,7 +92,7 @@ class PoMasterController extends Controller
 		//t($data,1);
 		$update_data['order_title']=isset($data['order_title'])?$data['order_title']:'';
 		$update_data['order_no']=$data['order_no'];
-		$update_data['ownership_type']=$data['ownership_type'];
+		//$update_data['ownership_type']=$data['ownership_type'];
 		$update_data['status']=$data['status'];
 		$update_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
 		$update_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('H:i:s',strtotime($data['active_time'])):'';
@@ -204,7 +204,7 @@ class PoMasterController extends Controller
 		//$query = DB::getQueryLog();
 		//t($query);
 		///exit();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		//t($data,1);
         return view('product.ProductMaster.list',$data);

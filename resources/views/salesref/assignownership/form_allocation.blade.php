@@ -92,6 +92,11 @@
 						<button type="button" onclick="addmorerow('{{$item_id}}')" id="add_field_button_1_{{$item_id}}" class="btn btn-danger btn-sm mb-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
 						</div>
 						</div>
+						<div class="pull-right">
+				<div class="input-group">
+				<button type="button" onClick="remove_field_1('1')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+				</div>
+				</div>
               </div>
             </div>
 			

@@ -50,28 +50,40 @@
 @stop
 
 @section('footer_scripts')
-<!-- jQuery 3 -->
-	<script src="assets/vendor_components/jquery-3.3.1/jquery-3.3.1.js"></script>
-	
-	<!-- fullscreen -->
-	<script src="assets/vendor_components/screenfull/screenfull.js"></script>
-	
-	<!-- popper -->
-	<script src="assets/vendor_components/popper/dist/popper.min.js"></script>
-	
-	<!-- Bootstrap 4.1-->
-	<script src="assets/vendor_components/bootstrap/dist/js/bootstrap.min.js"></script>
-	
-	<!-- SlimScroll -->
-	<script src="assets/vendor_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-	
-	<!-- FastClick -->
-	<script src="assets/vendor_components/fastclick/lib/fastclick.js"></script>
-	
-	<!-- SoftPro admin App -->
-	<script src="js/template.js"></script>
+ <script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
+ <!-- date-range-picker -->
+  <script src="{{asset('assets/assets/vendor_components/moment/min/moment.min.js')}}"></script>
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+  
+  <!-- bootstrap datepicker -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+  
+  <!-- bootstrap color picker -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
+  
+  <!-- bootstrap time picker -->
+  <script src="{{asset('assets/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 	
 	<script>
+	
+(function() {
+	$('#Attributes').css('display','none');
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
 
 	function get_province(obj)
 {

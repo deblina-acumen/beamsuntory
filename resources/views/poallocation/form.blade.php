@@ -89,16 +89,7 @@
                 </select>
               </div>
               </div>
-              <div class="col-md-2">
-                <label>Ownership Type</label>
-                <div class="input-group">
-                <select name="" aria-controls="project-table" class="form-control form-control-sm" readonly>
-                    <option value="not_defined" <?php if(isset($poinfo[0]->ownership_type)&& $poinfo[0]->ownership_type == 'not_defined' ){ echo "selected" ;} ?>>Not Defined</option>
-                  <option value="owner" <?php if(isset($poinfo[0]->ownership_type)&& $poinfo[0]->ownership_type == 'owner' ){ echo "selected" ;} ?>>Owner</option>
-                  <option value="other_role" <?php if(isset($poinfo[0]->ownership_type)&& $poinfo[0]->ownership_type == 'other_role' ){ echo "selected" ;} ?>>Other Role</option>
-                </select>
-              </div>
-              </div>
+             
             </div>
           
                     <div class="row">

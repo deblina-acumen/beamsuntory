@@ -27,6 +27,7 @@ class ProductController extends Controller
 		$data['product_type'] = $product_type = isset($posteddata['product_type']) ? $posteddata['product_type'] : '';
 		$data['product_sku'] = $product_sku = isset($posteddata['product_sku']) ? $posteddata['product_sku'] : '';
 		
+		
 		$where = '1=1';
 		if ($posteddata) {
 			
@@ -58,7 +59,7 @@ class ProductController extends Controller
 		//$query = DB::getQueryLog();
 		//t($query);
 		///exit();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		//t($data,1);
         return view('product.ProductMaster.list',$data);
@@ -69,7 +70,7 @@ class ProductController extends Controller
         $data['title']="Product";
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
+		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		$data['subbrand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->where('parent_id','!=',0)->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['product_attribute']=$list = ProductAttribute::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
@@ -273,8 +274,8 @@ class ProductController extends Controller
             $data['title']="Edit Product";
 		
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		$data['subbrand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->where('parent_id','!=',0)->orderBy('id','asc')->get();
+		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
+		$data['subbrand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->where('parent_id','!=',0)->orderBy('name','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['product_attribute']=$list = ProductAttribute::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		

@@ -39,6 +39,29 @@ class StockController extends Controller
 	{
 		$data['title'] = 'My Stock Category';
 		$data['type'] = $type ;
+		$product_array= array() ;
+		$user_id = Auth::user()->id ;
+		if($type =='my-locker')
+		{
+			$product_list = Product::select('item.name as itemname','item.category_id','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->where('type','store')->get();
+		}
+		else if($type =='own-by-me')
+		{
+			$where = " (stock.type ='each' or stock.type ='shared')" ;
+			$product_list = Product::select('item.name as itemname','item.category_id','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->whereRaw($where)->get();
+		}
+		else if($type =='not-own-by-me')
+		{
+			$where = " (stock.type ='each' or stock.type ='shared' or stock.type ='store')" ;
+			$product_list = Product::select('item.name as itemname','item.category_id','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','!=',$user_id)->where('stock.stock_type','in')->whereRaw($where)->get();
+		}
+		foreach($product_list as $product_list_val)
+		{
+			array_push($product_array,$product_list_val->category_id);
+		}
+		//t($product_array);
+		
+		//exit();
 		$posteddata = $request->all();
 		$data['search_category'] = $search_category = isset($posteddata['search_category']) ? $posteddata['search_category'] : '';
 		$where = '1=1';
@@ -95,7 +118,7 @@ class StockController extends Controller
 				$where .= ' and product_category.id in('.$category_id_val.')';
 			}
 		}
-		$data['category']=$category = ProductCategory::where('is_deleted','No')->whereRaw($where)->orderBy('id','asc')->get();
+		$data['category']=$category = ProductCategory::where('is_deleted','No')->whereIn('id',$product_array)->whereRaw($where)->orderBy('id','asc')->get();
 		return view('salesref.productcategorylist',$data);
 	}
 	
@@ -165,6 +188,8 @@ class StockController extends Controller
 		{
 			$where .= " and (stock.type ='each' or stock.type ='shared')" ;
 			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->where('stock.stock_type','in')->whereRaw($where)->groupBy('stock_item_id','stock.sku_code')->get();
+			//t($product_list);
+			//exit();
 		}
 		else if($type =='not-own-by-me')
 		{

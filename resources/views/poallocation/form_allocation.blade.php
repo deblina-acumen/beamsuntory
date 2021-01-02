@@ -87,7 +87,7 @@
 							//else{
 							//	 $slecttedmix = '' ;
 						//	}
-							$html_mix_manager2 .='<option value="'.$mixitmanagerval->id.'" '.$slecttedmix.'>'.$mixitmanagerval->name.'</option>';
+							$html_mix_manager2 .='<option value="'.$mixitmanagerval->id.'" '.$slecttedmix.'>'.$mixitmanagerval->name .' '.$mixitmanagerval->lastname.'('.get_role_per_user_id($mixitmanagerval->id).')</option>';
 							
 							array_push($mixt_mangr_array,$mixitmanagerval->id);
 							
@@ -306,7 +306,7 @@
 							else{
 								$selectedmixi_assistant = '' ;
 							}
-							$html_mixi_assistant .='<option value="'.$mixitassistantval->id.'" '.$selectedmixi_assistant.'>'.$mixitassistantval->name.'</option>';
+							$html_mixi_assistant .='<option value="'.$mixitassistantval->id.'" '.$selectedmixi_assistant.'>'.$mixitassistantval->name .' '.$mixitassistantval->lastname.'('.get_role_per_user_id($mixitassistantval->id).')</option>';
 							array_push($mixi_assistant_arr,$mixitassistantval->id) ;
 						}
 						$implode_mixi_assistant = implode(',',$mixi_assistant_arr);
@@ -414,7 +414,7 @@
 							else{
 								$selectedsales_ref = '' ;
 							}
-							$html_sales_ref .='<option value="'.$totalSr_val->id.'" '.$selectedsales_ref.'>'.$totalSr_val->name.'</option>';
+							$html_sales_ref .='<option value="'.$totalSr_val->id.'" '.$selectedsales_ref.'>'.$totalSr_val->name .' '.$totalSr_val->lastname.'('.get_role_per_user_id($totalSr_val->id).')</option>';
 							array_push($sales_ref_arr,$totalSr_val->id) ;
 						}
 						$implode_sales_ref = implode(',',$sales_ref_arr);
@@ -470,7 +470,7 @@
 							else{
 								$selectedbrand_marketing_m = '' ;
 							}
-							$html_brand_marketing_m .='<option value="'.$totalBm_val->id.'" '.$selectedbrand_marketing_m.'>'.$totalBm_val->name.'</option>';
+							$html_brand_marketing_m .='<option value="'.$totalBm_val->id.'" '.$selectedbrand_marketing_m.'>'.$totalBm_val->name .' '.$totalBm_val->lastname.'('.get_role_per_user_id($totalBm_val->id).')</option>';
 							array_push($brand_marketing_m_arr,$totalBm_val->id) ;
 						}
 						$implode_brand_marketing_m = implode(',',$brand_marketing_m_arr);
@@ -541,7 +541,7 @@
 							else{
 								$selectedmarketing_brand = '' ;
 							}
-							$html_marketing_brand .='<option value="'.$total_user_val->id.'" '.$selectedmarketing_brand.'>'.$total_user_val->name.'</option>';
+							$html_marketing_brand .='<option value="'.$total_user_val->id.'" '.$selectedmarketing_brand.'>'.$total_user_val->name .' '.$total_user_val->lastname.'('.get_role_per_user_id($total_user_val->id).')</option>';
 							array_push($marketing_brand_arr,$total_user_val->id) ;
 						}
 						$implode_marketing_brand = implode(',',$marketing_brand_arr);
@@ -630,7 +630,7 @@
 							else{
 								$selectedmarketing_field = '' ;
 							}
-							$html_marketing_field .='<option value="'.$total_user_val->id.'" '.$selectedmarketing_field.'>'.$total_user_val->name.'</option>';
+							$html_marketing_field .='<option value="'.$total_user_val->id.'" '.$selectedmarketing_field.'>'.$total_user_val->name .' '.$total_user_val->lastname.'('.get_role_per_user_id($total_user_val->id).')</option>';
 							array_push($marketing_field_arr,$total_user_val->id) ;
 						}
 						$implode_marketing_field = implode(',',$marketing_field_arr);
@@ -680,11 +680,11 @@
               <div class="col-md-1">
 					  <div class="pull-right">
 						<div class="input-group">
-						<?php if($incid == 0){ ?>
+						
 						<button type="button" onclick="addmorerow('{{$po_details_val[0]->puchase_order_details_id}}')" id="add_field_button_1_{{$po_details_val[0]->puchase_order_details_id}}" class="btn btn-danger btn-sm mb-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
-						<?php } else { ?>
+						
 						<button type="button" onClick="remove_field_1('{{$incid}}')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-						<?php } ?>
+						
 						
 						
 						</div>
@@ -693,7 +693,7 @@
               </div>
             </div>
 				<?php } } } else {?>
-			 <div class="row">
+			 <div class="row add_0_1">
               <div class="col-md-2">
 						<div class="input-group mb-10">
 						<select name="userrole1_0" id="role_0_{{$po_details_val[0]->puchase_order_details_id}}" required onchange="get_role2(this,0,{{$po_details_val[0]->puchase_order_details_id}})" aria-controls="project-table" class="form-control form-control-sm">
@@ -746,6 +746,13 @@
 						<button type="button" onclick="addmorerow('{{$po_details_val[0]->puchase_order_details_id}}')" id="add_field_button_1_{{$po_details_val[0]->puchase_order_details_id}}" class="btn btn-danger btn-sm mb-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
 						</div>
 						</div>
+				<div class="pull-right">
+				<div class="input-group">
+				<button type="button" onClick="remove_field_1('1')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+				</div>
+				</div>
+
+				
               </div>
             </div>
 			<?php 
