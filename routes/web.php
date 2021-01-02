@@ -441,7 +441,8 @@ Route::group(['middleware' => 'auth'], function () {
 		
 		// Receive request // 
 		Route::any('receive-request', 'ReceiveRequest\ReceiveRequestController@receive_request');
-		
+		Route::any('reject-receive-request/{id}', 'ReceiveRequest\ReceiveRequestController@reject_receive_request');
+		Route::any('accept-receive-request/{id}', 'ReceiveRequest\ReceiveRequestController@accept_receive_request');
 		
 		Route::any('share-request/item-list', 'salesref\ShareRequestController@item_list');
 		Route::post('item-send-request', 'salesref\ShareRequestController@item_send_request');
