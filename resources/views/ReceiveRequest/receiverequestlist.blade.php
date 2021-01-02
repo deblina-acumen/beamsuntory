@@ -67,22 +67,35 @@
               <div class="pull-left">
                   <img src="{{isset($product_list_val->image) && $product_list_val->image!=''?URL('public/product/'.$product_list_val->image):asset('assets/images/150x100.png')}}" class="rounded-circle m-td-pic">
               </div>
+			  <?php if($product_list_val->status=='pending'){?>
 			   <div class="pull-right ml-10">
                 
-				 <a href="" class="btn bg-warning btn-sm"><small class="badge bg-warning">Accept</small></a>
+				 <a href="<?= URL('accept-receive-request/'.base64_encode($product_list_val->id))?>" class="btn bg-success btn-sm"><small class="badge bg-success">Accept</small></a>
 				  
               </div>
 			  <div class="pull-right ml-10">
                 
-				 <a href="" class="btn bg-warning btn-sm"><small class="badge bg-warning">Reject</small></a>
-				  
+				 <a onclick="delete_request('<?=URL('reject-receive-request/'.base64_encode($product_list_val->id))?>')" href="#" class="btn bg-danger btn-sm"><small >Reject</small></a>				  
               </div>
+			  <?php } ?>
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
               <p>Available Qty: <span class="text-bold">
 			  {{(isset($product_list_val->quantity) && $product_list_val->quantity!='')?$product_list_val->quantity:''}}</span></p>
-			  
-			  <p>Status: <small class="badge bg-warning">{{(isset($product_list_val->status) && $product_list_val->status!='')?$product_list_val->status:''}}</small>
+			  <?php 
+			  if($product_list_val->status =='pending')
+			  {
+				  $class="badge bg-warning";
+			  }else if($product_list_val->status =='accepted')
+			  {
+				  $class="badge bg-success";
+			  }
+			  else
+			  {
+				  $class="badge bg-danger";
+			  }
+				  ?>
+			  <p>Status: <small class="<?=$class?>">{{(isset($product_list_val->status) && $product_list_val->status!='')?ucfirst($product_list_val->status):'Panding'}}</small>
 			  
 			  <p>Requested By: <span class="text-bold">{{(isset($product_list_val->user_name) && $product_list_val->user_name!='')?$product_list_val->user_name:''}}</span></p>
              
@@ -103,6 +116,14 @@
 @stop
 
 @section('footer_scripts')
-
+<script>
+function delete_request(url)
+{
+	var r = confirm("Are you sure want to reject?");
+if (r == true) {
+  window.location.href = url;
+}
+}
+</script>
 
 @stop
