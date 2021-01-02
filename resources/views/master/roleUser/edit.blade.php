@@ -119,6 +119,15 @@ function generate_password()
 }
 
     $(document).ready(function(){
+		var selected_drop_down = '<?php echo $selected_role_id; ?>';
+		if(selected_drop_down == 11)
+		{
+			$(".sales_rep_block").css('display','block');
+		}
+		else{
+			$('#is_check').prop('checked', false);
+                $(".sales_rep_block").css('display','none');
+		}
         $('input[type="checkbox"]').click(function(){
             if($(this).prop("checked") == true){
                 //console.log("Checkbox is checked.");
@@ -126,6 +135,20 @@ function generate_password()
             }
             else if($(this).prop("checked") == false){
                 $('.store_locator_address_block').css('display','block');
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+		//$(".sales_rep_block").css('display','none');
+        $("#role").change(function () {
+            if ($(this).val() == 11) {
+                $(".sales_rep_block").css('display','block');
+
+            } else {
+				$('#is_check').prop('checked', false);
+                $(".sales_rep_block").css('display','none');
             }
         });
     });

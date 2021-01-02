@@ -96,7 +96,7 @@
               <div class="form-group">
                 <label>Country *</label>
 				
-                <select name="country_id"  class="form-control select2" onchange="get_province(this)" id="country_id">
+                <select name="country_id"  class="form-control select2" onchange="get_province(this)" id="country_id" required>
 				<option  value="">Select</option>
 				<?php 
 					if(isset($country)&&!empty($country)&&count($country)>0)
@@ -114,8 +114,8 @@
               </div>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>Region/Province</label>
-						<select  class="form-control select2" id="province_id"  name="province_id">
+						<label>Region/Province*</label>
+						<select  class="form-control select2" id="province_id"  name="province_id" required>
 						<option  value="">Select</option>
 						<?php 
 						if(isset($province)&&!empty($province)&&count($province)>0)
@@ -139,25 +139,26 @@
 					//t($user_address_arr,1) 
 					?>
 					<div class="form-group">
-						<label>City</label>
-						<input type="text" class="form-control" name="city" value="{{isset($user_address_arr['city'])?$user_address_arr['city']:''}}" placeholder="Enter City">
+						<label>City*</label>
+						<input type="text" class="form-control" name="city" value="{{isset($user_address_arr['city'])?$user_address_arr['city']:''}}" placeholder="Enter City" required>
 					</div>
 				</div>
 			    <div class="col-md-6">
 					<div class="form-group">
-						<label >Zip Code/Postal Code</label>
-						<input type="text" class="form-control" name="zip" value="{{isset($user_address_arr['zip'])?$user_address_arr['zip']:''}}" placeholder="Enter Zip">
+						<label >Zip Code/Postal Code*</label>
+						<input type="text" class="form-control" name="zip" value="{{isset($user_address_arr['zip'])?$user_address_arr['zip']:''}}" placeholder="Enter Zip" required>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 			    <div class="col-md-6">
 					<div class="form-group">
-						<label> Street Address</label>
-						<textarea class="form-control" name="address"><?=isset($user_address_arr['street'])?$user_address_arr['street']:''?></textarea>
+						<label> Street Address*</label>
+						<textarea class="form-control" name="address" required><?=isset($user_address_arr['street'])?$user_address_arr['street']:''?></textarea>
 					</div>
 				</div>
 			</div>
+			<div class="sales_rep_block">
 			<div class="row">
 			<div class="col-md-6">
 			<div class="form-group">
@@ -239,6 +240,7 @@
 						<textarea class="form-control" name="store_locator_address"><?=isset($storelocator_address_arr['street'])?$storelocator_address_arr['street']:''?></textarea>
 					</div>
 				</div>
+			</div>
 			</div>
 			</div>
           <!-- /.box-body -->
