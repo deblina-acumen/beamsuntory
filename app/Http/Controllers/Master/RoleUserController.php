@@ -144,9 +144,11 @@ class RoleUserController extends Controller
 			$id = User::insertGetId($insert_data);
 			if($id!='')
 			{
+				$endodedid = base64_encode($id);
 			 $data2 = [
 			        'userid'=>$userId,
-					'password'=>$password,  
+					'password'=>$password,
+					'url'=>url('set-new-password').'/'.base64_encode($rand).'/'.$endodedid,					
                 ];
 			   
               $template = 'master.user.NewUserAddMailSend'; // resources/views/mail/xyz.blade.php
@@ -329,6 +331,23 @@ class RoleUserController extends Controller
             $message->from('salma.cyber.swift@gmail.com', 'Credentials');
         });
     }
+	
+	
+	 public function change_submit_newset_pass(Request $request)
+	 {
+		 $data = $request->all();
+		
+		 if($data['pass'] == $data['conpass'] )
+		 {
+			 $updatedata['password']=bcrypt($data['pass']);
+			 $updatedata['encodedid']= '' ;
+			 $updated= User::where('id',$data['id'])->update($updatedata);
+			    return redirect('/')->with('success-msg', 'Password Changed Successfully');;
+		 }
+		 else{
+			 return Redirect::back()->with('danger-msg', 'Password Doesnot matched');
+		 }
+	 }
 
     public function test_mail()
     {

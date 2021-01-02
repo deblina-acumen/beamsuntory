@@ -31,7 +31,7 @@ Route::any('/forget-password', [
 			'uses' => 'Profile\ProfileController@submit_forgot_pass'
 		]);
 		
-		 Route::any('/set-new-password/{number}/{id}', [
+		 Route::any('set-new-password/{number}/{id}', [
 			'as' => 'set-new-password',
 			'uses' => 'Profile\ProfileController@set_new_password'
 		]);
@@ -40,7 +40,12 @@ Route::any('/forget-password', [
 			'as' => 'submit-new-set-password',
 			'uses' => 'Profile\ProfileController@submit_newset_pass'
 		]);
+		Route::post('change-submit-new-set-password', [
+			'as' => 'change-submit-new-set-password',
+			'uses' => 'Master\RoleUserController@change_submit_newset_pass'
+		]);
 		
+		 
 
 
 
@@ -434,6 +439,12 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('edit-customer-user/{Id}', 'salesref\user\CustomerUserController@edit_customer_user');
 		Route::post('update-customer-user', 'salesref\user\CustomerUserController@update_customer_user');
 		
+		// Receive request // 
+		Route::any('receive-request', 'ReceiveRequest\ReceiveRequestController@receive_request');
+		
+		
+		Route::any('share-request/item-list', 'salesref\ShareRequestController@item_list');
+		Route::post('item-send-request', 'salesref\ShareRequestController@item_send_request');
 		
 		
 });

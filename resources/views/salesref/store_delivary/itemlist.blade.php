@@ -113,7 +113,7 @@
 				<?php } else 
 				{ ?>
 				
-				  <button type="button" class="btn btn-dark btn-lg mt-10" onclick="add_request('ship_to_locker')">Ship To Store</button>
+				  <button type="button" class="btn btn-dark btn-lg mt-10" onclick="add_request('ship_to_store')">Ship To Store</button>
 				<?php } ?>
                
                

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Facility Management</title>
+	<title>Beam suntory</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,60 +15,109 @@
 <div class="limiter">		
         <div class="logo">
 		
-            <img src="" alt="">
+            <!--<img src="{{asset('assets/assets/img/login/avaada-logo.jpg')}}" alt="">-->
         </div>
 
         <div class="container-login">
 			<div class="wrap-login">
-				<div class="login100-form-title">
-				@if (session('danger-msg'))
+			@if (session('success-msg'))
                             <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h6><i class="icon fa fa-check"></i> {{session('success-msg')}}</h6>
+
+                            </div>
+                            @endif
+							
+							@if (session('danger-msg'))
+                            <div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                 <h6><i class="icon fa fa-check"></i> {{session('danger-msg')}}</h6>
 
                             </div>
                             @endif
+				<div class="login100-form-title">
 					<span class="login100-form-title-1">
-						Set New Password
+						Change Password
 					</span>
                 </div>
-                <form action="{{route('submit-new-set-password')}}" method="post" class="login100-form validate-form">
+                <form action="{{route('change-submit-new-set-password')}}" name="form1" method="post" id="add_development_plan" class="login100-form validate-form">
                     @csrf
-				
-					<div class="wrap-input100 validate-input">
+					
 						
+						<div class="wrap-input100 validate-input">
 						
-						<input type="password"  placeholder="New Password" name='pass' class="input100" >
+						<input type="password" class="input100"  placeholder="New Password" name='pass'>
+						
 						<span class="req-input"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input">
+				    	</div>
 						
 						
-						<input type="password" class="input100" placeholder="Confirm Password" name='conpass'>
+						<div class="wrap-input100 validate-input">
+						
+						<input type="password" class="input100"  placeholder="Confirm Password" name='conpass'>
+						
 						<span class="req-input"></span>
-					</div>
-				
-						<div class="forgot-password">
-							<a href="{{URL('forget-password')}}" class="txt1">
-								Forgot Password?
-							</a>
-						</div>		
-						<input type="hidden" name="encnumber" value="{{$number}}">
+				    	</div>
+						
+						
 						<input type="hidden" name="id" value="{{$id}}">
-					<div class="container-login100-form-btn">
-						<button type="submit" class="login100-form-btn">
-							Login
+						  <div class="row">
+
+							<!-- /.col -->
+							<div class="forgot-password">
+							<a href="{{URL('/')}}" class="txt1">
+								Back To Login
+							</a>
+						</div>
+							<!-- /.col -->
+							<div class="container-login100-form-btn">
+						<button type="button" onclick="allnumericplusminus(document.form1.pass,document.form1.conpass)" class="login100-form-btn">
+							Submit
 						</button>
 					</div>
-				</form>
+							<!-- /.col -->
+						  </div>
+					</form>
 			</div>
 		</div>
 	</div>	
 <!-- /container -->
 
 
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<!-- jQuery 3 -->
+	<script src="{{asset('assets/assets/vendor_components/jquery-3.3.1/jquery-3.3.1.js')}}"></script>
+
+	<!-- fullscreen -->
+	<script src="{{asset('assets/assets/vendor_components/screenfull/screenfull.js')}}"></script>
+
+	<!-- popper -->
+	<script src="{{asset('assets/assets/vendor_components/popper/dist/popper.min.js')}}"></script>
+
+	<!-- Bootstrap 4.1-->
+	<script src="{{asset('assets/assets/vendor_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 </body>
 </html>
+<script>
+function allnumericplusminus(inputtxt,conpassval) 
+{ 
+var paswd=  /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/;
+if(inputtxt.value.match(paswd)) 
+{ 
+if(inputtxt.value != "" && inputtxt.value == conpassval.value) {
+	//alert('Correct, try another...')
+//return true;
+document.getElementById('add_development_plan').submit();
+}
+else{
+	alert('Wrong confirm password...!')
+return false;
+}
+
+}
+else
+{ 
+alert('Please Filled correct password...!')
+return false;
+}
+}  
+</script>
