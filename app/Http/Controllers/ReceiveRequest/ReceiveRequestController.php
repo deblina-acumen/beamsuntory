@@ -83,7 +83,7 @@ class ReceiveRequestController extends Controller
 		
 		//$query = DB::getQueryLog();
 		//t($query);
-		
+
 		return view('ReceiveRequest.receiverequestlist',$data);
 		
 	}
