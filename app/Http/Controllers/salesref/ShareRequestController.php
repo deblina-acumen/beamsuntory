@@ -89,7 +89,7 @@ class ShareRequestController extends Controller
 		
 		
 		
-			$where .= " and (stock.type ='each' or stock.type ='shared' or stock.type ='store')" ;
+			$where .= " and (stock.type ='each' or stock.type ='shared')" ;
 			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity','stock.user_id')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','!=',$user_id)->where('stock.stock_type','in')->whereRaw($where)->get();
 		
 		
@@ -113,9 +113,10 @@ class ShareRequestController extends Controller
 		//exit();
 		for($i=0;$i<=$row_count;$i++)
 		{
-			if(isset($posteddata['sku_code_'.$i])&&$posteddata['sku_code_'.$i]!='')
+			if(isset($posteddata['quantity_'.$i])&&$posteddata['quantity_'.$i]!='')
 			{
-				echo $posteddata['item_id_'.$i] ;
+				
+				//echo $posteddata['item_id_'.$i] ;
 				$insertData['request_from']= Auth::user()->id ;
 				$insertData['item_id']= $posteddata['item_id_'.$i];
 				$insertData['stock_id']= $posteddata['stock_id_'.$i];

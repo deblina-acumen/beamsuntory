@@ -76,9 +76,11 @@
                   </div>
 				  <input type="hidden" name="item_id_{{$k}}" value="{{$product_list_val->stock_item_id}}">
 				  <input type="hidden" name="stock_id_{{$k}}" value="{{$product_list_val->stock_id}}">
-				  <input type="hidden" name="quantity_{{$k}}" value="{{get_quantity_by_stock_id($product_list_val->stock_id)}}">
+				  <input type="hidden" name="avl_quantity_{{$k}}" value="{{get_quantity_by_stock_id($product_list_val->stock_id)}}">
 				   <input type="hidden" name="user_id_{{$k}}" value="{{$product_list_val->user_id}}">
-				  
+				  <div class="form-group">
+						 <input type="number" name="quantity_{{$k}}" required id="quantity_{{$k}}" class="form-control quantity" placeholder="" onblur="calculate_amount(this,'{{get_quantity_by_stock_id($product_list_val->stock_id)}}','{{$k}}')" min="0" >
+					</div>
 				  
               </div>
 			  
@@ -137,6 +139,60 @@
 @stop
 
 @section('footer_scripts')
+<script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
+ <!-- date-range-picker -->
+  <script src="{{asset('assets/assets/vendor_components/moment/min/moment.min.js')}}"></script>
+ 
+  <!-- iCheck 1.0.1 -->
+  <script src="{{asset('assets/assets/vendor_plugins/iCheck/icheck.min.js')}}"></script>
+  
+  <!-- SoftPro admin for advanced form element -->
+  <script src="{{asset('assets/js/pages/advanced-form-element.js')}}"></script>
+  
+  <!-- Bootstrap Select -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js')}}"></script>
+  
+  
+  <!-- Bootstrap tagsinput -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js')}}"></script>
+  
+  <!-- Bootstrap touchspin -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')}}"></script>
+  
+  
+  
+  
+  
+  <!-- InputMask -->
+  <script src="{{asset('assets/assets/vendor_plugins/input-mask/jquery.inputmask.js')}}"></script>
+  <script src="{{asset('assets/assets/vendor_plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
+  <script src="{{asset('assets/assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
 
+  <script src="{{asset('assets/assets/vendor_components/datatable/datatables.js')}}"></script>
+<script src="{{asset('assets/js/pages/project-table.js')}}"></script>
 
+		<!-- This is data table -->
+    <script src="{{asset('assets/vendor_components/datatable/datatables.min.js')}}"></script>
+	
+	<!-- SoftPro admin for Data Table -->
+	
+	<script src="{{asset('assets/js/pages/data-table.js')}}"></script>
+  
+    <!-- Bootstrap WYSIHTML5 -->
+  <script src="{{asset('assets/vendor_plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js')}}"></script>
+<script type="text/javascript">
+function calculate_amount (obj,avl_qty,id)
+{
+   
+   if($(obj).val()>avl_qty)
+   {
+	   $('#quantity_'+id).val('');
+	   return false ;
+   }
+   else
+   {
+   }
+   
+}
+</script>
 @stop
