@@ -55,14 +55,14 @@
 			</form>
             </div>				
 				<div class="box-body p-0">
-	<form id="item_list" method="post" action="<?= URL('item-list-change-privacystatus')?>" class="needs-validation" novalidate enctype="multipart/form-data">
+	<form id="item_list" method="post" action="<?= URL('item-send-request')?>" class="needs-validation" novalidate enctype="multipart/form-data">
 			   @csrf	
 		<div class="media-list media-list-hover media-list-divided">
 			<?php $sum = 0 ; ?>
 			@if(!empty($product_list)&& count($product_list)>0)	
 			<input type="hidden" name="row_count" value="{{count($product_list)}}">
 			@foreach($product_list as $k=>$product_list_val)
-			<?php if(get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code) > 0){ ?>
+			
             <div class="media media-single m-media">
               <div class="media-body">
               <div class="pull-left">
@@ -76,15 +76,15 @@
                   </div>
 				  <input type="hidden" name="item_id_{{$k}}" value="{{$product_list_val->stock_item_id}}">
 				  <input type="hidden" name="stock_id_{{$k}}" value="{{$product_list_val->stock_id}}">
-				  <input type="hidden" name="quantity_{{$k}}" value="{{get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}">
+				  <input type="hidden" name="quantity_{{$k}}" value="{{get_quantity_by_stock_id($product_list_val->stock_id)}}">
+				   <input type="hidden" name="user_id_{{$k}}" value="{{$product_list_val->user_id}}">
 				  
-				  <small class="badge bg-warning">{{get_product_privacy(Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}</small>
 				  
               </div>
 			  
               <h6>{{(isset($product_list_val->itemname) && $product_list_val->itemname!='')?$product_list_val->itemname:''}}</h6>
               <small>SKU : {{(isset($product_list_val->sku_code) && $product_list_val->sku_code!='')?$product_list_val->sku_code:''}}</small>
-              <p>Available Qty: <span class="text-bold">{{get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code)}}</span></p>
+              <p>Available Qty: <span class="text-bold">{{get_quantity_by_stock_id($product_list_val->stock_id)}}</span></p>
 			  
 			  <p>Batch No: <span class="text-bold">{{(isset($product_list_val->batch_no) && $product_list_val->batch_no!='')?$product_list_val->batch_no:''}}</span></p>
              
@@ -92,8 +92,8 @@
 			  
             </div>
 			<?php
-			$sum = $sum + get_item_quantity_by_id_sku($type,Auth::user()->id,$product_list_val->stock_item_id,$product_list_val->sku_code) ;
-			}
+			$sum = $sum + get_quantity_by_stock_id($product_list_val->stock_id) ;
+			
 			?>
 			@endforeach
 			@endif
@@ -123,9 +123,11 @@
                 </div>
 				 
             </div>
+			
 					</div>
 				</div>
 				</form>
+				
 			</div>
       
     </section>
