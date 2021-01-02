@@ -435,6 +435,9 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('update-customer-user', 'salesref\user\CustomerUserController@update_customer_user');
 		
 		
+		Route::any('share-request/item-list', 'salesref\ShareRequestController@item_list');
+		
+		
 		
 });
 
