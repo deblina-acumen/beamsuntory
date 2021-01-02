@@ -17,18 +17,10 @@
 	<link rel="stylesheet" href="{{asset('assets/css/skins/_all-skins.css')}}">	
 
 </head>
-<body>
+<body class="hold-transition bg-gray-light logoTile">
 	
-
-<div class="limiter">		
-        <div class="logo">
-		
-            <!--<img src="{{asset('assets/assets/img/login/avaada-logo.jpg')}}" alt="">-->
-        </div>
-
-        <div class="container-login">
-			<div class="wrap-login">
-			@if (session('success-msg'))
+	<div class="container h-p100">
+	@if (session('success-msg'))
                             <div class="alert alert-success alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                 <h6><i class="icon fa fa-check"></i> {{session('success-msg')}}</h6>
@@ -43,53 +35,55 @@
 
                             </div>
                             @endif
-				<div class="login100-form-title">
-					<span class="login100-form-title-1">
-						Change Password
-					</span>
-                </div>
-                <form action="{{route('change-submit-new-set-password')}}" name="form1" method="post" id="add_development_plan" class="login100-form validate-form">
-                    @csrf
-					
-						
-						<div class="wrap-input100 validate-input">
-						
-						<input type="password" class="input100"  placeholder="New Password" name='pass'>
-						
-						<span class="req-input"></span>
-				    	</div>
-						
-						
-						<div class="wrap-input100 validate-input">
-						
-						<input type="password" class="input100"  placeholder="Confirm Password" name='conpass'>
-						
-						<span class="req-input"></span>
-				    	</div>
-						
-						
-						<input type="hidden" name="id" value="{{$id}}">
+		<div class="row align-items-center justify-content-md-center h-p100">
+			
+			<div class="col-lg-5 col-md-8 col-12">
+				<div class="content-top-agile bg-img" style="background-image:url(assets/img/loginbox.jpg)" data-overlay="4">
+					<h2>Set New Password</h2>
+					 
+				</div>
+				<div class="p-40 mt-10 bg-white content-bottom box-shadowed">
+					<form action="{{route('change-submit-new-set-password')}}" name="form1" method="post" id="add_development_plan" class="login100-form validate-form">
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text bg-danger border-danger"><i class="ti-user"></i></span>
+								</div>
+								<input type="password" class="form-control" placeholder="New Password" name='pass'>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<span class="input-group-text bg-danger border-danger"><i class="ti-lock"></i></span>
+								</div>
+								<input type="password" class="form-control"  placeholder="Confirm Password" name='conpass'>
+							</div>
+						</div>
 						  <div class="row">
-
-							<!-- /.col -->
+							<input type="hidden" name="id" value="{{$id}}">
 							<div class="forgot-password">
 							<a href="{{URL('/')}}" class="txt1">
 								Back To Login
 							</a>
 						</div>
+							</div>
 							<!-- /.col -->
-							<div class="container-login100-form-btn">
-						<button type="button" onclick="allnumericplusminus(document.form1.pass,document.form1.conpass)" class="login100-form-btn">
-							Submit
-						</button>
-					</div>
+							
+							<!-- /.col -->
+							<div class="col-12 text-center">
+							  <button type="submit" class="btn btn-danger-outline btn-block mt-10 btn-rounded">Submit</button>
+							</div>
 							<!-- /.col -->
 						  </div>
-					</form>
+					</form>	
+				
+				</div>
 			</div>
+			
+			
 		</div>
-	</div>	
-<!-- /container -->
+	</div>
 
 
 	<!-- jQuery 3 -->
@@ -103,6 +97,7 @@
 	
 	<!-- Bootstrap 4.1-->
 	<script src="{{asset('assets/assets/vendor_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+
 </body>
 </html>
 <script>
