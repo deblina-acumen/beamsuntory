@@ -87,7 +87,61 @@ class ReceiveRequestController extends Controller
 		return view('ReceiveRequest.receiverequestlist',$data);
 		
 	}
-
+	public function reject_receive_request($id)
+	{
+		$id = base64_decode($id);
+		$update['status']='Rejected';
+		ItemShareRequest::where('id',$id)->update($update);
+		return redirect('receive-request/')->with('success-msg', 'Request successfully rejected');
+	}
+	public function accept_receive_request($id)
+	{
+		$id = base64_decode($id);
+		$request_details_arr =ItemShareRequest::select('item_share_request.*','stock.allocation_id','stock.type','stock.warehouse_id','stock.user_id')->join('stock','stock.id','=','item_share_request.stock_id','left')->where('item_share_request.id',$id)->get();
+		$request_details = isset($request_details_arr[0])?$request_details_arr[0]:array();
+		if($request_details->type == 'each')
+				
+			{
+				$inset_stock['warehouse_id'] =$request_details->warehouse_id;
+				$inset_stock['stock_id'] =$request_details->stock_id;
+				$inset_stock['user_id'] = $request_details->user_id;
+				$inset_stock['item_id'] = $request_details->item_id;
+				$inset_stock['sku_code']=$request_details->sku_code;
+				$inset_stock['type']="each";
+				$inset_stock['stock_type'] = "out";
+				$inset_stock['order_type'] = "share_request";
+				$inset_stock['quantity'] = $request_details->quantity;
+				Stock::insert($inset_stock);
+				
+				
+			}
+		elseif($request_details->type == 'shared')
+			{
+				$another_stock_othruser = Stock::where('allocation_id',$request_details->allocation_id)->where('type','shared')->get();
+			    foreach($another_stock_othruser as $shredstock)
+				{
+				
+				$inset_stock['warehouse_id'] =$shredstock->warehouse_id;
+				$inset_stock['stock_id'] =$shredstock->id;
+				$inset_stock['user_id'] = $shredstock->user_id;
+				$inset_stock['item_id'] = $request_details->item_id;
+				$inset_stock['sku_code']=$request_details->sku_code;
+				$inset_stock['type']="shared";
+				$inset_stock['stock_type'] = "out";
+				$inset_stock['order_type'] = "share_request";
+				$inset_stock['quantity'] = $request_details->quantity; 
+				//t($inset_stock);
+				Stock::insert($inset_stock);
+				
+				}
+				
+			}
+			//exit();
+	
+		$update_status['status'] = 'accepted';
+		ItemShareRequest::where('id',$id)->update($update_status);
+		return redirect('receive-request/')->with('success-msg', 'Request successfully accepted');
+	}
 	}
 	
 ?>
