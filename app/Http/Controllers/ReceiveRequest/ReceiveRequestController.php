@@ -111,7 +111,7 @@ class ReceiveRequestController extends Controller
 				$inset_stock['stock_type'] = "out";
 				$inset_stock['order_type'] = "share_request";
 				$inset_stock['quantity'] = $request_details->quantity;
-				Stock::insertGetId($inset_stock);
+				Stock::insert($inset_stock);
 				
 				
 			}
@@ -129,12 +129,14 @@ class ReceiveRequestController extends Controller
 				$inset_stock['type']="shared";
 				$inset_stock['stock_type'] = "out";
 				$inset_stock['order_type'] = "share_request";
-				$inset_stock['quantity'] = $request_details->quantity;
-				Stock::insertGetId($inset_stock);
+				$inset_stock['quantity'] = $request_details->quantity; 
+				//t($inset_stock);
+				Stock::insert($inset_stock);
 				
 				}
 				
 			}
+			//exit();
 	
 		$update_status['status'] = 'accepted';
 		ItemShareRequest::where('id',$id)->update($update_status);

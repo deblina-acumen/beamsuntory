@@ -144,7 +144,7 @@ class ShareRequestController extends Controller
 			}
 		}
 		
-		return redirect('share-request/item-list')->with('success-msg', '');
+		return redirect('share-request/item-list')->with('success-msg', 'Request send successfully');
 	}
 	
 	
