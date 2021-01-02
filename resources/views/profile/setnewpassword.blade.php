@@ -4,9 +4,17 @@
 	<title>Beam suntory</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('assets/assets/vendor_components/bootstrap/dist/css/bootstrap.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('assets/assets/css/pages/login/login.css')}}">
+	
+	<!-- Bootstrap extend-->
+	<link rel="stylesheet" href="{{asset('assets/css/bootstrap-extend.css')}}">	
+	
+	<!-- Theme style -->
+	<link rel="stylesheet" href="{{asset('assets/css/master_style.css')}}">
+
+	<!-- SoftPro admin skins -->
+	<link rel="stylesheet" href="{{asset('assets/css/skins/_all-skins.css')}}">	
 
 </head>
 <body>
@@ -86,13 +94,13 @@
 
 	<!-- jQuery 3 -->
 	<script src="{{asset('assets/assets/vendor_components/jquery-3.3.1/jquery-3.3.1.js')}}"></script>
-
+	
 	<!-- fullscreen -->
 	<script src="{{asset('assets/assets/vendor_components/screenfull/screenfull.js')}}"></script>
-
+	
 	<!-- popper -->
 	<script src="{{asset('assets/assets/vendor_components/popper/dist/popper.min.js')}}"></script>
-
+	
 	<!-- Bootstrap 4.1-->
 	<script src="{{asset('assets/assets/vendor_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 </body>
