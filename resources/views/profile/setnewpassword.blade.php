@@ -47,7 +47,7 @@
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text bg-danger border-danger"><i class="ti-user"></i></span>
+									<span class="input-group-text bg-danger border-danger"><i class="ti-lock"></i></span>
 								</div>
 								<input type="password" class="form-control" placeholder="New Password" name='pass'>
 							</div>
