@@ -438,6 +438,9 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('receive-request', 'ReceiveRequest\ReceiveRequestController@receive_request');
 		
 		
+		Route::any('share-request/item-list', 'salesref\ShareRequestController@item_list');
+		
+		
 		
 });
 

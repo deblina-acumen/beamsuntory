@@ -170,9 +170,13 @@
               	<label>Action</label>
               	<div class="input-group">
 				@if($ik==0)
-                <button type="button" class="btn btn-dark btn-sm mb-5" onclick="add_item(this)"><i class="fa fa-plus"></i> &nbsp;Add Item</button>
+                <button type="button" class="btn btn-dark btn-sm mb-5" onclick="add_item(this)"><i class="fa fa-plus"></i> </button>
+			&nbsp;
+				<button type="button" class="btn btn-danger btn-sm mb-5" onclick="alert('You Can not delete this row you can only modify it')"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
 				@else
-					<button type="button" class="btn btn-danger btn-sm mb-5" onclick="remove_item(this)"><i class="fa fa-trash-o"></i> &nbsp;Remove </button>
+					 <button type="button" class="btn btn-dark btn-sm mb-5" onclick="add_item(this)"><i class="fa fa-plus"></i> </button>
+			&nbsp;
+					<button type="button" class="btn btn-danger btn-sm mb-5" onclick="remove_item(this)"><i class="fa fa-trash-o"></i>  </button>
 				@endif
                 </div>
           	    </div>
@@ -211,7 +215,8 @@
               <div class="pull-right">
               	<label>Action</label>
               	<div class="input-group">
-                <button type="button" class="btn btn-dark btn-sm mb-5" onclick="add_item(this)"><i class="fa fa-plus"></i> &nbsp;Add Item</button>
+                <button type="button" class="btn btn-dark btn-sm mb-5" onclick="add_item(this)"><i class="fa fa-plus"></i> </button>&nbsp;
+				<button type="button" class="btn btn-danger btn-sm mb-5" onclick="alert('You Can not delete this row you can only modify it')"><i class="fa fa-trash-o" aria-hidden="true"></i> </button>
                 </div>
           	    </div>
               </div>
