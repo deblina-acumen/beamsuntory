@@ -154,9 +154,7 @@ class ProfileController extends Controller
 		 $decodenumber = base64_decode($number);
 		 $datapass['id'] = $decodedid ;
 		 $datapass['number'] = $decodenumber ;
-		 $data["info"]=$info = User::where('id',$decodedid)
-            ->where('fl_archive','N')
-            ->get();
+		 $data["info"]=$info = User::where('id',$decodedid)->get();
 			//t($info,1);
 			if($info[0]->encodedid != 0)
 			{
