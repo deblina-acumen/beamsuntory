@@ -434,7 +434,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('edit-customer-user/{Id}', 'salesref\user\CustomerUserController@edit_customer_user');
 		Route::post('update-customer-user', 'salesref\user\CustomerUserController@update_customer_user');
 		
-		// Receive request //
+		// Receive request // 
 		Route::any('receive-request', 'ReceiveRequest\ReceiveRequestController@receive_request');
 		
 		
