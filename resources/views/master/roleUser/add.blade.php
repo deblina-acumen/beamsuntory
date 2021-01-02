@@ -50,7 +50,19 @@
 @stop
 
 @section('footer_scripts')
-<script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
+ <script src="{{asset('assets/assets/vendor_components/select2/dist/js/select2.full.js')}}"></script>
+ <!-- date-range-picker -->
+  <script src="{{asset('assets/assets/vendor_components/moment/min/moment.min.js')}}"></script>
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+  
+  <!-- bootstrap datepicker -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+  
+  <!-- bootstrap color picker -->
+  <script src="{{asset('assets/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
+  
+  <!-- bootstrap time picker -->
+  <script src="{{asset('assets/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <script>
 $('.select2').select2({ width: 'resolve' });
 (function() {
@@ -92,23 +104,6 @@ function readURL(input) {
 </script>
 <script>
 
-(function() {
-    'use strict';
-    window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-            form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-})();
 
 
 
@@ -120,7 +115,7 @@ function generate_password()
 </script>
 
 <script>
-    $(document).ready(function(){
+     $(document).ready(function(){
         $('input[type="checkbox"]').click(function(){
             if($(this).prop("checked") == true){
                 //console.log("Checkbox is checked.");
@@ -128,6 +123,20 @@ function generate_password()
             }
             else if($(this).prop("checked") == false){
                 $('.store_locator_address_block').css('display','block');
+            }
+        });
+    }); 
+</script>
+<script type="text/javascript">
+    $(function () {
+		$(".sales_rep_block").css('display','none');
+        $("#role").change(function () {
+            if ($(this).val() == 11) {
+                $(".sales_rep_block").css('display','block');
+
+            } else {	
+				$('#is_check').prop('checked', false);
+                $(".sales_rep_block").css('display','none');
             }
         });
     });
