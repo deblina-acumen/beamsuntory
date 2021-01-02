@@ -196,6 +196,7 @@ class CustomerUserController extends Controller
     {
        $posted = $request->all();
 		//t($posted,1);
+		$rand= rand(0,1000);
 		if(isset($posted['userId']) && $posted['userId']!='')
 		{
 			$have_user_id = User::where('useId',$posted['userId'])->get();
@@ -252,9 +253,11 @@ class CustomerUserController extends Controller
 			$id = User::insertGetId($insert_data);
 			if($id!='')
 			{
+			$endodedid = base64_encode($id);
 			 $data2 = [
 			        'userid'=>$userId,
-					'password'=>$password,  
+					'password'=>$password,
+					'url'=>url('set-new-password').'/'.base64_encode($rand).'/'.$endodedid,					
                 ];
 			   
               $template = 'master.user.NewUserAddMailSend'; // resources/views/mail/xyz.blade.php
