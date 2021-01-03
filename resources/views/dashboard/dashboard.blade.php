@@ -28,7 +28,7 @@
       <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
 		
 		 <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
-		  <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">{{$total_user}}
+		  {{$total_user}}
           <i class="align-sub fa fa-truck font-size-40" aria-hidden="true"></i>
           </span>
           <div class="mt-20">
