@@ -23,7 +23,7 @@
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        
+
         <li class="breadcrumb-item active">User List</li>
       </ol>
     </section>
@@ -31,7 +31,7 @@
     <!-- Main content -->
     <section class="content">
 	  <div class="row">
-		
+
 		<div class="col-12">
           <div class="box box-solid bg-gray">
             <div class="box-header with-border">
@@ -57,12 +57,12 @@
                                   <table id="example2" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Sl. No.</th>                                          
+                                            <th>Sl. No.</th>
                                             <th>User Name</th>
                                             <th>Name</th>
-											<th>Image</th>											
+											<th>Image</th>
                                             <th>Email</th>
-											<th>Role</th>                                         
+											<th>Role</th>
 											<th>Status</th>
 											 <th></th>
                                         </tr>
@@ -71,37 +71,37 @@
 									@foreach($info as $k=>$tlist)
                                         <tr>
                                             <td>{{$k+1}}</td>
-											<td>{{isset($tlist->useId)?$tlist->useId:''}}</td>	
+											<td>{{isset($tlist->useId)?$tlist->useId:''}}</td>
 											<td>{{isset($tlist->first_name)?$tlist->first_name:''}}</td>
 											<td> <label for="file-input">
-												<img src="<?= isset($tlist->profile_pic) && $tlist->profile_pic!=''?URL('public/RoleUserPic/'.$tlist->profile_pic):asset('assets/images/150x100.png') ?>" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+												<img src="<?= isset($tlist->profile_pic) && $tlist->profile_pic!=''?URL('public/RoleUserPic/'.$tlist->profile_pic):asset('assets/images/150x100.png') ?>" class="user-image b-2" alt="User Image" id="dvPreview" style="height:auto !important; width:150px !important"/>
 											  </label></td>
 											<td>{{isset($tlist->email)?$tlist->email:''}}</td>
 											<td>{{isset($tlist->rolename)?$tlist->rolename:''}}</td>
-											
+
                                             <td>
-											<?php											
-											if($tlist->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-											href="{{URL('role-user-active/'.base64_encode($tlist->userid).'/No')}}" class="label label-success">Active</a> 
-											<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
+											<?php
+											if($tlist->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')"
+											href="{{URL('role-user-active/'.base64_encode($tlist->userid).'/No')}}" class="label label-success">Active</a>
+											<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')"
 											href="{{URL('role-user-active/'.base64_encode($tlist->userid).'/Yes')}}" class="label label-danger">Inactive</a>
 											<?php } ?>
-											
-											
+
+
 											</td>
                                             <td>
                                                 <div class="custom_btn_group btn-group">
-                                                    <button class="btn btn-primary dropdown-toggle"
-                                                        type="button" data-toggle="dropdown">&nbsp;</button>
+                                                    <button class="btn btn-dark dropdown-toggle"
+                                                        type="button" data-toggle="dropdown"></button>
                                                     <div class="dropdown-menu dropdown_menu_rightalign"
-                                                        style="margin-left: -42px !important;">                                                  
+                                                        style="margin-left: -42px !important;">
                                                         <a class="dropdown-item" href="{{URL('role-user-edit/'.base64_encode($tlist->userid))}}">Edit</a>
                                                         <a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-role-user/'.base64_encode($tlist->userid))}}">Delete</a>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                      @endforeach  
+                                      @endforeach
 
                                     </tbody>
 
@@ -112,10 +112,10 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-        </div> 
+        </div>
       </div>
       <!-- /.row -->
-      
+
     </section>
     <!-- /.content -->
   </div>

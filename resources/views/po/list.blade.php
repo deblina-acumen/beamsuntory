@@ -29,7 +29,7 @@
                             </div>
                             @endif
           <div class="row mb-10">
-           
+
             <div class="col-sm-12 col-md-9">
               <div class="dataTables_length" id="project-table_length">
 			  <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
@@ -59,13 +59,13 @@
               </div>
             </div>
           </div>
-		
+
 	  <div class="row">
-        <div class="col-12">         
+        <div class="col-12">
          <div class="box box-solid bg-gray">
             <div class="box-header with-border">
               <h3 class="box-title">All PO</h3>
-			  
+
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -74,7 +74,7 @@
 					<thead>
 						<tr>
 							<th>SL No</th>
-							
+
 							<th>Order ID.</th>
 							<th>Order Title</th>
 							<th>Date</th>
@@ -89,52 +89,52 @@
 					  @foreach($purchase_order as $k=>$list)
 						<tr>
 							<td><?=$k+1?></td>
-							
+
 							<td>{{$list->order_no}}</td>
 							<td>{{$list->order_title}}</td>
 							<td>{{isset($list->created_at)&& $list->created_at!=''?date('d-m-Y',strtotime($list->created_at)):''}}</td>
 							<td>
-							<?php 
-											
-											
+							<?php
+
+
 											if(isset($list->status)&&$list->status=='assigned_for_pickup'){ ?><small class="badge bg-warning">{{str_replace('_',' ',ucfirst($list->status))}}</small><?php } else if(isset($list->status)&&$list->status=='in-transit') { ?> <small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 											<?php } else if(isset($list->status)&&$list->status=='draft') { ?> <small class="badge bg-dark">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 											<?php }
 											elseif(isset($list->status)&&$list->status=='delivered') { ?> <small class="badge bg-success">{{str_replace('_',' ',ucfirst($list->status))}}</small>
 											<?php }else { } ?>
-																						
-											
-							
-							
+
+
+
+
 							</td>
-							
-							<td><?php echo $po = get_po_box_count($list->id);?></td>    
-							<td><?php 
+
+							<td><?php echo $po = get_po_box_count($list->id);?></td>
+							<td><?php
 							echo $item_cost = po_item_cost($list->id);
-							
-							
-							?></td>    
+
+
+							?></td>
 							<!--<td>
-						  	<?php 
-							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-							href="{{URL('purchase-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a> 
-							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
+						  	<?php
+							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')"
+							href="{{URL('purchase-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a>
+							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')"
 							href="{{URL('purchase-active/'.base64_encode($list->id).'/Yes')}}" class="label label-danger">Inactive</a>
 							<?php } ?>
-											
-											
+
+
 						  </td>-->
 							<td><div class="custom_btn_group btn-group">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
+									<button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown"></button>
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
 										<?php if($list->status =='draft' || $list->status =='assigned_for_pickup'){ ?>
 										<a class="dropdown-item" href="{{URL('add-po-step1/'.base64_encode($list->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-purchase/'.base64_encode($list->id))}}">Delete</a>
 										<?php } ?>
-										<a class="dropdown-item" 
+										<a class="dropdown-item"
 										href="{{URL('purchase-order-details-example/'.base64_encode($list->id))}}">View
 										</a>
-										
+
 									</div>
 								</div></td>
 						</tr>
@@ -149,16 +149,16 @@
           <!-- /.box -->
       </div>
       <!-- /.row -->
-      
+
 
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- 
+
   <!-- Control Sidebar -->
 
-  
+
   <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
@@ -172,7 +172,7 @@
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 							</div>
 							<div class="modal-body">
-								
+
 							</div>
 							<div class="modal-footer">
 								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
@@ -212,7 +212,7 @@ function open_modal(obj,id)
         $('.modal-body').empty();
        // $(obj).attr('data-target','#modal-'+id);
       //  $("#myModal").modal("show");
-        
+
         $.ajax({
             url: '<?php echo URL("purchase-order-details"); ?>',
             method: "POST",
@@ -224,17 +224,17 @@ function open_modal(obj,id)
             },
             success: function(data) {
                 console.log(data);
-               
-               
+
+
 
                 $('.modal-body').append(data);
                 $("#myModal").modal("show");
 
-               
+
             }
 
         });
-	
+
     }
 $('.select2').select2({ width: 'resolve' });
 (function() {

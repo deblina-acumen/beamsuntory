@@ -19,7 +19,7 @@
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        
+
         <li class="breadcrumb-item active">Store List</li>
       </ol>
     </section>
@@ -27,9 +27,9 @@
     <!-- Main content -->
     <section class="content">
 
-		
+
 	  <div class="row">
-		
+
 		<div class="col-12">
           <div class="box box-solid bg-gray">
             <div class="box-header with-border">
@@ -67,28 +67,28 @@
 											<td>{{isset($tlist->province)?$tlist->province:''}}</td>
 											<td>{{isset($tlist->zipcode)?$tlist->zipcode:''}}</td>
                                             <td>
-											<?php											
-											if($tlist->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-											href="{{URL('store-active/'.base64_encode($tlist->id).'/No')}}" class="label label-success">Active</a> 
-											<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
+											<?php
+											if($tlist->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')"
+											href="{{URL('store-active/'.base64_encode($tlist->id).'/No')}}" class="label label-success">Active</a>
+											<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')"
 											href="{{URL('store-active/'.base64_encode($tlist->id).'/Yes')}}" class="label label-danger">Inactive</a>
 											<?php } ?>
-											
-											
+
+
 						  </td>
                                             <td>
                                                 <div class="custom_btn_group btn-group">
-                                                    <button class="btn btn-primary dropdown-toggle"
-                                                        type="button" data-toggle="dropdown">&nbsp;</button>
+                                                    <button class="btn btn-dark dropdown-toggle"
+                                                        type="button" data-toggle="dropdown"></button>
                                                     <div class="dropdown-menu dropdown_menu_rightalign"
-                                                        style="margin-left: -42px !important;">                                                  
+                                                        style="margin-left: -42px !important;">
                                                         <a class="dropdown-item" href="{{URL('edit-store/'.base64_encode($tlist->id))}}">Edit</a>
                                                         <a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-store/'.base64_encode($tlist->id))}}">Delete</a>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                      @endforeach  
+                                      @endforeach
 
                                     </tbody>
 
@@ -99,10 +99,10 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-        </div> 
+        </div>
       </div>
       <!-- /.row -->
-      
+
     </section>
     <!-- /.content -->
   </div>

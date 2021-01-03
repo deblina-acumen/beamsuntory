@@ -23,7 +23,7 @@
     <section class="content">
         <!-- Action Elements -->
           <div class="row mb-10">
-           
+
             <div class="col-sm-12 col-md-9">
               <div class="dataTables_length" id="project-table_length">
 			  <form id="project_list" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
@@ -57,13 +57,13 @@
               </div>
             </div>
           </div>
-		
+
 	  <div class="row">
-        <div class="col-12">         
+        <div class="col-12">
          <div class="box box-solid bg-gray">
             <div class="box-header with-border">
               <h3 class="box-title">All Products</h3>
-			  
+
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -89,11 +89,11 @@
 					  @foreach($product_list as $k=>$list)
 						<tr>
 							<td><?=$k+1?></td>
-							
+
 							<td> <label for="file-input">
-							<img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:150px;width:100px"/>
+							<img src="{{isset($list->image) && $list->image!=''?URL('public/product/'.$list->image):asset('assets/images/150x100.png')}}" class="user-image b-2" alt="User Image" id="dvPreview" style="height:auto !important; width:150px !important"/>
 						  </label></td>
-							
+
 							<td><span class="td-pic-text">{{ $list->name }}</span></td>
 							<td>{{$list->batch_no}}</td>
 							<td>{{$list->sku}}</td>
@@ -108,33 +108,33 @@
 							<td>{{$list->regular_price}} {{$list->price_currency}}</td>
 							<td>{{$list->retail_price}} {{$list->price_currency}}</td>
 							<td>
-						  	<?php 
-							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-							href="{{URL('product-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a> 
-							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
+						  	<?php
+							if($list->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')"
+							href="{{URL('product-active/'.base64_encode($list->id).'/No')}}" class="label label-success">Active</a>
+							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')"
 							href="{{URL('product-active/'.base64_encode($list->id).'/Yes')}}" class="label label-danger">Inactive</a>
 							<?php } ?>
-											
-											
+
+
 						  </td>
 							<td><div class="custom_btn_group btn-group">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
+									<button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown"></button>
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
-										
+
 										<a class="dropdown-item" href="{{URL('edit-product/'.base64_encode($list->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-product/'.base64_encode($list->id))}}">Delete</a>
-										<a class="dropdown-item" data-toggle="modal" 
+										<a class="dropdown-item" data-toggle="modal"
                                                             href="javascript::void(0)" onclick="open_modal(this,'{{$list->id}}')">View</a>
-										
+
 									</div>
 								</div></td>
 						</tr>
 						 @endforeach
-						 
+
 					@endif
 					</tbody>
 				  </table>
-				  
+
 				</div>
 				{{$product_list->appends(['product_category_val' =>$product_category_val,'product_type' => $product_type,'product_brand' =>$product_brand,'product_sku' =>$product_sku])->links()}}
             </div>
@@ -143,16 +143,16 @@
           <!-- /.box -->
       </div>
       <!-- /.row -->
-      
+
 
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
- 
+
   <!-- Control Sidebar -->
 
-  
+
   <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
@@ -166,7 +166,7 @@
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 							</div>
 							<div class="modal-body">
-								
+
 							</div>
 							<div class="modal-footer">
 								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
@@ -206,7 +206,7 @@ function open_modal(obj,id)
         $('.modal-body').empty();
        // $(obj).attr('data-target','#modal-'+id);
       //  $("#myModal").modal("show");
-        
+
         $.ajax({
             url: '<?php echo URL("product-details"); ?>',
             method: "POST",
@@ -218,17 +218,17 @@ function open_modal(obj,id)
             },
             success: function(data) {
                 console.log(data);
-               
-               
+
+
 
                 $('.modal-body').append(data);
                 $("#myModal").modal("show");
 
-               
+
             }
 
         });
-	
+
     }
 $('.select2').select2({ width: 'resolve' });
 (function() {
