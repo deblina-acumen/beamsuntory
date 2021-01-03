@@ -44,6 +44,7 @@
 				</div>
 				<div class="p-40 mt-10 bg-white content-bottom box-shadowed">
 					<form action="{{route('change-submit-new-set-password')}}" name="form1" method="post" id="add_development_plan" class="login100-form validate-form">
+					 @csrf
 						<div class="form-group">
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
