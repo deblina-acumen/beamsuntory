@@ -106,45 +106,49 @@ class ShareRequestController extends Controller
 	{
 		DB::enableQueryLog();
 		$posteddata = $request->all();
-		//t($posteddata);
+		//t($posteddata['sku_code']);
 		//exit();
 		$row_count = $posteddata['row_count'] ;
 		//t($row_count);
 		//exit();
-		for($i=0;$i<=$row_count;$i++)
+		if(!empty($posteddata['sku_code']) && count($posteddata['sku_code'])>0)
 		{
-			if(isset($posteddata['quantity_'.$i])&&$posteddata['quantity_'.$i]!='')
+			for($i=0;$i<=$row_count;$i++)
 			{
-				
-				//echo $posteddata['item_id_'.$i] ;
-				$insertData['request_from']= Auth::user()->id ;
-				$insertData['item_id']= $posteddata['item_id_'.$i];
-				$insertData['stock_id']= $posteddata['stock_id_'.$i];
-				$insertData['sku_code']= $posteddata['sku_code_'.$i];
-				$insertData['quantity']= $posteddata['quantity_'.$i];
-				
-				$insertData['request_to']= $posteddata['user_id_'.$i];
-				
-				$insertData['status']= 'pending';
-				$insertData['created_by'] = Auth::user()->id;
-				$insertData['created_at'] = date('Y-m-d');
-				
-				$item_privacy = ShareRequestItem::where('request_from',Auth::user()->id)->where('request_to',$posteddata['user_id_'.$i])->where('sku_code',$posteddata['sku_code_'.$i])->where('item_id',$posteddata['item_id_'.$i])->where('stock_id',$posteddata['stock_id_'.$i])->where('status','pending')->get();
-				if(count($item_privacy)>0)
+				if(isset($posteddata['quantity_'.$i])&&$posteddata['quantity_'.$i]!='')
 				{
 					
+					//echo $posteddata['item_id_'.$i] ;
+					$insertData['request_from']= Auth::user()->id ;
+					$insertData['item_id']= $posteddata['item_id_'.$i];
+					$insertData['stock_id']= $posteddata['stock_id_'.$i];
+					$insertData['sku_code']= $posteddata['item_sku_code_'.$i];
+					$insertData['quantity']= $posteddata['quantity_'.$i];
+					
+					$insertData['request_to']= $posteddata['user_id_'.$i];
+					
+					$insertData['status']= 'pending';
+					$insertData['created_by'] = Auth::user()->id;
+					$insertData['created_at'] = date('Y-m-d');
+					t($insertData);
+					$item_privacy = ShareRequestItem::where('request_from',Auth::user()->id)->where('request_to',$posteddata['user_id_'.$i])->where('sku_code',$posteddata['item_sku_code_'.$i])->where('item_id',$posteddata['item_id_'.$i])->where('stock_id',$posteddata['stock_id_'.$i])->where('status','pending')->get();
+					if(count($item_privacy)>0)
+					{
+						
+					}
+					else{
+						ShareRequestItem::insert($insertData) ;
+					}
+						
 				}
-				else{
-					ShareRequestItem::insert($insertData) ;
-				}
-				
-				
-				
-				
 			}
+		//exit();
+		return redirect('share-request/item-list')->with('success-msg', 'Request send successfully');
+		}
+		else{
+			return redirect('share-request/item-list')->with('error-msg', 'Please select item');
 		}
 		
-		return redirect('share-request/item-list')->with('success-msg', 'Request send successfully');
 	}
 	
 	
