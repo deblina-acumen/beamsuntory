@@ -23,17 +23,17 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
         <li class="breadcrumb-item"><a href="#">Warehouse</a></li>
-        
+
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
 
-      
-		
+
+
 	  <div class="row">
-		
+
 		<div class="col-12">
           <div class="box box-solid bg-gray">
             <div class="box-header with-border">
@@ -71,8 +71,8 @@
 						</tr>
 					  </thead>
 					  <tbody>
-					<?php 
-					 if(isset($info)&&!empty($info)&&count($info)>0) 
+					<?php
+					 if(isset($info)&&!empty($info)&&count($info)>0)
 					{
                        foreach($info as $k=>$infos)
 					   {
@@ -86,29 +86,29 @@
 						  <td>{{isset($infos->address)?$infos->address :''}}</td>
 						  <td>{{isset($infos->zip)?$infos->zip :''}}</td>
 						  <td>
-							<?php											
-							if($infos->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-							href="{{URL('warehouse-active/'.base64_encode($infos->id).'/No')}}" class="label label-success">Active</a> 
-							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
+							<?php
+							if($infos->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')"
+							href="{{URL('warehouse-active/'.base64_encode($infos->id).'/No')}}" class="label label-success">Active</a>
+							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')"
 							href="{{URL('warehouse-active/'.base64_encode($infos->id).'/Yes')}}" class="label label-danger">Inactive</a>
-							<?php } ?>				
+							<?php } ?>
 						  </td>
 						  <td>
 							<div class="custom_btn_group btn-group">
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
+								<button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown"></button>
 								<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
-									
-									<a class="dropdown-item" href="{{URL('edit-warehouse'.'/'.base64_encode($infos->id))}}">Edit</a>	
+
+									<a class="dropdown-item" href="{{URL('edit-warehouse'.'/'.base64_encode($infos->id))}}">Edit</a>
 									<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-warehouse/'.base64_encode($infos->id))}}">Delete</a>
-											
+
 								</div>
 							</div>
 						</td>
 
-						</tr> 
-						<?php 
+						</tr>
+						<?php
 					    }
-					} 
+					}
 						?>
 					  </tbody>
 					</table>
@@ -117,58 +117,59 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-        </div> 
+        </div>
       </div>
       <!-- /.row -->
-      
+
     </section>
     <!-- /.content -->
+    <div class="box-body">
+                <!-- sample modal content -->
+  				<div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+  					<div class="modal-dialog modal-lg">
+  						<div class="modal-content">
+  							<div class="modal-header">
+  								<h4 class="modal-title" id="myLargeModalLabel">Facility Details</h4>
+  								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  							</div>
+  							<div class="modal-body">
+
+  							</div>
+  							<div class="modal-footer">
+  								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
+  							</div>
+  						</div>
+  						<!-- /.modal-content -->
+  					</div>
+  					<!-- /.modal-dialog -->
+  				</div>
+  				<!-- /.modal -->
+                <!-- <img src="../../images/model2.png" alt="default" data-toggle="modal" data-target=".bs-example-modal-lg" class="model_img img-fluid" /> -->
+              </div>
+        <div class="box-body">
+                <!-- sample modal content -->
+  				<div id="facilityModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+  					<div class="modal-dialog modal-lg">
+  						<div class="modal-content">
+  							<div class="modal-header">
+  								<h4 class="modal-title" id="myLargeModalLabel">Facility Details</h4>
+  								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  							</div>
+  							<div class="modal-body-facility">
+
+  							</div>
+  							<div class="modal-footer">
+  								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
+  							</div>
+  						</div>
+  						<!-- /.modal-content -->
+  					</div>
+  					<!-- /.modal-dialog -->
+  				</div>
+              </div>
+
   </div>
   <!-- /.content-wrapper -->
-  <div class="box-body">
-              <!-- sample modal content -->
-				<div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="myLargeModalLabel">Facility Details</h4>
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							</div>
-							<div class="modal-body">
-								
-							</div>
-							<div class="modal-footer">
-								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal-dialog -->
-				</div>
-				<!-- /.modal -->
-              <!-- <img src="../../images/model2.png" alt="default" data-toggle="modal" data-target=".bs-example-modal-lg" class="model_img img-fluid" /> -->
-            </div>
-      <div class="box-body">
-              <!-- sample modal content -->
-				<div id="facilityModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="myLargeModalLabel">Facility Details</h4>
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							</div>
-							<div class="modal-body-facility">
-								
-							</div>
-							<div class="modal-footer">
-								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal-dialog -->
-				</div>
-            </div>	
 @stop
 
 @section('footer_scripts')
@@ -200,7 +201,7 @@
             this.classList.toggle("caret-down");
         });
     }
-	
+
 	 function open_modal(obj,id)
     {
         //alert(obj);
@@ -208,7 +209,7 @@
         $('.modal-body').empty();
        // $(obj).attr('data-target','#modal-'+id);
       //  $("#myModal").modal("show");
-        
+
         $.ajax({
             url: '<?php echo URL("supplier-details"); ?>',
             method: "POST",
@@ -219,21 +220,21 @@
 
             },
             success: function(data) {
-                
+
                 console.log(data);
-               
-               
+
+
 
                 $('.modal-body').append(data);
                 $("#myModal").modal("show");
 
-               
+
             }
 
         });
-	
+
     }
-	
+
 		function open_facility_modal(obj,id)
 	{
 		$("#myLargeModalLabel").html('Member List');
@@ -249,21 +250,21 @@
 
             },
             success: function(data) {
-                
+
                 console.log(data);
-               
-               
+
+
 
                 $('.modal-body-facility').append(data);
                 $("#facilityModal").modal("show");
 
-               
+
             }
 
         });
 	}
-	
-	
+
+
 </script>
 
 
