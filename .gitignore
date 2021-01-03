@@ -1,13 +1,5 @@
 bootstrap
 storage
 .htaccess
-artisan
-composer.json
-composer.lock
-default.php
-index.php
-package.json
-phpunit.xml
-test.php
 .env
-RoleUserPic
+
