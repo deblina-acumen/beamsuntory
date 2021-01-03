@@ -10,3 +10,4 @@ package.json
 phpunit.xml
 test.php
 .env
+RoleUserPic
