@@ -22,16 +22,16 @@
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-        
+
         <li class="breadcrumb-item active">Warehouse Manager List</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		
+
 	  <div class="row">
-		
+
 		<div class="col-12">
           <div class="box box-solid bg-gray">
             <div class="box-header with-border">
@@ -56,7 +56,7 @@
 				<div class="table-responsive">
 				  <table id="example2" class="table table-bordered table-striped">
                                     <thead>
-                                        <tr>                                          
+                                        <tr>
                                             <th>First Name</th>
 											<th>Last Name</th>
 											<th>User Name</th>
@@ -70,33 +70,33 @@
                                         <tr>
 											<td>{{isset($tlist->first_name)?$tlist->first_name:''}}</td>
 											<td>{{isset($tlist->lastname)?$tlist->lastname:''}}</td>
-											<td>{{isset($tlist->useId)?$tlist->useId:''}}</td>											
+											<td>{{isset($tlist->useId)?$tlist->useId:''}}</td>
 											<td>{{isset($tlist->email)?$tlist->email:''}}</td>
-											
-											
+
+
                                             <td>
-											<?php											
-											if($tlist->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-											href="{{URL('manager-active/'.base64_encode($tlist->userid).'/No')}}" class="label label-success">Active</a> 
-											<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
+											<?php
+											if($tlist->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')"
+											href="{{URL('manager-active/'.base64_encode($tlist->userid).'/No')}}" class="label label-success">Active</a>
+											<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')"
 											href="{{URL('manager-active/'.base64_encode($tlist->userid).'/Yes')}}" class="label label-danger">Inactive</a>
 											<?php } ?>
-											
-											
+
+
 						  </td>
                                             <td>
                                                 <div class="custom_btn_group btn-group">
-                                                    <button class="btn btn-primary dropdown-toggle"
-                                                        type="button" data-toggle="dropdown">&nbsp;</button>
+                                                    <button class="btn btn-dark dropdown-toggle"
+                                                        type="button" data-toggle="dropdown"></button>
                                                     <div class="dropdown-menu dropdown_menu_rightalign"
-                                                        style="margin-left: -42px !important;">                                                  
+                                                        style="margin-left: -42px !important;">
                                                         <a class="dropdown-item" href="{{URL('warehouse-manager-edit/'.base64_encode($tlist->userid))}}">Edit</a>
                                                         <a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-warehouse-manager/'.base64_encode($tlist->userid))}}">Delete</a>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                      @endforeach  
+                                      @endforeach
 
                                     </tbody>
 
@@ -107,10 +107,10 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-        </div> 
+        </div>
       </div>
       <!-- /.row -->
-      
+
     </section>
     <!-- /.content -->
   </div>

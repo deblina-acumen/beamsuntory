@@ -153,6 +153,29 @@
 
     </section>
     <!-- /.content -->
+    <div class="box-body">
+                  <!-- sample modal content -->
+    				<div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    					<div class="modal-dialog modal-lg">
+    						<div class="modal-content">
+    							<div class="modal-header">
+    								<h4 class="modal-title" id="myLargeModalLabel">Purchase Order Details</h4>
+    								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    							</div>
+    							<div class="modal-body">
+
+    							</div>
+    							<div class="modal-footer">
+    								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
+    							</div>
+    						</div>
+    						<!-- /.modal-content -->
+    					</div>
+    					<!-- /.modal-dialog -->
+    				</div>
+    				<!-- /.modal -->
+                  <!-- <img src="../../images/model2.png" alt="default" data-toggle="modal" data-target=".bs-example-modal-lg" class="model_img img-fluid" /> -->
+                </div>
   </div>
   <!-- /.content-wrapper -->
 
@@ -162,29 +185,7 @@
   <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
-<div class="box-body">
-              <!-- sample modal content -->
-				<div id="myModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-					<div class="modal-dialog modal-lg">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="myLargeModalLabel">Purchase Order Details</h4>
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							</div>
-							<div class="modal-body">
 
-							</div>
-							<div class="modal-footer">
-								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal-dialog -->
-				</div>
-				<!-- /.modal -->
-              <!-- <img src="../../images/model2.png" alt="default" data-toggle="modal" data-target=".bs-example-modal-lg" class="model_img img-fluid" /> -->
-            </div>
 
 
 @stop
