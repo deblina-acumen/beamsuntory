@@ -1,4 +1,8 @@
 .env
 storage/
 bootstrap/
+<<<<<<< HEAD
 
+=======
+*tar.gz
+>>>>>>> 9e383abc475eb472c9c46764766b9bd001dfde13

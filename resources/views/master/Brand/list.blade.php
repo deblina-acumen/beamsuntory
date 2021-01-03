@@ -18,7 +18,7 @@
 
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
-       
+
         <li class="breadcrumb-item active">All Brand</li>
       </ol>
     </section>
@@ -27,10 +27,10 @@
     <section class="content">
 
         <!-- Action Elements -->
-         
-		
+
+
 	  <div class="row">
-		
+
 		<div class="col-12">
           <div class="box box-solid bg-gray">
             <div class="box-header with-border">
@@ -56,7 +56,7 @@
 				 <table id="example2" class="table table-bordered table-striped">
 					  <thead>
 						<tr>
-						  
+
 							<th scope="col">Brand Name</th>
 							<th scope="col">Image</th>
 							<th scope="col">Parent Brand</th>
@@ -68,35 +68,35 @@
 					  @if(!empty($info) && count($info)>0)
 						  @foreach($info as $infos)
 						<tr>
-						 
+
 						  <td>{{$infos->name}}</td>
 						  <td> <label for="file-input">
-								<img src="{{isset($infos->image) && $infos->image!=''?URL('public/brandMaster/'.$infos->image):asset('assets/images/150x100.png')}}" class="user-image rounded-circle b-2" alt="User Image" id="dvPreview" style="height:110px;width:110px"/>
+								<img src="{{isset($infos->image) && $infos->image!=''?URL('public/brandMaster/'.$infos->image):asset('assets/images/150x100.png')}}" class="user-image b-2" alt="User Image" id="dvPreview" style="height:auto !important; width:150px !important;"/>
 							  </label>&nbsp;&nbsp;&nbsp; {{$infos->name}}
 						  </td>
-						  <td>{{isset($infos->parent_id)?get_parent_brand_by_id($infos->parent_id):''}}</td>	  
+						  <td>{{isset($infos->parent_id)?get_parent_brand_by_id($infos->parent_id):''}}</td>
 						  <td>
-						  	<?php 
-							if($infos->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')" 
-							href="{{URL('brand-active/'.base64_encode($infos->id).'/No')}}" class="label label-success">Active</a> 
-							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')" 
+						  	<?php
+							if($infos->is_active=='Yes') { ?> <a  onclick="return confirm('Are you sure want to Inactive ?')"
+							href="{{URL('brand-active/'.base64_encode($infos->id).'/No')}}" class="label label-success">Active</a>
+							<?php } else {?> <a  onclick="return confirm('Are you sure want to Active ?')"
 							href="{{URL('brand-active/'.base64_encode($infos->id).'/Yes')}}" class="label label-danger">Inactive</a>
 							<?php } ?>
-											
-											
+
+
 						  </td>
 							<td>
-											 
+
 								<div class="custom_btn_group btn-group">
-									<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
+									<button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown"></button>
 									<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
-										
+
 										<a class="dropdown-item" href="{{URL('edit-brand/'.base64_encode($infos->id))}}">Edit</a>
 										<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('delete-brand/'.base64_encode($infos->id))}}">Delete</a>
-										
+
 									</div>
 								</div>
-								 
+
 							</td>
 
 						</tr>
@@ -109,10 +109,10 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-        </div> 
+        </div>
       </div>
       <!-- /.row -->
-      
+
     </section>
     <!-- /.content -->
   </div>

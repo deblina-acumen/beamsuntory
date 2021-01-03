@@ -21,17 +21,17 @@
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{URL('dashboard')}}"><i class="mdi mdi-home-outline"></i> Dashboard</a></li>
         <li class="breadcrumb-item"><a href="#">Supplier</a></li>
-        
+
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
 
-      
-		
+
+
 	  <div class="row">
-		
+
 		<div class="col-12">
           <div class="box box-solid bg-gray">
             <div class="box-header with-border">
@@ -58,7 +58,7 @@
 						</tr>
 					  </thead>
 					  <tbody>
-					<?php 
+					<?php
 					//t($info ,1);
 					if(isset($info)&&!empty($info)&&count($info)>0)
 					{
@@ -83,28 +83,28 @@
              <!-- <td><a href="{{URL('edit-supplier/'.base64_encode($infos->id))}}"<button type="button" class="btn btn-dark btn-sm">Manage</button></a></td>-->
 						  <td>
 							<div class="custom_btn_group btn-group">
-								<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">&nbsp;</button>
+								<button class="btn btn-dark dropdown-toggle" type="button" data-toggle="dropdown"></button>
 								<div class="dropdown-menu dropdown_menu_rightalign" style="margin-left: -42px !important;">
-									
+
 									<a class="dropdown-item" href="{{URL('edit-supplier'.'/'.base64_encode($infos->id))}}">Edit</a>
 
 									<!--<a class="dropdown-item"
-									data-toggle="modal" 
+									data-toggle="modal"
 										href="javascript::void(0)" onclick="open_modal(this,'{{$infos->id}}')">View</a>-->
-									
+
 									<!--<a class="dropdown-item"
-									data-toggle="modal" 
+									data-toggle="modal"
 										href="javascript::void(0)" onclick="open_facility_modal(this,'{{$infos->id}}')">Member Details</a>-->
-										
+
 									<a class="dropdown-item" onclick="return confirm('Are you sure want to Delete ?')" href="{{URL('supplier/delete/'.base64_encode($infos->id).'/Yes')}}">Delete</a>
-											
+
 								</div>
 							</div>
-				 
+
 						</td>
 
 						</tr>
-						<?php 
+						<?php
 					   }
 					}
 						?>
@@ -115,10 +115,10 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-        </div> 
+        </div>
       </div>
       <!-- /.row -->
-      
+
     </section>
     <!-- /.content -->
   </div>
@@ -133,7 +133,7 @@
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 							</div>
 							<div class="modal-body">
-								
+
 							</div>
 							<div class="modal-footer">
 								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
@@ -156,7 +156,7 @@
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 							</div>
 							<div class="modal-body-facility">
-								
+
 							</div>
 							<div class="modal-footer">
 								<!--<button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>-->
@@ -168,7 +168,7 @@
 				</div>
 				<!-- /.modal -->
               <!-- <img src="../../images/model2.png" alt="default" data-toggle="modal" data-target=".bs-example-modal-lg" class="model_img img-fluid" /> -->
-            </div>	
+            </div>
 @stop
 
 @section('footer_scripts')
@@ -197,7 +197,7 @@
             this.classList.toggle("caret-down");
         });
     }
-	
+
 	 function open_modal(obj,id)
     {
         //alert(obj);
@@ -205,7 +205,7 @@
         $('.modal-body').empty();
        // $(obj).attr('data-target','#modal-'+id);
       //  $("#myModal").modal("show");
-        
+
         $.ajax({
             url: '<?php echo URL("supplier-details"); ?>',
             method: "POST",
@@ -216,21 +216,21 @@
 
             },
             success: function(data) {
-                
+
                 console.log(data);
-               
-               
+
+
 
                 $('.modal-body').append(data);
                 $("#myModal").modal("show");
 
-               
+
             }
 
         });
-	
+
     }
-	
+
 		function open_facility_modal(obj,id)
 	{
 		$("#myLargeModalLabel").html('Member List');
@@ -246,21 +246,21 @@
 
             },
             success: function(data) {
-                
+
                 console.log(data);
-               
-               
+
+
 
                 $('.modal-body-facility').append(data);
                 $("#facilityModal").modal("show");
 
-               
+
             }
 
         });
 	}
-	
-	
+
+
 </script>
 
 

@@ -3,17 +3,17 @@
 					  <div class="alert alert-danger alert-dismissible">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 						<h6><i class="icon fa fa-ban"></i> {{session('error-msg')}}</h6>
-						
+
 					  </div>
 					  @endif
 					  @if (session('success-msg'))
 					  <div class="alert alert-success alert-dismissible">
 						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 						<h6><i class="icon fa fa-ban"></i> {{session('success-msg')}}</h6>
-						
+
 					  </div>
 					  @endif
-            
+
           <div class="box-body">
             <div class="row">
               <div class="col-md-12">
@@ -24,19 +24,19 @@
             </div>
 			<input type="hidden" value="{{$quantity}}" id="total_quantity" name="total_quantity" class="total_quantity">
 			<input type="hidden" name="itemid" value="{{$itemId}}">
-			
+
 			<input type="hidden" name="poid" value="{{$poId}}">
 			<input type="hidden" name="itemSkuCode" value="{{$product_sku}}">
 			<input type="hidden" name="puchaseOrderDetailsId" value="{{$puchaseOrderDetailsId}}">
 			<input type="hidden" name="countrow" id="countrow" value="1">
 
-          
-            
+
+
 
             <hr class="my-15">
             <!--- ROW 4 ----->
 			<!-- edit section -->
-			<?php if(isset($count_allocation)&&$count_allocation>0){ 
+			<?php if(isset($count_allocation)&&$count_allocation>0){
 			if(!empty($info)&&count($info)>0)
 			{
 				foreach($info as $incid=>$info_val)
@@ -57,7 +57,7 @@
               </div>
               <div class="col-md-2">
 					  <div class="form-group">
-					  <?php if($info_val->role_id==20){ 
+					  <?php if($info_val->role_id==20){
 					  //t(explode(',',json_decode($info[0]->user,true)['roleuser1']));
 					  $mixmanager = explode(',',json_decode($info_val->user,true)['roleuser1']) ;
 					  $count_total_mix_m = count($mixitmanager)  ;
@@ -73,8 +73,8 @@
 					  ?>
 					  <select name="userrole2_{{$incid}}[]" class="form-control select2" usertype="mixit" roleid="{{$info_val->role_id}}" id="role1_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}"  onchange="get_role3(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder=""
 						  style="width: 100%;">
-						  
-						  <?php 
+
+						  <?php
 						  $mixt_mangr_array = [] ;
 						  $html_mix_manager2 ='';
 						  $html_mix_manager = '<option value="">select</option>';
@@ -88,9 +88,9 @@
 							//	 $slecttedmix = '' ;
 						//	}
 							$html_mix_manager2 .='<option value="'.$mixitmanagerval->id.'" '.$slecttedmix.'>'.$mixitmanagerval->name .' '.$mixitmanagerval->lastname.'('.get_role_per_user_id($mixitmanagerval->id).')</option>';
-							
+
 							array_push($mixt_mangr_array,$mixitmanagerval->id);
-							
+
 						}
 						$implode_mixit_manager_array = implode(',',$mixt_mangr_array) ;
 						if(isset($selectedall)&& $selectedall ==1)
@@ -103,12 +103,12 @@
 						//$html_mix_manager .='<option value="'.$implode_mixit_manager_array.'" '.$slecttedmixall.'>All ('.count($mixt_mangr_array).')</option>' ;
 						echo $html_mix_manager . $html_mix_manager2 ;
 						  ?>
-						  
-					   
+
+
 					  </select>
 					  <?php } ?>
-					   <?php if($info_val->role_id==11){ 
-					   $province = explode(',',$info_val->region_id) ; 
+					   <?php if($info_val->role_id==11){
+					   $province = explode(',',$info_val->region_id) ;
 					   $count_total_province = count($province_list);
 					   $count_sal_ref_province_val = count($province);
 					    if($count_total_province == $count_sal_ref_province_val)
@@ -121,8 +121,8 @@
 					  }
 					   ?>
 					  <select name="userrole2_{{$incid}}[]" class="form-control select2" usertype="sales_ref" roleid="{{$info_val->role_id}}" id="role1_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}"  onchange="get_role3(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder="" style="width: 100%;">
-					  
-					  
+
+
 					  <?php
 					  $sales_ref_region_arr = [] ;
 					  $html_sale_ref_region = '' ;
@@ -131,11 +131,11 @@
 						{
 							//if(isset($selectedallsr)&& $selectedallsr !=1)
 							//{
-								
+
 								if (is_array($province)) {if (in_array($province_list_val->id, $province)){
 									$selectedsr =  "selected";
 									}else{$selectedsr = '' ;}}else{ $selectedsr =  "selected"; }
-								
+
 							//}
 							//else{
 							//	$selectedsr = '' ;
@@ -146,9 +146,9 @@
 						$implode_sales_ref_province = implode(',',$sales_ref_region_arr);
 						if(isset($selectedallsr)&& $selectedallsr==1)
 							{
-								
+
 								$selectedsrall =  "selected";
-								
+
 							}
 							else{
 								$selectedsrall = '' ;
@@ -156,11 +156,11 @@
 						//$html_sale_ref_region2 .='<option value="'.$implode_sales_ref_province.'" '.$selectedsrall.'>All ('.count($sales_ref_region_arr).')</option>' ;
 						echo $html_sale_ref_region2 . $html_sale_ref_region ;
 					  ?>
-					  
-					   
+
+
 					  </select>
 					  <?php } ?>
-					   <?php if($info_val->role_id==5){ 
+					   <?php if($info_val->role_id==5){
 					   $brand = explode(',',$info_val->brand_id) ;
 					     $count_total_brand = count($brand_list);
 					   $count_bmm_brand_val = count($brand);
@@ -175,7 +175,7 @@
 					   ?>
 					  <select name="userrole2_{{$incid}}[]" class="form-control select2" usertype="marketing" roleid="{{$info_val->role_id}}" id="role1_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}"  onchange="get_role3(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder=""
 						  style="width: 100%;">
-						  
+
 						  <?php
 					  $bmm_brand_arr = [] ;
 					  $html_bmm_brand = '' ;
@@ -184,11 +184,11 @@
 						{
 							//if(isset($selectedallbmm)&& $selectedallbmm !=1)
 							//{
-								
+
 								if (is_array($brand)) {if (in_array($brand_list_val->id, $brand)){
 									$selectedbmm =  "selected";
 									}else{$selectedbmm = '' ;}}else{ $selectedbmm = '' ; }
-								
+
 							//}
 							//else{
 							//	$selectedbmm = '' ;
@@ -199,9 +199,9 @@
 						$implode_bmm_brand = implode(',',$bmm_brand_arr);
 						if(isset($selectedallbmm)&& $selectedallbmm==1)
 							{
-								
+
 								$selectedbmmall =  "selected";
-								
+
 							}
 							else{
 								$selectedbmmall = '' ;
@@ -209,13 +209,13 @@
 						//$html_bmm_brand2 .='<option value="'.$implode_bmm_brand.'" '.$selectedbmmall.'>All ('.count($bmm_brand_arr).')</option>' ;
 						echo $html_bmm_brand2 . $html_bmm_brand ;
 					  ?>
-						
-					   
+
+
 					  </select>
 					  <?php } ?>
-					  <?php if($info_val->role_id==15){ 
+					  <?php if($info_val->role_id==15){
 					  $country = explode(',',$info_val->country_id) ;
-					  
+
 					   $count_total_fm_country = count($country_list);
 					   $count_fm_country_val = count($country);
 					    if($count_total_fm_country == $count_fm_country_val)
@@ -229,7 +229,7 @@
 					  ?>
 					  <select name="userrole2_{{$incid}}[]" class="form-control select2" usertype="field_marking" roleid="{{$info_val->role_id}}" id="role1_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}"  onchange="get_role3(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder=""
 						  style="width: 100%;">
-						  
+
 						   <?php
 					  $fm_country_arr = [] ;
 					  $html_fm_country = '' ;
@@ -238,11 +238,11 @@
 						{
 							//if(isset($selectedallfm_country)&& $selectedallfm_country !=1)
 							//{
-								
+
 								if (is_array($country)) {if (in_array($country_list_val->id, $country)){
 									$selectedfm_country =  "selected";
 									}else{$selectedfm_country = '' ;}}else{$selectedfm_country = '' ; }
-								
+
 							//}
 							//else{
 							//	$selectedfm_country = '' ;
@@ -253,9 +253,9 @@
 						$implode_fm_country = implode(',',$fm_country_arr);
 						if(isset($selectedallfm_country)&& $selectedallfm_country==1)
 							{
-								
+
 								$selectedfm_countryall =  "selected";
-								
+
 							}
 							else{
 								$selectedfm_countryall = '' ;
@@ -263,8 +263,8 @@
 						//$html_fm_country2 .='<option value="'.$implode_fm_country.'" '.$selectedfm_countryall.'>All ('.count($fm_country_arr).')</option>' ;
 						echo $html_fm_country2 . $html_fm_country ;
 					  ?>
-						
-					   
+
+
 					  </select>
 					  <?php } ?>
 					  </div>
@@ -273,7 +273,7 @@
 					  <div class="form-group">
 					  <?php if($info_val->role_id==20){
 					  $mixassistant = explode(',',json_decode($info_val->user,true)['roleuser2']) ;
-					  
+
 					   $count_total_mixi_assistant = count($mixitassistant);
 					   $count_mixi_assistant_val = count($mixassistant);
 					    if($count_total_mixi_assistant == $count_mixi_assistant_val)
@@ -285,10 +285,10 @@
 						  $selectedallmixi_assistant = false ;
 					  }
 					  $chield_role = get_previous_role(explode(',',json_decode($info_val->user,true)['roleuser1']));
-					  
+
 					  ?>
 					  <select class="form-control select2" name="userrole3_{{$incid}}[]" usertype="mixit" roleid="{{ $chield_role}}" id="role2_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" dynamodropdownincid="0" onchange="get_role4(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')" multiple="multiple" data-placeholder="" style="width: 100%;">
-					  
+
 					  <?php
 					  $mixi_assistant_arr = [] ;
 					  $html_mixi_assistant = '' ;
@@ -297,11 +297,11 @@
 						{
 							if(isset($selectedallmixi_assistant)&& $selectedallmixi_assistant !=1)
 							{
-								
+
 								if (is_array($mixassistant)) {if (in_array($mixitassistantval->id, $mixassistant)){
 									$selectedmixi_assistant =  "selected";
 									}else{$selectedmixi_assistant = '' ;}}else{ }
-								
+
 							}
 							else{
 								$selectedmixi_assistant = '' ;
@@ -312,9 +312,9 @@
 						$implode_mixi_assistant = implode(',',$mixi_assistant_arr);
 						if(isset($selectedallmixi_assistant)&& $selectedallmixi_assistant ==1)
 							{
-								
+
 								$selectedmixi_assistantall =  "selected";
-								
+
 							}
 							else{
 								$selectedmixi_assistantall = '' ;
@@ -322,13 +322,13 @@
 						$html_mixi_assistant2 .='<option value="'.$implode_mixi_assistant.'" '.$selectedmixi_assistantall.'>All ('.count($mixi_assistant_arr).')</option>' ;
 						echo $html_mixi_assistant2 . $html_mixi_assistant ;
 					  ?>
-					  
+
 					  </select>
 					  <?php } ?>
-					  <?php if($info_val->role_id==15){ 
+					  <?php if($info_val->role_id==15){
 					  $province = explode(',',$info_val->region_id) ;
 					  $fm_province_list = get_provence_name_by_country(explode(',',$info_val->country_id));
-					  
+
 					  $count_total_fm_province = count($fm_province_list);
 					   $count_fm_province_val = count($province);
 					    if($count_total_fm_province == $count_fm_province_val)
@@ -341,7 +341,7 @@
 					  }
 					  ?>
 					  <select class="form-control select2" name="userrole3_{{$incid}}[]" usertype="field_marking" roleid="{{$info_val->role_id}}" id="role2_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" dynamodropdownincid="0" onchange="get_role4(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder="" style="width: 100%;">
-					  
+
 					   <?php
 					  $fm_province_arr = [] ;
 					  $html_fm_province = '' ;
@@ -350,11 +350,11 @@
 						{
 							//if(isset($selectedallfm_province)&& $selectedallfm_province !=1)
 							//{
-								
+
 								if (is_array($province)) {if (in_array($fm_province_list_val->id, $province)){
 									$selectedfm_province =  "selected";
 									}else{$selectedfm_province = '' ;}}else{$selectedfm_province = '' ; }
-								
+
 							//}
 							//else{
 								//$selectedfm_province = '' ;
@@ -365,9 +365,9 @@
 						$implode_fm_province = implode(',',$fm_province_arr);
 						if(isset($selectedallfm_province)&& $selectedallfm_province==1)
 							{
-								
+
 								$selectedfm_provinceall =  "selected";
-								
+
 							}
 							else{
 								$selectedfm_provinceall = '' ;
@@ -375,14 +375,14 @@
 						//$html_fm_province2 .='<option value="'.$implode_fm_province.'" '.$selectedfm_provinceall.'>All ('.count($fm_province_arr).')</option>' ;
 						echo $html_fm_province2 . $html_fm_province ;
 					  ?>
-					  
+
 					  </select>
 					  <?php } ?>
-					  <?php if($info_val->role_id==11){ 
+					  <?php if($info_val->role_id==11){
 					  $salesref = explode(',',json_decode($info_val->user,true)['roleuser1']) ;
 					  $srprovince = explode(',',$info_val->region_id) ;
 					  $totalSr = get_salesref_name_by_regionid($srprovince);
-					  
+
 					  $count_total_sales_ref = count($totalSr);
 					   $count_sales_ref_val = count($salesref);
 					    if($count_total_sales_ref == $count_sales_ref_val)
@@ -396,7 +396,7 @@
 					  ?>
 					  <select class="form-control select2" name="userrole3_{{$incid}}[]" usertype="sales_ref" roleid="$info_val->role_id" id="role2_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" dynamodropdownincid="0" onchange="get_role4(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')" multiple="multiple" data-placeholder=""
 						  style="width: 100%;">
-						  
+
 						  <?php
 					  $sales_ref_arr = [] ;
 					  $html_sales_ref = '' ;
@@ -405,11 +405,11 @@
 						{
 							if(isset($selectedallsales_ref)&& $selectedallsales_ref !=1)
 							{
-								
+
 								if (is_array($salesref)) {if (in_array($totalSr_val->id, $salesref)){
 									$selectedsales_ref =  "selected";
 									}else{$selectedsales_ref = '' ;}}else{ }
-								
+
 							}
 							else{
 								$selectedsales_ref = '' ;
@@ -420,9 +420,9 @@
 						$implode_sales_ref = implode(',',$sales_ref_arr);
 						if(isset($selectedallsales_ref)&& $selectedallsales_ref==1)
 							{
-								
+
 								$selectedsales_refall =  "selected";
-								
+
 							}
 							else{
 								$selectedsales_refall = '' ;
@@ -430,14 +430,14 @@
 						$html_sales_ref2 .='<option value="'.$implode_sales_ref.'" '.$selectedsales_refall.'>All ('.count($sales_ref_arr).')</option>' ;
 						echo $html_sales_ref2 . $html_sales_ref ;
 					  ?>
-						
+
 					  </select>
 					  <?php } ?>
-					  <?php if($info_val->role_id==5){ 
+					  <?php if($info_val->role_id==5){
 					  $brandmm = explode(',',json_decode($info_val->user,true)['roleuser1']) ;
 					  $bmbrand = explode(',',$info_val->brand_id) ;
 					  $totalBm = get_brandmm_name_by_brandid($bmbrand,$info_val->role_id);
-					  
+
 					   $count_total_brand_marketing_m = count($totalBm);
 					   $count_brand_marketing_m_val = count($brandmm);
 					    if($count_total_brand_marketing_m == $count_brand_marketing_m_val)
@@ -452,7 +452,7 @@
 					  ?>
 					  <select class="form-control select2" name="userrole3_{{$incid}}[]" usertype="marketing" roleid="{{$chiled_role}}" id="role2_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" dynamodropdownincid="0" onchange="get_role4(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')" multiple="multiple" data-placeholder=""
 						  style="width: 100%;">
-						  
+
 						   <?php
 					  $brand_marketing_m_arr = [] ;
 					  $html_brand_marketing_m = '' ;
@@ -461,11 +461,11 @@
 						{
 							if(isset($selectedallbrand_marketing_m)&& $selectedallbrand_marketing_m !=1)
 							{
-								
+
 								if (is_array($brandmm)) {if (in_array($totalBm_val->id, $brandmm)){
 									$selectedbrand_marketing_m =  "selected";
 									}else{$selectedbrand_marketing_m = '' ;}}else{ }
-								
+
 							}
 							else{
 								$selectedbrand_marketing_m = '' ;
@@ -476,9 +476,9 @@
 						$implode_brand_marketing_m = implode(',',$brand_marketing_m_arr);
 						if(isset($selectedallbrand_marketing_m)&& $selectedallbrand_marketing_m==1)
 							{
-								
+
 								$selectedbrand_marketing_mall =  "selected";
-								
+
 							}
 							else{
 								$selectedbrand_marketing_mall = '' ;
@@ -490,23 +490,23 @@
 					  <?php } ?>
 					  </div>
               </div>
-			  <?php if($info_val->role_id==5) 
+			  <?php if($info_val->role_id==5)
 			  {
 				  $user_info = json_decode($info_val->user,true) ;
 				 //t($user_info);
 				// echo count($user_info);
-				 $count_user_role = count($user_info) ; 
+				 $count_user_role = count($user_info) ;
 				 $next_count_user_role = $count_user_role ;
-				 
+
 				 $marketing_brand = explode(',',$info_val->brand_id);
-				 
+
 				 for($i=1;$i<$count_user_role;$i++)
 				 {
 					 $j =$i+1 ;
 					$chield_role = get_previous_role(explode(',',json_decode($info_val->user,true)['roleuser'.$i])) ;
 					$selected_user = explode(',',json_decode($info_val->user,true)['roleuser'.$j]);
 					$total_user = get_chiled_user_brand_marketing($marketing_brand,$chield_role);
-					
+
 					$count_total_marketing_brand = count($total_user);
 					   $count_marketing_brand_val = count($selected_user);
 					    if($count_total_marketing_brand == $count_marketing_brand_val)
@@ -517,13 +517,13 @@
 						  {
 							  $selectedallmarketing_brand = false ;
 						  }
-					
+
 				  ?>
-				  
+
 				  <div class="col-md-2" id="dynamo_dropdown_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}_{{$i}}">
 					  <div class="form-group">
 					  <select class="form-control select2" name="userrole4_{{$i}}_{{$incid}}[]" usertype="marketing" roleid="{{$chield_role}}" id="dynamo{{$i}}_$incid_{{$po_details_val[0]->puchase_order_details_id}}" dynamodropdownincid="{{$i}}" onchange="get_role4(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')" multiple="multiple" data-placeholder="" style="width: 100%;">
-						
+
 						 <?php
 					  $marketing_brand_arr = [] ;
 					  $html_marketing_brand = '' ;
@@ -532,11 +532,11 @@
 						{
 							if(isset($selectedallmarketing_brand)&& $selectedallmarketing_brand !=1)
 							{
-								
+
 								if (is_array($selected_user)) {if (in_array($total_user_val->id,$selected_user)){
 									$selectedmarketing_brand =  "selected";
 									}else{$selectedmarketing_brand = '' ;}}else{ }
-								
+
 							}
 							else{
 								$selectedmarketing_brand = '' ;
@@ -547,9 +547,9 @@
 						$implode_marketing_brand = implode(',',$marketing_brand_arr);
 						if(isset($selectedallmarketing_brand)&& $selectedallmarketing_brand==1)
 							{
-								
+
 								$selectedmarketing_brandall =  "selected";
-								
+
 							}
 							else{
 								$selectedmarketing_brandall = '' ;
@@ -557,32 +557,32 @@
 						$html_marketing_brand2 .='<option value="'.$implode_marketing_brand.'" '.$selectedmarketing_brandall.'>All ('.count($marketing_brand_arr).')</option>' ;
 						echo $html_marketing_brand2 . $html_marketing_brand ;
 					  ?>
-					  
+
 					  </select>
-					  
+
 					  </div>
 					  </div>
-				 <?php 
+				 <?php
 				 } ?>
 				 <input type="hidden" name="dynamoselectcount_{{$incid}}" value="{{$next_count_user_role}}" id="dynamoselectcount_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}">
 				 <?php
 				 } ?>
-				 
+
 				 <?php if($info_val->role_id==15)
-				 {	
+				 {
 				 $user_info = json_decode($info_val->user,true) ;
 				 //t($user_info);
 				// echo count($user_info);
-				 $count_user_role = count($user_info) ; 
+				 $count_user_role = count($user_info) ;
 				 $next_count_user_role = $count_user_role+1 ;
-				 
-				 
+
+
 				 $field_marketing_country = explode(',',$info_val->region_id);
-				 
+
 				 for($i=1;$i<=$count_user_role;$i++)
 				 {
 					 $j =$i-1 ;
-				
+
 					$selected_user = explode(',',json_decode($info_val->user,true)['roleuser'.$i]);
 					//t($selected_user);
 					if($i==1)
@@ -612,7 +612,7 @@
 				  <div class="col-md-2" id="dynamo_dropdown_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}_{{$i}}">
 					  <div class="form-group">
 					  <select class="form-control select2" name="userrole4_{{$i}}_{{$incid}}[]" usertype="field_marking" roleid="{{$chield_role}}" id="dynamo{{$i}}_$incid_{{$po_details_val[0]->puchase_order_details_id}}" dynamodropdownincid="{{$i}}" onchange="get_role4(this,{{$incid}},'{{$po_details_val[0]->puchase_order_details_id}}')" multiple="multiple" data-placeholder="" style="width: 100%;">
-						
+
 						 <?php
 					  $marketing_field_arr = [] ;
 					  $html_marketing_field = '' ;
@@ -621,11 +621,11 @@
 						{
 							if(isset($selectedallmarketing_field)&& $selectedallmarketing_field !=1)
 							{
-								
+
 								if (is_array($selected_user)) {if (in_array($total_user_val->id,$selected_user)){
 									$selectedmarketing_field =  "selected";
 									}else{$selectedmarketing_field = '' ;}}else{ }
-								
+
 							}
 							else{
 								$selectedmarketing_field = '' ;
@@ -636,9 +636,9 @@
 						$implode_marketing_field = implode(',',$marketing_field_arr);
 						if(isset($selectedallmarketing_field)&& $selectedallmarketing_field==1)
 							{
-								
+
 								$selectedmarketing_fieldall =  "selected";
-								
+
 							}
 							else{
 								$selectedmarketing_fieldall = '' ;
@@ -646,21 +646,21 @@
 						$html_marketing_field2 .='<option value="'.$implode_marketing_field.'" '.$selectedmarketing_fieldall.'>All ('.count($marketing_field_arr).')</option>' ;
 						echo $html_marketing_field2 . $html_marketing_field ;
 					  ?>
-					  
+
 					  </select>
-					  
+
 					  </div>
 					  </div>
 				 <?php } ?>
 				 <input type="hidden" name="dynamoselectcount_{{$incid}}" value="{{$next_count_user_role}}" id="dynamoselectcount_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}">
 				 <?php
 				 } ?>
-			  
+
 			  <div class="col-md-2">
-					  <div class="input-group" style="margin-top: 20px;">
+					  <div class="input-group">
 					   <?php if($info_val->role_id==11)
 							{	 ?>
-					  <div class="checkbox checkbox-success"  id="hide_locker_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}">
+					  <div class="checkbox checkbox-success"  style="margin-right: 20px;" id="hide_locker_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}">
 						<input id="checkbox3_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" value="store" <?php if(isset($info_val->store_locker)&& $info_val->store_locker =='store') { echo "checked" ; } ?>  type="checkbox" name="storelocator_{{$incid}}" >
 						<label for="checkbox3_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}"> Locker </label>
 					  </div>
@@ -671,22 +671,22 @@
 					  </div>
 					</div>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
 						<div class="form-group">
 						 <input type="number" name="quantity_{{$incid}}" value="{{isset($info_val->	quantity)?$info_val->	quantity:''}}" id="quantity_{{$incid}}_{{$po_details_val[0]->puchase_order_details_id}}" class="form-control quantity" placeholder="" onblur="calculate_amount()" min="0">
 						</div>
-						
+
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
 					  <div class="pull-right">
 						<div class="input-group">
-						
+
 						<button type="button" onclick="addmorerow('{{$po_details_val[0]->puchase_order_details_id}}')" id="add_field_button_1_{{$po_details_val[0]->puchase_order_details_id}}" class="btn btn-danger btn-sm mb-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
-						
-						<button type="button" onClick="remove_field_1('{{$incid}}')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-						
-						
-						
+
+						<button type="button" onClick="remove_field_1('{{$incid}}')" class="btn btn-dark btn-sm mb-5"  style="margin-right: 20px;"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+
+
 						</div>
 						</div>
 						<input type="hidden" value="{{isset($info_val->id)?$info_val->id:''}}" name="allocation_id_{{$incid}}" >
@@ -709,7 +709,7 @@
 					  <div class="form-group">
 					  <select name="userrole2_0[]" class="form-control select2" usertype="" roleid="" id="role1_0_{{$po_details_val[0]->puchase_order_details_id}}" required onchange="get_role3(this,0,'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder=""
 						  style="width: 100%;">
-					   
+
 					  </select>
 					  </div>
               </div>
@@ -717,14 +717,14 @@
 					  <div class="form-group">
 					  <select class="form-control select2" name="userrole3_0[]" required usertype="" roleid="" id="role2_0_{{$po_details_val[0]->puchase_order_details_id}}" dynamodropdownincid="0" onchange="get_role4(this,0,'{{$po_details_val[0]->puchase_order_details_id}}')"  data-placeholder=""
 						  style="width: 100%;">
-					   
+
 					  </select>
 					  </div>
               </div>
-			  
+
 			  <div class="col-md-2">
-					  <div class="input-group" style="margin-top: 20px;">
-					  <div class="checkbox checkbox-success"  id="hide_locker_0_{{$po_details_val[0]->puchase_order_details_id}}">
+					  <div class="input-group">
+					  <div class="checkbox checkbox-success"  id="hide_locker_0_{{$po_details_val[0]->puchase_order_details_id}}" style="margin-right: 20px;">
 						<input id="checkbox3_0_{{$po_details_val[0]->puchase_order_details_id}}" value="store" type="checkbox" name="storelocator_0" >
 						<label for="checkbox3_0_{{$po_details_val[0]->puchase_order_details_id}}"> Locker </label>
 					  </div>
@@ -734,41 +734,41 @@
 					  </div>
 					</div>
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
 						<div class="form-group">
 						 <input type="number" name="quantity_0" required id="quantity_0_{{$po_details_val[0]->puchase_order_details_id}}" class="form-control quantity" placeholder="" onblur="calculate_amount()" min="0">
 						</div>
 						<input type="hidden" name="dynamoselectcount_0" id="dynamoselectcount_0_{{$po_details_val[0]->puchase_order_details_id}}">
               </div>
-              <div class="col-md-1">
+              <div class="col-md-2">
 					  <div class="pull-right">
 						<div class="input-group">
 						<button type="button" onclick="addmorerow('{{$po_details_val[0]->puchase_order_details_id}}')" id="add_field_button_1_{{$po_details_val[0]->puchase_order_details_id}}" class="btn btn-danger btn-sm mb-5"><i class="fa fa-plus" aria-hidden="true"></i></button>
 						</div>
 						</div>
-				<div class="pull-right">
+				<div class="pull-right" style="margin-right: 20px;">
 				<div class="input-group">
 				<button type="button" onClick="remove_field_1('1')" class="btn btn-dark btn-sm mb-5"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 				</div>
 				</div>
 
-				
+
               </div>
             </div>
-			<?php 
+			<?php
 			} ?>
 
 			<!--- edit section -->
 			<!--- Add section -->
 			<!--- Add section -->
-             
+
 
 						<hr class="my-15">
 						<div class="input_fields_wrap_1"></div>
-              
+
             </div>
-                   
-            
+
+
 
 
           <!-- /.box-body -->
@@ -779,6 +779,6 @@
                       <button   class="btn btn-dark">
               Save  &nbsp;<i class="fa fa-angle-double-right" aria-hidden="true"></i>
             </button>
-          </div> 
-               
+          </div>
+
         </div>

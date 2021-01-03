@@ -23,46 +23,52 @@
     </section>
 
     <!-- Main content -->
-    <section class="content mob-container">
-		
+    <section class="content">
+      <div class="row">
+        <div class="col-md-4">
       <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
-		
+
 		 <span class="avatar avatar-xxl bg-success opacity-60 mx-auto">
-		  {{$total_user}}
-          <i class="align-sub fa fa-truck font-size-40" aria-hidden="true"></i>
+          <i class="fa fa-users align-sub font-size-40" aria-hidden="true"></i>
           </span>
           <div class="mt-20">
-            <h4 class="text-uppercase fw-500">Total User</h4>
-          </div>
-		  
-        </div>
+            <p class="text-uppercase fw-500">Total User</p>
+            <h4 class="text-uppercase fw-500">{{$total_user}}</h4>
 
+          </div>
+
+        </div>
+      </div>
+<div class="col-md-4">
         <div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
-          <span class="avatar avatar-xxl bg-blue opacity-60 mx-auto">{{$total_product}}
-		  
-          <i class="align-sub fa fa-truck font-size-40" aria-hidden="true"></i>
+          <span class="avatar avatar-xxl bg-orange opacity-60 mx-auto">
+
+          <i class="align-sub mdi mdi-package font-size-40" aria-hidden="true"></i>
          </span>
           <div class="mt-20">
-            <h4 class="text-uppercase fw-500">Total Item</h4>
+            <p class="text-uppercase fw-500">Total Item</p>
+            <h4 class="text-uppercase fw-500">{{$total_product}}</h4>
           </div>
         </div>
-		
+      </div>
+<div class="col-md-4">
 		<div class="media flex-column text-center p-40 bg-white mb-30 pull-up">
-          <span class="avatar avatar-xxl bg-blue opacity-60 mx-auto">{{$total_po}}
-		  
-          <i class="align-sub fa fa-truck font-size-40" aria-hidden="true"></i>
+          <span class="avatar avatar-xxl bg-blue opacity-60 mx-auto">
+
+          <i class="align-sub mdi mdi-file-document font-size-40" aria-hidden="true"></i>
          </span>
           <div class="mt-20">
-            <h4 class="text-uppercase fw-500">Total Po</h4>
+            <p class="text-uppercase fw-500">Total PO</p>
+            <h4 class="text-uppercase fw-500">{{$total_po}}</h4>
           </div>
         </div>
-		
-		
-      
+</div>
+
+</div>
     </section>
     <!-- /.content -->
   </div>
-  
+
 @stop
 
 @section('footer_scripts')
