@@ -1,5 +1,4 @@
-bootstrap
-storage
-.htaccess
 .env
+storage/
+bootstrap/
 
