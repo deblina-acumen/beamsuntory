@@ -6,6 +6,21 @@ use Illuminate\Http\Request;
 use  App\Model\User;
 use  App\Model\FacilityMemberDetails;
 use  App\Model\AttendanceTable;
+
+use App\Model\Product;
+use App\Model\ProductCategory;
+use App\Model\Warehouse;
+use App\Model\Supplier;
+use App\Model\PO;
+use App\Model\POItem;
+use App\Model\ProductVariations;
+use App\Model\Brand;
+use App\Model\Region;
+
+use App\Model\Role;
+use  App\Model\Country;
+use  App\Model\POAllocation;
+
 use Auth;
 use DB;
 use Session ;
@@ -35,6 +50,12 @@ class DashboardController extends Controller
 		$arrOutputData=array();
 		if($user_role==1)
 		{
+			$arrOutputData['total_product'] = Product::where('is_deleted','No')->where('is_active','Yes')->count();
+			$arrOutputData['total_user'] = User::where('is_deleted','No')->where('is_active','Yes')->count();
+			$arrOutputData['total_po'] = PO::where('is_deleted','No')->where('is_active','Yes')->count();
+			//t($arrOutputData);
+			//exit();
+			
 			return view('dashboard.dashboard',$arrOutputData);
 		}
 		else if($user_role==10 )

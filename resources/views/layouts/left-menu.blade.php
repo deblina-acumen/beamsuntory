@@ -5,7 +5,7 @@
     <section class="sidebar">
       
       <!-- sidebar menu-->
-	  @if(Auth::user()->role_id == 1)
+	 <?php if(Auth::user()->role_id == 1) { ?>
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header nav-small-cap">JIMBEAM WHMS</li>
 		<li class="treeview">
@@ -137,15 +137,58 @@
 		
       </ul>
 	    
+	 <?php } elseif(Auth::user()->role_id == 10) { ?>
 	  
-	  @elseif(Auth::user()->role_id == 10)
-		   <ul class="sidebar-menu" data-widget="tree">
+		<ul class="sidebar-menu" data-widget="tree">
         <li class="header nav-small-cap">JIMBEAM Delivery Agent</li>
 		
 		 <li><a href="{{URL('pickup-order-list')}}"><i class="align-sub fa fa-truck"></i>Pickup Order</a></li>
             <li><a href="<?=URL('delivery-order-list')?>"><i class="align-sub fa fa-truck"></i>Delivery Order</a></li>
 		
 		</ul>
-	  @endif
+	 <?php } elseif(Auth::user()->role_id == 11) { ?>
+		
+		<ul class="sidebar-menu" data-widget="tree">
+        <li class="header nav-small-cap">Sales Refs</li>
+		
+		 <li><a href="{{URL('my-stock')}}"><i class="align-sub fa fa-truck"></i>MY STOCK</a></li>
+            <li><a href="<?=URL('ship-request')?>"><i class="align-sub fa fa-truck"></i>SHIP REQUEST</a></li>
+		
+		
+       
+		
+		 <li><a href="{{URL('assign-ownership/item-list')}}"><i class="align-sub fa fa-truck"></i>ASSIGN STOCK</a></li>
+            <li><a href="<?=URL('customer-store-list')?>"><i class="align-sub fa fa-truck"></i>CREATE CUSTOMERS</a></li>
+		
+       
+		
+		 <li><a href="{{URL('share-request/item-list')}}"><i class="align-sub fa fa-truck"></i>SHARE REQUEST</a></li>
+            <li><a href="<?=URL('receive-request')?>"><i class="align-sub fa fa-truck"></i>RECEIVE REQUEST</a></li>
+		
+		
+		 <li><a href="#"><i class="align-sub fa fa-truck"></i>DISPLAY ITEMS</a></li>
+            
+		
+		</ul>
+	 <?php } else { ?>
+	 <ul class="sidebar-menu" data-widget="tree">
+        <li class="header nav-small-cap">{{get_role_by_id(Auth::user()->role_id)}}</li>
+		
+		 <li><a href="{{URL('my-stock')}}"><i class="align-sub fa fa-truck"></i>View Stock</a></li>
+            <li><a href="<?=URL('store-delivery')?>"><i class="align-sub fa fa-truck"></i>STORE DELIVERY</a></li>
+		
+		
+       
+		
+		 <li><a href="{{URL('assign-ownership/item-list')}}"><i class="align-sub fa fa-truck"></i>ASSIGN OWNERSHIP</a></li>
+            <li><a href="<?=URL('customer-user-list')?>"><i class="align-sub fa fa-truck"></i>CREATE UESRS</a></li>
+		
+       
+		
+		<li><a href="{{URL('share-request/item-list')}}"><i class="align-sub fa fa-truck"></i>SHARE REQUEST</a></li>
+            <li><a href="<?=URL('receive-request')?>"><i class="align-sub fa fa-truck"></i>RECEIVE REQUEST</a></li>
+		
+		</ul>
+	 <?php } ?>
     </section>
   </aside>
