@@ -19,10 +19,11 @@
               <div class="col-md-12">
             <h6 class="box-title text-dark">Item: {{$product_name}} - {{$itemSkuCode}}</h6>
 
-            <small class="pull-right"><span class="text-blue">Available Qty: {{get_product_quantity_by_stock_id($stockid,Auth::user()->id)}}</span></small>
+            <small class="pull-right"><span class="text-blue">Available Qty: {{get_item_quantity_by_id_sku('admin',Auth::user()->id,$itemId,$itemSkuCode)}}</span></small>
+			
               </div>
             </div>
-			<input type="hidden" value="{{get_product_quantity_by_stock_id($stockid,Auth::user()->id)}}" id="total_quantity" name="total_quantity" class="total_quantity">
+			<input type="hidden" value="{{get_item_quantity_by_id_sku('admin',Auth::user()->id,$itemId,$itemSkuCode)}}" id="total_quantity" name="total_quantity" class="total_quantity">
 			<input type="hidden" name="itemid" value="{{$itemId}}">
 
 
