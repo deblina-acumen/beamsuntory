@@ -32,7 +32,7 @@
           <i class="fa fa-users align-sub font-size-40" aria-hidden="true"></i>
           </span>
           <div class="mt-20">
-            <p class="text-uppercase fw-500">Total User</p>
+            <p class="text-uppercase fw-500">Total Users</p>
             <h4 class="text-uppercase fw-500">{{$total_user}}</h4>
 
           </div>
@@ -46,7 +46,7 @@
           <i class="align-sub mdi mdi-package font-size-40" aria-hidden="true"></i>
          </span>
           <div class="mt-20">
-            <p class="text-uppercase fw-500">Total Item</p>
+            <p class="text-uppercase fw-500">Total Items</p>
             <h4 class="text-uppercase fw-500">{{$total_product}}</h4>
           </div>
         </div>
@@ -58,7 +58,7 @@
           <i class="align-sub mdi mdi-file-document font-size-40" aria-hidden="true"></i>
          </span>
           <div class="mt-20">
-            <p class="text-uppercase fw-500">Total PO</p>
+            <p class="text-uppercase fw-500">Total PO's</p>
             <h4 class="text-uppercase fw-500">{{$total_po}}</h4>
           </div>
         </div>
