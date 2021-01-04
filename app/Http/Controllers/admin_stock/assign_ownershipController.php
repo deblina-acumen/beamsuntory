@@ -128,7 +128,7 @@ return view('admin_stock.add_allocation',$data);
 	
 	public function submit_assign_allocation(Request $request)
 	{
-		$data=$request->all(); //t($data);
+		$data=$request->all(); t($data);
 		//exit();
 		 $page = $data['page'];
 		 $userrole2=[];
@@ -147,9 +147,9 @@ return view('admin_stock.add_allocation',$data);
 			 {
 				 if(isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')
 				 {
-					 $mixit_user = $data['userrole3_'.$sum_count];
+					 $mixit_user = explode(',',implode(',',$data['userrole3_'.$sum_count]));
 				 }else{
-					  $mixit_user = $data['userrole2_'.$sum_count];
+					  $mixit_user = explode(',',implode(',',$data['userrole2_'.$sum_count]));
 				 }
 				 
 				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
@@ -168,7 +168,8 @@ return view('admin_stock.add_allocation',$data);
 			 
 			 if($data['userrole1_'.$sum_count]==11)
 			 {
-				 $sales_ref = (isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')?$data['userrole3_'.$sum_count]:array();
+				 $sales_ref = (isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')?explode(',',implode(',',$data['userrole3_'.$sum_count])):array();
+				 //t(explode(',',implode(',',$sales_ref)));
 				 $quantity = isset($data['quantity_'.$sum_count])?$data['quantity_'.$sum_count]:'';
 				 
 				 
@@ -215,7 +216,7 @@ return view('admin_stock.add_allocation',$data);
 				 {
 					if(isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')
 					{
-				    	$field_market_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?$data['userrole4_'.$j.'_'.$sum_count]:array();; 
+				    	$field_market_user[$j]= (isset($data['userrole4_'.$j.'_'.$sum_count])&&$data['userrole4_'.$j.'_'.$sum_count]!='')?explode(',',implode(',',$data['userrole4_'.$j.'_'.$sum_count])):array();; 
 					}
 				 }
 				// t(end($field_market_user));
@@ -244,10 +245,10 @@ return view('admin_stock.add_allocation',$data);
 					 $j1 = $j+1 ;
 					 if(isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')
 					 {
-					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')?$data['userrole4_'.$j1.'_'.$sum_count]:array(); 
+					$marketing_user[$j]= (isset($data['userrole4_'.$j1.'_'.$sum_count])&&$data['userrole4_'.$j1.'_'.$sum_count]!='')?explode(',',implode(',',$data['userrole4_'.$j1.'_'.$sum_count])):array(); 
 					 }
 				 }
-				 $brand_m_manager = (isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')?$data['userrole3_'.$sum_count]:array();
+				 $brand_m_manager = (isset($data['userrole3_'.$sum_count])&&$data['userrole3_'.$sum_count]!='')?explode(',',implode(',',$data['userrole3_'.$sum_count])):array();
 				 //t($brand_m_manager);
 				// t($marketing_user);
 				 if(isset($marketing_user)&& $marketing_user!='')
@@ -280,9 +281,9 @@ return view('admin_stock.add_allocation',$data);
 			 }
 			 
 		 }
-		// t($total_quantity);
+		 //t($total_quantity);
 		 
-		// exit();
+		 //exit();
 		
 		 if($total_quantity>$total_po_quantity)
 		 {
@@ -329,9 +330,9 @@ return view('admin_stock.add_allocation',$data);
 				 
 				  if(isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')
 				 {
-					 $mixit_user = $data['userrole3_'.$i];
+					 $mixit_user = explode(',',implode(',',$data['userrole3_'.$i]));
 				 }else{
-					  $mixit_user = $data['userrole2_'.$i];
+					  $mixit_user = explode(',',implode(',',$data['userrole2_'.$i]));
 				 }
 				 foreach($mixit_user as $mixit_user_val)
 				 {
@@ -402,10 +403,10 @@ return view('admin_stock.add_allocation',$data);
 				 
 				 if(isset($marketing_user)&& $marketing_user!='')
 				 {
-					 $brand_markting_user = end($marketing_user) ;
+					 $brand_markting_user = explode(',',implode(',',end($marketing_user))) ;
 				 }
 				 else{
-					 $brand_markting_user = isset($data['userrole3_'.$i])?$data['userrole3_'.$i]:array();
+					 $brand_markting_user = isset($data['userrole3_'.$i])?explode(',',implode(',',$data['userrole3_'.$i])):array();
 				 }
 				
 				 
@@ -468,7 +469,7 @@ return view('admin_stock.add_allocation',$data);
 				 $insertdata15['user'] = json_encode($userrole9);
 				 $id15 =POAllocation::insertGetId($insertdata15);
 				 //echo $id15;
-				 $field_marketing_user = end($field_market_user) ;
+				 $field_marketing_user = explode(',',implode(',',end($field_market_user))) ;
 				 foreach($field_marketing_user as $field_marketing_user_val)
 				 {
 					  $insfmarketingStock['warehouse_id']=$warehouse_id ;
@@ -523,7 +524,7 @@ return view('admin_stock.add_allocation',$data);
 				$id11 = POAllocation::insertGetId($insertdata11);
 				//echo $id11 ;
 				////////// store to stock table ///////////
-				$sales_ref = (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?$data['userrole3_'.$i]:array();
+				$sales_ref = (isset($data['userrole3_'.$i])&&$data['userrole3_'.$i]!='')?explode(',',implode(',',$data['userrole3_'.$i])):array();
 				
 				if(isset($data['eachselectbox_'.$i])&&$data['eachselectbox_'.$i]== 'each')
 				 {
