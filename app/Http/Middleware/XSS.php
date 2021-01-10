@@ -9,7 +9,9 @@ class XSS
 		
         $input = $request->all();
         array_walk_recursive($input, function(&$input) {
-            $input = mysql_real_escape_string(strip_tags($input));
+			
+            $input = strip_tags(htmlentities($input));
+			
         });
         $request->merge($input);
         return $next($request);

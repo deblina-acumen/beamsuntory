@@ -55,7 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
 		'as' => 'dashboard',
 		'uses' => 'Dashboard\DashboardController@index'
 	]);
-	});
+	
 	Route::group(['prefix' => 'profile-management'], function () {
 		Route::get('profile/{id}', 'Profile\ProfileController@profile');
 
@@ -449,7 +449,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::any('share-request/item-list', 'salesref\ShareRequestController@item_list');
 		Route::post('item-send-request', 'salesref\ShareRequestController@item_send_request');
 		
-		
+		});
 });
 
 
