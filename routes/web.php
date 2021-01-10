@@ -50,10 +50,12 @@ Route::any('/forget-password', [
 
 
 Route::group(['middleware' => 'auth'], function () {
+	Route::group(['middleware' => ['XSS']], function () {
 	Route::get('dashboard', [
 		'as' => 'dashboard',
 		'uses' => 'Dashboard\DashboardController@index'
 	]);
+	});
 	Route::group(['prefix' => 'profile-management'], function () {
 		Route::get('profile/{id}', 'Profile\ProfileController@profile');
 
