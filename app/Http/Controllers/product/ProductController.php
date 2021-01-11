@@ -33,12 +33,12 @@ class ProductController extends Controller
 			
 			if ($product_category_val != '') {
 				
-				$where .= ' and item.category_id='.$product_category_val;
+				$where .= " and item.category_id='".$product_category_val."'";
 				
 							
 			}
 			if ($product_brand != '') {
-				$where .= ' and item.brand_id=' . $product_brand;				
+				$where .= " and item.brand_id='". $product_brand."'";				
 				
 			}
 			if ($product_type != '') {
