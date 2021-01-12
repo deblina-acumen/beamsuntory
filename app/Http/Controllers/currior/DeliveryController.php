@@ -41,17 +41,21 @@ class DeliveryController extends Controller
 		$do_id = base64_decode($do_id);
 		$do_details= Delivery_order::join('delivery_order_item','delivery_order_item.do_id','=','delivery_order.id','left')->where('delivery_order.id',$do_id)->get();
 		
-		//t($all_stock);
 		foreach($do_details as $do){
-		$all_stock = Stock::where('sku_code',$do->item_sku)->where('user_id',$do_details[0]->created_by)->where('Stock_type','in')->where('type','!=','store')->get();
+		$all_stock = Stock::where('sku_code',$do->item_sku)->where('user_id',$do->created_by)->where('Stock_type','in')->where('type','!=','store')->get();
+		
 		$stock_quantity = $do->quantity;
+		
 		$is_assigned_stock = false;
 		foreach($all_stock as $allstock)
 		{
+			
 			while($is_assigned_stock !=true)
 			{
+				
 			if($allstock->type == 'each' && $stock_quantity<=$allstock->available_qtn)
 			{
+				
 				$inset_stock['warehouse_id'] =$allstock->warehouse_id;
 				$inset_stock['stock_id'] =$allstock->id;
 				$inset_stock['user_id'] = $allstock->user_id;
@@ -83,6 +87,10 @@ class DeliveryController extends Controller
 			else if($allstock->type == 'each' && $stock_quantity > $allstock->available_qtn)
 				
 			{
+				//t($allstock->type);
+				
+				//echo $allstock->available_qtn;
+				
 				$inset_stock['warehouse_id'] =$allstock->warehouse_id;
 				$inset_stock['stock_id'] =$allstock->id;
 				$inset_stock['user_id'] = $allstock->user_id;
@@ -92,10 +100,14 @@ class DeliveryController extends Controller
 				$inset_stock['stock_type'] = "out";
 				$inset_stock['order_type'] = "DO";
 				$inset_stock['quantity'] = $allstock->quantity;
+				
 				Stock::insertGetId($inset_stock);
 				$update_stock['available_qtn'] = 0;
 				Stock::where('id',$allstock->id)->update($update_stock);
 				$stock_quantity = $stock_quantity - $allstock->available_qtn;
+				//t($stock_quantity);
+				//t($do->type);
+				//exit();
 				if($do->type=='locker')
 				{
 				
@@ -109,6 +121,7 @@ class DeliveryController extends Controller
 				$inset_instock['quantity'] = $allstock->available_qtn;
 				Stock::insertGetId($inset_instock);
 				}
+				$is_assigned_stock  = true;
 			}
 			elseif($allstock->type == 'shared' && $stock_quantity <= $allstock->available_qtn)
 			{
