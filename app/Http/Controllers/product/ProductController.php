@@ -202,27 +202,28 @@ class ProductController extends Controller
 		{
 			return redirect('add-product')->with('error-msg', 'Product  already exists');
 		}
-        $insert_data['name']=$data['product_name'];
-		$insert_data['description']=isset($data['product_description'])?$data['product_description']:0;
-		$insert_data['brand_id']=$data['brand'];
-		$insert_data['product_type']=isset($data['product_type'])?$data['product_type']:'';
-		$insert_data['category_id']=$data['category'];
-		$insert_data['supplier_id']=$data['vendor'];
-		$insert_data['price_currency']=isset($data['price_currency'])?$data['price_currency']:'USD';
-		$insert_data['regular_price']=$data['regular_price'];
-		$insert_data['retail_price']=$data['retail_price'];
-		$insert_data['sku']=$data['sku'];
-		$insert_data['low_stock_level']=$data['low_stock_level'];
-		$insert_data['status']=$data['status'];
-		$insert_data['batch_no']='BEAM-'.rand(0,1500).'-'.rand(5,500);
-		//$insert_data['shelf_life']=$data['shelf_life'];
-		$insert_data['weight']=$data['weight'];
-		$insert_data['length']=$data['length'];
-		$insert_data['width']=$data['Width'];
-		$insert_data['height']=$data['Height'];
-		$insert_data['sub_brand_id']=$data['sub_brand'];
-		$insert_data['self_life']=$data['shelf_life'];
-		//upload image2wbmp
+		
+		 $product = new Product;
+
+        $product->name = $data['product_name'];
+		$product->description = isset($data['product_description'])?htmlentities($data['product_description']):0;
+		$product->brand_id = $data['brand'];
+		$product->product_type = isset($data['product_type'])?$data['product_type']:'';
+		$product->category_id = $data['category'];
+		$product->supplier_id = $data['vendor'];
+		$product->price_currency = isset($data['price_currency'])?$data['price_currency']:'USD';
+		$product->regular_price = $data['regular_price'];
+		$product->retail_price = $data['retail_price'];
+		$product->sku = $data['sku'];
+		$product->low_stock_level = $data['low_stock_level'];
+		$product->status = $data['status'];
+		$product->batch_no = 'BEAM-'.rand(0,1500).'-'.rand(5,500);
+		$product->weight = $data['weight'];
+		$product->length = $data['length'];
+		$product->width = $data['Width'];
+		$product->height = $data['Height'];
+		$product->sub_brand_id = $data['sub_brand'];
+		$product->self_life = $data['shelf_life'];
 		$cat_image = $request->file('image');
 			if($cat_image !='')
 			{
@@ -230,15 +231,22 @@ class ProductController extends Controller
 					$cat_image_pic_name = upload_file_single_with_name($cat_image, 'product','product',$data['product_name']);	
 					if($cat_image_pic_name!='')
 					{
-						$insert_data['image'] = $cat_image_pic_name;
+						$product->image = $cat_image_pic_name;
+						
 					}
 				
 			}
-        $insert_data['created_by'] = Auth::user()->id;
-        $id=Product::insertGetId($insert_data);
+		
+		$product->created_by = Auth::user()->id;
+
+        $product->save();
+		$id=$product->id;
+       
+        
 		
 		$variation=array();
-		
+		$product_variation = new ProductVariations;
+
 		for($i=0;$i<$data['variation_count'];$i++)
 		{
 			$variation=array();
@@ -250,10 +258,11 @@ class ProductController extends Controller
 				
 			}
 			
-			$insert_variation['item_id'] = $id;
-			$insert_variation['variation'] = json_encode($variation);
-			$insert_variation['created_by'] = Auth::user()->id;
-			ProductVariations::insertGetId($insert_variation);
+			$product_variation->item_id = $id;
+			$product_variation->variation = json_encode($variation);
+			$product_variation->created_by = Auth::user()->id;
+			$product_variation->save();
+			
 		}
 		DB::commit();
         if($id!='')
@@ -292,31 +301,35 @@ class ProductController extends Controller
     {
         $data=$request->all();// t($data,1);
 		
+		$id = $data["id"] ;
+		
 		$have_product = Product::where('name',$data['product_name'])->where('is_deleted','No')->get();
 		if(!empty($have_product) && count($have_product)>0 && $have_product[0]->id !=  $data["id"])
 		{
 			return redirect('edit-product/'.base64_encode($data['id']))->with('error-msg', 'Product  already exists');
 		}
-        $insert_data['name']=$data['product_name'];
-		$insert_data['description']=isset($data['product_description'])?$data['product_description']:0;
-		$insert_data['brand_id']=$data['brand'];
-		$insert_data['product_type']=isset($data['product_type'])?$data['product_type']:'';
-		$insert_data['category_id']=$data['category'];
-		$insert_data['supplier_id']=$data['vendor'];
-		$insert_data['price_currency']=isset($data['price_currency'])?$data['price_currency']:'USD';
-		$insert_data['regular_price']=$data['regular_price'];
-		$insert_data['retail_price']=$data['retail_price'];
-		$insert_data['sku']=$data['sku'];
-		$insert_data['low_stock_level']=$data['low_stock_level'];
-		$insert_data['status']=$data['status'];
-		//$insert_data['batch_no']='BEAM-'.rand(0,1500).'-'.rand(5,500);
-		$insert_data['weight']=$data['weight'];
-		$insert_data['length']=$data['length'];
-		$insert_data['width']=$data['Width'];
-		$insert_data['height']=$data['Height'];
-		$insert_data['sub_brand_id']=$data['sub_brand'];
-		$insert_data['self_life']=$data['shelf_life'];
-		//upload image2wbmp
+		
+		$product = Product::find($id);
+
+        $product->name = $data['product_name'];
+		$product->description = isset($data['product_description'])?htmlentities($data['product_description']):0;
+		$product->brand_id = $data['brand'];
+		$product->product_type = isset($data['product_type'])?$data['product_type']:'';
+		$product->category_id = $data['category'];
+		$product->supplier_id = $data['vendor'];
+		$product->price_currency = isset($data['price_currency'])?$data['price_currency']:'USD';
+		$product->regular_price = $data['regular_price'];
+		$product->retail_price = $data['retail_price'];
+		$product->sku = $data['sku'];
+		$product->low_stock_level = $data['low_stock_level'];
+		$product->status = $data['status'];
+		$product->batch_no = 'BEAM-'.rand(0,1500).'-'.rand(5,500);
+		$product->weight = $data['weight'];
+		$product->length = $data['length'];
+		$product->width = $data['Width'];
+		$product->height = $data['Height'];
+		$product->sub_brand_id = $data['sub_brand'];
+		$product->self_life = $data['shelf_life'];
 		$cat_image = $request->file('image');
 			if($cat_image !='')
 			{
@@ -324,13 +337,22 @@ class ProductController extends Controller
 					$cat_image_pic_name = upload_file_single_with_name($cat_image, 'product','product',$data['product_name']);	
 					if($cat_image_pic_name!='')
 					{
-						$insert_data['image'] = $cat_image_pic_name;
+						$product->image = $cat_image_pic_name;
+						
 					}
 				
 			}
-        $insert_data['updated_by'] = Auth::user()->id;
+			
+			$insert_data['updated_by'] = Auth::user()->id;
 		$insert_data['updated_at'] = date('Y-m-d h:i:s');
-       $id = Product::where('id',$data["id"])->update($insert_data);
+		
+		$product->updated_by = Auth::user()->id;
+		$product->updated_at = date('Y-m-d h:i:s');
+
+        $product->save();
+		
+		
+        
 	   
 	   
 	    $varience_id_arr = [] ;
