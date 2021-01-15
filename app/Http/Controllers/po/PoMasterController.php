@@ -161,62 +161,7 @@ class PoMasterController extends Controller
 		echo $html;
 	}
 	
-    public function product_list(Request $request)
-    {
-		DB::enableQueryLog();
-		$posteddata = $request->all();
-		//t($posteddata);
-		//exit();
-        $data['title']="Product category";
-		
-		$data['product_category_val'] = $product_category_val = isset($posteddata['product_category_val']) ? $posteddata['product_category_val'] : '';
-		$data['product_brand'] = $product_brand = isset($posteddata['product_brand']) ? $posteddata['product_brand'] : '';
-		$data['product_type'] = $product_type = isset($posteddata['product_type']) ? $posteddata['product_type'] : '';
-		$data['product_sku'] = $product_sku = isset($posteddata['product_sku']) ? $posteddata['product_sku'] : '';
-		
-		$where = '1=1';
-		if ($posteddata) {
-			
-			if ($product_category_val != '') {
-				
-				$where .= ' and item.category_id='.$product_category_val;
-				
-							
-			}
-			if ($product_brand != '') {
-				$where .= ' and item.brand_id=' . $product_brand;				
-				
-			}
-			if ($product_type != '') {
-				$where .= " and item.product_type='$product_type'";				
-								
-			}
-
-			if ($product_sku != '') {
-				
-				$where .= " and lower(item.sku) LIKE '%$product_sku%'";
-			}
-			
-		}
-		
-        $data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->whereRaw($where)->where('item.is_deleted','No')->orderBy('item.name','asc')->get();
-		$data['product_category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//$query = DB::getQueryLog();
-		//t($query);
-		///exit();
-		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
-		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//t($data,1);
-        return view('product.ProductMaster.list',$data);
-    }
-
-    
-    
-    
-
-    
-
-
+	
 	 public function purchase_order_list(Request $request)
     {
 
@@ -234,42 +179,61 @@ class PoMasterController extends Controller
 		$where = '1=1';
 		if ($posteddata) {
 			
+			$list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name','users.name as delivery_agent_name')
+			->join('supplier','supplier.id','=','purchase_order.supplier_id','left')
+			->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')
+			->join('users','purchase_order.delivery_agent_id','=','users.id','left')
+			->whereRaw($where)
+			->where('purchase_order.is_deleted','No')
+			->orderBy('purchase_order.id','desc');
+			
 			if ($purchase_order_no_val != '') {
 				
-				$where .= " and purchase_order.order_no LIKE '%$purchase_order_no_val%'";	
+				$list = $list->where('purchase_order.order_no','like','%' . $purchase_order_no_val . '%');
+				
+					
 							
 			}
 			if ($purchase_order_status_val != '') {
 				
-				$where .= " and lower(purchase_order.status) LIKE '%$purchase_order_status_val%'";
+				$list = $list->where('purchase_order.status','like','%' . $purchase_order_status_val . '%');
+				
+				
 			}
 			if ($po_supplier_val != '') {
-				$where .= " and purchase_order.supplier_id='$po_supplier_val'";				
+				
+				$list = $list->where('purchase_order.supplier_id','=',$po_supplier_val);
+				
+						
 								
 			}
 			if ($po_warehouse_val != '') {
-				$where .= " and purchase_order.warehouse_id='$po_warehouse_val'";				
+				
+				$list = $list->where('purchase_order.warehouse_id','=',$po_warehouse_val);
 				
 			}
+			
+			$data['purchase_order']= $list->get();
 
 		}
+		else
+		{
+			$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name','users.name as delivery_agent_name')
+			->join('supplier','supplier.id','=','purchase_order.supplier_id','left')
+			->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')
+			->join('users','purchase_order.delivery_agent_id','=','users.id','left')
+			->where('purchase_order.is_deleted','No')
+			->orderBy('purchase_order.id','desc')
+			->get();
+		}
 		
-		
-		/* $data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get(); */ 
-		
-		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name','users.name as delivery_agent_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->join('users','purchase_order.delivery_agent_id','=','users.id','left')->whereRaw($where)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
-		
-		
-		
-		
-		//$query = DB::getQueryLog();
-		//t($query);
-		//exit();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		//t($data,1);
         return view('po.list',$data);
     }
+	
+    
 	
 	public function changeStatus($id,$status)
 	{

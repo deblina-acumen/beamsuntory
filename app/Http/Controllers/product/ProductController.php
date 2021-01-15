@@ -16,10 +16,9 @@ class ProductController extends Controller
 {
     public function product_list(Request $request)
     {
-		DB::enableQueryLog();
+		
 		$posteddata = $request->all();
-		//t($posteddata);
-		//exit();
+	
         $data['title']="Product List";
 		
 		$data['product_category_val'] = $product_category_val = isset($posteddata['product_category_val']) ? $posteddata['product_category_val'] : '';
@@ -27,41 +26,57 @@ class ProductController extends Controller
 		$data['product_type'] = $product_type = isset($posteddata['product_type']) ? $posteddata['product_type'] : '';
 		$data['product_sku'] = $product_sku = isset($posteddata['product_sku']) ? $posteddata['product_sku'] : '';
 		
-		
-		$where = '1=1';
 		if ($posteddata) {
-			
-			if ($product_category_val != '') {
-				
-				$where .= " and item.category_id='".$product_category_val."'";
-				
-							
-			}
-			if ($product_brand != '') {
-				$where .= " and item.brand_id='". $product_brand."'";				
-				
-			}
-			if ($product_type != '') {
-				$where .= " and item.product_type='$product_type'";				
-								
-			}
 
-			if ($product_sku != '') {
-				
-				$where .= " and lower(item.sku) LIKE '%$product_sku%'";
+			if ($posteddata['product_type'] == 'simpleproduct') {
+				$typeOfProduct = 'simple_product';
+			}
+			if ($posteddata['product_type'] == 'variableproduct') {
+				$typeOfProduct = 'variable_product';
 			}
 			
+			$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name','product_category.is_deleted as is_deleted_cat')
+				->join('product_category','product_category.id','=','item.category_id','left')
+				->join('brand','brand.id','=','item.brand_id','left')
+				->join('supplier','supplier.id','=','item.supplier_id','left')
+				->where('item.is_deleted','No')
+				->orderBy('item.name','asc');
+				
+			if($posteddata['product_category_val']) {
+				$list = $list->where('item.category_id','=',$posteddata['product_category_val']);
+				
+			}
+			if($posteddata['product_brand']) {
+				$list = $list->where('item.brand_id','=',$posteddata['product_brand']);
+				
+			}
+			if($posteddata['product_type']) {
+				$list = $list->where('item.product_type','=',$typeOfProduct);
+				
+			}
+			if($posteddata['product_sku']) {
+				$list = $list->where('item.sku','like','%' . $posteddata['product_sku'] . '%');
+				
+			}
+		
+			$data['product_list']= $list->paginate(10);
+		} else {
+		
+			$data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name','product_category.is_deleted as is_deleted_cat')
+			->join('product_category','product_category.id','=','item.category_id','left')
+			->join('brand','brand.id','=','item.brand_id','left')
+			->join('supplier','supplier.id','=','item.supplier_id','left')
+			->where('item.is_deleted','No')
+			->orderBy('item.name','asc')
+			->paginate(10);
+
 		}
 		
-        $data['product_list']=$list = Product::select('item.*','brand.name as brand_name','product_category.name as cat_name','supplier_name','product_category.is_deleted as is_deleted_cat')->join('product_category','product_category.id','=','item.category_id','left')->join('brand','brand.id','=','item.brand_id','left')->join('supplier','supplier.id','=','item.supplier_id','left')->whereRaw($where)->where('item.is_deleted','No')->orderBy('item.name','asc')->paginate(10);
-		
 		$data['product_category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//$query = DB::getQueryLog();
-		//t($query);
-		///exit();
+		
 		$data['brand']=$list = Brand::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//t($data,1);
+		
         return view('product.ProductMaster.list',$data);
     }
 
