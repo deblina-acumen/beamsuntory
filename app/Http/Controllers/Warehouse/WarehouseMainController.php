@@ -24,7 +24,7 @@ class WarehouseMainController extends Controller
 	public function incomming_stock_list(Request $request)
     {
 
-		DB::enableQueryLog();
+		
 		$posteddata = $request->all();
 		//t($posteddata);
 		//exit();
@@ -56,8 +56,7 @@ class WarehouseMainController extends Controller
 		$data['purchase_order'] = $list = PO::select('purchase_order.*')->whereRaw($where)->where('purchase_order.is_deleted','No')->where('warehouse_id',$ware_house_id)->orderBy('purchase_order.id','desc')->get();
 		
 		//t($list,1);
-		//$query = DB::getQueryLog();
-		//t($query);
+		
 		//exit();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();

@@ -36,7 +36,7 @@ class ShareRequestController extends Controller
 	
 	public function item_list(Request $request)
 	{
-		DB::enableQueryLog();
+		
 		$type = 'not-own-by-me' ;
 		$data['title'] = 'Stock List';
 		$data['type'] = $type ;
@@ -93,7 +93,7 @@ class ShareRequestController extends Controller
 			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity','stock.user_id')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id','!=',$user_id)->where('stock.stock_type','in')->whereRaw($where)->get();
 		
 		
-		$query = DB::getQueryLog();
+		
 		$data['product_list'] = $product_list ;
 		//t($query);
 		//t($product_list);
@@ -104,7 +104,7 @@ class ShareRequestController extends Controller
 	
 	public function item_send_request(Request $request)
 	{
-		DB::enableQueryLog();
+		
 		$posteddata = $request->all();
 		//t($posteddata['sku_code']);
 		//exit();

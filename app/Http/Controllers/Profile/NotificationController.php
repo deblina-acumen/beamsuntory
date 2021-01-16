@@ -20,7 +20,7 @@ class NotificationController extends Controller
 {
      
      public function index(){
-		DB::enableQueryLog();
+		
 	  $userId = Auth::user()->id;
 	 $all_noti = get_all_notification(Auth::user()->id,''); 
 	   $count_noti = count($all_noti);

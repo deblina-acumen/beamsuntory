@@ -35,7 +35,7 @@ class StockController extends Controller
 	
 	public function item_list(Request $request)
 	{
-		DB::enableQueryLog();
+		
 		
 		$data['title'] = 'Stock List';
 		
@@ -86,7 +86,7 @@ class StockController extends Controller
 			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.warehouse_id','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->whereRaw($where)->groupBy('stock.item_id','stock.sku_code')->paginate(10);
 		
 		
-		$query = DB::getQueryLog();
+		
 		$data['product_list'] = $product_list ;
 		//t($query);
 		//t($product_list);

@@ -165,7 +165,7 @@ class PoMasterController extends Controller
 	 public function purchase_order_list(Request $request)
     {
 
-		DB::enableQueryLog();
+		
 		$posteddata = $request->all();
 		//t($posteddata);
 		//exit();
@@ -383,8 +383,6 @@ class PoMasterController extends Controller
 		$data['purchase_order'] = $list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name')->join('supplier','supplier.id','=','purchase_order.supplier_id','left')->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')->where('purchase_order.id',$id)->where('purchase_order.is_deleted','No')->orderBy('purchase_order.id','desc')->get();
 		
 		
-		//$query = DB::getQueryLog();
-		//t($query);
 		//exit();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
@@ -394,7 +392,7 @@ class PoMasterController extends Controller
 	
 	public function po_products_details($id)
 	{
-		DB::enableQueryLog();
+		
 		$poId= base64_decode($id);
 		//t($poId);
 		//exit();
@@ -402,8 +400,7 @@ class PoMasterController extends Controller
 		
 		$warehouse_id = isset($poinfo[0]->warehouse_id)?$poinfo[0]->warehouse_id:0 ;
 		$data['warehouse']=$warehouse_list = Warehouse::where('id',$warehouse_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//$query = DB::getQueryLog();
-		//t($query,1);
+		
 		$suppler_id = isset($poinfo[0]->supplier_id)?$poinfo[0]->supplier_id:0 ;
 		$data['supplier']= Supplier::where('id',$suppler_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$user_id = isset($warehouse_list[0]->user_id)?$warehouse_list[0]->user_id:0 ;
@@ -419,7 +416,7 @@ class PoMasterController extends Controller
 	}
 	public function get_allocation_details_per_po_details(Request $request)
 	{
-		DB::enableQueryLog();
+		
 		$data = $request->all();
 		//t($data,1);
 
@@ -430,8 +427,7 @@ class PoMasterController extends Controller
 		$data['po_allocationinfo'] = $po_allocationinfo= POAllocation::select('purchase_order_allocation.each_user as po_alloc_each_user','purchase_order_allocation.share_user as po_alloc_share_user','purchase_order_allocation.quantity as po_aloc_quantity','purchase_order_allocation.user as po_allocation_user','user_role.name as user_role_name','country.country_name','provinces.name as provinces_name','brand.name as brand_name')->leftjoin('user_role','purchase_order_allocation.role_id','=','user_role.id')->leftjoin('country','purchase_order_allocation.country_id','=','country.id')->leftjoin('provinces','purchase_order_allocation.region_id','=','provinces.id')->leftjoin('brand','purchase_order_allocation.brand_id','=','brand.id')->where('purchase_order_allocation.po_id',$po_item_podetails_id[0])->where('purchase_order_allocation.item_id',$po_item_podetails_id[1])->where('purchase_order_allocation.podetails_id',$po_item_podetails_id[2])->where('purchase_order_allocation.is_deleted','No')->where('purchase_order_allocation.is_active','Yes')->get() ;
 		$data['count_allocation'] = count($po_allocationinfo);
 		//print_r($po_allocationinfo[0]->user_role_name);exit();
-		//$query = DB::getQueryLog();
-		//t($query);exit();
+		
 		//t($po_allocationinfo[0]->user_role_name,1);
 
 		$output = '	

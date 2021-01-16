@@ -17,7 +17,7 @@ class RegionController extends Controller
 	public function list(Request $request)
     {
 		
-		DB::enableQueryLog();
+		
 		$posteddata = $request->all();
 		
         $data['title']="Region Management";

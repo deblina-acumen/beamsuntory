@@ -23,8 +23,7 @@ class RoleUserController extends Controller
         $data['title']="User Management";
         
        // $data['resource'] = Input::get('resource') ;
-        $data['info'] = DB::table('users')
-		->select('users.name as first_name','users.lastname as last_name','users.useId','profile_pic','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid','user_role.name as rolename')->join('user_role','user_role.id','=','users.role_id','left')
+        $data['info'] = User::select('users.name as first_name','users.lastname as last_name','users.useId','profile_pic','users.email as email','users.is_deleted as is_deleted','users.is_active as is_active','users.id as userid','user_role.name as rolename')->join('user_role','user_role.id','=','users.role_id','left')
 		->where('users.is_deleted','No')->where('user_role.type','=','user')
 		->orderBy('users.id','desc')
 		->get()->toArray();

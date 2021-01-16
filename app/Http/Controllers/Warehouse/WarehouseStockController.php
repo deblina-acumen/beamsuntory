@@ -38,7 +38,7 @@ class WarehouseStockController extends Controller
 		$posteddata = $request->all();
 		//t($posteddata);
 		//exit();
-		DB::enableQueryLog();
+		
 		
 		$data['title'] = 'Stock List';
 		
@@ -100,9 +100,9 @@ class WarehouseStockController extends Controller
 		//t($product_list);
 		//exit();
 		
-		$query = DB::getQueryLog();
+		
 		$data['product_list'] = $product_list ;
-		//t($query);
+		
 		//t($product_list);
 		//exit();
 		return view('Warehouse.itemlist',$data);

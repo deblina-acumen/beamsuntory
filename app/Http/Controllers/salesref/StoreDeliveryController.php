@@ -27,7 +27,7 @@ class StoreDeliveryController extends Controller
 	
 	public function item_list(Request $request)
 	{
-		DB::enableQueryLog();
+		
 		$posted_data = $request->all();
 		$data['item_search'] = $item_search = isset($posted_data['item_search'])?$posted_data['item_search']:'';
 		$data['title'] = 'Stock List';
@@ -50,9 +50,9 @@ class StoreDeliveryController extends Controller
 			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity')->join('stock','item.id','=',"stock.item_id")->where('stock.user_id',$user_id)->whereRaw("stock.stock_type ='in' and (type ='each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
 		}
 		
-		$query = DB::getQueryLog();
+		
 		$data['product_list'] = $product_list ;
-		//t($query);
+		
 		//t($product_list,1);
 		//exit();
 		return view('salesref.store_delivary.itemlist',$data);
@@ -61,7 +61,7 @@ class StoreDeliveryController extends Controller
 	public function edit_ship_request($id,Request $request)
 	{
 		$id = base64_decode($id);
-		DB::enableQueryLog();
+		
 		$posted_data = $request->all();
 		$data['item_search'] = $item_search = isset($posted_data['item_search'])?$posted_data['item_search']:'';
 		$data['title'] = 'Stock List';
@@ -84,7 +84,7 @@ class StoreDeliveryController extends Controller
 			$product_list = Product::select('item.name as itemname','item.description','item.image','item.regular_price','item.retail_price','item.batch_no','stock.stock_item_id as stock_item_id','stock.id as stock_id','stock.sku_code','stock.quantity','delivery_order_item.id as do_item_id','delivery_order_item.item_sku as do_iem_sku','delivery_order_item.quantity as do_quantity')->join('stock','item.id','=',"stock.item_id")->join('delivery_order_item','delivery_order_item.item_sku','=','stock.sku_code','left')->where('stock.user_id',$user_id)->whereRaw("stock.stock_type ='in' and (type ='each' or type='shared') $where")->groupBy('stock_item_id','stock.sku_code')->get();
 		}
 		//t($product_list,1);exit;
-		$query = DB::getQueryLog();
+		
 		$data['product_list'] = $product_list ;
 		$data['do_items'] = Delivery_orderItem::where('do_id',$id)->get();
 		//t($data['do_items'],1);
@@ -276,7 +276,7 @@ class StoreDeliveryController extends Controller
 	public function view_ship_request($id,Request $request)
 	{
 		$doId = base64_decode($id);
-		DB::enableQueryLog();
+		
 		$posted_data = $request->all();
 		$data['title'] = 'Delivery Order Details';
 		$data['role_id'] = $role_id =  Auth::user()->role_id ;
@@ -285,8 +285,7 @@ class StoreDeliveryController extends Controller
 
 		$data['doinfo']=$doinfo =Delivery_order::where('id',$doId)->get();
 		//t($doinfo,1);
-		//$query = DB::getQueryLog();
-		//t($query,1);
+		
 		
 		$store_id = isset($doinfo[0]->store_id)?$doinfo[0]->store_id:0 ;
 		$data['store']= $storeinfo = Store::where('id',$store_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();

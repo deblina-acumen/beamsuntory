@@ -32,7 +32,7 @@ class assign_ownershipController extends Controller
 
 	public function item_list(Request $request,$type='',$role_id='',$cate_id='')
 	{
-		DB::enableQueryLog();
+		
 		$data['title'] = 'Stock List';
 		
 		$data['role_id'] = $role_id =  Auth::user()->role_id ;
@@ -91,9 +91,9 @@ class assign_ownershipController extends Controller
 		
 		
 		
-		$query = DB::getQueryLog();
+		
 		$data['product_list'] = $product_list ;
-		//t($query);
+		
 		//t($product_list);
 		//exit();
 		return view('salesref.assignownership.itemlist',$data);

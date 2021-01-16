@@ -32,7 +32,6 @@ class ReceiveRequestController extends Controller
 	
 		public function receive_request(Request $request)
 	{
-		DB::enableQueryLog();
 		
 		$data['title'] = 'Receive Request';
 		$user_id = Auth::user()->id ;
@@ -81,9 +80,6 @@ class ReceiveRequestController extends Controller
 		
 		 $data['product_list']=$list = ItemShareRequest::select('item_share_request.*','item.name as itemname','item.image as item_image','users.name as user_name')->join('item','item.id','=','item_share_request.item_id','left')->join('users','users.id','=','item_share_request.request_from','left')->whereRaw($where)->where('item_share_request.is_deleted','No')->where('item_share_request.request_to',$user_id)->orderBy('item.name','asc')->get(); 
 		
-		//$query = DB::getQueryLog();
-		//t($query);
-
 		return view('ReceiveRequest.receiverequestlist',$data);
 		
 	}

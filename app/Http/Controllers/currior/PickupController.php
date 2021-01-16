@@ -24,7 +24,7 @@ class PickupController extends Controller
 	public function purchase_order_list(Request $request)
     {
 
-		DB::enableQueryLog();
+		
 		$posteddata = $request->all();
 		//t($posteddata);
 		//exit();
@@ -54,8 +54,7 @@ class PickupController extends Controller
 		$data['purchase_order'] = $list = PO::select('purchase_order.*')->whereRaw($where)->where('purchase_order.is_deleted','No')->where('delivery_agent_id',$user_id)->orderBy('purchase_order.id','desc')->get();
 		
 		//t($list,1);
-		//$query = DB::getQueryLog();
-		//t($query);
+		
 		//exit();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
