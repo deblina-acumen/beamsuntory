@@ -68,7 +68,8 @@ class WarehouseController extends Controller
 		
         $data["title"] = "Warehouse Master";
 		$posted = $Request->all();
-//t($posted,1);
+		$warehouse = new Warehouse;
+
 		if(isset($posted['name']) && $posted['name']!='')
 		{
 			 $have_user_id = Warehouse::where('name',$posted['name'])->where('is_deleted','No')->get();
@@ -76,16 +77,17 @@ class WarehouseController extends Controller
 			{
 				 return redirect('add-warehouse')->with('error-msg', 'Warehouse name already added');
 			} 
-			$insert_data['name'] = isset($posted['name'])?$posted['name']:'';
-			$insert_data['user_id'] = isset($posted['manager_id'])?$posted['manager_id']:'';
-			$insert_data['country_id'] = isset($posted['country_id'])?$posted['country_id']:'';
-			$insert_data['province_id'] = isset($posted['province_id'])?$posted['province_id']:'';
-			$insert_data['city'] = isset($posted['city'])?$posted['city']:'';
-			$insert_data['zip'] = isset($posted['zip'])?$posted['zip']:'';
-			$insert_data['address'] = isset($posted['address'])?$posted['address']:'';
-			$insert_data['created_by'] = Auth::user()->id;
+			$warehouse->name = isset($posted['name'])?$posted['name']:'';
+			$warehouse->user_id = isset($posted['manager_id'])?$posted['manager_id']:'';
+			$warehouse->country_id = isset($posted['country_id'])?$posted['country_id']:'';
+			$warehouse->province_id = isset($posted['province_id'])?$posted['province_id']:'';
+			$warehouse->city = isset($posted['city'])?$posted['city']:'';
+			$warehouse->zip = isset($posted['zip'])?$posted['zip']:'';
+			$warehouse->address = isset($posted['address'])?$posted['address']:'';
+			$warehouse->created_by = Auth::user()->id;
 
-			$id = Warehouse::insertGetId($insert_data);
+			 $warehouse->save();
+			 $id = $warehouse->id;
 			if($id!='')
 			{
 			return redirect('warehouse-list')->with('success-msg', 'Warehouse added successfully');
