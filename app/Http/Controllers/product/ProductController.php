@@ -211,7 +211,8 @@ class ProductController extends Controller
     public function save_produt(Request $request)
     {
 		DB::beginTransaction();
-        $data=$request->all(); //t($data,1);
+        $data=$request->all(); 
+		t($data,1);
 		$have_product = Product::where('name',$data['product_name'])->where('is_deleted','No')->get();
 		if(!empty($have_product) && count($have_product)>0)
 		{
@@ -219,7 +220,7 @@ class ProductController extends Controller
 		}
 		
 		 $product = new Product;
-
+		
         $product->name = $data['product_name'];
 		$product->description = isset($data['product_description'])?htmlentities($data['product_description']):0;
 		$product->brand_id = $data['brand'];

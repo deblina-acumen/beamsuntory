@@ -176,14 +176,13 @@ class PoMasterController extends Controller
 		$data['po_supplier_val'] = $po_supplier_val = isset($posteddata['po_supplier_val']) ? $posteddata['po_supplier_val'] : '';
 		$data['po_warehouse_val'] = $po_warehouse_val = isset($posteddata['po_warehouse_val']) ? $posteddata['po_warehouse_val'] : '';
 		
-		$where = '1=1';
+		
 		if ($posteddata) {
 			
 			$list = PO::select('purchase_order.*','supplier.supplier_name','warehouse.name as warehouse_name','users.name as delivery_agent_name')
 			->join('supplier','supplier.id','=','purchase_order.supplier_id','left')
 			->join('warehouse','warehouse.id','=','purchase_order.warehouse_id','left')
 			->join('users','purchase_order.delivery_agent_id','=','users.id','left')
-			->whereRaw($where)
 			->where('purchase_order.is_deleted','No')
 			->orderBy('purchase_order.id','desc');
 			
