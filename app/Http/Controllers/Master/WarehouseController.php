@@ -63,27 +63,34 @@ class WarehouseController extends Controller
 
     
 
-	public function save_warehouse(Request $Request)
+	public function save_warehouse(Request $request)
     {
 		
         $data["title"] = "Warehouse Master";
-		$posted = $Request->all();
+		//$posted = $request->all();
+		$name =  $request->input('name');
+		$manager_id =  $request->input('manager_id');
+		$country_id =  $request->input('country_id');
+		$province_id =  $request->input('province_id');
+		$city =  $request->input('city');
+		$zip =  $request->input('zip');
+		$address =  $request->input('address');
+		$city =  $request->input('city');
 		$warehouse = new Warehouse;
-
-		if(isset($posted['name']) && $posted['name']!='')
+		if(isset($name) && trim($name)!='')
 		{
-			 $have_user_id = Warehouse::where('name',$posted['name'])->where('is_deleted','No')->get();
+			 $have_user_id = Warehouse::where('name',$name)->where('is_deleted','No')->get();
 			if(!empty($have_user_id) && count($have_user_id)>0)
 			{
 				 return redirect('add-warehouse')->with('error-msg', 'Warehouse name already added');
 			} 
-			$warehouse->name = isset($posted['name'])?$posted['name']:'';
-			$warehouse->user_id = isset($posted['manager_id'])?$posted['manager_id']:'';
-			$warehouse->country_id = isset($posted['country_id'])?$posted['country_id']:'';
-			$warehouse->province_id = isset($posted['province_id'])?$posted['province_id']:'';
-			$warehouse->city = isset($posted['city'])?$posted['city']:'';
-			$warehouse->zip = isset($posted['zip'])?$posted['zip']:'';
-			$warehouse->address = isset($posted['address'])?$posted['address']:'';
+			$warehouse->name = isset($name)?$name:'';
+			$warehouse->user_id = isset($manager_id)?$manager_id:'';
+			$warehouse->country_id = isset($country_id)?$country_id:'';
+			$warehouse->province_id = isset($province_id)?$province_id:'';
+			$warehouse->city = isset($city)?$city:'';
+			$warehouse->zip = isset($zip)?$zip:'';
+			$warehouse->address = isset($address)?$address:'';
 			$warehouse->created_by = Auth::user()->id;
 
 			 $warehouse->save();
