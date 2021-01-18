@@ -612,7 +612,7 @@ class ProductController extends Controller
 	 public function get_sub_brand_by_brand_id(Request $Request)
 	{
 		$data = $Request->all();
-		//t($data,1);
+		
 		$brand_id = $data['brand_id'];
 		if($brand_id == "")
 		{
