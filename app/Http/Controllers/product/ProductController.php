@@ -55,8 +55,7 @@ class ProductController extends Controller
 				
 			}
 			if($posteddata['product_sku']) {
-				$product_sku = DB::connection()->getPdo()->quote($posteddata['product_sku']);
-				$list = $list->whereRaw("item.sku = $product_sku");
+				$list = $list->where('item.sku','like','%' . $posteddata['product_sku'] . '%');
 				
 			}
 		
@@ -223,7 +222,7 @@ class ProductController extends Controller
 		 $product = new Product;
 		
         $product->name = $data['product_name'];
-		$product->description = if($data['product_description'] && $data['product_description']!=''){htmlentities($data['product_description'])};
+		$product->description = isset($data['product_description'])?htmlentities($data['product_description']):0;
 		$product->brand_id = $data['brand'];
 		$product->product_type = isset($data['product_type'])?$data['product_type']:'';
 		$product->category_id = $data['category'];
