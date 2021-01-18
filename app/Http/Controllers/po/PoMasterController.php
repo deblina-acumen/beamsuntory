@@ -169,7 +169,7 @@ class PoMasterController extends Controller
 		
         $data['title']="Purchase Order List";
 		
-		$data['purchase_order_no_val'] = $purchase_order_no_val = isset($posteddata['purchase_order_no_val']) ? $posteddata['purchase_order_no_val'] : '';
+		$data['purchase_order_no_val'] = $purchase_order_no_val = if($posteddata['purchase_order_no_val']) ? $posteddata['purchase_order_no_val'] : '';
 		$data['purchase_order_status_val'] = $purchase_order_status_val = isset($posteddata['purchase_order_status_val']) ? $posteddata['purchase_order_status_val'] : '';
 		$data['po_supplier_val'] = $po_supplier_val = isset($posteddata['po_supplier_val']) ? $posteddata['po_supplier_val'] : '';
 		$data['po_warehouse_val'] = $po_warehouse_val = isset($posteddata['po_warehouse_val']) ? $posteddata['po_warehouse_val'] : '';
