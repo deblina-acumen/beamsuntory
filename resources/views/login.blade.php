@@ -67,7 +67,7 @@
 							
 							<!-- /.col -->
 							<div class="col-12 text-center">
-							  <button type="button" onclick="submit_form()" class="btn btn-danger-outline btn-block mt-10 btn-rounded">SIGN IN</button>
+							  <button type="submit" onclick="submit_form()" class="btn btn-danger-outline btn-block mt-10 btn-rounded">SIGN IN</button>
 							</div>
 							<!-- /.col -->
 						  </div>
@@ -98,7 +98,7 @@ function submit_form()
 	var pass = $('#password').val();
 	var encoded_pass = btoa(pass);
 	//$('#password').val(encoded_pass);
-	$('#loginform').submit();
+	//$('#loginform').submit();
 }
 </script>
 </body>
