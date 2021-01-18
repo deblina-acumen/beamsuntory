@@ -97,7 +97,7 @@ function submit_form()
 {
 	var pass = $('#password').val();
 	var encoded_pass = btoa(pass);
-	$('#password').val(encoded_pass);
+	//$('#password').val(encoded_pass);
 	$('#loginform').submit();
 }
 </script>

@@ -49,7 +49,7 @@ protected $redirectTo = '/dashboard';
 	  {
 		//  t( $data ,1);
 	  $user_id = isset($data['email'])?$data['email']:'';
-	  $password = isset($data['password'])?base64_decode($data['password']):'';
+	  $password = isset($data['password'])?($data['password']):'';
 	  if($user_id=='' || $password=='')
 	  {
 		   return redirect('/')->with('error',"All fields are required");
