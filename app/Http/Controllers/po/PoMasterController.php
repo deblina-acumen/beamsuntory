@@ -29,8 +29,7 @@ class PoMasterController extends Controller
 		$data['category']=$list = ProductCategory::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();$data['delivery_agent']=$list = User::where('is_deleted','No')->where('is_active','Yes')->where('role_id','10')->orderBy('id','asc')->get();
-		//$data['product']=$list = Product::where('is_deleted','No')->where('is_active','Yes')->orderBy('name','asc')->get();
-		//t($data,1);
+		
 		if($id=='')
 		{
         return view('po.add',$data);
@@ -40,7 +39,7 @@ class PoMasterController extends Controller
 			$id = base64_decode($id);
 			$data['po'] = $po = PO::where('id',$id)->get();
 			$data['po_item'] = $po_item = POItem::select('purchase_order_details.*','item.name','item.sku','item.product_type')->join('item','item.id','=','purchase_order_details.item_id','left')->where('po_id',$id)->get();
-			//t($po);t($po_item);exit;
+			
 			return view('po.edit',$data);
 		}
     }
@@ -48,7 +47,7 @@ class PoMasterController extends Controller
 	
 	public function save_po_step1(Request $request)
     {
-        $data=$request->all(); //t($data,1);
+        $data=$request->all(); 
 		$insert_data['order_title']=isset($data['order_title'])?$data['order_title']:'';
         $insert_data['order_no']=$data['order_no'];
 		//$insert_data['ownership_type']=$data['ownership_type'];
@@ -64,7 +63,7 @@ class PoMasterController extends Controller
 		$variation=array();
 		for($i=0;$i<count($data['item']);$i++)
 		{
-			//t($data['item'][$i]);echo"fffffffffff";
+			
 			$item_variance_id = explode('_', $data['item'][$i]); 
 			$insert_item['item_id'] = isset($item_variance_id[1])?$item_variance_id[1]:0;
 			$insert_item['item_sku'] = isset($item_variance_id[0])?$item_variance_id[0]:'';
@@ -89,14 +88,14 @@ class PoMasterController extends Controller
 	public function update_po_steop1(Request $request)
 	{
 		$data = $request->all();
-		//t($data,1);
+		
 		$update_data['order_title']=isset($data['order_title'])?$data['order_title']:'';
 		$update_data['order_no']=$data['order_no'];
 		//$update_data['ownership_type']=$data['ownership_type'];
 		$update_data['status']=$data['status'];
 		$update_data['active_date']=isset($data['active_date']) && $data['active_date']!=''?date('Y-m-d',strtotime($data['active_date'])):'';
 		$update_data['active_time']=isset($data['active_time']) && $data['active_time']!=''?date('H:i:s',strtotime($data['active_time'])):'';
-		//t($update_data['active_time'],1);
+		
 		$update_data['supplier_id']=isset($data['supplier'])?$data['supplier']:'';
 		$update_data['delivery_agent_id']=isset($data['delivery_agent'])?$data['delivery_agent']:'';
 		$update_data['warehouse_id']=isset($data['warehouse'])?$data['warehouse']:'';
@@ -167,8 +166,7 @@ class PoMasterController extends Controller
 
 		
 		$posteddata = $request->all();
-		//t($posteddata);
-		//exit();
+		
         $data['title']="Purchase Order List";
 		
 		$data['purchase_order_no_val'] = $purchase_order_no_val = isset($posteddata['purchase_order_no_val']) ? $posteddata['purchase_order_no_val'] : '';
@@ -228,7 +226,7 @@ class PoMasterController extends Controller
 		
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//t($data,1);
+		
         return view('po.list',$data);
     }
 	
@@ -261,7 +259,7 @@ class PoMasterController extends Controller
 	    public function view(Request $Request)
 	 {
 		 $data = $Request->all();
-		 //t($data,1);
+		
 		$profile_pic = $current_date = $description = $active = $cat_name = 
 		$userid = $email = $regular_price = $retail_price = $sku = $low_stock_level = 
 		$status = $weight = $length = $width = $height = $expire_date = 
@@ -275,9 +273,7 @@ class PoMasterController extends Controller
 			$order_no = isset($info[0]->order_no) ? $info[0]->order_no : '' ;
 			$supplier_name = isset($info[0]->supplier_name) ? $info[0]->supplier_name : '' ;
 			$warehouse_name = isset($info[0]->warehouse_name) ? $info[0]->warehouse_name : '' ;
-			//t($warehouse_name,1);
-	
-
+			
 
 	$html = '
 		   <div class="media-list bb-1 bb-dashed border-light">
@@ -386,7 +382,7 @@ class PoMasterController extends Controller
 		//exit();
 		$data['supplier']=$list = Supplier::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$data['warehouse']=$list = Warehouse::where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
-		//t($data,1);
+		
         return view('po.po_details',$data);
 	}
 	
@@ -394,8 +390,7 @@ class PoMasterController extends Controller
 	{
 		
 		$poId= base64_decode($id);
-		//t($poId);
-		//exit();
+		
 		$data['poinfo']=$poinfo =PO::where('id',$poId)->get();
 		
 		$warehouse_id = isset($poinfo[0]->warehouse_id)?$poinfo[0]->warehouse_id:0 ;
@@ -404,7 +399,7 @@ class PoMasterController extends Controller
 		$suppler_id = isset($poinfo[0]->supplier_id)?$poinfo[0]->supplier_id:0 ;
 		$data['supplier']= Supplier::where('id',$suppler_id)->where('is_deleted','No')->where('is_active','Yes')->orderBy('id','asc')->get();
 		$user_id = isset($warehouse_list[0]->user_id)?$warehouse_list[0]->user_id:0 ;
-		//t($user_id,1);
+		
 		$data['user']= User::where('id',$user_id)->where('is_deleted','No')->where('is_active','Yes')->get();
 		
 		$delivery_agent_id = isset($poinfo[0]->delivery_agent_id)?$poinfo[0]->delivery_agent_id:0 ;
@@ -418,7 +413,7 @@ class PoMasterController extends Controller
 	{
 		
 		$data = $request->all();
-		//t($data,1);
+		
 
 		$po_item_podetails_id = $data['khata_no'];
 		$po_item_podetails_id = explode('-',$po_item_podetails_id);
@@ -426,10 +421,7 @@ class PoMasterController extends Controller
 		
 		$data['po_allocationinfo'] = $po_allocationinfo= POAllocation::select('purchase_order_allocation.each_user as po_alloc_each_user','purchase_order_allocation.share_user as po_alloc_share_user','purchase_order_allocation.quantity as po_aloc_quantity','purchase_order_allocation.user as po_allocation_user','user_role.name as user_role_name','country.country_name','provinces.name as provinces_name','brand.name as brand_name')->leftjoin('user_role','purchase_order_allocation.role_id','=','user_role.id')->leftjoin('country','purchase_order_allocation.country_id','=','country.id')->leftjoin('provinces','purchase_order_allocation.region_id','=','provinces.id')->leftjoin('brand','purchase_order_allocation.brand_id','=','brand.id')->where('purchase_order_allocation.po_id',$po_item_podetails_id[0])->where('purchase_order_allocation.item_id',$po_item_podetails_id[1])->where('purchase_order_allocation.podetails_id',$po_item_podetails_id[2])->where('purchase_order_allocation.is_deleted','No')->where('purchase_order_allocation.is_active','Yes')->get() ;
 		$data['count_allocation'] = count($po_allocationinfo);
-		//print_r($po_allocationinfo[0]->user_role_name);exit();
 		
-		//t($po_allocationinfo[0]->user_role_name,1);
-
 		$output = '	
 		<table id="" class="table table-striped table-bordered bulk_action">
 			<thead>
@@ -450,7 +442,7 @@ class PoMasterController extends Controller
 			
 				if($data['count_allocation']>0){
 						for($i=0;$i<count($po_allocationinfo);$i++){
-							//t($po_allocationinfo[$i]->user_role_name,1);
+							
 							$user_role_name =isset($po_allocationinfo[$i]->user_role_name)?$po_allocationinfo[$i]->user_role_name:'';
 							$country_name =isset($po_allocationinfo[$i]->country_name)?$po_allocationinfo[$i]->country_name:'';
 							$provinces_name =isset($po_allocationinfo[$i]->provinces_name)?$po_allocationinfo[$i]->provinces_name:'';
