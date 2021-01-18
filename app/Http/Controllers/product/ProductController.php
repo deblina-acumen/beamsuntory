@@ -212,7 +212,7 @@ class ProductController extends Controller
     {
 		DB::beginTransaction();
         $data=$request->all(); 
-		t($data,1);
+		//t($data,1);
 		$have_product = Product::where('name',$data['product_name'])->where('is_deleted','No')->get();
 		if(!empty($have_product) && count($have_product)>0)
 		{
