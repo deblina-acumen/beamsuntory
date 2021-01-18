@@ -77,7 +77,7 @@ class WarehouseController extends Controller
 		$address =  $request->input('address');
 		$city =  $request->input('city');
 		$warehouse = new Warehouse;
-		if(isset($name) && trim($name)!='')
+		if(($name) && trim($name)!='')
 		{
 			 $have_user_id = Warehouse::where('name',$name)->where('is_deleted','No')->get();
 			if(!empty($have_user_id) && count($have_user_id)>0)
