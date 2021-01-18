@@ -15,11 +15,16 @@
 /*Route::get('/', function () {
 	return view('login');
 });*/
-Route::get('/', [
+/* Route::get('/', [
 		'uses' => 'Auth\LoginController@check_login_details'
-	]);
+	]); */
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
-Route::any('user-login', 'Auth\LoginController@check_login_details')->name('loginauth');
+//Route::any('user-login', 'Auth\LoginController@check_login_details')->name('loginauth');
+
+Route::get('/', function () {
+    //return view('welcome');
+    return view('auth.login');
+});
 
 Route::any('/forget-password', [
 			'as' => 'forget-password',

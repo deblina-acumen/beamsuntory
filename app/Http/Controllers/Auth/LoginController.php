@@ -41,7 +41,7 @@ protected $redirectTo = '/dashboard';
     }
  
 	
-	 public function check_login_details(Request $Request)
+	/*  public function check_login_details(Request $Request)
   {
 	  
 	  $data = $Request->all(); 
@@ -68,7 +68,7 @@ protected $redirectTo = '/dashboard';
 	  }else{
 		  return view('login');
 	  }
-  }
+  } */
   
   public function loginauth()
   {
