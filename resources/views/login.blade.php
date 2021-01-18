@@ -42,7 +42,7 @@
 					 
 				</div>
 				<div class="p-40 mt-10 bg-white content-bottom box-shadowed">
-					<form action="{{URL('user-login')}}" method="post" class="login100-form validate-form">
+					<form id="loginform" action="{{URL('user-login')}}" method="post" class="login100-form validate-form">
                     @csrf
 						<div class="form-group">
 							<div class="input-group mb-3">
@@ -57,7 +57,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text bg-danger border-danger"><i class="ti-lock"></i></span>
 								</div>
-								<input type="password" class="form-control" placeholder="Password" placeholder="Password" name='password'>
+								<input type="password" class="form-control" placeholder="Password" id="password" placeholder="Password" name='password'>
 							</div>
 						</div>
 						  <div class="row">
@@ -67,7 +67,7 @@
 							
 							<!-- /.col -->
 							<div class="col-12 text-center">
-							  <button type="submit" class="btn btn-danger-outline btn-block mt-10 btn-rounded">SIGN IN</button>
+							  <button type="button" onclick="submit_form()" class="btn btn-danger-outline btn-block mt-10 btn-rounded">SIGN IN</button>
 							</div>
 							<!-- /.col -->
 						  </div>
@@ -92,6 +92,14 @@
 	
 	<!-- Bootstrap 4.1-->
 	<script src="{{asset('assets/assets/vendor_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-
+<script>
+function submit_form()
+{
+	var pass = $('#password').val();
+	var encoded_pass = btoa(pass);
+	$('#password').val(encoded_pass);
+	$('#loginform').submit();
+}
+</script>
 </body>
 </html>

@@ -44,11 +44,12 @@ protected $redirectTo = '/dashboard';
 	 public function check_login_details(Request $Request)
   {
 	  
-	  $data = $Request->all();
+	  $data = $Request->all(); 
 	  if($Request->all())
 	  {
+		//  t( $data ,1);
 	  $user_id = isset($data['email'])?$data['email']:'';
-	  $password = isset($data['password'])?$data['password']:'';
+	  $password = isset($data['password'])?base64_decode($data['password']):'';
 	  if($user_id=='' || $password=='')
 	  {
 		   return redirect('/')->with('error',"All fields are required");
