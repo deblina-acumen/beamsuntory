@@ -222,7 +222,7 @@ class ProductController extends Controller
 		 $product = new Product;
 		
         $product->name = $data['product_name'];
-		$product->description = isset($data['product_description'])?htmlentities($data['product_description']):0;
+		$product->description = if($data['product_description'] && $data['product_description']!=''){htmlentities($data['product_description'])};
 		$product->brand_id = $data['brand'];
 		$product->product_type = isset($data['product_type'])?$data['product_type']:'';
 		$product->category_id = $data['category'];
