@@ -55,7 +55,8 @@ class ProductController extends Controller
 				
 			}
 			if($posteddata['product_sku']) {
-				$list = $list->where('item.sku','like','%' . $posteddata['product_sku'] . '%');
+				$product_sku = DB::connection()->getPdo()->quote($posteddata['product_sku']);
+				$list = $list->whereRaw("item.sku = $product_sku");
 				
 			}
 		
